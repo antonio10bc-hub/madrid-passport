@@ -568,7 +568,7 @@
     body.innerHTML = `
       <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
         <input id="q" type="search" placeholder="Buscar lugares, barrios…" value="${esc(query)}" autocomplete="off">
-        ${searching ? '<button id="q-clear" aria-label="Limpiar">✕</button>' : ''}</div>
+        ${searching ? '<button id="q-clear" aria-label="Limpiar búsqueda"><svg class="icon-x" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>' : ''}</div>
       ${typeChips()}
       <div id="home-list">${homeListHTML()}</div>`;
     const q = $('#q');
