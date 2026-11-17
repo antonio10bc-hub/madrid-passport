@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Logros · 5 propuestas</title>
+<style>
+  :root { --red:#D6202C; --gold:#C9A227; --ink:#111114; --muted:#8A8A93; --line:#EDEDF0; --bg2:#F6F6F8; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:#E4E4E8; font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter",system-ui,sans-serif; -webkit-font-smoothing:antialiased; color:var(--ink); padding:40px; }
+  .row { display:flex; gap:44px; }
+  .col { width:390px; }
+  .col > h2 { font-size:22px; margin:0 0 4px; } .col > p { font-size:14px; color:#555; margin-bottom:14px; height:38px; }
+  .phone { width:390px; height:844px; border-radius:44px; overflow:hidden; position:relative; box-shadow:0 0 0 9px #111, 0 30px 60px rgba(0,0,0,.25); background:#fff; }
+  .head { padding:53px 20px 10px; }
+  .eyebrow { font-size:12px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--red); }
+  h1 { font-size:28px; font-weight:700; letter-spacing:-.02em; margin-top:2px; }
+  .body { position:absolute; top:120px; bottom:58px; left:0; right:0; overflow:hidden; padding:0 20px; }
+  .tabbar { position:absolute; left:0; right:0; bottom:0; height:58px; display:flex; background:rgba(255,255,255,.94); border-top:1px solid var(--line); }
+  .tabbar div { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; font-size:11px; font-weight:600; color:var(--muted); }
+  .tabbar div.on { color:var(--red); }
+  .tabbar svg { width:24px; height:24px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+  .ico { fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+
+  /* 1 · Pasaporte */
+  .p1 { background:#F3ECDD; }
+  .p1 .head { background:transparent; }
+  .p1 .paper { position:absolute; inset:0; opacity:.55; }
+  .p1 .pg { display:flex; justify-content:space-between; font-size:11px; letter-spacing:.14em; color:#9A8B6E; text-transform:uppercase; border-bottom:1px dashed #CDBF9F; padding-bottom:8px; margin-bottom:6px; }
+  .p1 .grid { display:grid; grid-template-columns:1fr 1fr; gap:4px 8px; }
+  .p1 .st { height:150px; display:grid; place-items:center; position:relative; }
+  .p1 .st svg { width:140px; height:140px; }
+  .p1 .lbl { position:absolute; bottom:2px; font-size:11px; font-weight:600; color:#7A6C52; letter-spacing:.02em; }
+
+  /* 2 · Medallas */
+  .p2 { background:#fff; }
+  .p2 .next { display:flex; gap:14px; align-items:center; padding:14px; border-radius:20px; background:linear-gradient(135deg,#1B1B21,#2A2A33); color:#fff; margin-bottom:16px; }
+  .p2 .next small { color:#A9A9B3; font-size:12px; display:block; }
+  .p2 .next b { font-size:17px; display:block; margin:2px 0 6px; }
+  .p2 .bar { height:6px; border-radius:3px; background:rgba(255,255,255,.15); overflow:hidden; } .p2 .bar i { display:block; height:100%; background:linear-gradient(90deg,#E9C766,#C9A227); }
+  .p2 .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px 8px; }
+  .p2 .m { text-align:center; } .p2 .m svg { width:96px; height:104px; } .p2 .m b { display:block; font-size:12px; margin-top:2px; } .p2 .m small { font-size:11px; color:var(--muted); }
+  .p2 .tiers { display:flex; justify-content:center; gap:3px; margin-top:3px; } .p2 .tiers i { width:14px; height:4px; border-radius:2px; background:var(--line); }
+
+  /* 3 · Azulejos */
+  .p3 { background:#FAFAFB; }
+  .p3 .grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .p3 .tile svg { width:100%; height:auto; display:block; filter:drop-shadow(0 3px 6px rgba(0,0,0,.08)); }
+
+  /* 4 · Metro */
+  .p4 { background:#fff; }
+  .p4 .sum { display:flex; align-items:baseline; gap:8px; margin-bottom:14px; } .p4 .sum b { font-size:34px; } .p4 .sum span { color:var(--muted); font-size:14px; }
+  .p4 .line { margin-bottom:22px; } .p4 .lh { display:flex; align-items:center; gap:8px; font-size:13px; font-weight:700; margin-bottom:8px; }
+  .p4 .chip { width:26px; height:20px; border-radius:6px; color:#fff; display:grid; place-items:center; font-size:11px; font-weight:800; }
+  .p4 .lh small { margin-left:auto; color:var(--muted); font-weight:600; }
+
+  /* 5 · Cromos */
+  .p5 { background:#F1EFEA; }
+  .p5 .ah { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+  .p5 .ah .pill { font-size:12px; font-weight:700; padding:6px 10px; border-radius:999px; background:#fff; box-shadow:0 1px 0 rgba(0,0,0,.05); }
+  .p5 .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  .p5 .card svg { width:100%; height:auto; display:block; }
+</style>
+</head>
+<body>
+<div class="row" id="row"></div>
+<script src="../../js/icons.js"></script>
+<script>
+const I = (n, w = 24, col = 'currentColor', sw = 1.8) => MP_ICON(n, 'ico').replace('class="ico"', `class="ico" width="${w}" height="${w}" style="color:${col};stroke-width:${sw}"`);
+const inner = (n) => MP_ICON(n).replace(/^<svg[^>]*>|<\/svg>$/g, '');
+const B = [
+  ['primer-sello','ticket','Primer sello',1,1,'17 nov'], ['gps-1','pin','Estuve aquí',1,1,'17 nov'], ['museos','museo','Ruta de museos',13,13,'2 dic'],
+  ['visitas-10','walk','Paseante',6,10], ['parques','parque','Pulmón verde',4,22], ['mercados','mercado','De mercado en mercado',3,8],
+  ['los-21','cat','Gato de los 21',5,21], ['plazas','plaza','De plaza en plaza',2,10], ['miradores','mirador','Madrid desde arriba',0,6],
+  ['iglesias','iglesia','Campanario',1,8], ['estadios','estadio','Grada',0,6], ['madrid-entero','crown','Gato de pura cepa',24,138],
+];
+const tabbar = `<div class="tabbar"><div><svg viewBox="0 0 24 24"><path d="M5 4h11a3 3 0 013 3v13H8a3 3 0 01-3-3V4z"/><path d="M5 17a3 3 0 013-3h11M9 8h6"/></svg>Diario</div><div><svg viewBox="0 0 24 24"><path d="M9 4L3 6.5v13.5l6-2.5 6 2.5 6-2.5V4l-6 2.5L9 4z"/><path d="M9 4v13.5M15 6.5V20"/></svg>Mapa</div><div class="on"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="5.5"/><path d="M8.5 13.5L7 21l5-2.5 5 2.5-1.5-7.5"/></svg>Logros</div></div>`;
+const phone = (cls, title, body, sub = 'Madrid Passport') => `<div class="phone ${cls}">${cls === 'p1' ? paper : ''}<div class="head"><p class="eyebrow">${sub}</p><h1>${title}</h1></div><div class="body">${body}</div>${tabbar}</div>`;
+const col = (n, t, d, ph) => `<div class="col"><h2>${n} · ${t}</h2><p>${d}</p>${ph}</div>`;
+
+/* ---------- 1 · Pasaporte con sellos de tinta ---------- */
+const paper = `<svg class="paper" width="390" height="844"><filter id="pn"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" seed="3"/><feColorMatrix values="0 0 0 0 .55  0 0 0 0 .47  0 0 0 0 .33  0 0 0 .22 0"/></filter><rect width="100%" height="100%" filter="url(#pn)"/></svg>`;
+function stamp(b, i) {
+  const [id, ic, name, n, g, date] = b, on = n >= g;
+  const rot = [-9, 6, -4, 11, -7, 3, 8, -12, 5, -3, 9, -6][i], col = i % 3 === 1 ? '#B8901C' : '#C21F2A';
+  const shapes = ['circle', 'rect', 'oct'][i % 3];
+  if (!on) return `<div class="st"><svg viewBox="0 0 140 140"><g opacity=".35" fill="none" stroke="#8C7D60" stroke-width="1.5" stroke-dasharray="4 5">${shapes === 'rect' ? '<rect x="18" y="30" width="104" height="80" rx="10"/>' : shapes === 'oct' ? '<polygon points="50,16 90,16 124,50 124,90 90,124 50,124 16,90 16,50"/>' : '<circle cx="70" cy="70" r="54"/>'}</g><g transform="translate(58 52)" opacity=".28" style="color:#6E6048">${I(ic, 24, '#6E6048', 1.6)}</g><text x="70" y="98" text-anchor="middle" font-size="11" font-weight="700" fill="#8C7D60" opacity=".55">${n}/${g}</text></svg><span class="lbl" style="opacity:.6">${name}</span></div>`;
+  const ring = shapes === 'rect'
+    ? `<rect x="14" y="28" width="112" height="84" rx="10" stroke-width="3.5"/><rect x="22" y="36" width="96" height="68" rx="6" stroke-width="1.5"/>`
+    : shapes === 'oct' ? `<polygon points="48,12 92,12 128,48 128,92 92,128 48,128 12,92 12,48" stroke-width="3.5"/><polygon points="52,22 88,22 118,52 118,88 88,118 52,118 22,88 22,52" stroke-width="1.5"/>`
+    : `<circle cx="70" cy="70" r="58" stroke-width="3.5"/><circle cx="70" cy="70" r="44" stroke-width="1.5"/>`;
+  const txt = shapes === 'circle' ? `<path id="arc${i}" d="M 70 70 m -51 0 a 51 51 0 1 1 102 0 a 51 51 0 1 1 -102 0" fill="none"/><text font-size="9.5" font-weight="800" letter-spacing="2.6" fill="${col}"><textPath href="#arc${i}" startOffset="2%">MADRID PASSPORT · ${name.toUpperCase()} ·</textPath></text>`
+    : `<text x="70" y="${shapes === 'rect' ? 50 : 40}" text-anchor="middle" font-size="9" font-weight="800" letter-spacing="2" fill="${col}">MADRID</text>`;
+  return `<div class="st"><svg viewBox="0 0 140 140"><defs><filter id="ink${i}"><feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="2" seed="${i + 2}" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.3 1.75" result="m"/><feComposite in="SourceGraphic" in2="m" operator="in"/></filter></defs>
+    <g transform="rotate(${rot} 70 70)" filter="url(#ink${i})" opacity=".9"><g fill="none" stroke="${col}">${ring}</g>${txt}
+      <g transform="translate(55 ${shapes === 'circle' ? 46 : 54})">${I(ic, 30, col, 2.2)}</g>
+      <text x="70" y="${shapes === 'circle' ? 96 : 98}" text-anchor="middle" font-size="10" font-weight="800" letter-spacing="1.5" fill="${col}">${date.toUpperCase()} 2026</text></g></svg><span class="lbl">${name}</span></div>`;
+}
+const v1 = phone('p1', 'Mis sellos', `<div class="pg"><span>Página 1 de 2</span><span>3 / 17 sellos</span></div><div class="grid">${B.slice(0, 8).map(stamp).join('')}</div>`, 'Pasaporte de Madrid');
+
+/* ---------- 2 · Medallas con niveles (bronce / plata / oro) ---------- */
+const metal = { bronze: ['#E7B48A', '#A86A3F', '#7A4A2A'], silver: ['#F2F3F6', '#B9BCC6', '#80838E'], gold: ['#F7E08F', '#D4A933', '#9B7514'] };
+function medal(b, i, size = 96) {
+  const [id, ic, name, n, g] = b, tier = n >= g ? 'gold' : n / g >= .5 ? 'silver' : n / g >= .2 ? 'bronze' : null;
+  const hex = 'M48 4 L88 27 L88 73 L48 96 L8 73 L8 27 Z';
+  if (!tier) return `<svg viewBox="0 0 96 104"><path d="${hex}" fill="#F2F2F5" stroke="#E2E2E8" stroke-width="2"/><g transform="translate(36 38)" style="color:#C5C5CC">${I(ic, 24, '#C5C5CC')}</g></svg>`;
+  const [a, m, d] = metal[tier];
+  return `<svg viewBox="0 0 96 104"><defs><linearGradient id="g${i}${size}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${a}"/><stop offset=".55" stop-color="${m}"/><stop offset="1" stop-color="${d}"/></linearGradient>
+    <linearGradient id="s${i}${size}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>
+    <path d="M30 80 L22 102 L36 96 L42 104 L48 86 Z M66 80 L74 102 L60 96 L54 104 L48 86 Z" fill="var(--red)"/>
+    <path d="${hex}" fill="url(#g${i}${size})"/><path d="M48 12 L81 31 L81 69 L48 88 L15 69 L15 31 Z" fill="none" stroke="${d}" stroke-opacity=".45" stroke-width="1.5"/>
+    <path d="M48 4 L88 27 L88 50 Q48 40 8 50 L8 27 Z" fill="url(#s${i}${size})"/>
+    <g transform="translate(34 36)">${I(ic, 28, d, 2.2)}</g></svg>`;
+}
+const tiers = (n, g) => { const r = n / g; return `<div class="tiers">${[.2, .5, 1].map((t, k) => `<i style="background:${r >= t ? ['#B07A4E', '#A6AAB5', '#D4A933'][k] : ''}"></i>`).join('')}</div>`; };
+const v2 = phone('p2', 'Medallas', `<div class="next"><div style="width:76px;flex:none">${medal(B[3], 99, 76)}</div><div style="flex:1"><small>Próxima medalla · Plata</small><b>Paseante</b><div class="bar"><i style="width:60%"></i></div><small style="margin-top:6px">6 de 10 lugares · te faltan 4</small></div></div>
+  <div class="grid">${B.slice(0, 9).map((b, i) => `<div class="m">${medal(b, i)}<b>${b[2]}</b>${tiers(b[3], b[4])}</div>`).join('')}</div>`);
+
+/* ---------- 3 · Azulejos (placas de cerámica de calle) ---------- */
+function tile(b, i) {
+  const [id, ic, name, n, g] = b, on = n >= g, c = on ? '#C21F2A' : '#C8C8CF', bg = on ? '#FFFDF8' : '#F6F6F8';
+  const corner = (x, y, sx, sy) => `<path transform="translate(${x} ${y}) scale(${sx} ${sy})" d="M0 14 C0 6 6 0 14 0 M4 14 C4 8 8 4 14 4 M7 7 l3 3" fill="none" stroke="${c}" stroke-width="1.6"/>`;
+  return `<div class="tile"><svg viewBox="0 0 170 150">
+    <rect x="1" y="1" width="168" height="148" rx="14" fill="${bg}" stroke="${on ? '#E8DCCB' : '#E6E6EA'}"/>
+    <rect x="9" y="9" width="152" height="132" rx="9" fill="none" stroke="${c}" stroke-width="2.5"/>
+    <rect x="14" y="14" width="142" height="122" rx="6" fill="none" stroke="${c}" stroke-width="1"/>
+    ${corner(18, 18, 1, 1)}${corner(152, 18, -1, 1)}${corner(18, 132, 1, -1)}${corner(152, 132, -1, -1)}
+    <g>${on ? `<circle cx="85" cy="58" r="27" fill="${c}"/>` : `<circle cx="85" cy="58" r="27" fill="none" stroke="${c}" stroke-dasharray="3 4" stroke-width="1.5"/>`}
+      <g transform="translate(70 43)">${I(ic, 30, on ? '#fff' : '#C0C0C8', 2)}</g></g>
+    <text x="85" y="106" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="${name.length > 18 ? 9.5 : name.length > 14 ? 11 : 13}" font-weight="700" letter-spacing="1.2" fill="${on ? '#3A2A20' : '#A0A0A8'}">${name.toUpperCase()}</text>
+    <text x="85" y="123" text-anchor="middle" font-size="10" font-weight="600" fill="${on ? c : '#A0A0A8'}" letter-spacing="1">${on ? 'MMXXVI' : `${n} / ${g}`}</text>
+  </svg></div>`;
+}
+const v3 = phone('p3', 'Azulejos', `<p style="font-size:13px;color:var(--muted);margin:-2px 0 12px">Cada logro, una placa como las de las calles de Madrid.</p><div class="grid">${B.slice(0, 8).map(tile).join('')}</div>`);
+
+/* ---------- 4 · Líneas de metro ---------- */
+const lines = [
+  ['1', 'Paseante', '#D6202C', ['1', '10', '25', '50', '100', '138'], 6],
+  ['2', 'Pisando calle · GPS', '#C9A227', ['1', '5', '10', '25', '50'], 1],
+  ['3', 'Museos', '#2F6FDB', ['1', '3', '6', '9', '13'], 13],
+  ['4', 'Parques', '#1F9D57', ['1', '5', '10', '15', '22'], 4],
+  ['5', 'Distritos', '#7A3FC4', ['1', '5', '10', '15', '21'], 5],
+];
+function metro([num, name, c, stops, n]) {
+  const W = 350, x0 = 14, step = (W - 2 * x0) / (stops.length - 1);
+  const reached = stops.filter((s) => n >= +s).length, k = reached - 1;
+  const fill = k < 0 ? 0 : k * step + (k < stops.length - 1 ? ((n - +stops[k]) / (+stops[k + 1] - +stops[k])) * step : 0);
+  return `<div class="line"><div class="lh"><span class="chip" style="background:${c}">L${num}</span>${name}<small>${n} · ${reached}/${stops.length} paradas</small></div>
+  <svg width="${W}" height="44" viewBox="0 0 ${W} 44"><line x1="${x0}" y1="14" x2="${W - x0}" y2="14" stroke="#ECECF0" stroke-width="8" stroke-linecap="round"/>
+    <line x1="${x0}" y1="14" x2="${x0 + fill}" y2="14" stroke="${c}" stroke-width="8" stroke-linecap="round"/>
+    ${stops.map((s, i) => { const x = x0 + i * step, on = n >= +s, next = i === reached;
+      return `${next ? `<circle cx="${x}" cy="14" r="13" fill="${c}" opacity=".15"/>` : ''}<circle cx="${x}" cy="14" r="${on ? 8 : 7}" fill="#fff" stroke="${on ? c : next ? c : '#D5D5DC'}" stroke-width="${on ? 4 : 2.5}"/>
+      <text x="${x}" y="40" text-anchor="middle" font-size="11" font-weight="${on ? 700 : 500}" fill="${on ? '#111' : '#9A9AA3'}">${s}</text>`; }).join('')}
+  </svg></div>`;
+}
+const v4 = phone('p4', 'Mis líneas', `<div class="sum"><b>8</b><span>de 27 paradas recorridas</span></div>${lines.map(metro).join('')}`);
+
+/* ---------- 5 · Álbum de cromos ---------- */
+const rar = { comun: ['Común', '#9AA0AA', '#EEF0F3'], rara: ['Rara', '#C21F2A', '#FDECEC'], epica: ['Épica', '#C9A227', '#FBF4DD'] };
+function card(b, i) {
+  const [id, ic, name, n, g] = b, on = n >= g, num = String(i + 1).padStart(2, '0');
+  const r = rar[['comun', 'rara', 'epica'][[0, 1, 2, 0, 1, 1, 2, 0, 1, 0, 1, 2][i]]];
+  if (!on) return `<div class="card"><svg viewBox="0 0 110 150"><rect x="1" y="1" width="108" height="148" rx="10" fill="#E7E4DD" stroke="#D6D1C6" stroke-dasharray="4 4"/>
+    <text x="55" y="70" text-anchor="middle" font-size="30" font-weight="800" fill="#CFC9BC">${num}</text><text x="55" y="92" text-anchor="middle" font-size="9" font-weight="600" fill="#ADA696">${n}/${g}</text></svg></div>`;
+  return `<div class="card"><svg viewBox="0 0 110 150"><defs>
+    <linearGradient id="sky${i}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${r[1]}"/><stop offset="1" stop-color="${r[1]}" stop-opacity=".75"/></linearGradient>
+    <linearGradient id="sh${i}" x1="0" y1="0" x2="1" y2="1"><stop offset=".3" stop-color="#fff" stop-opacity="0"/><stop offset=".45" stop-color="#fff" stop-opacity=".45"/><stop offset=".6" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <clipPath id="cp${i}"><rect x="7" y="7" width="96" height="92" rx="6"/></clipPath></defs>
+    <rect x="1" y="1" width="108" height="148" rx="10" fill="#fff" stroke="${r[1]}" stroke-width="2"/>
+    <g clip-path="url(#cp${i})"><rect x="7" y="7" width="96" height="92" fill="url(#sky${i})"/>
+      <path d="M7 84 L22 70 L30 76 L44 58 L52 66 L64 52 L76 66 L88 60 L103 74 L103 99 L7 99 Z" fill="#000" opacity=".12"/>
+      <circle cx="84" cy="24" r="9" fill="#fff" opacity=".25"/>
+      <g transform="translate(35 30)">${I(ic, 40, '#fff', 1.8)}</g>
+      <rect x="7" y="7" width="96" height="92" fill="url(#sh${i})"/></g>
+    <text x="10" y="18" font-size="9" font-weight="800" fill="#fff">${num}</text>
+    <text x="55" y="117" text-anchor="middle" font-size="${name.length > 15 ? 8 : 9.5}" font-weight="800" fill="#111">${name}</text>
+    <rect x="30" y="126" width="50" height="15" rx="7.5" fill="${r[2]}"/><text x="55" y="137" text-anchor="middle" font-size="8.5" font-weight="700" fill="${r[1]}">${r[0]}</text></svg></div>`;
+}
+const v5 = phone('p5', 'Álbum', `<div class="ah"><span class="pill">3 / 17 cromos</span><span class="pill" style="color:var(--red)">1 rara · 1 épica</span></div><div class="grid">${B.map(card).join('')}</div>`);
+
+document.getElementById('row').innerHTML = [
+  col(1, 'Pasaporte de sellos', 'Página de pasaporte con sellos de tinta reales; los pendientes son huecos punteados.', v1),
+  col(2, 'Medallas con niveles', 'Cada logro sube de bronce a plata y oro; tarjeta con la próxima medalla.', v2),
+  col(3, 'Azulejos madrileños', 'Placas cerámicas como las de las calles de Madrid, en rojo de la app.', v3),
+  col(4, 'Líneas de metro', 'Cada categoría es una línea y cada hito una parada; ves el avance de un vistazo.', v4),
+  col(5, 'Álbum de cromos', 'Colección numerada con rarezas; los huecos muestran el número y el progreso.', v5),
+].join('');
+</script>
+</body>
+</html>
