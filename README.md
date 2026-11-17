@@ -38,6 +38,9 @@ Todos los eventos llevan `app=madrid-passport` (el proyecto de PostHog se compar
 `sync_error`, `app_installed`, `onboarding_shown`, `onboarding_step`, `onboarding_done`, `js_error`; además páginas vistas, autocaptura de clics, web vitals y grabación de sesiones
 (si está activada en el proyecto). Dashboard: «Madrid Passport · Uso».
 
+## Rendimiento
+`node tools/perf.js` (con la app servida en :8765): arranque y acciones con la CPU ×4 más lenta (móvil medio).
+
 ## Tests
 Playwright (e2e, 390×844, sin red externa):
 ```
