@@ -10,28 +10,43 @@ import { track } from './analytics.js';
 const KEY = 'mp.onboarded';
 export const onboarded = () => { try { return !!localStorage.getItem(KEY); } catch { return true; } };
 
-// Silueta de Madrid por distritos con tonos de «mapa de calor» (ilustración del paso 1)
+// Silueta de Madrid por distritos con tonos de «mapa de calor» (paso 1). Cada distrito entra con un pequeño retraso.
 function mapSVG() {
   let b = [180, 90, -180, -90];
   DISTRICTS.forEach((d) => { b = [Math.min(b[0], d.bbox[0]), Math.min(b[1], d.bbox[1]), Math.max(b[2], d.bbox[2]), Math.max(b[3], d.bbox[3])]; });
   const k = Math.cos((40.42 * Math.PI) / 180), W = 300, s = W / ((b[2] - b[0]) * k), H = (b[3] - b[1]) * s;
-  const tones = [0.12, 0.2, 0.35, 0.55, 0.75];
-  const paths = DISTRICTS.map((d, i) => {
+  const tones = [0.14, 0.24, 0.38, 0.56, 0.78];
+  // orden de aparición: del centro hacia fuera
+  const cx = (b[0] + b[2]) / 2, cy = (b[1] + b[3]) / 2;
+  const order = [...DISTRICTS].map((d, i) => ({ d, i, r: Math.hypot(d.label[0] - cx, d.label[1] - cy) })).sort((x, y) => x.r - y.r);
+  const paths = order.map(({ d, i }, n) => {
     const dd = polys(d.feature.geometry).map((p) => 'M' + p[0].filter((_, j) => j % 3 === 0).map(([x, y]) => `${((x - b[0]) * k * s).toFixed(1)},${((b[3] - y) * s).toFixed(1)}`).join('L') + 'Z').join('');
-    return `<path d="${dd}" fill="var(--red)" fill-opacity="${tones[(i * 7) % 5]}" stroke="var(--bg)" stroke-width="1.5"/>`;
+    return `<path d="${dd}" style="--n:${n}" fill="var(--red)" fill-opacity="${tones[(i * 7) % 5]}" stroke="var(--bg)" stroke-width="1.5"/>`;
   }).join('');
   return `<svg viewBox="0 0 ${W} ${H.toFixed(0)}" class="ob-map" aria-hidden="true">${paths}</svg>`;
 }
-const PIN = '<svg viewBox="0 0 120 140" class="ob-pin" aria-hidden="true"><path d="M60 132s-46-40-46-76a46 46 0 0192 0c0 36-46 76-46 76z" fill="var(--red)"/><path d="M40 56l14 14 26-28" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-const GPS = `<svg viewBox="0 0 260 220" class="ob-gps" aria-hidden="true"><circle cx="130" cy="120" r="90" fill="var(--gold)" fill-opacity=".12" stroke="var(--gold)" stroke-width="2" stroke-dasharray="6 6"/>
-  <circle cx="168" cy="160" r="24" fill="#2F7BF6" fill-opacity=".18"/><circle cx="168" cy="160" r="12" fill="#2F7BF6" stroke="#fff" stroke-width="4"/>
-  <g transform="translate(92 28) scale(.62)"><path d="M60 132s-46-40-46-76a46 46 0 0192 0c0 36-46 76-46 76z" fill="var(--gold)"/>
-  <path d="M30 58l12 12 10-12M48 70l32-34" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></g></svg>`;
-const STAMP = `<svg viewBox="0 0 160 160" class="ob-stamp" aria-hidden="true"><g transform="rotate(-10 80 80)" fill="none" stroke="var(--red)">
+// Pin rojo con ✓ (paso 2): cae con rebote y el check se dibuja
+const PIN = `<div class="ob-pinwrap"><svg viewBox="0 0 120 150" class="ob-pin" aria-hidden="true">
+  <ellipse class="ob-shadow" cx="60" cy="142" rx="22" ry="5" fill="#000" fill-opacity=".12"/>
+  <g class="ob-drop"><path d="M60 132s-46-40-46-76a46 46 0 0192 0c0 36-46 76-46 76z" fill="var(--red)"/>
+  <path class="ob-draw" pathLength="1" d="M39 57l14 14 28-29" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+  <span class="ob-chip">${MP_ICON('ticket', 'ico')}<b>+10</b></span></div>`;
+// GPS (paso 3): tu punto azul entra en el área, el pin dorado salta y se dibuja el doble check
+const GPS = `<svg viewBox="0 0 260 230" class="ob-gps" aria-hidden="true">
+  <circle cx="130" cy="122" r="92" fill="var(--gold)" fill-opacity=".1"/>
+  <circle class="ob-ring" cx="130" cy="122" r="92" fill="none" stroke="var(--gold)" stroke-width="2" stroke-dasharray="7 7"/>
+  <circle class="ob-pulse" cx="130" cy="122" r="92" fill="none" stroke="var(--gold)" stroke-width="2"/>
+  <g class="ob-me"><circle cx="0" cy="0" r="22" fill="#2F7BF6" fill-opacity=".18"/><circle cx="0" cy="0" r="11" fill="#2F7BF6" stroke="#fff" stroke-width="4"/></g>
+  <g class="ob-gold"><g transform="translate(93 40) scale(.62)"><path d="M60 132s-46-40-46-76a46 46 0 0192 0c0 36-46 76-46 76z" fill="var(--gold)"/>
+    <path class="ob-draw d1" pathLength="1" d="M27 58l12 12 22-24" fill="none" stroke="#fff" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path class="ob-draw d2" pathLength="1" d="M51 66l4 4 30-32" fill="none" stroke="#fff" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/></g></g></svg>`;
+// Sello (paso 4): golpe de sello + nivel que sube
+const STAMP = `<div class="ob-stampwrap"><svg viewBox="0 0 160 160" class="ob-stamp" aria-hidden="true"><g transform="rotate(-10 80 80)" fill="none" stroke="var(--red)">
   <circle cx="80" cy="80" r="66" stroke-width="5"/><circle cx="80" cy="80" r="50" stroke-width="2"/>
   <path id="ob-arc" d="M80 80 m-58 0 a58 58 0 1 1 116 0 a58 58 0 1 1 -116 0" stroke="none"/>
   <text font-size="11" font-weight="800" letter-spacing="3" fill="var(--red)" stroke="none"><textPath href="#ob-arc">MADRID PASSPORT · MADRID PASSPORT ·</textPath></text>
-  <path d="M58 92V72l-2-12 9 6h30l9-6-2 12v20z M70 76h.1M90 76h.1M74 86h12" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></g></svg>`;
+  <path d="M58 92V72l-2-12 9 6h30l9-6-2 12v20z M70 76h.1M90 76h.1M74 86h12" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
+  <div class="ob-level"><span>2</span><div><small>${t('level')} 2</small><b>${t('lvl.forastero')}</b></div><i><em></em></i></div></div>`;
 
 export function showOnboarding(source = 'first') {
   if ($('#onboard')) return;
@@ -40,15 +55,17 @@ export function showOnboarding(source = 'first') {
   el.id = 'onboard'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true'); el.setAttribute('aria-label', t('ob.aria'));
   el.innerHTML = `<button class="ob-skip" id="ob-skip">${t('ob.skip')}</button>
     <div class="ob-track" id="ob-track">${steps.map(([k, ill], i) => `<section class="ob-slide" aria-label="${i + 1} / ${steps.length}">
-      <div class="ob-ill">${ill}</div><h1>${esc(t(k + '.t'))}</h1><p>${esc(t(k + '.d'))}</p></section>`).join('')}</div>
+      <div class="ob-ill"><span class="ob-blob"></span>${ill}</div><h1>${esc(t(k + '.t'))}</h1><p>${esc(t(k + '.d'))}</p></section>`).join('')}</div>
     <div class="ob-foot"><div class="ob-dots" id="ob-dots">${steps.map((_, i) => `<i class="${i ? '' : 'on'}"></i>`).join('')}</div>
       <button class="ob-btn" id="ob-next">${t('ob.next')}</button><button class="ob-later" id="ob-later">&nbsp;</button></div>`;
   $('#app').appendChild(el);
   const track_ = $('#ob-track'), dots = [...el.querySelectorAll('#ob-dots i')], next = $('#ob-next'), later = $('#ob-later'), skip = $('#ob-skip');
   let idx = 0;
   const N = steps.length, last = () => idx === N - 1;
+  const slides = [...el.querySelectorAll('.ob-slide')];
   const paint = () => {
     dots.forEach((d, i) => d.classList.toggle('on', i === idx));
+    slides.forEach((sl, i) => sl.classList.toggle('on', i === idx));   // relanza la animación de su ilustración
     next.textContent = last() ? t('ob.start') : t('ob.next');
     later.innerHTML = last() ? esc(t('ob.later')) : '&nbsp;';
     later.disabled = !last();
