@@ -676,11 +676,14 @@
     const open = document.querySelector('.share-menu');
     if (open) return open.remove();
     const d = currentDistrict();
-    const opts = [['city', 'post', 'Todo Madrid · Post'], ['city', 'story', 'Todo Madrid · Historia']];
-    if (d) opts.unshift(['district', 'post', `${d.name} · Post`], ['district', 'story', `${d.name} · Historia`]);
+    // Icono = rectángulo con la proporción real del formato
+    const FMT = { post: ['Publicación', '4:5', 12, 15], story: ['Historia', '9:16', 9, 16] };
+    const fmtIco = (f) => { const [, , w, h] = FMT[f]; return `<svg class="fmt" viewBox="0 0 20 20"><rect x="${(20 - w) / 2}" y="${(20 - h) / 2}" width="${w}" height="${h}" rx="2"/></svg>`; };
+    const opt = (scope, f, label) => `<button data-s="${scope}" data-f="${f}">${fmtIco(f)}<span>${FMT[f][0]} <em>${FMT[f][1]}</em></span></button>`;
+    const group = (scope, label) => `<p>${esc(label)}</p>${opt(scope, 'post')}${opt(scope, 'story')}`;
     const m = document.createElement('div');
     m.className = 'share-menu';
-    m.innerHTML = `<p>Compartir imagen</p>${opts.map(([s, f, t]) => `<button data-s="${s}" data-f="${f}">${esc(t)}</button>`).join('')}`;
+    m.innerHTML = (d ? group('district', d.name) : '') + group('city', 'Todo Madrid');
     $('#app').appendChild(m);
     m.querySelectorAll('button').forEach((b) => (b.onclick = async () => {
       m.remove();
