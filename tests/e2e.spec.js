@@ -198,8 +198,11 @@ test('pines agrupados: al alejar se juntan y al tocar el grupo se acerca', async
   await page.evaluate(() => window.__mpMap.jumpTo({ zoom: 12.5 }));
   await expect(page.locator('.cluster').first()).toBeVisible();
   const z0 = await page.evaluate(() => window.__mpMap.getZoom());
+  await page.evaluate(() => { window.__minZ = 99; window.__mpMap.on('zoom', () => (window.__minZ = Math.min(window.__minZ, window.__mpMap.getZoom()))); });
   await page.locator('.cluster').first().click();
   await expect.poll(() => page.evaluate(() => window.__mpMap.getZoom())).toBeGreaterThan(z0);
+  await page.waitForTimeout(700);
+  expect(await page.evaluate(() => window.__minZ)).toBeGreaterThanOrEqual(z0 - 0.01);   // sin alejarse antes de acercar
 });
 
 test('buscador y filtro por tipo', async ({ page }) => {

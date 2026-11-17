@@ -151,7 +151,7 @@ export const fit = (bounds, opts) => {
   map.resize();                                       // el lienzo puede tener un tamaño viejo (iOS)
   const cur = map.getPadding();
   if (cur.top || cur.bottom || cur.left || cur.right) map.setPadding({ top: 0, bottom: 0, left: 0, right: 0 });
-  map.fitBounds(bounds, opts);
+  map.fitBounds(bounds, { linear: true, ...opts });   // linear: sin el «alejar y acercar» de flyTo
 };
 export const fitCity = (animate = true) => {
   const b = DISTRICTS.reduce((a, d) => [Math.min(a[0], d.bbox[0]), Math.min(a[1], d.bbox[1]), Math.max(a[2], d.bbox[2]), Math.max(a[3], d.bbox[3])], [180, 90, -180, -90]);
@@ -290,9 +290,12 @@ export function clusterPins() {
       e.stopPropagation();
       const b = ps.reduce((a, x) => [Math.min(a[0], x.coords[1]), Math.min(a[1], x.coords[0]), Math.max(a[2], x.coords[1]), Math.max(a[3], x.coords[0])], [180, 90, -180, -90]);
       track('cluster_tapped', { count: ps.length });
-      fit(b, { padding: pad(sheet.dataset.state), maxZoom: Math.max(map.getZoom() + 2, FAN_ZOOM + 0.5), minZoom: 0, duration: 600 });
-      // Puntos casi en el mismo sitio: fitBounds no acerca lo suficiente → ir directamente al zoom del abanico
-      if (b[2] - b[0] < 0.0004 && b[3] - b[1] < 0.0004) map.easeTo({ center: [(b[0] + b[2]) / 2, (b[1] + b[3]) / 2], zoom: FAN_ZOOM + 0.5, offset: centerOffset(sheet.dataset.state), duration: 600 });
+      // Acercar en línea recta (easeTo) hasta que el grupo quepa; nunca alejar, y como mínimo hasta el zoom del abanico
+      const z0 = map.getZoom(), cur = map.getPadding();
+      if (cur.top || cur.bottom || cur.left || cur.right) map.setPadding({ top: 0, bottom: 0, left: 0, right: 0 });
+      const cam = map.cameraForBounds(b, { padding: pad(sheet.dataset.state) });
+      const zoom = Math.max(Math.min(cam?.zoom ?? z0 + 2, FAN_ZOOM + 1), z0 + 1);
+      map.easeTo({ center: [(b[0] + b[2]) / 2, (b[1] + b[3]) / 2], zoom, offset: centerOffset(sheet.dataset.state), duration: 600 });
     };
     const c = ps.reduce((a, x) => [a[0] + x.coords[1] / ps.length, a[1] + x.coords[0] / ps.length], [0, 0]);
     clusterMarkers.push(new maplibregl.Marker({ element: el }).setLngLat(c).addTo(map));
