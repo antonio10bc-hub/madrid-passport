@@ -670,7 +670,8 @@
     const got = MP_BADGES.filter((b) => badgesUnlocked[b.id]).length;
     // Conseguidos primero (por fecha), luego pendientes por % de avance
     const items = MP_BADGES.map((b, i) => { const [n, goal] = b.test(s); return { b, i, n, goal, date: badgesUnlocked[b.id] }; })
-      .sort((x, y) => (x.date && y.date ? x.date - y.date : x.date ? -1 : y.date ? 1 : y.n / y.goal - x.n / x.goal));
+      .sort((x, y) => (x.date && y.date ? x.date - y.date : x.date ? -1 : y.date ? 1 : y.n / y.goal - x.n / x.goal))
+      .sort((x, y) => (x.b.id === 'madrid-entero') - (y.b.id === 'madrid-entero'));   // «Gato de pura cepa» siempre el último
     return `<div class="pp-head"><span>Mis sellos</span><span>${got} / ${MP_BADGES.length}</span></div>
       <div class="pp-grid">${items.map(({ b, i, n, goal, date }) => `<div class="pp ${date ? 'on' : ''}" title="${esc(b.desc)}">
         ${stampImg(b, i, n, goal, date)}<strong>${esc(b.name)}</strong><small>${date ? esc(b.desc) : esc(b.desc)}</small></div>`).join('')}</div>`;
