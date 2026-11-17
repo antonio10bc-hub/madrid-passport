@@ -159,19 +159,24 @@
 
   const sheet = $('#sheet'), body = $('#sheet-body');
   // Medidas cacheadas (leer offsetHeight en cada navegación forzaba recalcular el diseño)
+  // En iOS (sobre todo la app instalada) el alto real puede llegar tarde: no se cachea a ciegas.
   const dims = {};
-  const measure = () => { dims.app = $('#app').offsetHeight; dims.sheet = sheet.offsetHeight; dims.top = $('.topbar').offsetHeight; dims.tab = $('.tabbar').offsetHeight; };
-  addEventListener('resize', () => { measure(); setSheet(sheet.dataset.state); });
-  const sheetVisible = (state = sheet.dataset.state) => ({ min: 64, peek: 150, half: dims.sheet * 0.58, full: dims.sheet }[state]);
+  const measure = () => { dims.app = $('#app').offsetHeight; dims.sheet = sheet.offsetHeight; dims.top = $('.topbar').offsetHeight; dims.tab = $('.tabbar').offsetHeight; return dims; };
+  ['resize', 'orientationchange', 'pageshow'].forEach((ev) => addEventListener(ev, () => { measure(); setSheet(sheet.dataset.state); map?.resize(); }));
+  visualViewport?.addEventListener('resize', () => { measure(); map?.resize(); });
+  const MIN_VIS = 28;                                   // plegado: solo se ve el asa gris
+  const sheetVisible = (state = sheet.dataset.state) => ({ min: MIN_VIS, peek: 150, half: dims.sheet * 0.58, full: dims.sheet }[state]);
   const setSheet = (state) => {
     sheet.dataset.state = state;
-    if (!dims.app) measure();
+    measure();
     $('#app').style.setProperty('--sheet-vis', (state === 'full' ? 0 : Math.min(sheetVisible(state), dims.app * 0.6)) + 'px');
   };
   const pad = (state) => {
-    if (!dims.app) measure();
-    const h = dims.app, top = dims.top, tb = dims.tab;
-    return { top: top + 16, bottom: Math.min(sheetVisible(state) + tb + 20, h - top - 140), left: 28, right: 28 };
+    const { app: h, top, tab: tb } = measure();
+    let pt = top + 16, pb = sheetVisible(state) + tb + 20;
+    const room = h - 120;                               // deja siempre ≥120 px de mapa para encajar
+    if (pt + pb > room) pb = Math.max(0, room - pt);
+    return { top: pt, bottom: pb, left: 28, right: 28 };
   };
 
   // ---------- Mapa ----------
@@ -278,6 +283,7 @@
   // (si no cabe, MapLibre no mueve la cámara). Para centrar un punto usamos `offset`, que no persiste.
   const centerOffset = (state) => { const p = pad(state); return [(p.left - p.right) / 2, (p.top - p.bottom) / 2]; };
   const fit = (bounds, opts) => {
+    map.resize();                                       // el lienzo puede tener un tamaño viejo (iOS)
     const cur = map.getPadding();
     if (cur.top || cur.bottom || cur.left || cur.right) map.setPadding({ top: 0, bottom: 0, left: 0, right: 0 });
     map.fitBounds(bounds, opts);
@@ -608,16 +614,21 @@
   // ---------- Páginas del menú inferior: Diario / Logros ----------
   let tab = 'map';
   const page = $('#page'), pageBody = $('#page-body');
+  const dayOpen = {};                                   // estado de plegado por día (sesión)
+  const dayKey = (t) => { const d = new Date(t); return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`; };
   function renderDiary() {
     const pr = progress(PLACES);
     const items = Object.entries(visits).filter(([id]) => BYID[id]).map(([id, v]) => ({ p: BYID[id], v, t: v.gpsAt || v.t || 0 })).sort((a, b) => b.t - a.t);
     const dComplete = DISTRICTS.filter((d) => d.places.length && d.places.every((p) => lvl(p.id) > 0)).length;
-    let lastDay = '';
-    const list = items.map(({ p, v, t }) => {
-      const day = t ? dayLabel(t) : 'Sin fecha';
-      const head = day !== lastDay ? `<h3 class="zone">${esc(day)}</h3>` : '';
-      lastDay = day;
-      return head + placeItem(p, t ? ` · ${fmtTime(t)}${v.lvl === 2 ? ' · GPS' : ''}` : '');
+    const days = [];
+    items.forEach((it) => { const k = it.t ? dayKey(it.t) : 'x'; let d = days[days.length - 1]; if (!d || d.k !== k) days.push((d = { k, label: it.t ? dayLabel(it.t) : 'Sin fecha', items: [] })); d.items.push(it); });
+    const list = days.map((d, i) => {
+      const open = dayOpen[d.k] ?? i < 2;
+      const gps = d.items.filter((x) => x.v.lvl === 2).length;
+      return `<section class="day ${open ? 'open' : ''}" data-day="${d.k}">
+        <button class="day-h" aria-expanded="${open}"><span>${esc(d.label)}</span>
+          <small>${d.items.length} lugar${d.items.length === 1 ? '' : 'es'}${gps ? ` · ${gps} GPS` : ''}</small><span class="chev"></span></button>
+        <div class="day-b">${open ? d.items.map(({ p, v, t }) => placeItem(p, t ? ` · ${fmtTime(t)}${v.lvl === 2 ? ' · GPS' : ''}` : '')).join('') : ''}</div></section>`;
     }).join('');
     return `<div id="acct-slot"></div><div class="kpis">
         <div class="stat"><b>${pr.done}</b><small>Visitados</small></div>
@@ -625,6 +636,7 @@
         <div class="stat"><b>${dComplete}<span>/${DISTRICTS.length}</span></b><small>Distritos</small></div></div>
       ${list || '<div class="empty-state">Tu diario está vacío.<br>Marca tu primer lugar para empezar.</div>'}`;
   }
+
   // Logros como sellos de pasaporte (tinta con textura). Formas y giro fijos por logro.
   const GOLD_BADGES = new Set(['gps-1', 'gps-10']);   // el dorado significa siempre «verificado por GPS»
   // Atributos explícitos: el sello se usa como <img>, donde no llega el CSS de la app
@@ -658,7 +670,7 @@
     const k = `${b.id}|${date ? date : n + '/' + goal}|${isDark()}`;
     let html = stampCache.get(k);
     if (!html) {
-      const svg = stampSVG(b, i, n, goal, date).replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="280" height="280" ')
+      const svg = stampSVG(b, i, n, goal, date).replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="560" height="560" ')
         .replace(/var\(--[a-z-]+\)/g, (v) => css(v.slice(4, -1)))
         .replace(/<text /g, '<text font-family="-apple-system,system-ui,sans-serif" ')
         .replace(/href="#/g, 'xlink:href="#');
@@ -682,7 +694,14 @@
   function renderPage() {
     if (tab === 'map') return;
     $('#page-title').textContent = tab === 'diary' ? 'Diario' : 'Logros';
+    const st = pageBody.scrollTop;
     pageBody.innerHTML = tab === 'diary' ? renderDiary() : renderBadges();
+    pageBody.scrollTop = st;
+    pageBody.querySelectorAll('.day-h').forEach((h) => (h.onclick = () => {
+      const sec = h.parentElement, k = sec.dataset.day;
+      dayOpen[k] = !sec.classList.contains('open');
+      renderPage();
+    }));
     bindPlaceItems(pageBody);
     renderAccount();
   }
@@ -756,7 +775,7 @@
         <svg viewBox="0 0 24 24"><path d="M3 11l18-8-8 18-2-8-8-2z"/></svg>Cómo llegar</a>
       <div class="info-row">${MP_ICON('clock')}<p>${esc(ACCESS[p.type] || 'Consulta horario')}</p></div>
       ${p.desc ? `<p class="desc">${esc(p.desc)}</p>` : ''}
-      ${p.url ? `<a class="src" href="${esc(p.url)}" target="_blank" rel="noopener">Más información en Wikipedia ↗</a>` : ''}`;
+      ${p.desc ? '<p class="src">Texto: Wikipedia</p>' : ''}`;
     $('#back').onclick = () => openDistrict(d.id, { refit: true });   // salir de la ficha deselecciona y re-centra el distrito
     bindChecks();
     enrich(p).then((ok) => { if (ok && view.type === 'place' && view.id === p.id) render({ keepScroll: true }); });
@@ -819,7 +838,7 @@
     const gold = css('--gold'), d = new Date();
     const when = `${d.getDate()} ${d.toLocaleDateString('es-ES', { month: 'short' }).replace('.', '').toUpperCase()} ${d.getFullYear()}`;
     const ico = MP_ICON('pin').replace('class="ico"', `width="56" height="56" fill="none" stroke="${gold}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"`);
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 240 240" width="480" height="480">
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 240 240" width="720" height="720">
       <defs><filter id="ink"><feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="2" seed="${d.getSeconds()}" result="n"/>
         <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.2 1.7" result="m"/><feComposite in="SourceGraphic" in2="m" operator="in"/></filter>
         <path id="arc" d="M120 120 m-88 0 a88 88 0 1 1 176 0 a88 88 0 1 1 -176 0"/></defs>
@@ -891,18 +910,69 @@
 
   // ---------- Sheet: min / peek / half / full ----------
   const ORDER = ['min', 'peek', 'half', 'full'];
-  let drag = null;
-  sheet.addEventListener('pointerdown', (e) => {
-    const onHandle = e.target.closest('#handle');
-    if (onHandle || (e.pointerType === 'touch' && body.scrollTop <= 0 && !e.target.closest('input'))) drag = { y: e.clientY, onHandle };
+  const yOf = (st) => dims.sheet - sheetVisible(st);           // translateY de cada estado (px)
+  let g = null;                                                // gesto en curso
+  const curY = () => { const m = new DOMMatrixReadOnly(getComputedStyle(sheet).transform); return m.m42; };
+  function gStart(y, x, fromHandle) {
+    measure();
+    g = { y0: y, x0: x, t0: performance.now(), base: curY(), dragging: false, fromHandle, last: [[performance.now(), y]] };
+  }
+  function gMove(y, x, e) {
+    if (!g) return;
+    const dy = y - g.y0, dx = x - g.x0;
+    if (!g.dragging) {
+      if (Math.abs(dy) < 6 && Math.abs(dx) < 6) return;
+      if (!g.fromHandle) {
+        if (Math.abs(dx) > Math.abs(dy)) { g = null; return; }          // gesto horizontal (chips): no es nuestro
+        const full = sheet.dataset.state === 'full';
+        if (full && (body.scrollTop > 0 || dy < 0)) { g = null; return; }  // con el panel abierto, se hace scroll
+      }
+      g.dragging = true;
+      sheet.classList.add('dragging');
+    }
+    e?.preventDefault();
+    let ny = g.base + dy;
+    const lo = 0, hi = yOf('min');
+    if (ny < lo) ny = lo - Math.sqrt(lo - ny) * 2;              // resistencia en los extremos
+    if (ny > hi) ny = hi + Math.sqrt(ny - hi) * 2;
+    sheet.style.transform = `translateY(${ny}px)`;
+    g.last.push([performance.now(), y]); if (g.last.length > 5) g.last.shift();
+  }
+  function gEnd() {
+    if (!g) return;
+    const wasDrag = g.dragging, fromHandle = g.fromHandle;
+    if (wasDrag) {
+      const [t1, y1] = g.last[0], [t2, y2] = g.last[g.last.length - 1];
+      const v = (y2 - y1) / Math.max(16, t2 - t1);              // px/ms (+ = hacia abajo)
+      const y = curY() + v * 180;                                // proyección con la inercia
+      let best = ORDER[0];
+      for (const st of ORDER) if (Math.abs(yOf(st) - y) < Math.abs(yOf(best) - y)) best = st;
+      sheet.classList.remove('dragging');
+      sheet.style.transform = '';
+      setSheet(best);
+      sheet.dataset.justDragged = '1'; setTimeout(() => delete sheet.dataset.justDragged, 350);
+    } else if (fromHandle) {
+      setSheet(sheet.dataset.state === 'min' ? (view.type === 'home' ? 'peek' : 'half') : 'min');
+    }
+    g = null;
+  }
+  // Táctil: en todo el panel (passive:false para poder bloquear el scroll mientras se arrastra)
+  sheet.addEventListener('touchstart', (e) => {
+    if (e.touches.length !== 1 || e.target.closest('input')) return;
+    const t = e.touches[0];
+    gStart(t.clientY, t.clientX, !!e.target.closest('#handle'));
+  }, { passive: true });
+  sheet.addEventListener('touchmove', (e) => { const t = e.touches[0]; gMove(t.clientY, t.clientX, e); }, { passive: false });
+  sheet.addEventListener('touchend', gEnd);
+  sheet.addEventListener('touchcancel', gEnd);
+  // Ratón: solo desde el asa
+  $('#handle').addEventListener('mousedown', (e) => {
+    gStart(e.clientY, e.clientX, true);
+    const mm = (ev) => gMove(ev.clientY, ev.clientX, ev), mu = () => { removeEventListener('mousemove', mm); removeEventListener('mouseup', mu); gEnd(); };
+    addEventListener('mousemove', mm); addEventListener('mouseup', mu);
   });
-  window.addEventListener('pointerup', (e) => {
-    if (!drag) return;
-    const dy = e.clientY - drag.y, i = ORDER.indexOf(sheet.dataset.state), wasHandle = drag.onHandle; drag = null;
-    if (dy > 50) setSheet(ORDER[Math.max(0, i - (dy > 220 ? 2 : 1))]);
-    else if (dy < -50) setSheet(ORDER[Math.min(3, i + (dy < -220 ? 2 : 1))]);
-    else if (wasHandle) setSheet(sheet.dataset.state === 'min' ? (view.type === 'home' ? 'peek' : 'half') : 'min');
-  });
+  // Un arrastre no debe acabar en "click" sobre una fila
+  sheet.addEventListener('click', (e) => { if (sheet.dataset.justDragged) { e.stopPropagation(); e.preventDefault(); } }, true);
 
   // ---------- Arranque ----------
   setSheet('peek');

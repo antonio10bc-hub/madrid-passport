@@ -138,13 +138,15 @@ h1 { font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -.02e
   transition: transform .42s var(--ease-drawer);
   display: flex; flex-direction: column; will-change: transform; contain: layout paint;
 }
-.sheet[data-state="min"] { transform: translateY(calc(100% - 64px)); }
+.sheet[data-state="min"] { transform: translateY(calc(100% - 28px)); }
 .sheet[data-state="peek"] { transform: translateY(calc(100% - 150px)); }
 .sheet[data-state="half"] { transform: translateY(42%); }
 .sheet[data-state="full"] { transform: translateY(0); }
-.handle { width: 100%; height: 26px; flex: none; position: relative; cursor: grab; touch-action: none; }
+.handle { width: 100%; height: 28px; flex: none; position: relative; cursor: grab; touch-action: none; }
+.sheet.dragging { transition: none; }
+.sheet.dragging #sheet-body { overflow: hidden; }
 .handle::after { content: ''; position: absolute; left: 50%; top: 10px; width: 40px; height: 5px; margin-left: -20px; border-radius: 3px; background: var(--handle); }
-#sheet-body { overflow-y: auto; padding: 0 20px 28px; flex: 1; overscroll-behavior: contain; }
+#sheet-body { overflow-y: auto; overflow-x: clip; padding: 0 20px 28px; flex: 1; overscroll-behavior: contain; }
 .sheet[data-state="half"] #sheet-body { padding-bottom: calc(42vh + 28px); }
 
 /* ---------- Home: buscador, chips, pestañas ---------- */
@@ -154,7 +156,8 @@ h1 { font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -.02e
 .search input::placeholder { color: var(--muted); }
 .search input::-webkit-search-cancel-button { display: none; }
 .search button { color: var(--muted); font-size: 14px; padding: 4px; }
-.chips { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; margin: 0 -20px 10px; padding: 0 20px; }
+.chips { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; margin: 0 -20px 10px; padding: 0 20px;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 18px, #000 calc(100% - 36px), transparent); mask-image: linear-gradient(to right, transparent, #000 18px, #000 calc(100% - 36px), transparent); }
 .chips::-webkit-scrollbar { display: none; }
 .chip { flex: none; padding: 7px 12px; border-radius: 999px; background: var(--bg-2); font-size: 13px; font-weight: 500; white-space: nowrap; }
 .chip b { font-weight: 600; color: var(--muted); margin-left: 2px; }
@@ -318,7 +321,7 @@ h1 { font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -.02e
 @keyframes page-in { from { opacity: 0; transform: translateY(8px); } }
 .page-head { padding: calc(var(--top) + 8px) 20px 10px; flex: none; }
 .page-head h1 { font-size: 32px; }
-#page-body { flex: 1; overflow-y: auto; padding: 4px 20px 28px; overscroll-behavior: contain; }
+#page-body { flex: 1; overflow-y: auto; overflow-x: clip; padding: 4px 20px 28px; overscroll-behavior: contain; }
 .kpis { display: flex; gap: 10px; margin: 4px 0 6px; }
 .kpis .stat { flex: 1; background: var(--bg-2); border-radius: 14px; padding: 12px; }
 .kpis .stat b { display: block; font-size: 22px; }
@@ -344,7 +347,7 @@ h1 { font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -.02e
 /* ---------- Logros: sellos de pasaporte ---------- */
 .pp-head { display: flex; justify-content: space-between; font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
   color: var(--muted); border-bottom: 1px dashed var(--line); padding-bottom: 8px; margin: 2px 0 8px; }
-.pp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 10px; }
+.pp-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 6px 10px; }
 .pp { text-align: center; padding-bottom: 8px; }
 .pp-svg { width: 132px; height: 132px; display: block; margin: 0 auto; }
 .pp strong { display: block; font-size: 13px; font-weight: 600; margin-top: -2px; }
@@ -369,8 +372,8 @@ h1 { font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -.02e
 .link { color: var(--red); font-weight: 600; font-size: 14px; padding: 6px; }
 
 /* Rendimiento: no pintar filas/sellos fuera de pantalla */
-.row, .pitem, .place { content-visibility: auto; contain-intrinsic-size: auto 64px; }
-.pp { content-visibility: auto; contain-intrinsic-size: auto 190px; }
+.row, .pitem, .place { content-visibility: auto; contain-intrinsic-height: auto 64px; }
+.pp { content-visibility: auto; contain-intrinsic-height: auto 190px; min-width: 0; }
 .pp-svg { width: 132px; height: 132px; }
 
 /* ================= Pulido visual ================= */
@@ -426,3 +429,13 @@ button, a, input, .place, .row, .pitem { touch-action: manipulation; }
 @keyframes veil-in { from { opacity: 0; } }
 @keyframes stamp-out { to { opacity: 0; transform: translateY(-8px); } }
 #app.on-page .suggest { opacity: 0; pointer-events: none; }
+
+/* Diario plegable por días */
+.day { border-bottom: 1px solid var(--line); }
+.day-h { width: 100%; display: flex; align-items: center; gap: 8px; padding: 14px 0 10px; text-align: left; }
+.day-h span:first-child { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--red); }
+.day-h small { margin-left: auto; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.day-h .chev { transform: rotate(135deg); transition: transform .2s var(--ease-out); margin: 0 4px 3px 6px; }
+.day.open .day-h .chev { transform: rotate(-45deg); margin-bottom: -3px; }
+.day-b .pitem:last-child { border-bottom: 0; }
+.src { text-decoration: none; }
