@@ -163,6 +163,15 @@ test('favoritos y «quiero ir»: desde la ficha, filtros primeros y pines en el 
   await expect(page.locator('.chip[data-t="__fav"] b')).toHaveText('1');
 });
 
+test('ficha: la foto no se recrea al pulsar favorito o el check', async ({ page }) => {
+  await openCentro(page);
+  await page.locator('#pl-plaza-mayor').click();
+  await page.evaluate(() => (document.querySelector('.hero').dataset.mark = '1'));
+  await page.locator('.lst[data-l="f"]').click();
+  await page.locator('.pd-head .chk[data-a="1"]').click();
+  await expect(page.locator('.hero')).toHaveAttribute('data-mark', '1');
+});
+
 test('deshacer: marcar y desmarcar desde el aviso', async ({ page }) => {
   await openCentro(page);
   await markVisited(page, 'plaza-mayor');

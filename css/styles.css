@@ -522,7 +522,7 @@ button, a, input, .place, .row, .pitem { touch-action: manipulation; }
 @media (prefers-color-scheme: dark) { .toast button { color: var(--red); } }
 
 /* ---------- Listas: favoritos / quiero ir ---------- */
-.lists { display: flex; gap: 8px; margin: -2px 0 12px; }
+.lists { display: flex; gap: 8px; margin: 14px 0 4px; }
 .lst { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 40px; border-radius: 12px;
   background: var(--bg-2); font-size: 14px; font-weight: 600; color: var(--ink); }
 .lst .ico { width: 18px; height: 18px; color: var(--muted); }

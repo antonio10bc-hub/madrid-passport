@@ -254,7 +254,7 @@ export function drawPins() {
 }
 
 // ---------- Agrupación de pines: los que se tocan en pantalla se juntan en un círculo con el número ----------
-const CLUSTER_PX = 30;
+const CLUSTER_PX = 30, FAN_ZOOM = 16;
 const clusterMarkers = [];
 export function clusterPins() {
   if (!map) return;
@@ -269,8 +269,15 @@ export function clusterPins() {
     if (!keep(it)) for (const o of items) {
       if (!used.has(o.id) && !keep(o) && Math.hypot(o.pt.x - it.pt.x, o.pt.y - it.pt.y) < CLUSTER_PX) { g.push(o); used.add(o.id); }
     }
-    g.forEach((x) => { const disp = g.length > 1 ? 'none' : ''; const w = x.m.marker.getElement(); if (w.style.display !== disp) w.style.display = disp; });
-    if (g.length < 2) continue;
+    // Muy cerca (zoom ≥ 16): no se agrupan; los que siguen solapados se abren en abanico alrededor de su punto
+    const fan = g.length > 1 && map.getZoom() >= FAN_ZOOM;
+    g.forEach((x, i) => {
+      const disp = g.length > 1 && !fan ? 'none' : ''; const w = x.m.marker.getElement();
+      if (w.style.display !== disp) w.style.display = disp;
+      const a = (i / g.length) * 2 * Math.PI - Math.PI / 2, r = 15 + g.length * 2;
+      x.m.marker.setOffset(fan ? [Math.round(Math.cos(a) * r), Math.round(Math.sin(a) * r)] : [0, 0]);
+    });
+    if (g.length < 2 || fan) continue;
     const ps = g.map((x) => x.p), done = ps.filter((x) => lvl(x.id) > 0).length, gps = ps.filter((x) => lvl(x.id) === 2).length;
     const el = document.createElement('button');
     el.className = 'cluster' + (gps === ps.length ? ' all-gps' : done === ps.length ? ' all' : done ? ' some' : '');
@@ -282,7 +289,9 @@ export function clusterPins() {
       e.stopPropagation();
       const b = ps.reduce((a, x) => [Math.min(a[0], x.coords[1]), Math.min(a[1], x.coords[0]), Math.max(a[2], x.coords[1]), Math.max(a[3], x.coords[0])], [180, 90, -180, -90]);
       track('cluster_tapped', { count: ps.length });
-      fit(b, { padding: pad(sheet.dataset.state), maxZoom: Math.max(map.getZoom() + 2, 16), duration: 600 });
+      fit(b, { padding: pad(sheet.dataset.state), maxZoom: Math.max(map.getZoom() + 2, FAN_ZOOM + 0.5), minZoom: 0, duration: 600 });
+      // Puntos casi en el mismo sitio: fitBounds no acerca lo suficiente → ir directamente al zoom del abanico
+      if (b[2] - b[0] < 0.0004 && b[3] - b[1] < 0.0004) map.easeTo({ center: [(b[0] + b[2]) / 2, (b[1] + b[3]) / 2], zoom: FAN_ZOOM + 0.5, offset: centerOffset(sheet.dataset.state), duration: 600 });
     };
     const c = ps.reduce((a, x) => [a[0] + x.coords[1] / ps.length, a[1] + x.coords[0] / ps.length], [0, 0]);
     clusterMarkers.push(new maplibregl.Marker({ element: el }).setLngLat(c).addTo(map));

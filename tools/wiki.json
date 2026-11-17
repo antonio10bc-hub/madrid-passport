@@ -1629,16 +1629,6 @@
   "url": "https://es.wikipedia.org/wiki/Quinta_del_Duque_del_Arco",
   "title_en": null
  },
- "barrio-pilar": {
-  "title": "El Pilar (Madrid)",
-  "qid": "Q3773964",
-  "lat": 40.47822778,
-  "lng": -3.71154167,
-  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/92/Avenida_de_Monforte_de_Lemos_%28Madrid%29_02.jpg/960px-Avenida_de_Monforte_de_Lemos_%28Madrid%29_02.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-  "desc": "El Pilar, nombrado frecuentemente como barrio del Pilar, es un barrio situado en el noroeste de la ciudad de Madrid (España) perteneciente al distrito de Fuencarral-El Pardo.",
-  "url": "https://es.wikipedia.org/wiki/El_Pilar_(Madrid)",
-  "title_en": "El Pilar (Madrid)"
- },
  "parque-vaguada": {
   "title": "Parque de la Vaguada (Madrid)",
   "qid": "Q6062757",
@@ -2097,16 +2087,6 @@
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/Castillo_de_La_Alameda_%28Madrid%29_05.jpg/960px-Castillo_de_La_Alameda_%28Madrid%29_05.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El castillo-fortaleza de la Alameda​ (también referido, erróneamente,​ como castillo de Barajas​ o castillo de los Zapata​) está situado en el barrio de Alameda de Osuna dentro del actual distrito madrileño de Barajas, en la Comunidad de Madrid (España). Fue erigido en el siglo XV en la aldea de La Alameda, una aldea de repoblación del siglo XIII.​\nEn su día, fue considerado \n\n \n\nA partir de 1996 se realizaron en el lugar y en sus inmediaciones excavaciones arqueológicas que revelaron restos de asentamientos desde la Edad del Bronce hasta la época romana​ y en la actualidad se encuentra parcialmente restaurado y desde 2010​ su museo está abierto al público.​\nSu titularidad corresponde al Ayuntamiento de Madrid, que lo adquirió por cesión urbanística. Esta construcción, que se encontraba en estado de semirruina, es una de las cuatro fortificaciones medievales que se conservan dentro del término municipal madrileño, junto con el castillo de Viñuelas y los restos de la muralla árabe y cristiana de la capital.",
   "url": "https://es.wikipedia.org/wiki/Castillo_de_La_Alameda",
-  "title_en": null
- },
- "plaza-mayor-barajas": {
-  "title": "Barajas",
-  "qid": "Q807230",
-  "lat": 40.470196,
-  "lng": -3.58489,
-  "img": null,
-  "desc": null,
-  "url": "https://es.wikipedia.org/wiki/Barajas",
   "title_en": null
  },
  "ifema": {

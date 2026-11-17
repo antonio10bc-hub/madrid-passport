@@ -178,9 +178,11 @@ function renderPlace() {
     v?.gpsAt && `<div class="stamp s2">${ICON_GPS}<span><b>${t('gps.confirmed')}</b>${fmtDate(v.gpsAt)} · ${fmtTime(v.gpsAt)}</span></div>`,
   ].filter(Boolean).join('');
   const en = lang === 'en' && p.desc_en, desc = en ? p.desc_en : p.desc;
+  // Al volver a pintar la misma ficha se conserva la foto (si no, parpadea al recrearse el <img>)
+  const oldHero = body.querySelector(`.hero[data-for="${p.id}"]`);
   body.innerHTML = `
     <button class="back" id="back">${esc(d?.name || t('back'))}</button>
-    <div class="hero ${p.img ? '' : 'noimg'}">${p.img ? `<img src="${esc(p.img)}" alt="" loading="lazy" onerror="this.parentNode.classList.add('noimg');this.remove()">` : ''}<span class="hero-ico">${TI(p.type)}</span></div>
+    <div class="hero ${p.img ? '' : 'noimg'}" data-for="${p.id}" data-img="${esc(p.img || '')}">${p.img ? `<img src="${esc(p.img)}" alt="" loading="lazy" onerror="this.parentNode.classList.add('noimg');this.remove()">` : ''}<span class="hero-ico">${TI(p.type)}</span></div>
     <div class="pd-head">
       <div><h2>${esc(p.name)}</h2><p>${esc(typeName(p.type))}${p.zone ? ' · ' + esc(p.zone) : b ? ' · ' + esc(b.name) : ''}${dd ? ' · ' + t('at', { d: dd }) : ''}</p></div>
       ${checks(p)}
@@ -195,6 +197,8 @@ function renderPlace() {
     ${mt ? `<div class="info-row metro"><span class="m-logo">M</span><p><b>${esc(mt.name)}</b> ${mt.lines.map(lineBadge).join('')}<br><small>${t('metro.at', { d: fmtDist(mt.d), min: mt.min })}</small></p></div>` : ''}
     <div class="info-row">${MP_ICON('clock')}<p>${esc(t('access.' + (ACCESS_KEYS.includes(p.type) ? p.type : 'x')))}</p></div>
     ${desc ? `<p class="desc">${esc(desc)}</p><p class="src">${t(en || lang === 'es' ? 'src' : 'src.es')}</p>` : ''}`;
+  const newHero = body.querySelector('.hero');
+  if (oldHero && oldHero.dataset.img === newHero.dataset.img) newHero.replaceWith(oldHero);
   $('#back').onclick = () => openDistrict(d.id, { refit: true });   // salir de la ficha deselecciona y re-centra el distrito
   body.querySelectorAll('[data-nav]').forEach((a) => (a.onclick = () => track('directions_clicked', { place: p.id, type: p.type, mode: a.dataset.nav, metro: mt?.name || null })));
   body.querySelectorAll('[data-l]').forEach((el) => (el.onclick = () => {
@@ -202,7 +206,8 @@ function renderPlace() {
     if (on) S.visits[key] = { t: Date.now() }; else delete S.visits[key];
     track(on ? 'list_added' : 'list_removed', { list: k === 'f' ? 'fav' : 'want', place: p.id, type: p.type });
     toast(t(`list.${k}.${on ? 'add' : 'del'}`));
-    save(); render({ keepScroll: true });
+    el.classList.toggle('on', on); el.setAttribute('aria-pressed', on);
+    save();
   }));
   bindChecks();
   enrich(p).then((ok) => { if (ok && S.view.type === 'place' && S.view.id === p.id) render({ keepScroll: true }); });
