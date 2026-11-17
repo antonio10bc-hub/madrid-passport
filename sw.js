@@ -1,10 +1,10 @@
 // Service worker: app instalable y uso sin conexión.
 // - App (HTML/CSS/JS/datos): red primero, caché como respaldo → las actualizaciones llegan al momento.
 // - Mapa (tiles OpenFreeMap) e imágenes (Wikimedia): caché primero y se refresca en segundo plano.
-const VERSION = 'mp-v3';
+const VERSION = 'mp-v4';
 const SHELL = [
   './', 'index.html', 'manifest.webmanifest', 'css/styles.css',
-  'js/data.js', 'js/icons.js', 'js/badges.js', 'js/share.js', 'js/app.js',
+  'js/config.js', 'js/auth.js', 'vendor/supabase/supabase.js', 'js/data.js', 'js/icons.js', 'js/badges.js', 'js/share.js', 'js/app.js',
   'data/distritos.geojson', 'data/barrios.geojson',
   'vendor/maplibre/maplibre-gl.js', 'vendor/maplibre/maplibre-gl.css',
   'icons/icon-192.png', 'icons/icon-512.png',
@@ -37,5 +37,6 @@ self.addEventListener('fetch', (e) => {
   const url = new URL(req.url);
   if (url.hostname === 'tiles.openfreemap.org') return e.respondWith(staleWhileRevalidate(req, `${VERSION}-tiles`));
   if (/(^|\.)wikimedia\.org$/.test(url.hostname)) return e.respondWith(staleWhileRevalidate(req, `${VERSION}-img`));
+  if (url.hostname.endsWith('.supabase.co')) return;              // API/auth: siempre red
   if (url.origin === location.origin) return e.respondWith(networkFirst(req));
 });

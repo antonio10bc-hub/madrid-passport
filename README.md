@@ -13,6 +13,18 @@ Guía-mapa de Madrid por sus 21 distritos, mobile-first (390×844, iPhone 14). D
 - Compartir imagen: todo Madrid o el distrito, formato post (4:5) o historia (9:16).
 - Modo oscuro automático. PWA instalable con uso sin conexión (mapa y fotos ya vistos quedan en caché).
 
+## Cuentas (Google) y sincronización — Supabase
+1. Crear proyecto en supabase.com. En **SQL Editor** ejecutar `supabase/schema.sql` (tabla `progress` con RLS).
+2. Google Cloud Console → APIs y servicios → Credenciales → **ID de cliente OAuth** (Aplicación web).
+   URI de redirección autorizado: `https://<proyecto>.supabase.co/auth/v1/callback`.
+3. Supabase → Authentication → Providers → **Google**: activar y pegar Client ID y Client Secret.
+4. Supabase → Authentication → URL Configuration: Site URL `https://madrid-passport.vercel.app`;
+   Redirect URLs: `https://madrid-passport.vercel.app/**` y `http://localhost:8765/**`.
+5. Rellenar `js/config.js` con la URL del proyecto y la *anon public key* (Project Settings → API).
+
+Al iniciar sesión se fusiona el progreso local con el de la nube (nivel más alto y fechas más antiguas por lugar;
+unión de logros) y después cada cambio se sube automáticamente. Sin configurar, la app funciona igual solo en local.
+
 ## Debug
 `?debug=1` o pulsación larga en el botón de ubicación → GPS falso («Mover» y tocar el mapa), «Validar» descarga un informe
 comparando coordenadas con Wikipedia, «↺» borra el progreso.

@@ -27,7 +27,70 @@
   try { visits = JSON.parse(localStorage.getItem(KEY)) || {}; } catch {}
   let badgesUnlocked = {};
   try { badgesUnlocked = JSON.parse(localStorage.getItem(KEY_BADGES)) || {}; } catch {}
-  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(visits)); localStorage.setItem(KEY_BADGES, JSON.stringify(badgesUnlocked)); } catch {} };
+  const save = () => {
+    try { localStorage.setItem(KEY, JSON.stringify(visits)); localStorage.setItem(KEY_BADGES, JSON.stringify(badgesUnlocked)); } catch {}
+    scheduleSync();
+  };
+
+  // ---------- Cuenta (Google vía Supabase) y sincronización ----------
+  let syncState = 'idle', syncT = null, lastSync = 0;   // idle | syncing | ok | error
+  function scheduleSync() {
+    if (!window.MPAuth?.user) return;
+    clearTimeout(syncT); syncT = setTimeout(pushNow, 1200);
+  }
+  async function pushNow() {
+    if (!MPAuth.user) return;
+    syncState = 'syncing'; renderAccount();
+    try { await MPAuth.push(visits, badgesUnlocked); syncState = 'ok'; lastSync = Date.now(); }
+    catch (e) { console.error(e); syncState = 'error'; }
+    renderAccount();
+  }
+  // Fusión al iniciar sesión: por lugar, el nivel más alto y las fechas más antiguas; logros: unión
+  function mergeVisits(a, b) {
+    const out = { ...a };
+    for (const [id, v] of Object.entries(b || {})) {
+      const o = out[id];
+      if (!o) { out[id] = v; continue; }
+      const min = (x, y) => (x && y ? Math.min(x, y) : x || y);
+      out[id] = { lvl: Math.max(o.lvl || 0, v.lvl || 0), t: min(o.t, v.t), gpsAt: min(o.gpsAt, v.gpsAt), gps: o.gps || v.gps };
+      if (!out[id].gpsAt) delete out[id].gpsAt;
+      if (!out[id].gps) delete out[id].gps;
+    }
+    return out;
+  }
+  async function onAuth(user) {
+    if (!user) { syncState = 'idle'; renderAccount(); return; }
+    syncState = 'syncing'; renderAccount();
+    try {
+      const remote = await MPAuth.pull();
+      visits = mergeVisits(visits, remote?.visits);
+      const rb = remote?.badges || {};
+      for (const [k, t] of Object.entries(rb)) badgesUnlocked[k] = badgesUnlocked[k] ? Math.min(badgesUnlocked[k], t) : t;
+      try { localStorage.setItem(KEY, JSON.stringify(visits)); localStorage.setItem(KEY_BADGES, JSON.stringify(badgesUnlocked)); } catch {}
+      await pushNow();
+      if (DISTRICTS.length) render({ keepScroll: true });
+    } catch (e) { console.error(e); syncState = 'error'; renderAccount(); }
+  }
+  const GOOGLE_G = '<svg viewBox="0 0 48 48" width="18" height="18" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>';
+  function accountHTML() {
+    if (!window.MPAuth?.enabled) return debug ? '<div class="acct off">Inicio de sesión sin configurar (js/config.js)</div>' : '';
+    const u = MPAuth.user;
+    if (!u) return `<div class="acct"><div class="acct-txt"><b>Guarda tu pasaporte</b><small>Inicia sesión para no perder tu progreso y usarlo en otros dispositivos.</small></div>
+      <button class="gbtn" id="login">${GOOGLE_G}<span>Continuar con Google</span></button></div>`;
+    const m = u.user_metadata || {}, name = m.full_name || m.name || u.email;
+    const st = { syncing: 'Sincronizando…', ok: 'Guardado en la nube', error: 'Error al sincronizar · reintentar', idle: 'Conectado' }[syncState];
+    return `<div class="acct in">${m.avatar_url ? `<img class="avatar" src="${esc(m.avatar_url)}" alt="" referrerpolicy="no-referrer">` : `<span class="avatar">${esc((name || '?')[0].toUpperCase())}</span>`}
+      <div class="acct-txt"><b>${esc(name)}</b><small class="sync ${syncState}" ${syncState === 'error' ? 'id="retry"' : ''}>${st}</small></div>
+      <button class="link" id="logout">Salir</button></div>`;
+  }
+  function renderAccount() {
+    const el = document.getElementById('acct-slot');
+    if (!el) return;
+    el.innerHTML = accountHTML();
+    el.querySelector('#login')?.addEventListener('click', () => MPAuth.signIn().catch(() => toast('No se pudo iniciar sesión', true)));
+    el.querySelector('#logout')?.addEventListener('click', async () => { await MPAuth.signOut(); toast('Sesión cerrada · tu progreso sigue en este móvil'); });
+    el.querySelector('#retry')?.addEventListener('click', pushNow);
+  }
   const lvl = (id) => visits[id]?.lvl || 0;
   const progress = (places) => ({ done: places.filter((p) => lvl(p.id) > 0).length, gps: places.filter((p) => lvl(p.id) === 2).length, total: places.length });
 
@@ -501,7 +564,7 @@
       lastDay = day;
       return head + placeItem(p, t ? ` · ${fmtTime(t)}${v.lvl === 2 ? ' · GPS' : ''}` : '');
     }).join('');
-    return `<div class="kpis">
+    return `<div id="acct-slot"></div><div class="kpis">
         <div class="stat"><b>${pr.done}</b><small>Visitados</small></div>
         <div class="stat gold"><b>${pr.gps}</b><small>GPS</small></div>
         <div class="stat"><b>${dComplete}<span>/${DISTRICTS.length}</span></b><small>Distritos</small></div></div>
@@ -548,6 +611,7 @@
     $('#page-title').textContent = tab === 'diary' ? 'Diario' : 'Logros';
     pageBody.innerHTML = tab === 'diary' ? renderDiary() : renderBadges();
     bindPlaceItems(pageBody);
+    renderAccount();
   }
   function setTab(t) {
     tab = t;
@@ -747,6 +811,7 @@
   setSheet('peek');
   $('#debug').hidden = !debug;
   if (debug) setPlacing(!fakePos); else maybeWatch();
+  window.MPAuth?.init(onAuth).catch((e) => console.error(e));
   renderRing();
   initMap().catch((e) => { console.error(e); toast('Error cargando el mapa', true); });
   if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost'))

@@ -341,3 +341,18 @@ h1 { font-size: 28px; font-weight: 700; letter-spacing: -.02em; margin-top: 2px;
 .pp:not(.on) strong { color: var(--muted); }
 .pp.on .pp-svg { animation: stamp-in .35s cubic-bezier(.2,1.4,.4,1) both; }
 @keyframes stamp-in { from { transform: scale(1.25); opacity: 0; } }
+
+/* ---------- Cuenta ---------- */
+.acct { display: flex; align-items: center; gap: 12px; background: var(--bg-2); border-radius: 16px; padding: 14px; margin: 2px 0 14px; flex-wrap: wrap; }
+.acct.off { font-size: 12px; color: var(--muted); }
+.acct-txt { flex: 1; min-width: 160px; }
+.acct-txt b { display: block; font-size: 15px; }
+.acct-txt small { display: block; font-size: 12px; color: var(--muted); margin-top: 2px; line-height: 1.35; }
+.acct:not(.in) .gbtn { width: 100%; }
+.gbtn { display: flex; align-items: center; justify-content: center; gap: 10px; height: 44px; padding: 0 16px; border-radius: 12px;
+  background: #fff; color: #1F1F1F; font-weight: 600; font-size: 15px; border: 1px solid #DADCE0; }
+.avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; flex: none; background: var(--red); color: #fff; display: grid; place-items: center; font-weight: 700; }
+.sync.ok::before { content: ''; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #1BA35B; margin-right: 6px; vertical-align: 1px; }
+.sync.syncing { color: var(--muted); }
+.sync.error { color: var(--red); cursor: pointer; text-decoration: underline; }
+.link { color: var(--red); font-weight: 600; font-size: 14px; padding: 6px; }
