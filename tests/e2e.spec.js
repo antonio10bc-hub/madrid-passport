@@ -240,6 +240,7 @@ test('pines agrupados: al alejar se juntan y al tocar el grupo se acerca', async
 });
 
 test('al pulsar un filtro, la fila de filtros no vuelve al principio', async ({ page }) => {
+  await page.waitForTimeout(1500);                          // que termine de arrancar (mapa y primera posición)
   const row = page.locator('#type-chips');
   await row.evaluate((el) => (el.scrollLeft = 300));
   await page.waitForTimeout(100);
