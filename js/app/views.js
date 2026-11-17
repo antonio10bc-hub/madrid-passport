@@ -227,11 +227,8 @@ function renderPlace() {
     </div>
     <div class="lists">${[['f', 'heart'], ['w', 'bookmark']].map(([k, ico]) => `<button class="lst ${k}${inList(k, p.id) ? ' on' : ''}" data-l="${k}" aria-pressed="${inList(k, p.id)}">${MP_ICON(ico, 'ico')}<span>${t('list.' + k + '1')}</span></button>`).join('')}</div>
     ${stamps ? `<div class="stamps">${stamps}</div>` : ''}
-    <div class="ctas">
-      <a class="cta" data-nav="walking" href="${nav('walking')}" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path d="M3 11l18-8-8 18-2-8-8-2z"/></svg>${t('directions')}</a>
-      <a class="cta alt" data-nav="transit" href="${nav('transit')}" target="_blank" rel="noopener" aria-label="${esc(t('dir.transit'))}">
-        <svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 11h14M8.5 17l-2 4M15.5 17l2 4M9 14h.01M15 14h.01"/></svg>${t('dir.transit')}</a></div>
+    <a class="cta" data-nav="walking" href="${nav('walking')}" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M3 11l18-8-8 18-2-8-8-2z"/></svg>${t('directions')}</a>
     ${mt ? `<div class="info-row metro"><span class="m-logo">M</span><p><b>${esc(mt.name)}</b> ${mt.lines.map(lineBadge).join('')}<br><small>${t('metro.at', { d: fmtDist(mt.d), min: mt.min })}</small></p></div>` : ''}
     <div class="info-row">${MP_ICON('clock')}<p>${esc(t('access.' + (ACCESS_KEYS.includes(p.type) ? p.type : 'x')))}</p></div>
     ${desc ? `<p class="desc">${esc(desc)}</p><p class="src">${t(en || lang === 'es' ? 'src' : 'src.es')}</p>` : ''}
