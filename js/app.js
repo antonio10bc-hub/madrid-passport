@@ -144,6 +144,9 @@
       attributionControl: false, dragRotate: false, pitchWithRotate: false, touchPitch: false,
     });
     map.touchZoomRotate.disableRotation();
+    // Doble toque = zoom de MapLibre pisaba el re-centrado al volver a tocar un pin o el distrito abierto.
+    // El zoom manual queda con pellizco / rueda.
+    map.doubleClickZoom.disable();
     map.addControl(new maplibregl.AttributionControl({ compact: true,
       customAttribution: '© OpenStreetMap · OpenFreeMap · Ayto. Madrid · Wikipedia' }), 'top-left');
 
@@ -246,6 +249,8 @@
       el.dataset.id = p.id;
       el.innerHTML = l === 1 ? ICON_CHECK : l === 2 ? ICON_GPS : '';
       wrap.appendChild(el);
+      // Que los toques en el pin no lleguen a los gestos del mapa (arrastre/doble toque)
+      ['mousedown', 'touchstart', 'pointerdown', 'dblclick'].forEach((ev) => wrap.addEventListener(ev, (e) => e.stopPropagation(), { passive: true }));
       wrap.onclick = (e) => {
         if (placing) return;
         e.stopPropagation();
