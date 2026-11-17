@@ -186,14 +186,14 @@
     current.places.forEach((p) => {
       const el = document.createElement('div');
       const l = lvl(p.id);
-      el.className = `pin v${l}`;
+      el.className = `pin v${l}${selId === p.id ? ' sel' : ''}`;
+      el.dataset.id = p.id;
       el.innerHTML = l === 1 ? ICON_CHECK : l === 2 ? ICON_GPS : '';
       el.onclick = (e) => {
         if (placing) return;                    // colocando GPS falso: el tap va al mapa
         e.stopPropagation();
         if (sheet.dataset.state === 'min') setSheet('half');
-        const row = document.getElementById('pl-' + p.id);
-        if (row) body.scrollTo({ top: row.offsetTop - body.clientHeight / 3, behavior: 'smooth' });
+        selectPlace(p.id);
       };
       markers.pins.push(new maplibregl.Marker({ element: el }).setLngLat([p.coords[1], p.coords[0]]).addTo(map));
     });
@@ -280,11 +280,24 @@
   }
 
   function openDistrict(id) {
-    current = DISTRICTS.find((d) => d.id === id);
+    current = DISTRICTS.find((d) => d.id === id); selId = null;
     setSheet('half');
     body.scrollTop = 0;
     refresh();
     requestAnimationFrame(() => map.fitBounds(current.bbox, { padding: pad('half'), maxZoom: 16, duration: 800 }));
+  }
+
+  // Selección desde el mapa: resalta pin y fila (destello + estado sutil persistente)
+  let selId = null;
+  function selectPlace(id) {
+    selId = id;
+    document.querySelectorAll('.pin.sel, .place.sel').forEach((x) => x.classList.remove('sel', 'flash'));
+    document.querySelector(`.pin[data-id="${id}"]`)?.classList.add('sel');
+    const row = document.getElementById('pl-' + id);
+    if (!row) return;
+    void row.offsetWidth;                    // reinicia la animación si se repite el tap
+    row.classList.add('sel', 'flash');
+    body.scrollTo({ top: row.offsetTop - body.clientHeight / 3, behavior: 'smooth' });
   }
 
   function goHome() {
@@ -301,7 +314,7 @@
       const l = lvl(p.id);
       const dd = myPos ? ` · ${fmtDist(dist(myPos.coords, p.coords))}` : '';
       const sub = l === 2 ? '<small class="gps-ok">✓✓ Verificado por GPS</small>' : `<small>${p.type}${dd}</small>`;
-      return `<div class="place" id="pl-${p.id}">
+      return `<div class="place${selId === p.id ? ' sel' : ''}" id="pl-${p.id}">
         <div class="p-info"><strong>${p.name}</strong>${sub}</div>
         <div class="checks">
           <button class="chk ${l >= 1 ? 'on' : ''}" data-a="1" data-id="${p.id}" aria-label="He estado">${ICON_CHECK}</button>
