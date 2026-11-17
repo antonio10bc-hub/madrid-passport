@@ -86,6 +86,8 @@ function renderHome() {
   body.querySelectorAll('[data-t]').forEach((el) => (el.onclick = () => {
     S.typeFilter = S.typeFilter === el.dataset.t ? null : el.dataset.t;
     if (S.typeFilter) track('type_filter', { type: S.typeFilter });
+    // Con el panel bajo, al filtrar se abre a la mitad para ver los resultados
+    if (S.typeFilter && ['min', 'peek'].includes(sheet.dataset.state)) setSheet('half');
     render();
   }));
   bindHomeList();

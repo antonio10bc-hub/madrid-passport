@@ -142,12 +142,14 @@ test('tocar el asa (táctil) pliega y despliega sin abrir el teclado', async ({ 
 });
 
 test('buscador y filtro por tipo', async ({ page }) => {
-  await page.locator('#q').fill('prado');
-  await expect(page.locator('.pitem[data-place="prado"]')).toBeVisible();
-  await page.locator('#q-clear').click();
+  await expect(page.locator('#sheet')).toHaveAttribute('data-state', 'peek');
   await page.locator('.chip[data-t="Museo"]').click();
+  await expect(page.locator('#sheet')).toHaveAttribute('data-state', 'half');   // con el panel bajo, se abre a la mitad
   await expect(page.locator('.sec-sub')).toContainText('resultados');
   await expect(page.locator('.pitem').first()).toContainText(/Museo/);
+  await page.locator('#q-clear').click();
+  await page.locator('#q').fill('prado');
+  await expect(page.locator('.pitem[data-place="prado"]')).toBeVisible();
 });
 
 test('idioma: cambiar a inglés y que se recuerde', async ({ page }) => {

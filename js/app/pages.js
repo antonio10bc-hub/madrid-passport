@@ -7,6 +7,7 @@ import { placeItem, bindPlaceItems, render, goHome, TYPES } from './views.js';
 import { renderAccount } from './sync.js';
 import { track } from './analytics.js';
 import { notify } from './notify.js';
+import { setSheet } from './sheet.js';
 
 const page = $('#page'), pageBody = $('#page-body');
 
@@ -155,7 +156,7 @@ export function renderPage() {
   }));
   pageBody.querySelectorAll('[data-type]').forEach((el) => (el.onclick = () => {
     track('type_progress_tapped', { type: el.dataset.type });
-    S.typeFilter = el.dataset.type; S.query = ''; setTab('map'); goHome();
+    S.typeFilter = el.dataset.type; S.query = ''; setTab('map'); goHome(); setSheet('half');
   }));
   pageBody.querySelector('[data-barrios]')?.addEventListener('click', () => toast(t('barrio.hint')));
   bindPlaceItems(pageBody);
