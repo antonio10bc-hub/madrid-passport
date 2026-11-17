@@ -93,7 +93,7 @@ export async function initMap() {
   // Doble toque = zoom de MapLibre pisaba el re-centrado al volver a tocar un pin o el distrito abierto.
   map.doubleClickZoom.disable();
   map.addControl(new maplibregl.AttributionControl({ compact: true,
-    customAttribution: '© OpenStreetMap · OpenFreeMap · Ayto. Madrid · Wikipedia' }), 'top-left');
+    customAttribution: '© OpenStreetMap · OpenFreeMap · Ayto. Madrid · Wikipedia' }), 'bottom-right');
 
   await new Promise((r) => (map.loaded() ? r() : map.on('load', r)));
   addLayers();
