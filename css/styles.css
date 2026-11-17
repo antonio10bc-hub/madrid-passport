@@ -317,3 +317,12 @@ h1 { font-size: 28px; font-weight: 700; letter-spacing: -.02em; margin-top: 2px;
 .ico-s { width: 15px; height: 15px; vertical-align: -3px; margin-right: 5px; }
 .chip.on .ico { stroke: #fff; }
 .info-row .ico { color: var(--muted); width: 18px; height: 18px; }
+
+/* Scrollbar integrada: fina, redondeada, sin carril; más visible al pasar el ratón */
+#sheet-body, #page-body { scrollbar-width: thin; scrollbar-color: var(--handle) transparent; }
+#sheet-body::-webkit-scrollbar, #page-body::-webkit-scrollbar { width: 10px; }
+#sheet-body::-webkit-scrollbar-track, #page-body::-webkit-scrollbar-track { background: transparent; margin: 8px 0; }
+#sheet-body::-webkit-scrollbar-thumb, #page-body::-webkit-scrollbar-thumb {
+  background: var(--handle); border-radius: 10px; border: 3px solid transparent; background-clip: padding-box;
+}
+#sheet-body::-webkit-scrollbar-thumb:hover, #page-body::-webkit-scrollbar-thumb:hover { background-color: var(--muted); }
