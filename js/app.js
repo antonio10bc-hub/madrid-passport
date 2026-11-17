@@ -494,7 +494,7 @@
     if (!suggested || !myPos) return;
     const id = suggested.id;
     visits[id] = { ...(visits[id] || { t: Date.now() }), lvl: 2, gpsAt: Date.now(), gps: myPos.coords };
-    toast(`✓✓ ${suggested.name} confirmado`);
+    gpsStamp(suggested);
     commit();
     checkNearby(myPos);
   };
@@ -611,7 +611,7 @@
       ${list || '<div class="empty-state">Tu diario está vacío.<br>Marca tu primer lugar para empezar.</div>'}`;
   }
   // Logros como sellos de pasaporte (tinta con textura). Formas y giro fijos por logro.
-  const GOLD_BADGES = new Set(['gps-1', 'gps-10', 'madrid-entero', 'distrito-5']);
+  const GOLD_BADGES = new Set(['gps-1', 'gps-10']);   // el dorado significa siempre «verificado por GPS»
   // Atributos explícitos: el sello se usa como <img>, donde no llega el CSS de la app
   const inkIcon = (name, col, size, sw) => MP_ICON(name).replace('class="ico"', `width="${size}" height="${size}" fill="none" stroke="${col}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round"`);
   function stampSVG(b, i, n, goal, date) {
@@ -674,6 +674,7 @@
     tab = t;
     document.querySelectorAll('.tabbar button').forEach((b) => b.classList.toggle('on', b.dataset.tab === t));
     page.hidden = t === 'map';
+    $('#app').classList.toggle('on-page', t !== 'map');   // el aviso de cercanía solo en el mapa
     if (t !== 'map') { pageBody.scrollTop = 0; renderPage(); }
   }
   document.querySelectorAll('.tabbar button').forEach((b) => (b.onclick = () => {
@@ -797,6 +798,29 @@
     body.scrollTo({ top: row.offsetTop - body.clientHeight / 3, behavior: 'smooth' });
   }
 
+  // ---------- Sello de confirmación GPS (momento firma de la app) ----------
+  function gpsStamp(place) {
+    const gold = css('--gold'), d = new Date();
+    const when = `${d.getDate()} ${d.toLocaleDateString('es-ES', { month: 'short' }).replace('.', '').toUpperCase()} ${d.getFullYear()}`;
+    const ico = MP_ICON('pin').replace('class="ico"', `width="56" height="56" fill="none" stroke="${gold}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"`);
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 240 240" width="480" height="480">
+      <defs><filter id="ink"><feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="2" seed="${d.getSeconds()}" result="n"/>
+        <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.2 1.7" result="m"/><feComposite in="SourceGraphic" in2="m" operator="in"/></filter>
+        <path id="arc" d="M120 120 m-88 0 a88 88 0 1 1 176 0 a88 88 0 1 1 -176 0"/></defs>
+      <g filter="url(#ink)"><circle cx="120" cy="120" r="104" fill="none" stroke="${gold}" stroke-width="7"/><circle cx="120" cy="120" r="74" fill="none" stroke="${gold}" stroke-width="2.5"/>
+        <text font-family="-apple-system,system-ui,sans-serif" font-size="15" font-weight="800" letter-spacing="3.2" fill="${gold}"><textPath xlink:href="#arc">CONFIRMADO POR GPS · MADRID PASSPORT ·</textPath></text>
+        <g transform="translate(92 74)">${ico}</g>
+        <text x="120" y="160" text-anchor="middle" font-family="-apple-system,system-ui,sans-serif" font-size="14" font-weight="800" letter-spacing="2" fill="${gold}">${when}</text></g></svg>`;
+    const el = document.createElement('div');
+    el.className = 'gps-stamp';
+    el.innerHTML = `<img alt="" src="data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}"><p>${esc(place.name)}</p>`;
+    el.style.setProperty('--rot', `${(Math.random() * 16 - 8).toFixed(1)}deg`);
+    $('#app').appendChild(el);
+    navigator.vibrate?.([12, 40, 24]);
+    el.addEventListener('animationend', (e) => { if (e.animationName === 'stamp-out') el.remove(); });
+    setTimeout(() => el.remove(), 2600);   // por si no hay animaciones (movimiento reducido)
+  }
+
   // ---------- Checks ----------
   function commit() { checkBadges(); save(); render({ keepScroll: true }); }
   async function onCheck(el) {
@@ -813,7 +837,7 @@
         const d = dist(pos.coords, place.coords);
         if (d <= radiusFor(place, pos.acc)) {
           visits[id] = { ...visits[id], lvl: 2, gpsAt: Date.now(), gps: pos.coords };
-          toast('✓✓ Ubicación confirmada');
+          gpsStamp(place);
         } else toast(`Estás a ${fmtDist(d)} · acércate más`, true);
       } catch (e) { toast(debug ? e.message : 'No se pudo obtener tu ubicación', true); }
       el.classList.remove('loading');
