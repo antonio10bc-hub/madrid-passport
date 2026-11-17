@@ -12,7 +12,17 @@ export let map = null, ready = false;   // ready: estilo cargado y capas añadid
 let LABEL_ORDER = [];
 const FALLBACK_STYLE = () => ({ version: 8, sources: {}, layers: [{ id: 'bg', type: 'background', paint: { 'background-color': css('--map-bg') } }] });
 async function loadStyle() {
-  try { const r = await fetch(STYLE[isDark() ? 'dark' : 'light']); if (r.ok) return await r.json(); } catch {}
+  try {
+    const r = await fetch(STYLE[isDark() ? 'dark' : 'light']);
+    if (r.ok) {
+      const st = await r.json();
+      // Quita la etiqueta «Madrid» del mapa base: se solapaba con las de los distritos (Centro)
+      st.layers.forEach((l) => {
+        if (l['source-layer'] === 'place' && l.type === 'symbol') l.filter = ['all', l.filter ?? true, ['!=', ['get', 'name'], 'Madrid']];
+      });
+      return st;
+    }
+  } catch {}
   return FALLBACK_STYLE();
 }
 
