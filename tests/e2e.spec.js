@@ -108,6 +108,16 @@ test('subir de nivel', async ({ page }) => {
   await expect(page.locator('#lvl-card')).toContainText('Forastero');
 });
 
+test('panel plegado: el buscador no puede recibir el foco', async ({ page }) => {
+  await page.locator('#handle').click();                 // peek → plegado
+  await expect(page.locator('#sheet')).toHaveAttribute('data-state', 'min');
+  await expect(page.locator('#sheet-body')).toHaveJSProperty('inert', true);
+  await page.locator('#q').focus().catch(() => {});
+  expect(await page.evaluate(() => document.activeElement?.id)).not.toBe('q');
+  await page.locator('#handle').click();                 // y se puede volver a abrir
+  await expect(page.locator('#sheet-body')).toHaveJSProperty('inert', false);
+});
+
 test('buscador y filtro por tipo', async ({ page }) => {
   await page.locator('#q').fill('prado');
   await expect(page.locator('.pitem[data-place="prado"]')).toBeVisible();

@@ -11,6 +11,9 @@ const MIN_VIS = 28;                                   // plegado: solo se ve el 
 export const sheetVisible = (state = sheet.dataset.state) => ({ min: MIN_VIS, peek: 150, half: dims.sheet * 0.58, full: dims.sheet }[state]);
 export const setSheet = (state) => {
   sheet.dataset.state = state;
+  // Plegado: el contenido queda oculto tras el menú; que no reciba toques ni foco (en iOS abría el teclado del buscador)
+  body.inert = state === 'min';
+  if (state !== 'full' && body.contains(document.activeElement)) document.activeElement.blur();
   measure();
   $('#app').style.setProperty('--sheet-vis', (state === 'full' ? 0 : Math.min(sheetVisible(state), dims.app * 0.6)) + 'px');
 };
@@ -89,5 +92,7 @@ export function initSheet(onResize) {
   });
   // Un arrastre no debe acabar en "click" sobre una fila
   sheet.addEventListener('click', (e) => { if (sheet.dataset.justDragged) { e.stopPropagation(); e.preventDefault(); } }, true);
+  // iOS desplaza la página al abrir el teclado y a veces no la devuelve: al quitar el foco, volver arriba
+  document.addEventListener('focusout', () => setTimeout(() => { if (scrollY || document.scrollingElement?.scrollTop) scrollTo(0, 0); }, 60));
   setSheet('peek');
 }
