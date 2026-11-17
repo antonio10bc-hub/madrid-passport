@@ -267,9 +267,17 @@
     if (debug && fakePos) { showMe({ coords: fakePos, acc: 5 }); checkNearby(myPos); }
   }
 
+  // OJO: `padding` en flyTo/easeTo queda guardado en el mapa y se suma a los fitBounds siguientes
+  // (si no cabe, MapLibre no mueve la cámara). Para centrar un punto usamos `offset`, que no persiste.
+  const centerOffset = (state) => { const p = pad(state); return [(p.left - p.right) / 2, (p.top - p.bottom) / 2]; };
+  const fit = (bounds, opts) => {
+    const cur = map.getPadding();
+    if (cur.top || cur.bottom || cur.left || cur.right) map.setPadding({ top: 0, bottom: 0, left: 0, right: 0 });
+    map.fitBounds(bounds, opts);
+  };
   const fitCity = (animate = true) => {
     const b = DISTRICTS.reduce((a, d) => [Math.min(a[0], d.bbox[0]), Math.min(a[1], d.bbox[1]), Math.max(a[2], d.bbox[2]), Math.max(a[3], d.bbox[3])], [180, 90, -180, -90]);
-    map.fitBounds(b, { padding: pad('peek'), animate, duration: 700 });
+    fit(b, { padding: pad('peek'), animate, duration: 700 });
   };
 
   // Etiquetas sin solapes: prioridad a los distritos con más lugares
@@ -421,7 +429,7 @@
     try {
       const p = await getPos();
       onPosition(p); startWatch(); setFollow(!debug);
-      map.flyTo({ center: [p.coords[1], p.coords[0]], zoom: Math.max(map.getZoom(), 15.5), padding: pad(), duration: 800 });
+      map.flyTo({ center: [p.coords[1], p.coords[0]], zoom: Math.max(map.getZoom(), 15.5), offset: centerOffset(), duration: 800 });
     } catch { toast('No se pudo obtener tu ubicación', true); }
   };
   $('#debug-off').onclick = () => setDebug(false);
@@ -741,7 +749,7 @@
       <div class="info-row">${MP_ICON('clock')}<p>${esc(ACCESS[p.type] || 'Consulta horario')}</p></div>
       ${p.desc ? `<p class="desc">${esc(p.desc)}</p>` : ''}
       ${p.url ? `<a class="src" href="${esc(p.url)}" target="_blank" rel="noopener">Más información en Wikipedia ↗</a>` : ''}`;
-    $('#back').onclick = () => { selId = p.id; openDistrict(d.id, { keepMap: true }); };
+    $('#back').onclick = () => openDistrict(d.id, { refit: true });   // salir de la ficha deselecciona y re-centra el distrito
     bindChecks();
     enrich(p).then((ok) => { if (ok && view.type === 'place' && view.id === p.id) render({ keepScroll: true }); });
   }
@@ -766,7 +774,7 @@
     render();
     body.scrollTop = 0;
     const d = DISTRICTS.find((x) => x.id === id);
-    if (!keepMap) requestAnimationFrame(() => map.fitBounds(d.bbox, { padding: pad('half'), maxZoom: 16, duration: 800 }));
+    if (!keepMap) requestAnimationFrame(() => fit(d.bbox, { padding: pad('half'), maxZoom: 16, duration: 800 }));
     if (selId) { const r = document.getElementById('pl-' + selId); if (r) body.scrollTop = r.offsetTop - body.clientHeight / 3; }
   }
   function openPlace(id) {
@@ -774,7 +782,7 @@
     if (sheet.dataset.state === 'min' || sheet.dataset.state === 'peek') setSheet('half');
     render(); body.scrollTop = 0;
     const p = BYID[id];
-    requestAnimationFrame(() => map.flyTo({ center: ll(p), zoom: Math.max(map.getZoom(), 15.5), padding: pad(), duration: 700 }));
+    requestAnimationFrame(() => map.flyTo({ center: ll(p), zoom: Math.max(map.getZoom(), 15.5), offset: centerOffset(), duration: 700 }));
   }
   function goHome() {
     view = { type: 'home' }; selId = null; setSheet('peek'); render(); body.scrollTop = 0;
@@ -785,7 +793,7 @@
   function deselect(d) {
     selId = null;
     document.querySelectorAll('.pin.sel, .place.sel').forEach((x) => x.classList.remove('sel', 'flash'));
-    map.fitBounds(d.bbox, { padding: pad(), maxZoom: 16, duration: 700 });
+    fit(d.bbox, { padding: pad(), maxZoom: 16, duration: 700 });
   }
   function selectFromMap(id) {
     selId = id;
