@@ -118,6 +118,18 @@ test('panel plegado: el buscador no puede recibir el foco', async ({ page }) => 
   await expect(page.locator('#sheet-body')).toHaveJSProperty('inert', false);
 });
 
+test('tocar el asa (táctil) pliega y despliega sin abrir el teclado', async ({ page }) => {
+  const tapHandle = async () => { const b = await page.locator('#handle').boundingBox(); await page.touchscreen.tap(b.x + b.width / 2, b.y + b.height / 2); };
+  await page.waitForTimeout(600);                         // fin de la animación inicial del panel
+  await tapHandle();
+  await expect(page.locator('#sheet')).toHaveAttribute('data-state', 'min');
+  await page.waitForTimeout(500);
+  await tapHandle();
+  await expect(page.locator('#sheet')).toHaveAttribute('data-state', 'peek');
+  await page.waitForTimeout(500);
+  expect(await page.evaluate(() => document.activeElement?.id || '')).not.toBe('q');
+});
+
 test('buscador y filtro por tipo', async ({ page }) => {
   await page.locator('#q').fill('prado');
   await expect(page.locator('.pitem[data-place="prado"]')).toBeVisible();

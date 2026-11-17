@@ -54,8 +54,14 @@ function gMove(y, x, e) {
   sheet.style.transform = `translateY(${ny}px)`;
   g.last.push([performance.now(), y]); if (g.last.length > 5) g.last.shift();
 }
-function gEnd() {
+function gEnd(e) {
   if (!g) return;
+  // Tras un arrastre o un toque en el asa, iOS genera el clic donde estaba el dedo cuando el panel ya se ha movido
+  // (p. ej. sobre el buscador → teclado). Se anula: sin ratón/clic sintético y con un breve bloqueo.
+  if (g.dragging || g.fromHandle) {
+    if (e?.cancelable) e.preventDefault();
+    sheet.dataset.justDragged = '1'; clearTimeout(gEnd.t); gEnd.t = setTimeout(() => delete sheet.dataset.justDragged, 450);
+  }
   if (g.dragging) {
     const [t1, y1] = g.last[0], [t2, y2] = g.last[g.last.length - 1];
     const v = (y2 - y1) / Math.max(16, t2 - t1);              // px/ms (+ = hacia abajo)
@@ -65,7 +71,6 @@ function gEnd() {
     sheet.classList.remove('dragging');
     sheet.style.transform = '';
     setSheet(best);
-    sheet.dataset.justDragged = '1'; setTimeout(() => delete sheet.dataset.justDragged, 350);
   } else if (g.fromHandle) {
     setSheet(sheet.dataset.state === 'min' ? (S.view.type === 'home' ? 'peek' : 'half') : 'min');
   }
@@ -92,6 +97,7 @@ export function initSheet(onResize) {
   });
   // Un arrastre no debe acabar en "click" sobre una fila
   sheet.addEventListener('click', (e) => { if (sheet.dataset.justDragged) { e.stopPropagation(); e.preventDefault(); } }, true);
+  sheet.addEventListener('focusin', (e) => { if (sheet.dataset.justDragged) e.target.blur(); });
   // iOS desplaza la página al abrir el teclado y a veces no la devuelve: al quitar el foco, volver arriba
   document.addEventListener('focusout', () => setTimeout(() => { if (scrollY || document.scrollingElement?.scrollTop) scrollTo(0, 0); }, 60));
   setSheet('peek');
