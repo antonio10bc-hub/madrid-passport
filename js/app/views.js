@@ -75,7 +75,7 @@ function nearbyHTML() {
   let list = all.filter((x) => walkMin(x.d) <= NEAR_MIN).slice(0, 5), title = t('near.title', { n: NEAR_MIN });
   if (!list.length) { list = all.slice(0, 2); title = t('near.closest'); }
   if (!list.length) return '';
-  return `<section class="near"><div class="b-head"><h3 class="zone">${title}</h3></div>
+  return `<section class="near"><div class="b-head"><h3 class="zone">${MP_ICON('pin', 'ico ico-s')}${title}</h3></div>
     ${list.map(({ p, d }) => placeItem(p, ` · ${t('min_walk', { n: walkMin(d) })}`)).join('')}</section>`;
 }
 function bindHomeList() {
