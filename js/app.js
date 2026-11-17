@@ -66,10 +66,14 @@
   const ICON_GPS = '<svg viewBox="0 0 24 24"><path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0113 0c0 5-6.5 11-6.5 11z"/><path d="M9.5 10l2 2 3.5-3.5"/></svg>';
   const sheet = $('#sheet'), body = $('#sheet-body');
   const setSheet = (state) => { sheet.dataset.state = state; };
-  const pad = () => {
+  // Alto visible del sheet por estado (debe cuadrar con css/styles.css)
+  const sheetVisible = (state = sheet.dataset.state) => {
+    const h = sheet.offsetHeight;
+    return { min: 64, peek: 150, half: h * 0.58, full: h }[state];
+  };
+  const pad = (state) => {
     const h = $('#app').offsetHeight, top = $('.topbar').offsetHeight;
-    const sh = sheet.dataset.state === 'peek' ? 150 : sheet.offsetHeight;
-    return { top: top + 10, bottom: Math.min(sh + 16, h - top - 120), left: 24, right: 24 };
+    return { top: top + 16, bottom: Math.min(sheetVisible(state) + 20, h - top - 140), left: 28, right: 28 };
   };
 
   // ---------- Mapa ----------
@@ -118,9 +122,10 @@
       'line-color': ['case', ['boolean', ['feature-state', 'sel'], false], RED, '#B8B8C0'],
       'line-width': ['case', ['boolean', ['feature-state', 'sel'], false], 2.5, 1.2],
     }});
-    map.on('click', 'd-fill', (e) => {
-      const f = e.features[0];
-      if (!current || current.fid !== f.id) openDistrict(f.properties.id);
+    map.on('click', (e) => {
+      if (debug) return setFake([e.lngLat.lat, e.lngLat.lng]);
+      const f = map.queryRenderedFeatures(e.point, { layers: ['d-fill'] })[0];
+      if (f && (!current || current.fid !== f.id)) openDistrict(f.properties.id);
     });
     map.on('mouseenter', 'd-fill', () => (map.getCanvas().style.cursor = 'pointer'));
     map.on('mouseleave', 'd-fill', () => (map.getCanvas().style.cursor = ''));
@@ -129,7 +134,7 @@
       const el = document.createElement('button');
       el.className = 'd-label' + (d.places.length ? '' : ' empty');
       el.innerHTML = `<span>${d.short}</span>`;
-      el.onclick = (e) => { e.stopPropagation(); openDistrict(d.id); };
+      el.onclick = (e) => { e.stopPropagation(); if (!debug) openDistrict(d.id); };
       d.labelMarker = new maplibregl.Marker({ element: el }).setLngLat(d.label).addTo(map);
     });
     map.on('moveend', fitLabels);
@@ -137,20 +142,28 @@
     map.getContainer().querySelector('.maplibregl-ctrl-attrib')?.classList.remove('maplibregl-compact-show');
     fitCity(false);
     refresh();
+    if (debug && fakePos) showMe({ coords: fakePos, acc: 5 });
   }
 
-  // Encuadre inicial: Madrid sin el norte de El Pardo (casi todo monte), para que los distritos centrales se lean
-  const CITY_BOUNDS = [-3.775, 40.335, -3.555, 40.505];
-  const fitCity = (animate = true) => map.fitBounds(CITY_BOUNDS, { padding: pad(), animate, duration: 700 });
+  // Encuadre de toda la ciudad (21 distritos), centrado en el hueco visible entre cabecera y sheet
+  const fitCity = (animate = true) => {
+    const b = DISTRICTS.reduce((a, d) => [Math.min(a[0], d.bbox[0]), Math.min(a[1], d.bbox[1]), Math.max(a[2], d.bbox[2]), Math.max(a[3], d.bbox[3])], [180, 90, -180, -90]);
+    map.fitBounds(b, { padding: pad('peek'), animate, duration: 700 });
+  };
 
   // Oculta etiquetas que no caben en su distrito al zoom actual
+  // Etiquetas sin solapes: prioridad a los distritos con más lugares (Centro primero)
   function fitLabels() {
-    DISTRICTS.forEach((d) => {
+    const placed = [];
+    [...DISTRICTS].sort((x, y) => y.places.length - x.places.length).forEach((d) => {
       const el = d.labelMarker.getElement();
       if (current) { el.style.display = 'none'; return; }
       el.style.display = '';
-      const a = map.project([d.bbox[0], d.bbox[1]]), b = map.project([d.bbox[2], d.bbox[3]]);
-      el.style.visibility = Math.abs(b.x - a.x) * 0.9 >= el.offsetWidth ? 'visible' : 'hidden';
+      const c = map.project(d.label), w = el.offsetWidth / 2 + 3, h = el.offsetHeight / 2 + 2;
+      const r = [c.x - w, c.y - h, c.x + w, c.y + h];
+      const ok = !placed.some((q) => r[0] < q[2] && r[2] > q[0] && r[1] < q[3] && r[3] > q[1]);
+      el.style.visibility = ok ? 'visible' : 'hidden';
+      if (ok) placed.push(r);
     });
   }
 
@@ -172,14 +185,40 @@
     if (!current) return;
     current.places.forEach((p) => {
       const el = document.createElement('div');
-      el.className = `pin v${lvl(p.id)}`;
-      el.onclick = () => document.getElementById('pl-' + p.id)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const l = lvl(p.id);
+      el.className = `pin v${l}`;
+      el.innerHTML = l === 1 ? ICON_CHECK : l === 2 ? ICON_GPS : '';
+      el.onclick = (e) => {
+        if (debug) return;                      // en debug el tap va al mapa (fija GPS falso)
+        e.stopPropagation();
+        if (sheet.dataset.state === 'min') setSheet('half');
+        const row = document.getElementById('pl-' + p.id);
+        if (row) body.scrollTo({ top: row.offsetTop - body.clientHeight / 3, behavior: 'smooth' });
+      };
       markers.pins.push(new maplibregl.Marker({ element: el }).setLngLat([p.coords[1], p.coords[0]]).addTo(map));
     });
   }
 
   // ---------- Geolocalización ----------
+  // Modo debug: GPS falso. Se activa con ?debug=1 o manteniendo pulsado el botón de ubicación.
+  let debug = false, fakePos = null;
+  try { debug = new URLSearchParams(location.search).has('debug') || localStorage.getItem('mp.debug') === '1'; fakePos = JSON.parse(localStorage.getItem('mp.fake')); } catch {}
+  function setDebug(on) {
+    debug = on;
+    try { localStorage.setItem('mp.debug', on ? '1' : '0'); } catch {}
+    $('#debug').hidden = !on;
+    if (on) { toast('GPS falso activado · toca el mapa'); if (fakePos) showMe({ coords: fakePos, acc: 5 }); }
+    else toast('GPS falso desactivado');
+  }
+  function setFake(c) {
+    fakePos = c;
+    try { localStorage.setItem('mp.fake', JSON.stringify(c)); } catch {}
+    showMe({ coords: c, acc: 5 });
+    $('#debug-pos').textContent = `${c[0].toFixed(4)}, ${c[1].toFixed(4)}`;
+    if (current) renderDistrict();
+  }
   const getPos = () => new Promise((res, rej) => {
+    if (debug) return fakePos ? res({ coords: fakePos, acc: 5 }) : rej(new Error('Toca el mapa para fijar tu posición falsa'));
     if (!navigator.geolocation) return rej(new Error('GPS no disponible'));
     navigator.geolocation.getCurrentPosition(
       (p) => res({ coords: [p.coords.latitude, p.coords.longitude], acc: p.coords.accuracy }),
@@ -191,7 +230,13 @@
     if (markers.me) markers.me.setLngLat(ll);
     else { const el = document.createElement('div'); el.className = 'me'; markers.me = new maplibregl.Marker({ element: el }).setLngLat(ll).addTo(map); }
   }
+  let pressT, longPressed = false;
+  $('#locate').addEventListener('pointerdown', () => { longPressed = false; pressT = setTimeout(() => { longPressed = true; setDebug(!debug); }, 700); });
+  ['pointerup', 'pointerleave'].forEach((ev) => $('#locate').addEventListener(ev, () => clearTimeout(pressT)));
+  $('#debug-off').onclick = () => setDebug(false);
+  $('#debug-reset').onclick = () => { visits = {}; save(); refresh(); toast('Progreso borrado'); };
   $('#locate').onclick = async () => {
+    if (longPressed) return;
     try { const p = await getPos(); showMe(p); map.flyTo({ center: [p.coords[1], p.coords[0]], zoom: 15.5, duration: 800 }); }
     catch { toast('No se pudo obtener tu ubicación', true); }
   };
@@ -230,10 +275,7 @@
     setSheet('half');
     body.scrollTop = 0;
     refresh();
-    const b = current.places.length
-      ? current.places.reduce((a, p) => [Math.min(a[0], p.coords[1]), Math.min(a[1], p.coords[0]), Math.max(a[2], p.coords[1]), Math.max(a[3], p.coords[0])], [180, 90, -180, -90])
-      : current.bbox;
-    requestAnimationFrame(() => map.fitBounds(b, { padding: pad(), maxZoom: 16, duration: 800 }));
+    requestAnimationFrame(() => map.fitBounds(current.bbox, { padding: pad('half'), maxZoom: 16, duration: 800 }));
   }
 
   function goHome() {
@@ -265,7 +307,7 @@
         <div class="stat"><b>${pr.done}/${pr.total}</b><small>Visitados</small></div>
         <div class="stat"><b>${pr.gps}</b><small>Verificados GPS</small></div>
       </div>
-      <div class="legend"><span><i style="background:var(--red)"></i>He estado</span><span><i style="background:var(--ink)"></i>Verificado GPS</span></div>
+      <div class="legend"><span><i style="background:var(--red)"></i>He estado</span><span><i style="background:var(--gold)"></i>Verificado GPS</span></div>
       ${Object.entries(zones).map(([z, ps]) => `${z ? `<h3 class="zone">${z}</h3>` : ''}${ps.map(placeRow).join('')}`).join('')}`
       : '<div class="empty-state">Aún no hay lugares en este distrito.<br>Próximamente.</div>'}`;
     $('#back').onclick = goHome;
@@ -288,7 +330,7 @@
           visits[id] = { ...visits[id], lvl: 2, gpsAt: Date.now(), gps: pos.coords };
           toast('✓✓ Ubicación confirmada');
         } else toast(`Estás a ${fmtDist(d)} · acércate más`, true);
-      } catch { toast('No se pudo obtener tu ubicación', true); }
+      } catch (e) { toast(debug ? e.message : 'No se pudo obtener tu ubicación', true); }
       el.classList.remove('loading');
     }
     const st = body.scrollTop; save(); refresh(); body.scrollTop = st;
@@ -300,19 +342,24 @@
     if (map && DISTRICTS.length) { paintDistricts(); drawPins(); }
   }
 
-  // Sheet: peek (solo cabecera) / half / full
-  const ORDER = ['peek', 'half', 'full'];
-  let startY = null;
-  $('#handle').onclick = () => setSheet(sheet.dataset.state === 'peek' ? 'half' : 'peek');
-  sheet.addEventListener('touchstart', (e) => { if (body.scrollTop <= 0 || e.target.id === 'handle') startY = e.touches[0].clientY; }, { passive: true });
-  sheet.addEventListener('touchend', (e) => {
-    if (startY == null) return;
-    const dy = e.changedTouches[0].clientY - startY; startY = null;
-    const i = ORDER.indexOf(sheet.dataset.state);
-    if (dy > 60) setSheet(ORDER[Math.max(0, i - 1)]); else if (dy < -60) setSheet(ORDER[Math.min(2, i + 1)]);
+  // Sheet: min (casi oculto) / peek / half / full. Arrastre con dedo o ratón; tap en el asa pliega/despliega.
+  const ORDER = ['min', 'peek', 'half', 'full'];
+  let drag = null;
+  sheet.addEventListener('pointerdown', (e) => {
+    const onHandle = e.target.closest('#handle');
+    if (onHandle || (e.pointerType === 'touch' && body.scrollTop <= 0)) drag = { y: e.clientY, onHandle };
+  });
+  window.addEventListener('pointerup', (e) => {
+    if (!drag) return;
+    const dy = e.clientY - drag.y, i = ORDER.indexOf(sheet.dataset.state), wasHandle = drag.onHandle; drag = null;
+    if (dy > 50) setSheet(ORDER[Math.max(0, i - (dy > 220 ? 2 : 1))]);
+    else if (dy < -50) setSheet(ORDER[Math.min(3, i + (dy < -220 ? 2 : 1))]);
+    else if (wasHandle) setSheet(sheet.dataset.state === 'min' ? (current ? 'half' : 'peek') : 'min');
   });
 
   setSheet('peek');
+  $('#debug').hidden = !debug;
+  if (fakePos) $('#debug-pos').textContent = `${fakePos[0].toFixed(4)}, ${fakePos[1].toFixed(4)}`;
   renderRing();
   initMap().catch((e) => { console.error(e); toast('Error cargando el mapa', true); });
 })();
