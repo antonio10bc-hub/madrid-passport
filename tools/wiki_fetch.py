@@ -1,21 +1,26 @@
 """Enriquecer tools/places.tsv con Wikipedia (es) + Wikidata: coordenadas, foto, extracto y URL.
-Salida: tools/wiki.json. Uso: python3 tools/wiki_fetch.py
-Si un título no existe se busca el mejor resultado en Wikipedia (revisar 'title' en la salida)."""
-import csv, json, time, urllib.error, urllib.parse, urllib.request
+Salida: tools/wiki.json. Uso: python3 tools/wiki_fetch.py [--all]
+Incremental: solo pide los lugares que faltan en wiki.json (--all = todos). Añade el título en inglés (title_en)
+para mostrar la descripción en inglés. Si un título no existe se busca el mejor resultado (revisar 'title')."""
+import csv, json, os, sys, time, urllib.error, urllib.parse, urllib.request
 
-UA = 'madrid-passport-dev/0.1 (open-source app prototype)'
-rows = list(csv.DictReader(open('tools/places.tsv'), delimiter='\t'))
+UA = 'MadridPassportBot/0.2 (https://madrid-passport.vercel.app; build script de datos)'
+allrows = list(csv.DictReader(open('tools/places.tsv'), delimiter='\t'))
+prev = json.load(open('tools/wiki.json')) if os.path.exists('tools/wiki.json') and '--all' not in sys.argv else {}
+rows = [r for r in allrows if r['id'] not in prev]
+print(len(rows), 'lugares nuevos')
 
 
 def get(base, params):
     url = base + '?' + urllib.parse.urlencode({**params, 'format': 'json', 'formatversion': 2})
-    for wait in (0, 30, 60, 120, 240, 300, 300):
-        time.sleep(wait)
+    for attempt in range(12):
         try:
             return json.load(urllib.request.urlopen(urllib.request.Request(url, headers={'User-Agent': UA}), timeout=30))
         except urllib.error.HTTPError as e:
             if e.code != 429: raise
-            print('429, reintento…')
+            wait = max(int(e.headers.get('Retry-After') or 5), 5) * (1 + attempt // 3)
+            print(f'429, reintento en {wait}s…', flush=True)
+            time.sleep(wait)
     raise SystemExit('API sigue limitando (429)')
 
 
@@ -39,7 +44,9 @@ for i in range(0, len(titles), 50):
     time.sleep(3)
 for r in rows:
     if not exists.get(r['title']):
-        s = get(WP, {'action': 'query', 'list': 'search', 'srsearch': r['name'] + ' Madrid', 'srlimit': 1})['query']['search']
+        d = get(WP, {'action': 'query', 'list': 'search', 'srsearch': r['name'] + ' Madrid', 'srlimit': 1})
+        if 'query' not in d: print('búsqueda fallida', r['id'], d.get('error')); time.sleep(10)
+        s = d.get('query', {}).get('search', [])
         r['title'] = s[0]['title'] if s else None
         print(f"buscado {r['id']}: {r['wiki']!r} -> {r['title']!r}")
         time.sleep(3)
@@ -69,13 +76,28 @@ for i in range(0, len(qids), 50):
         wd[q] = {'lat': coord and coord['latitude'], 'lng': coord and coord['longitude'], 'p18': img}
     time.sleep(4)
 
-out = {}
+out = dict(prev)
 for r in rows:
     v = info.get(r['title'], {})
     w = wd.get(v.get('qid'), {})
     img = v.get('img') or (w.get('p18') and 'https://commons.wikimedia.org/wiki/Special:FilePath/' + urllib.parse.quote(w['p18'].replace(' ', '_')) + '?width=800')
     out[r['id']] = {'title': r['title'], 'qid': v.get('qid'), 'lat': w.get('lat') or v.get('lat'), 'lng': w.get('lng') or v.get('lng'),
                     'img': img, 'desc': v.get('desc'), 'url': v.get('url')}
+# 4) Título de la Wikipedia en inglés (langlinks) para los que no lo tengan
+need = sorted({v['title'] for v in out.values() if v.get('title') and 'title_en' not in v})
+en = {}
+for i in range(0, len(need), 50):
+    d = get(WP, {'action': 'query', 'titles': '|'.join(need[i:i+50]), 'redirects': 1, 'prop': 'langlinks', 'lllang': 'en', 'lllimit': 'max'})
+    m = {}
+    for k in ('normalized', 'redirects'):
+        for n in d['query'].get(k, []): m[n['to']] = n['from']
+    for p in d['query']['pages']:
+        t = (p.get('langlinks') or [{}])[0].get('title')
+        en[p['title']] = t
+        if p['title'] in m: en[m[p['title']]] = t
+    time.sleep(3)
+for v in out.values():
+    if v.get('title') in en: v['title_en'] = en[v['title']]
 json.dump(out, open('tools/wiki.json', 'w'), ensure_ascii=False, indent=1)
-print('total', len(out), '| sin coords:', [k for k, v in out.items() if v['lat'] is None],
+print('total', len(out), '| con inglés:', sum(1 for v in out.values() if v.get('title_en')), '| sin coords:', [k for k, v in out.items() if v['lat'] is None],
       '| sin foto:', [k for k, v in out.items() if not v['img']], '| sin desc:', [k for k, v in out.items() if not v['desc']])

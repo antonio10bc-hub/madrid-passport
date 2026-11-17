@@ -26,12 +26,12 @@ for r in rows:
     c = c or coords.get(r['id']) or (w.get('lat') and [round(w['lat'], 5), round(w['lng'], 5)]) or old.get(r['id'], {}).get('coords')
     if not c: print('SIN COORDS:', r['id']); continue
     out.append({'id': r['id'], 'zone': r['zone'], 'name': r['name'], 'type': r['type'], 'coords': c, 'wiki': r['wiki'], 'district': override.get(r['id']),
-                'img': w.get('img'), 'desc': w.get('desc'), 'url': w.get('url')})
+                'img': w.get('img'), 'desc': w.get('desc'), 'url': w.get('url'), 'wiki_en': w.get('title_en')})
     seen.add(r['id'])
 for k, v in old.items():                                             # lugares antiguos sin entrada en el TSV
     if k not in seen: out.append({'id': k, **v, 'wiki': None})
 js = ["// Generado por tools/build_data.py — editar tools/places.tsv / tools/coords.json y regenerar.",
-      "// wiki = título de Wikipedia (es) para foto y descripción (se piden en el navegador). coords = [lat, lng].",
+      "// wiki = título de Wikipedia (es) para foto y descripción; wiki_en = título en inglés (descripción en inglés, se pide en el navegador). coords = [lat, lng].",
       "window.PLACES = ["]
 for p in out:
     js.append('  ' + json.dumps({k: v for k, v in p.items() if v not in ('', None)}, ensure_ascii=False) + ',')
