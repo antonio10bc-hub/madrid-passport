@@ -586,13 +586,17 @@ button, a, input, .place, .row, .pitem { touch-action: manipulation; }
 .opt-row button b { font-weight: 600; opacity: .7; margin-left: 2px; }
 .opt-row button.on { color: var(--red); background: rgba(var(--red-a),.09); }
 .opt-row button:active { transform: scale(.96); }
-.next-row { width: 100%; display: flex; align-items: center; gap: 12px; text-align: left; padding: 10px 12px; margin-bottom: 8px; border-radius: 14px;
-  background: var(--bg-2); }
-.next-ico { width: 36px; height: 36px; border-radius: 10px; flex: none; display: grid; place-items: center; background: var(--bg); color: var(--red); }
+.next { margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--line); }
+.next-h { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; display: flex; align-items: center; }
+.next-h .ico { color: var(--muted); }
+.next-row { width: 100%; display: flex; align-items: center; gap: 12px; text-align: left; padding: 12px; border-radius: 16px;
+  background: var(--bg); border: 1.5px dashed rgba(var(--red-a),.45); }
+.next-ico { width: 40px; height: 40px; border-radius: 12px; flex: none; display: grid; place-items: center; background: rgba(var(--red-a),.08); color: var(--red); }
 .next-txt { flex: 1; min-width: 0; display: flex; flex-direction: column; }
 .next-txt b { font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .next-txt small { font-size: 12px; color: var(--muted); }
-.next-txt small:first-child { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--red); }
+.next-go { width: 34px; height: 34px; border-radius: 50%; flex: none; display: grid; place-items: center; background: var(--red); }
+.next-go svg { width: 18px; height: 18px; fill: none; stroke: #fff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
 .next-row:active { transform: scale(.98); }
 .share-menu .ico { color: var(--red); }
 .lvl-rank { display: flex; align-items: center; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line); font-size: 13px; font-weight: 600; }

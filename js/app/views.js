@@ -197,8 +197,11 @@ const nextOf = (p) => PLACES.filter((x) => x.id !== p.id && lvl(x.id) === 0).map
 function nextHTML(p) {
   const n = nextOf(p);
   if (!n || n.d > 3000) return '';
-  return `<button class="next-row" data-next="${n.x.id}"><span class="next-ico">${MP_ICON(n.x.type, 'ico')}</span>
-    <span class="next-txt"><small>${t('next.title')}</small><b>${esc(n.x.name)}</b><small>${esc(typeName(n.x.type))} · ${fmtDist(n.d)} · ${t('min_walk', { n: walkMin(n.d) })}</small></span><span class="chev"></span></button>`;
+  // Separada del resto de la ficha: es otro lugar (sugerencia para seguir), no información de este
+  return `<section class="next"><h3 class="next-h">${MP_ICON('route', 'ico ico-s')}${t('next.title')}</h3>
+    <button class="next-row" data-next="${n.x.id}"><span class="next-ico">${MP_ICON(n.x.type, 'ico')}</span>
+    <span class="next-txt"><b>${esc(n.x.name)}</b><small>${esc(typeName(n.x.type))} · ${fmtDist(n.d)} · ${t('min_walk', { n: walkMin(n.d) })}</small></span>
+    <span class="next-go"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></button></section>`;
 }
 const ACCESS_KEYS = ['Plaza', 'Calle', 'Barrio', 'Parque', 'Gastronomía', 'Mercado', 'Museo', 'Monumento', 'Iglesia', 'Cultura', 'Estadio', 'Mirador', 'Teatro'];
 function renderPlace() {
@@ -229,10 +232,10 @@ function renderPlace() {
         <svg viewBox="0 0 24 24"><path d="M3 11l18-8-8 18-2-8-8-2z"/></svg>${t('directions')}</a>
       <a class="cta alt" data-nav="transit" href="${nav('transit')}" target="_blank" rel="noopener" aria-label="${esc(t('dir.transit'))}">
         <svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 11h14M8.5 17l-2 4M15.5 17l2 4M9 14h.01M15 14h.01"/></svg>${t('dir.transit')}</a></div>
-    ${nextHTML(p)}
     ${mt ? `<div class="info-row metro"><span class="m-logo">M</span><p><b>${esc(mt.name)}</b> ${mt.lines.map(lineBadge).join('')}<br><small>${t('metro.at', { d: fmtDist(mt.d), min: mt.min })}</small></p></div>` : ''}
     <div class="info-row">${MP_ICON('clock')}<p>${esc(t('access.' + (ACCESS_KEYS.includes(p.type) ? p.type : 'x')))}</p></div>
-    ${desc ? `<p class="desc">${esc(desc)}</p><p class="src">${t(en || lang === 'es' ? 'src' : 'src.es')}</p>` : ''}`;
+    ${desc ? `<p class="desc">${esc(desc)}</p><p class="src">${t(en || lang === 'es' ? 'src' : 'src.es')}</p>` : ''}
+    ${nextHTML(p)}`;
   const newHero = body.querySelector('.hero');
   if (oldHero && oldHero.dataset.img === newHero.dataset.img) newHero.replaceWith(oldHero);
   $('#back').onclick = () => openDistrict(d.id, { refit: true });   // salir de la ficha deselecciona y re-centra el distrito
