@@ -100,10 +100,21 @@ test('logros: nivel arriba, puntos y progreso por tipo', async ({ page }) => {
   await expect(page.locator('.chip.on[data-t="Museo"]')).toBeVisible();
 });
 
+test('logro desbloqueado: aviso desde arriba que lleva a Logros', async ({ page }) => {
+  await openCentro(page);
+  await markVisited(page, 'plaza-mayor');
+  const n = page.locator('.notif.in');
+  await expect(n).toContainText('Logro desbloqueado');
+  await expect(n).toContainText('Primer sello');
+  await n.click();
+  await expect(page.locator('#page-title')).toHaveText('Logros');
+  await expect(page.locator('.notif')).toHaveCount(0, { timeout: 2000 });
+});
+
 test('subir de nivel', async ({ page }) => {
   await openCentro(page);
   for (const id of ['plaza-mayor', 'san-miguel', 'puerta-sol']) await markVisited(page, id);
-  await expect(page.locator('#toast')).toContainText(/nivel|Logro/);
+  await expect(page.locator('.notif').first()).toBeVisible();                 // aviso desde arriba
   await page.locator('[data-tab="badges"]').click();
   await expect(page.locator('#lvl-card')).toContainText('Forastero');
 });

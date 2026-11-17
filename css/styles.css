@@ -498,3 +498,19 @@ button, a, input, .place, .row, .pitem { touch-action: manipulation; }
 .lang-row .ico { width: 18px; height: 18px; }
 .lang-seg { margin-left: auto; display: flex; gap: 6px; }
 .lang-seg .chip { min-height: 36px; }
+
+/* ---------- Avisos desde arriba (logros, nivel) ---------- */
+.notif { position: absolute; z-index: 30; left: 10px; right: 10px; top: calc(var(--top) + 4px); display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px; border-radius: 20px; background: rgba(var(--bg-a),.94); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+  box-shadow: var(--elev-2), 0 0 0 1px var(--line); cursor: pointer;
+  transform: translateY(calc(-100% - var(--top) - 12px)); transition: transform .42s var(--ease-drawer); }
+.notif.in { transform: translateY(0); }
+.nt-ico { width: 40px; height: 40px; border-radius: 12px; flex: none; display: grid; place-items: center; background: var(--red); color: #fff; }
+.notif.gold .nt-ico { background: var(--gold); }
+.nt-ico .ico { width: 22px; height: 22px; stroke-width: 2; }
+.nt-txt { min-width: 0; display: flex; flex-direction: column; }
+.nt-txt small { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--red); }
+.notif.gold .nt-txt small { color: var(--gold); }
+.nt-txt b { font-size: 15px; line-height: 1.25; }
+.nt-txt span { font-size: 13px; color: var(--muted); line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+@media (prefers-reduced-motion: reduce) { .notif { transition: opacity .2s; transform: none; opacity: 0; } .notif.in { opacity: 1; } }

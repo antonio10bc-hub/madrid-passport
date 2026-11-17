@@ -8,6 +8,7 @@ import { getPos, onPosition, radiusFor, gpsStamp, confirmGps, checkNearby } from
 import { enrich } from './wiki.js';
 import { renderPage, setTab, checkBadges, levelState } from './pages.js';
 import { track, setPerson } from './analytics.js';
+import { notify } from './notify.js';
 
 const TI = (ty) => MP_ICON(ty);
 const TYPE_COUNT = PLACES.reduce((m, p) => ((m[p.type] = (m[p.type] || 0) + 1), m), {});
@@ -232,7 +233,8 @@ export function commit() {
   checkBadges();
   const ls = levelState();
   if (lastLevel != null && ls.lv.i > lastLevel) {
-    setTimeout(() => toast(t('level.up', { name: t('lvl.' + ls.lv.cur.id) })), 1800);
+    notify({ icon: 'crown', kicker: t('level.kicker', { n: ls.lv.i + 1 }), title: t('level.up', { name: t('lvl.' + ls.lv.cur.id) }), text: t('level.pts', { n: ls.pts.total }),
+      onTap: () => setTab('badges') });
     track('level_up', { level: ls.lv.cur.id, index: ls.lv.i, points: ls.pts.total });
   }
   lastLevel = ls.lv.i;

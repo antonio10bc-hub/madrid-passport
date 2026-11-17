@@ -33,7 +33,7 @@ y con `?notrack` (o `localStorage['mp.noTrack']='1'`). Sin emails ni nombres: al
 Todos los eventos llevan `app=madrid-passport` (el proyecto de PostHog se comparte con otra app). Eventos propios:
 `app_opened`, `district_opened`, `place_opened`, `pin_tapped`, `place_checked`, `place_unchecked`, `gps_check_attempt`,
 `gps_confirmed`, `gps_too_far`, `gps_error`, `suggestion_shown`, `suggestion_dismissed`, `barrio_discovered`,
-`badge_unlocked`, `level_up`, `search`, `type_filter`, `status_filter`, `tab_viewed`, `type_progress_tapped`, `barrio_unmarked`,
+`badge_unlocked`, `badge_notif_tapped`, `level_up`, `search`, `type_filter`, `status_filter`, `tab_viewed`, `type_progress_tapped`, `barrio_unmarked`,
 `share_opened`, `share_done`, `share_error`, `directions_clicked`, `locate`, `language_changed`, `login_clicked`, `logout`,
 `sync_error`, `app_installed`, `js_error`; además páginas vistas, autocaptura de clics, web vitals y grabación de sesiones
 (si está activada en el proyecto). Dashboard: «Madrid Passport · Uso».

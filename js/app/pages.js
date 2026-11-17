@@ -6,6 +6,7 @@ import { points, levelOf, LEVELS } from './level.js';
 import { placeItem, bindPlaceItems, render, goHome, TYPES } from './views.js';
 import { renderAccount } from './sync.js';
 import { track } from './analytics.js';
+import { notify } from './notify.js';
 
 const page = $('#page'), pageBody = $('#page-body');
 
@@ -23,7 +24,10 @@ export function checkBadges() {
   const fresh = MP_BADGES.filter((b) => after[b.id] && !before[b.id]);
   S.badges = after;
   fresh.forEach((b) => track('badge_unlocked', { badge: b.id }));
-  if (fresh.length) setTimeout(() => toast(t('badge.new', { name: badgeName(fresh[0]) }) + (fresh.length > 1 ? ` (+${fresh.length - 1})` : '')), 900);
+  fresh.forEach((b) => setTimeout(() => notify({
+    icon: b.icon, kicker: t('badge.kicker'), title: badgeName(b), text: badgeDesc(b), gold: GOLD_BADGES.has(b.id),
+    onTap: () => { track('badge_notif_tapped', { badge: b.id }); setTab('badges'); },
+  }), 900));
 }
 export const levelState = () => {
   const pts = points({ places: PLACES, districts: DISTRICTS, barrios: BARRIOS, lvl, blvl, badges: S.badges });
