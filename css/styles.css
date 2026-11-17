@@ -65,9 +65,9 @@ a { color: inherit; text-decoration: none; }
 /* ---------- Top bar ---------- */
 .topbar {
   position: absolute; z-index: 5; top: 0; left: 0; right: 0;
-  padding: calc(var(--top) + 6px) 20px 14px;
+  padding: calc(var(--top) + 6px) 20px 26px;
   display: flex; justify-content: space-between; align-items: flex-end;
-  background: linear-gradient(var(--bg) 72%, rgba(var(--bg-a),0));
+  background: linear-gradient(var(--bg) 78%, rgba(var(--bg-a),0));
   pointer-events: none;
 }
 .topbar > * { pointer-events: auto; }
@@ -83,8 +83,8 @@ h1 { font-size: 28px; font-weight: 700; letter-spacing: -.02em; margin-top: 2px;
 
 /* ---------- Mapa ---------- */
 #map { position: absolute; inset: 0; background: var(--map-bg); }
-.maplibregl-ctrl-top-left { top: calc(var(--top) + 54px); }
-.maplibregl-ctrl-attrib.maplibregl-compact { margin: 0 0 0 14px !important; background: rgba(var(--bg-a),.85); color: var(--ink); font-size: 10px; }
+.maplibregl-ctrl-top-left { top: calc(var(--top) + 90px); }
+.maplibregl-ctrl-attrib.maplibregl-compact { margin: 0 0 0 18px !important; background: rgba(var(--bg-a),.85); color: var(--ink); font-size: 10px; }
 .maplibregl-ctrl-attrib a { color: var(--ink); }
 .d-label { pointer-events: auto; }
 .d-label span {
@@ -109,17 +109,17 @@ h1 { font-size: 28px; font-weight: 700; letter-spacing: -.02em; margin-top: 2px;
 
 /* Botones flotantes */
 .locate {
-  position: absolute; z-index: 5; right: 16px; top: calc(var(--top) + 50px);
+  position: absolute; z-index: 5; right: 21px; top: calc(var(--top) + 82px);
   width: 44px; height: 44px; border-radius: 14px; background: var(--bg);
   box-shadow: var(--elev-2); display: grid; place-items: center;
 }
 .locate svg { width: 22px; height: 22px; fill: none; stroke: var(--ink); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .locate.active { background: #2F7BF6; }
 .locate.active svg { stroke: #fff; }
-.locate.share { top: calc(var(--top) + 102px); }
+.locate.share { top: calc(var(--top) + 134px); }
 .locate.loading svg { animation: pulse 1s infinite; }
 .share-menu {
-  position: absolute; z-index: 9; right: 16px; top: calc(var(--top) + 154px); width: 230px;
+  position: absolute; z-index: 9; right: 21px; top: calc(var(--top) + 186px); width: 230px;
   background: var(--bg); border-radius: 18px; box-shadow: var(--elev-2); padding: 6px; animation: pop .18s var(--ease-out); transform-origin: top right;
 }
 .share-menu p { font-size: 12px; color: var(--muted); padding: 8px 10px 4px; }
@@ -276,7 +276,7 @@ h1 { font-size: 28px; font-weight: 700; letter-spacing: -.02em; margin-top: 2px;
 
 /* ---------- Toast ---------- */
 .toast {
-  position: absolute; z-index: 9; left: 50%; top: calc(var(--top) + 88px);
+  position: absolute; z-index: 9; left: 50%; top: calc(var(--top) + 84px);
   transform: translate(-50%, -12px); opacity: 0; pointer-events: none;
   background: var(--toast); color: var(--toast-ink); padding: 10px 16px; border-radius: 14px;
   font-size: 14px; font-weight: 500; white-space: nowrap; transition: opacity .2s var(--ease-out), transform .25s var(--ease-out); box-shadow: var(--elev-2); max-width: calc(100% - 32px); overflow: hidden; text-overflow: ellipsis;
@@ -286,7 +286,7 @@ h1 { font-size: 28px; font-weight: 700; letter-spacing: -.02em; margin-top: 2px;
 
 /* ---------- Debug GPS falso ---------- */
 .debug {
-  position: absolute; z-index: 5; left: 44px; right: 68px; top: calc(var(--top) + 42px);
+  position: absolute; z-index: 5; left: 50px; right: 74px; top: calc(var(--top) + 84px);
   display: flex; align-items: center; gap: 8px; padding: 6px 6px 6px 10px; border-radius: 12px;
   background: rgba(17,17,20,.9); color: #fff;
 }

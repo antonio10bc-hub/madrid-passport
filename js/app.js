@@ -259,7 +259,9 @@
     });
     LABEL_ORDER = [...DISTRICTS].sort((x, y) => y.places.length - x.places.length);
     map.on('moveend', fitLabels);
-    map.getContainer().querySelector('.maplibregl-ctrl-attrib')?.classList.remove('maplibregl-compact-show');
+    // Créditos plegados (ⓘ): MapLibre los despliega al cargar el estilo, así que se pliegan también al quedar inactivo
+    const foldAttrib = () => map.getContainer().querySelector('.maplibregl-ctrl-attrib')?.classList.remove('maplibregl-compact-show');
+    foldAttrib(); map.once('idle', foldAttrib);
 
     // Modo oscuro: cambia estilo del mapa y recrea capas
     matchMedia('(prefers-color-scheme: dark)').addEventListener('change', async () => {
