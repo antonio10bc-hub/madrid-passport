@@ -83,10 +83,10 @@ h1 { font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -.02e
 
 /* ---------- Mapa ---------- */
 #map { position: absolute; inset: 0; background: var(--map-bg); }
-/* Créditos del mapa (ⓘ): pequeños, abajo a la derecha, pegados al borde del panel (suben y bajan con él) */
-.maplibregl-ctrl-bottom-right { bottom: calc(var(--sheet-vis) + var(--tabbar) + 4px); transition: bottom .35s var(--ease-drawer); }
-#app.on-page .maplibregl-ctrl-bottom-right { display: none; }
-.maplibregl-ctrl-attrib.maplibregl-compact { margin: 0 8px 0 0 !important; opacity: .55; transform: scale(.85); transform-origin: right bottom; background: rgba(var(--bg-a),.85); color: var(--ink); font-size: 10px; }
+/* Créditos del mapa (ⓘ): pequeños, debajo del botón compartir y centrados con él */
+.maplibregl-ctrl-top-right { top: calc(var(--top) + 186px); right: 15px; width: 44px; display: flex; justify-content: flex-end; }
+#app.on-page .maplibregl-ctrl-top-right { display: none; }
+.maplibregl-ctrl-attrib.maplibregl-compact { margin: 0 10px 0 0 !important; opacity: .55; transform: scale(.85); transform-origin: right top; background: rgba(var(--bg-a),.85); color: var(--ink); font-size: 10px; }
 .maplibregl-ctrl-attrib a { color: var(--ink); }
 .d-label { pointer-events: auto; }
 .d-label span {
