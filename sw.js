@@ -1,10 +1,10 @@
 // Service worker: app instalable y uso sin conexión.
 // - App (HTML/CSS/JS/datos): red primero, caché como respaldo → las actualizaciones llegan al momento.
 // - Mapa (tiles OpenFreeMap) e imágenes (Wikimedia): caché primero y se refresca en segundo plano.
-const VERSION = 'mp-v1';
+const VERSION = 'mp-v2';
 const SHELL = [
   './', 'index.html', 'manifest.webmanifest', 'css/styles.css',
-  'js/data.js', 'js/badges.js', 'js/share.js', 'js/app.js',
+  'js/data.js', 'js/icons.js', 'js/badges.js', 'js/share.js', 'js/app.js',
   'data/distritos.geojson', 'data/barrios.geojson',
   'vendor/maplibre/maplibre-gl.js', 'vendor/maplibre/maplibre-gl.css',
   'icons/icon-192.png', 'icons/icon-512.png',

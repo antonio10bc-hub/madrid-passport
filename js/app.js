@@ -13,7 +13,7 @@
     Cultura: 'Consulta programación, horario y precio', Estadio: 'Tour y partidos: consulta en la web oficial',
     Mirador: 'Consulta horario y precio',
   };
-  const TYPE_ICON = { Plaza: '⛲', Calle: '🚶', Barrio: '🏘️', Parque: '🌳', Gastronomía: '☕', Mercado: '🧺', Museo: '🖼️', Monumento: '🏛️', Iglesia: '⛪', Cultura: '🎭', Estadio: '🏟️', Mirador: '🌇' };
+  const TI = (t) => MP_ICON(t);             // icono vectorial por tipo (js/icons.js)
   const TYPE_PLURAL = { Museo: 'Museos', Parque: 'Parques', Mercado: 'Mercados', Plaza: 'Plazas', Monumento: 'Monumentos', Iglesia: 'Iglesias', Mirador: 'Miradores', Cultura: 'Cultura', Estadio: 'Estadios', Barrio: 'Barrios', Calle: 'Calles', Gastronomía: 'Gastronomía' };
 
   const $ = (s) => document.querySelector(s);
@@ -37,7 +37,7 @@
   const districtOf = {};                  // placeId -> distrito
   // Vista actual: home | district | place
   let view = { type: 'home' };
-  let homeTab = 'distritos', query = '', typeFilter = null, statusFilter = 'all';
+  let query = '', typeFilter = null, statusFilter = 'all';
   let selId = null, myPos = null;
   const currentDistrict = () => (view.type === 'district' ? DISTRICTS.find((d) => d.id === view.id) : view.type === 'place' ? districtOf[view.id] : null);
 
@@ -102,7 +102,8 @@
   };
   const pad = (state) => {
     const h = $('#app').offsetHeight, top = $('.topbar').offsetHeight;
-    return { top: top + 16, bottom: Math.min(sheetVisible(state) + 20, h - top - 140), left: 28, right: 28 };
+    const tb = $('.tabbar').offsetHeight;
+    return { top: top + 16, bottom: Math.min(sheetVisible(state) + tb + 20, h - top - 140), left: 28, right: 28 };
   };
 
   // ---------- Mapa ----------
@@ -248,7 +249,9 @@
       wrap.onclick = (e) => {
         if (placing) return;
         e.stopPropagation();
-        if (view.type === 'place') return openPlace(p.id);
+        const d = districtOf[p.id];
+        if (view.type === 'place') return view.id === p.id ? openDistrict(d.id, { refit: true }) : openPlace(p.id);
+        if (selId === p.id) return deselect(d);                 // 2º tap: deseleccionar y centrar distrito
         if (sheet.dataset.state === 'min') setSheet('half');
         selectFromMap(p.id);
       };
@@ -415,7 +418,7 @@
     const before = badgesUnlocked, after = unlockedNow(false);
     const fresh = MP_BADGES.filter((b) => after[b.id] && !before[b.id]);
     badgesUnlocked = after;
-    if (fresh.length) setTimeout(() => toast(`${fresh[0].icon} Logro: ${fresh[0].name}${fresh.length > 1 ? ` (+${fresh.length - 1})` : ''}`), 900);
+    if (fresh.length) setTimeout(() => toast(`Logro desbloqueado: ${fresh[0].name}${fresh.length > 1 ? ` (+${fresh.length - 1})` : ''}`), 900);
   }
 
   // ---------- Vistas ----------
@@ -428,14 +431,14 @@
 
   const typeChips = () => {
     const types = [...new Set(PLACES.map((p) => p.type))].sort((a, b) => PLACES.filter((p) => p.type === b).length - PLACES.filter((p) => p.type === a).length);
-    return `<div class="chips" id="type-chips">${types.map((t) => `<button class="chip ${typeFilter === t ? 'on' : ''}" data-t="${esc(t)}">${TYPE_ICON[t] || ''} ${esc(TYPE_PLURAL[t] || t)}</button>`).join('')}</div>`;
+    return `<div class="chips" id="type-chips">${types.map((t) => `<button class="chip ${typeFilter === t ? 'on' : ''}" data-t="${esc(t)}">${MP_ICON(t, 'ico ico-s')}${esc(TYPE_PLURAL[t] || t)}</button>`).join('')}</div>`;
   };
 
   function placeItem(p, extra = '') {
     const l = lvl(p.id), d = districtOf[p.id];
     const dd = myPos ? ` · ${fmtDist(dist(myPos.coords, p.coords))}` : '';
     return `<button class="pitem" data-place="${p.id}">
-      <span class="pthumb t-${l}">${l === 1 ? ICON_CHECK : l === 2 ? ICON_GPS : TYPE_ICON[p.type] || ''}</span>
+      <span class="pthumb t-${l}">${l === 1 ? ICON_CHECK : l === 2 ? ICON_GPS : TI(p.type)}</span>
       <span class="p-info"><strong>${esc(p.name)}</strong><small>${esc(p.type)} · ${esc(d?.name || '')}${dd}${extra}</small></span>
       <span class="chev"></span></button>`;
   }
@@ -444,16 +447,16 @@
     $('#title').textContent = 'Explora Madrid';
     const pr = progress(PLACES);
     const searching = query.trim() || typeFilter;
-    let content = '';
+    let content;
     if (searching) {
       const q = norm(query.trim());
       const res = PLACES.filter((p) => (!typeFilter || p.type === typeFilter) &&
         (!q || norm(`${p.name} ${p.zone || ''} ${p.type} ${districtOf[p.id]?.name || ''}`).includes(q)));
       content = `<div class="sec-sub">${res.length} resultado${res.length === 1 ? '' : 's'}</div>
         ${res.map((p) => placeItem(p)).join('') || '<div class="empty-state">Sin resultados</div>'}`;
-    } else if (homeTab === 'distritos') {
+    } else {
       const list = [...DISTRICTS].sort((a, b) => b.places.length - a.places.length);
-      content = list.map((d) => {
+      content = `<div class="sec-title"><h2>Distritos</h2><span>${pr.done}/${pr.total} lugares</span></div>` + list.map((d) => {
         const p = progress(d.places);
         const ini = d.name.replace(/-.*/, '').split(' ').filter((w) => w.length > 2).map((w) => w[0]).join('').slice(0, 2);
         return `<button class="row ${p.total && p.done === p.total ? 'done' : ''}" data-id="${d.id}">
@@ -463,47 +466,70 @@
           <span class="r-count">${p.done}/${p.total}</span><span class="chev"></span>
         </button>`;
       }).join('');
-    } else if (homeTab === 'diario') {
-      const items = Object.entries(visits).filter(([id]) => BYID[id]).map(([id, v]) => ({ p: BYID[id], v, t: v.gpsAt || v.t || 0 })).sort((a, b) => b.t - a.t);
-      if (!items.length) content = '<div class="empty-state">Tu diario está vacío.<br>Marca tu primer lugar para empezar.</div>';
-      else {
-        let lastDay = '';
-        content = items.map(({ p, v, t }) => {
-          const day = t ? dayLabel(t) : 'Sin fecha';
-          const head = day !== lastDay ? `<h3 class="zone">${esc(day)}</h3>` : '';
-          lastDay = day;
-          return head + placeItem(p, t ? ` · ${fmtTime(t)}${v.lvl === 2 ? ' · GPS' : ''}` : '');
-        }).join('');
-      }
-    } else {
-      const s = badgeState();
-      const got = MP_BADGES.filter((b) => badgesUnlocked[b.id]).length;
-      content = `<div class="sec-sub">${got}/${MP_BADGES.length} conseguidos</div><div class="badges">${MP_BADGES.map((b) => {
-        const [n, goal] = b.test(s), on = !!badgesUnlocked[b.id];
-        return `<div class="bdg ${on ? 'on' : ''}"><span class="bi">${b.icon}</span><strong>${esc(b.name)}</strong>
-          <small>${on ? 'Conseguido ' + fmtDate(badgesUnlocked[b.id]) : esc(b.desc)}</small>
-          ${on ? '' : `<div class="bar"><i style="width:${goal ? Math.min(100, (n / goal) * 100) : 0}%"></i></div><small class="bn">${Math.min(n, goal)}/${goal}</small>`}</div>`;
-      }).join('')}</div>`;
     }
     body.innerHTML = `
       <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
         <input id="q" type="search" placeholder="Buscar lugares, barrios…" value="${esc(query)}" autocomplete="off">
         ${searching ? '<button id="q-clear" aria-label="Limpiar">✕</button>' : ''}</div>
       ${typeChips()}
-      ${searching ? '' : `<div class="tabs">
-        ${[['distritos', 'Distritos'], ['diario', 'Diario'], ['logros', 'Logros']].map(([k, t]) => `<button class="tab ${homeTab === k ? 'on' : ''}" data-tab="${k}">${t}</button>`).join('')}
-        <span class="tabs-meta">${pr.done}/${pr.total}</span></div>`}
       <div id="home-list">${content}</div>`;
     const q = $('#q');
     q.oninput = () => { query = q.value; const pos = q.selectionStart; render({ keepScroll: true }); const nq = $('#q'); nq.focus(); nq.setSelectionRange(pos, pos); };
     q.onfocus = () => { if (sheet.dataset.state !== 'full') setSheet('full'); };
     $('#q-clear')?.addEventListener('click', () => { query = ''; typeFilter = null; render(); });
     body.querySelectorAll('[data-t]').forEach((el) => (el.onclick = () => { typeFilter = typeFilter === el.dataset.t ? null : el.dataset.t; render(); }));
-    body.querySelectorAll('[data-tab]').forEach((el) => (el.onclick = () => { homeTab = el.dataset.tab; render(); }));
     body.querySelectorAll('.row').forEach((el) => (el.onclick = () => openDistrict(el.dataset.id)));
-    bindPlaceItems();
+    bindPlaceItems(body);
   }
-  const bindPlaceItems = () => body.querySelectorAll('[data-place]').forEach((el) => (el.onclick = () => openPlace(el.dataset.place)));
+
+  // ---------- Páginas del menú inferior: Diario / Logros ----------
+  let tab = 'map';
+  const page = $('#page'), pageBody = $('#page-body');
+  function renderDiary() {
+    const pr = progress(PLACES);
+    const items = Object.entries(visits).filter(([id]) => BYID[id]).map(([id, v]) => ({ p: BYID[id], v, t: v.gpsAt || v.t || 0 })).sort((a, b) => b.t - a.t);
+    const dComplete = DISTRICTS.filter((d) => d.places.length && d.places.every((p) => lvl(p.id) > 0)).length;
+    let lastDay = '';
+    const list = items.map(({ p, v, t }) => {
+      const day = t ? dayLabel(t) : 'Sin fecha';
+      const head = day !== lastDay ? `<h3 class="zone">${esc(day)}</h3>` : '';
+      lastDay = day;
+      return head + placeItem(p, t ? ` · ${fmtTime(t)}${v.lvl === 2 ? ' · GPS' : ''}` : '');
+    }).join('');
+    return `<div class="kpis">
+        <div class="stat"><b>${pr.done}</b><small>Visitados</small></div>
+        <div class="stat gold"><b>${pr.gps}</b><small>GPS</small></div>
+        <div class="stat"><b>${dComplete}<span>/${DISTRICTS.length}</span></b><small>Distritos</small></div></div>
+      ${list || '<div class="empty-state">Tu diario está vacío.<br>Marca tu primer lugar para empezar.</div>'}`;
+  }
+  function renderBadges() {
+    const s = badgeState();
+    const got = MP_BADGES.filter((b) => badgesUnlocked[b.id]).length;
+    return `<div class="sec-sub">${got}/${MP_BADGES.length} conseguidos</div><div class="badges">${MP_BADGES.map((b) => {
+      const [n, goal] = b.test(s), on = !!badgesUnlocked[b.id];
+      return `<div class="bdg ${on ? 'on' : ''}"><span class="bi">${MP_ICON(b.icon)}</span><strong>${esc(b.name)}</strong>
+        <small>${on ? 'Conseguido ' + fmtDate(badgesUnlocked[b.id]) : esc(b.desc)}</small>
+        ${on ? '' : `<div class="bar"><i style="width:${goal ? Math.min(100, (n / goal) * 100) : 0}%"></i></div><small class="bn">${Math.min(n, goal)}/${goal}</small>`}</div>`;
+    }).join('')}</div>`;
+  }
+  function renderPage() {
+    if (tab === 'map') return;
+    $('#page-title').textContent = tab === 'diary' ? 'Diario' : 'Logros';
+    pageBody.innerHTML = tab === 'diary' ? renderDiary() : renderBadges();
+    bindPlaceItems(pageBody);
+  }
+  function setTab(t) {
+    tab = t;
+    document.querySelectorAll('.tabbar button').forEach((b) => b.classList.toggle('on', b.dataset.tab === t));
+    page.hidden = t === 'map';
+    if (t !== 'map') { pageBody.scrollTop = 0; renderPage(); }
+  }
+  document.querySelectorAll('.tabbar button').forEach((b) => (b.onclick = () => {
+    if (b.dataset.tab === 'map' && tab === 'map') return goHome();   // tocar Mapa estando en el mapa: vista de Madrid
+    setTab(b.dataset.tab);
+  }));
+
+  const bindPlaceItems = (root) => root.querySelectorAll('[data-place]').forEach((el) => (el.onclick = () => { setTab('map'); openPlace(el.dataset.place); }));
 
   function checks(p) {
     const l = lvl(p.id);
@@ -551,7 +577,7 @@
     ].filter(Boolean).join('');
     body.innerHTML = `
       <button class="back" id="back">${esc(d?.name || 'Volver')}</button>
-      <div class="hero ${p.img ? '' : 'noimg'}">${p.img ? `<img src="${esc(p.img)}" alt="" loading="lazy" onerror="this.parentNode.classList.add('noimg');this.remove()">` : ''}<span class="hero-ico">${TYPE_ICON[p.type] || '📍'}</span></div>
+      <div class="hero ${p.img ? '' : 'noimg'}">${p.img ? `<img src="${esc(p.img)}" alt="" loading="lazy" onerror="this.parentNode.classList.add('noimg');this.remove()">` : ''}<span class="hero-ico">${TI(p.type)}</span></div>
       <div class="pd-head">
         <div><h2>${esc(p.name)}</h2><p>${esc(p.type)}${p.zone ? ' · ' + esc(p.zone) : ''}${dd ? ' · a ' + dd : ''}</p></div>
         ${checks(p)}
@@ -559,7 +585,7 @@
       ${stamps ? `<div class="stamps">${stamps}</div>` : ''}
       <a class="cta" href="${nav}" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24"><path d="M3 11l18-8-8 18-2-8-8-2z"/></svg>Cómo llegar</a>
-      <div class="info-row"><span>🕒</span><p>${esc(ACCESS[p.type] || 'Consulta horario')}</p></div>
+      <div class="info-row">${MP_ICON('clock')}<p>${esc(ACCESS[p.type] || 'Consulta horario')}</p></div>
       ${p.desc ? `<p class="desc">${esc(p.desc)}</p>` : ''}
       ${p.url ? `<a class="src" href="${esc(p.url)}" target="_blank" rel="noopener">Más información en Wikipedia ↗</a>` : ''}`;
     $('#back').onclick = () => { selId = p.id; openDistrict(d.id, { keepMap: true }); };
@@ -574,13 +600,15 @@
     if (keepScroll) body.scrollTop = st;
     if (map && DISTRICTS.length) { paintDistricts(); drawPins(); }
     document.querySelector('.share-menu')?.remove();
+    renderPage();
   }
 
   // ---------- Navegación ----------
-  function openDistrict(id, { keepMap = false } = {}) {
+  function openDistrict(id, { keepMap = false, refit = false } = {}) {
     const changed = currentDistrict()?.id !== id;
     view = { type: 'district', id };
-    if (changed) { selId = null; statusFilter = 'all'; }
+    if (changed || refit) { selId = null; }
+    if (changed) statusFilter = 'all';
     setSheet('half');
     render();
     body.scrollTop = 0;
@@ -601,6 +629,11 @@
   }
 
   // Tap en pin (vista distrito): resalta fila
+  function deselect(d) {
+    selId = null;
+    document.querySelectorAll('.pin.sel, .place.sel').forEach((x) => x.classList.remove('sel', 'flash'));
+    map.fitBounds(d.bbox, { padding: pad(), maxZoom: 16, duration: 700 });
+  }
   function selectFromMap(id) {
     selId = id;
     document.querySelectorAll('.pin.sel, .place.sel').forEach((x) => x.classList.remove('sel', 'flash'));
