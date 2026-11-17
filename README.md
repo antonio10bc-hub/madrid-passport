@@ -9,9 +9,40 @@ Guía-mapa de Madrid por sus 21 distritos, mobile-first (390×844, iPhone 14). D
 - Sugerencia automática al estar cerca de un lugar sin confirmar.
 - Seguimiento de posición (botón ubicación: centra y sigue; arrastrar el mapa lo desactiva).
 - Buscador y filtros por tipo; filtro por estado en el distrito (todos, pendientes, visitados, GPS).
-- Diario de visitas y logros.
+- Mapa de calor: cada distrito se tiñe según el % visitado (leyenda y % en las etiquetas); también en la imagen para compartir.
+- Barrios (segundo nivel, 128): se sellan solos al pasar por ellos con el GPS (dorado), al visitar uno de sus lugares o a mano
+  desde la lista «Barrios» del distrito. En el distrito abierto se pintan los barrios pisados.
+- Diario de visitas (lugares y barrios) y Logros: nivel del viajero arriba (Turista → … → Gato, por puntos), progreso por tipo
+  (toca un tipo para verlo en el mapa) y sellos.
+- Puntos: visita 10 · GPS +15 · barrio 5 · distrito completo 50 · logro 20 (`js/app/level.js`).
+- Español / inglés (automático por el idioma del móvil; selector en Diario). Descripciones en inglés desde la Wikipedia en inglés.
 - Compartir imagen: todo Madrid o el distrito, formato post (4:5) o historia (9:16).
 - Modo oscuro automático. PWA instalable con uso sin conexión (mapa y fotos ya vistos quedan en caché).
+
+## Código
+Sin build: `index.html` carga scripts clásicos (`js/data.js`, `config.js`, `auth.js`, `icons.js`, `badges.js`, `share.js`)
+y la app como módulos ES nativos en `js/app/`:
+`main.js` (arranque) · `state.js` (estado y progreso) · `geo.js` (distritos/barrios) · `map.js` (MapLibre, mapa de calor, pines) ·
+`sheet.js` (panel y gestos) · `views.js` (Madrid/distrito/ficha, checks) · `pages.js` (Diario/Logros) · `gps.js` (ubicación,
+sugerencias, barrios por GPS, debug) · `level.js` (puntos y niveles) · `i18n.js` (textos ES/EN) · `wiki.js` · `sync.js` (Supabase) ·
+`analytics.js` (PostHog). Al añadir un módulo, añadirlo también a `SHELL` en `sw.js`.
+
+## Analítica (PostHog, UE)
+`js/app/analytics.js` envía eventos a PostHog a través del proxy `/ingest` (`vercel.json`). Desactivada en localhost, en tests
+y con `?notrack` (o `localStorage['mp.noTrack']='1'`). Sin emails ni nombres: al iniciar sesión solo se usa el id de Supabase.
+Todos los eventos llevan `app=madrid-passport` (el proyecto de PostHog se comparte con otra app). Eventos propios:
+`app_opened`, `district_opened`, `place_opened`, `pin_tapped`, `place_checked`, `place_unchecked`, `gps_check_attempt`,
+`gps_confirmed`, `gps_too_far`, `gps_error`, `suggestion_shown`, `suggestion_dismissed`, `barrio_discovered`, `barrios_opened`,
+`badge_unlocked`, `level_up`, `search`, `type_filter`, `status_filter`, `tab_viewed`, `type_progress_tapped`, `level_how_opened`,
+`share_opened`, `share_done`, `share_error`, `directions_clicked`, `locate`, `language_changed`, `login_clicked`, `logout`,
+`sync_error`, `app_installed`, `js_error`; además páginas vistas, autocaptura de clics, web vitals y grabación de sesiones
+(si está activada en el proyecto). Dashboard: «Madrid Passport · Uso».
+
+## Tests
+Playwright (e2e, 390×844, sin red externa):
+```
+cd tests && npm install && npm test
+```
 
 ## Cuentas (Google) y sincronización — Supabase
 1. Crear proyecto en supabase.com. En **SQL Editor** ejecutar `supabase/schema.sql` (tabla `progress` con RLS).
@@ -30,7 +61,9 @@ unión de logros) y después cada cambio se sube automáticamente. Sin configura
 comparando coordenadas con Wikipedia, «↺» borra el progreso.
 
 ## Datos
-- `tools/places.tsv`: lista de lugares (id, nombre, tipo, zona, título de Wikipedia).
+- `tools/places.tsv`: lista de lugares (id, nombre, tipo, zona, título de Wikipedia). Tipos: Plaza, Calle, Barrio, Parque,
+  Gastronomía, Mercado, Museo, Monumento, Iglesia, Cultura, Estadio, Mirador, Teatro.
+- `python3 tools/wiki_fetch.py` (incremental; `--all` para todo): coordenadas, foto, extracto y título en inglés → `tools/wiki.json`.
 - `tools/coords.json`: coordenadas manuales; `tools/district_override.json`: lugares en el límite entre distritos.
 - `tools/wiki.json` / `tools/validacion-lugares.json` (informe de «Validar»): coordenadas, fotos y descripciones de Wikipedia.
 - `python3 tools/build_data.py` genera `js/data.js`. Iconos: `python3 tools/make_icons.py`.

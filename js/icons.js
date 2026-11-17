@@ -13,6 +13,8 @@
     cultura: '<path d="M4 5h16v6a8 8 0 01-16 0V5z"/><path d="M9 10h.01M15 10h.01M9 14c1.5 1.2 4.5 1.2 6 0"/>',
     estadio: '<ellipse cx="12" cy="10" rx="9" ry="5"/><ellipse cx="12" cy="10" rx="4.5" ry="2"/><path d="M3 10v4c0 2.8 4 5 9 5s9-2.2 9-5v-4"/>',
     mirador: '<circle cx="7" cy="16" r="3.5"/><circle cx="17" cy="16" r="3.5"/><path d="M10.5 16h3M4.5 13.5L7 5h3l.5 8M19.5 13.5L17 5h-3l-.5 8"/>',
+    teatro: '<path d="M3 4h18M5 4v16M19 4v16M3 20h18"/><path d="M5 4c0 6 2.5 9 5 9M19 4c0 6-2.5 9-5 9"/>',
+    globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/>',
     pin: '<path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0113 0c0 5-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.5"/>',
     ticket: '<path d="M3 8a2 2 0 002-2h14a2 2 0 002 2v2a2 2 0 000 4v2a2 2 0 00-2 2H5a2 2 0 00-2-2v-2a2 2 0 000-4z"/><path d="M14 6.5v1.5M14 11v2M14 16v1.5"/>',
     walk: '<circle cx="13" cy="4" r="1.8"/><path d="M10 21l2-6-2.5-2.5L11 8l3 3 3 1M9.5 12.5L8 15M12 15l3 6"/>',
@@ -26,6 +28,6 @@
     clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
   };
   const TYPE = { Plaza: 'plaza', Calle: 'calle', Barrio: 'barrio', Parque: 'parque', Gastronomía: 'gastronomia', Mercado: 'mercado',
-    Museo: 'museo', Monumento: 'monumento', Iglesia: 'iglesia', Cultura: 'cultura', Estadio: 'estadio', Mirador: 'mirador' };
+    Museo: 'museo', Monumento: 'monumento', Iglesia: 'iglesia', Cultura: 'cultura', Estadio: 'estadio', Mirador: 'mirador', Teatro: 'teatro' };
   window.MP_ICON = (name, cls = 'ico') => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true">${P[TYPE[name] || name] || P.pin}</svg>`;
 })();

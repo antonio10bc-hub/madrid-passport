@@ -1,11 +1,13 @@
-// Imagen para compartir: todo Madrid o un distrito, en formato post (1080×1350) o historia (1080×1920).
+// Imagen para compartir: todo Madrid (mapa de calor por distrito) o un distrito (barrios pisados), post (1080×1350) o historia (1080×1920).
+// L = textos traducidos { title, visited, gps, pending, districts, barrios }.
 window.MPShare = (() => {
   const RED = '#D6202C', GOLD = '#C9A227', INK = '#111114', MUTED = '#8A8A93';
   const FONT = '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, sans-serif';
   const polys = (g) => (g.type === 'Polygon' ? [g.coordinates] : g.coordinates);
   let barriosCache;
 
-  async function render({ districts, places, lvl, district = null, format = 'post' }) {
+  const L0 = { title: 'Mi Madrid', visited: 'visitados', gps: 'confirmados GPS', pending: 'pendientes', districts: 'distritos completos', barrios: 'barrios' };
+  async function render({ districts, places, barrios = [], lvl, blvl = () => 0, district = null, format = 'post', L = L0 }) {
     const W = 1080, H = format === 'story' ? 1920 : 1350;
     barriosCache ||= await fetch('data/barrios.geojson').then((r) => r.json()).catch(() => null);
     const c = document.createElement('canvas'); c.width = W; c.height = H;
@@ -30,7 +32,10 @@ window.MPShare = (() => {
     scope.forEach((d) => {
       const r = d.places.length ? d.places.filter((p) => lvl(p.id) > 0).length / d.places.length : 0;
       path(d.feature.geometry);
-      x.fillStyle = `rgba(214,32,44,${0.05 + 0.35 * r})`; x.fill('evenodd');
+      x.fillStyle = `rgba(214,32,44,${r ? 0.14 + 0.48 * r : 0.05})`; x.fill('evenodd');   // misma escala que el mapa de calor de la app
+    });
+    if (district) barrios.filter((bb) => bb.district === district && blvl(bb) > 0).forEach((bb) => {
+      path(bb.feature.geometry); x.fillStyle = blvl(bb) === 2 ? 'rgba(201,162,39,.22)' : 'rgba(214,32,44,.16)'; x.fill('evenodd');
     });
     if (barriosCache) {
       x.strokeStyle = 'rgba(214,32,44,.22)'; x.lineWidth = district ? 2 : 1;
@@ -52,17 +57,30 @@ window.MPShare = (() => {
     pl.filter((p) => lvl(p.id) === 1).forEach((p) => dot(p, RED, 10));
     pl.filter((p) => lvl(p.id) === 2).forEach((p) => dot(p, GOLD, 12));
 
+    // Mapa de calor: % por distrito sobre su etiqueta
+    if (!district) {
+      x.textAlign = 'center'; x.font = `700 26px ${FONT}`; x.lineJoin = 'round';
+      scope.forEach((d) => {
+        const n = d.places.length ? Math.round((d.places.filter((p) => lvl(p.id) > 0).length / d.places.length) * 100) : 0;
+        if (!n) return;
+        const [px, py] = P(d.label);
+        x.lineWidth = 6; x.strokeStyle = 'rgba(255,255,255,.9)'; x.strokeText(n + '%', px, py + 9);
+        x.fillStyle = INK; x.fillText(n + '%', px, py + 9);
+      });
+      x.textAlign = 'left';
+    }
+
     // Textos
     const vis = pl.filter((p) => lvl(p.id) > 0).length, gps = pl.filter((p) => lvl(p.id) === 2).length;
     const pct = pl.length ? Math.round((vis / pl.length) * 100) : 0;
     const ty = format === 'story' ? 200 : 120;
     x.textBaseline = 'alphabetic';
     x.fillStyle = RED; x.font = `600 30px ${FONT}`; x.fillText('MADRID PASSPORT', 80, ty);
-    x.fillStyle = INK; x.font = `700 ${district && district.name.length > 12 ? 60 : 72}px ${FONT}`; x.fillText(district ? district.name : 'Mi Madrid', 80, ty + 82);
+    x.fillStyle = INK; x.font = `700 ${district && district.name.length > 12 ? 60 : 72}px ${FONT}`; x.fillText(district ? district.name : L.title, 80, ty + 82);
     x.textAlign = 'right'; x.font = `700 72px ${FONT}`; x.fillStyle = RED; x.fillText(pct + '%', W - 80, ty + 82); x.textAlign = 'left';
 
-    const third = district ? [pl.length - vis, 'pendientes', MUTED] : [districts.filter((d) => d.places.length && d.places.every((p) => lvl(p.id) > 0)).length, 'distritos completos', INK];
-    const stats = [[vis, 'visitados', RED], [gps, 'confirmados GPS', GOLD], third];
+    const third = district ? [pl.length - vis, L.pending, MUTED] : [barrios.filter((bb) => blvl(bb) > 0).length, L.barrios, INK];
+    const stats = [[vis, L.visited, RED], [gps, L.gps, GOLD], third];
     const cw = (W - 160) / 3, sy = H - (format === 'story' ? 200 : 110);
     stats.forEach(([n, label, col], i) => {
       const sx = 80 + i * cw;

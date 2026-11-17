@@ -1,0 +1,211 @@
+// Mapa (MapLibre + OpenFreeMap): capas de distritos (mapa de calor) y barrios, etiquetas, pines y encuadre.
+import { $, esc, css, isDark, ll, ICON_CHECK, ICON_GPS } from './util.js';
+import { S, DISTRICTS, BYID, districtOf, lvl, blvl, progress, currentDistrict } from './state.js';
+import { distGeo, barGeo } from './geo.js';
+import { pad, sheet, setSheet } from './sheet.js';
+import { openDistrict, openPlace, goHome, deselect, selectFromMap } from './views.js';
+import { setFake, setFollow } from './gps.js';
+import { track } from './analytics.js';
+
+const STYLE = { light: 'https://tiles.openfreemap.org/styles/positron', dark: 'https://tiles.openfreemap.org/styles/dark' };
+export let map = null;
+let LABEL_ORDER = [];
+const FALLBACK_STYLE = () => ({ version: 8, sources: {}, layers: [{ id: 'bg', type: 'background', paint: { 'background-color': css('--map-bg') } }] });
+async function loadStyle() {
+  try { const r = await fetch(STYLE[isDark() ? 'dark' : 'light']); if (r.ok) return await r.json(); } catch {}
+  return FALLBACK_STYLE();
+}
+
+// Mapa de calor: el % visitado de cada distrito decide su tono (escala continua del fondo al rojo Madrid)
+export const HEAT = [0, 0.25, 0.5, 0.75, 1];
+function addLayers() {
+  const RED = css('--red'), GOLD = css('--gold'), BG = css('--bg');
+  map.addSource('distritos', { type: 'geojson', data: distGeo });
+  map.addSource('barrios', { type: 'geojson', data: barGeo });
+  map.addLayer({ id: 'd-fill', type: 'fill', source: 'distritos', paint: {
+    'fill-color': RED,
+    'fill-opacity': ['case',
+      ['boolean', ['feature-state', 'dim'], false], 0,
+      ['boolean', ['feature-state', 'sel'], false], 0.03,
+      ['interpolate', ['linear'], ['coalesce', ['feature-state', 'p'], 0], 0, 0.05, 0.001, 0.14, 1, 0.62]],
+  }});
+  map.addLayer({ id: 'd-mask', type: 'fill', source: 'distritos', paint: {
+    'fill-color': BG, 'fill-opacity': ['case', ['boolean', ['feature-state', 'dim'], false], 0.65, 0],
+  }});
+  // Barrios pisados (solo en el distrito abierto): rojo = visitado, dorado = GPS
+  map.addLayer({ id: 'b-fill', type: 'fill', source: 'barrios', layout: { visibility: 'none' }, paint: {
+    'fill-color': ['match', ['coalesce', ['feature-state', 'l'], 0], 2, GOLD, RED],
+    'fill-opacity': ['match', ['coalesce', ['feature-state', 'l'], 0], 0, 0, 0.13],
+  }});
+  map.addLayer({ id: 'b-line', type: 'line', source: 'barrios', layout: { visibility: 'none' }, paint: {
+    'line-color': RED, 'line-opacity': 0.35, 'line-width': 0.8, 'line-dasharray': [2, 2],
+  }});
+  map.addLayer({ id: 'd-line', type: 'line', source: 'distritos', paint: {
+    'line-color': ['case', ['boolean', ['feature-state', 'sel'], false], RED, css('--map-line')],
+    'line-width': ['case', ['boolean', ['feature-state', 'sel'], false], 2.5, 1.2],
+  }});
+}
+
+export async function initMap() {
+  map = new maplibregl.Map({
+    container: 'map', style: await loadStyle(), center: [-3.70, 40.42], zoom: 10.5,
+    pixelRatio: Math.min(devicePixelRatio || 1, 2), fadeDuration: 0, renderWorldCopies: false, maxPitch: 0,
+    attributionControl: false, dragRotate: false, pitchWithRotate: false, touchPitch: false,
+  });
+  window.__mpMap = map;                                 // tests e2e
+  map.touchZoomRotate.disableRotation();
+  // Doble toque = zoom de MapLibre pisaba el re-centrado al volver a tocar un pin o el distrito abierto.
+  map.doubleClickZoom.disable();
+  map.addControl(new maplibregl.AttributionControl({ compact: true,
+    customAttribution: '© OpenStreetMap · OpenFreeMap · Ayto. Madrid · Wikipedia' }), 'top-left');
+
+  await new Promise((r) => (map.loaded() ? r() : map.on('load', r)));
+  addLayers();
+  map.on('click', (e) => {
+    if (S.placing) return setFake([e.lngLat.lat, e.lngLat.lng]);
+    const f = map.queryRenderedFeatures(e.point, { layers: ['d-fill'] })[0];
+    if (!f) return;
+    const cur = currentDistrict();
+    if (cur && cur.fid === f.id) {
+      // Tap en el distrito abierto: con un lugar seleccionado vuelve al distrito; si no, sale a Madrid
+      if (S.view.type === 'place' || S.selId) openDistrict(cur.id, { refit: true });
+      else goHome();
+    } else openDistrict(f.properties.id, { via: 'map' });
+  });
+  map.on('mouseenter', 'd-fill', () => (map.getCanvas().style.cursor = 'pointer'));
+  map.on('mouseleave', 'd-fill', () => (map.getCanvas().style.cursor = ''));
+  map.on('dragstart', () => setFollow(false));
+
+  DISTRICTS.forEach((d) => {
+    const el = document.createElement('button');
+    el.className = 'd-label';
+    el.innerHTML = `<span>${esc(d.short)}</span>`;
+    el.onclick = (e) => { e.stopPropagation(); if (!S.placing) openDistrict(d.id, { via: 'label' }); };
+    d.labelMarker = new maplibregl.Marker({ element: el }).setLngLat(d.label).addTo(map);
+  });
+  LABEL_ORDER = [...DISTRICTS].sort((x, y) => y.places.length - x.places.length);
+  map.on('moveend', fitLabels);
+  // Créditos plegados (ⓘ): MapLibre los despliega al cargar el estilo, así que se pliegan también al quedar inactivo
+  const foldAttrib = () => map.getContainer().querySelector('.maplibregl-ctrl-attrib')?.classList.remove('maplibregl-compact-show');
+  foldAttrib(); map.once('idle', foldAttrib);
+
+  // Modo oscuro: cambia estilo del mapa y recrea capas
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', async () => {
+    map.setStyle(await loadStyle(), { diff: false });
+    map.once('style.load', () => { addLayers(); for (const k in lastPaint) delete lastPaint[k]; for (const k in lastB) delete lastB[k]; lastBLine = undefined; paintDistricts(); });
+  });
+  fitCity(false);
+}
+
+// OJO: `padding` en flyTo/easeTo queda guardado en el mapa y se suma a los fitBounds siguientes
+// (si no cabe, MapLibre no mueve la cámara). Para centrar un punto usamos `offset`, que no persiste.
+export const centerOffset = (state) => { const p = pad(state); return [(p.left - p.right) / 2, (p.top - p.bottom) / 2]; };
+export const fit = (bounds, opts) => {
+  map.resize();                                       // el lienzo puede tener un tamaño viejo (iOS)
+  const cur = map.getPadding();
+  if (cur.top || cur.bottom || cur.left || cur.right) map.setPadding({ top: 0, bottom: 0, left: 0, right: 0 });
+  map.fitBounds(bounds, opts);
+};
+export const fitCity = (animate = true) => {
+  const b = DISTRICTS.reduce((a, d) => [Math.min(a[0], d.bbox[0]), Math.min(a[1], d.bbox[1]), Math.max(a[2], d.bbox[2]), Math.max(a[3], d.bbox[3])], [180, 90, -180, -90]);
+  fit(b, { padding: pad('peek'), animate, duration: 700 });
+};
+
+// Etiquetas sin solapes: prioridad a los distritos con más lugares. En Madrid muestran el % (mapa de calor).
+function fitLabels() {
+  const placed = [], hide = S.view.type !== 'home';
+  LABEL_ORDER.forEach((d) => {
+    const el = d.labelMarker.getElement();
+    const disp = hide ? 'none' : '';
+    if (el.style.display !== disp) el.style.display = disp;
+    if (hide) return;
+    const pr = progress(d.places), pct = pr.total ? Math.round((pr.done / pr.total) * 100) : 0;
+    const html = `<span>${esc(d.short)}</span>${pct ? `<em>${pct}%</em>` : ''}`;
+    if (d.lhtml !== html) { el.innerHTML = html; d.lhtml = html; d.lw = d.lh = 0; }
+    d.lw ||= el.offsetWidth / 2 + 3; d.lh ||= el.offsetHeight / 2 + 2;   // medidas cacheadas hasta que cambie el texto
+    const c = map.project(d.label);
+    const r = [c.x - d.lw, c.y - d.lh, c.x + d.lw, c.y + d.lh];
+    const ok = !placed.some((q) => r[0] < q[2] && r[2] > q[0] && r[1] < q[3] && r[3] > q[1]);
+    const vis = ok ? 'visible' : 'hidden';
+    if (el.style.visibility !== vis) el.style.visibility = vis;
+    if (ok) placed.push(r);
+  });
+}
+
+const lastPaint = {}, lastB = {};
+let lastBLine;
+export function paintDistricts() {
+  if (!map?.getSource('distritos')) return;
+  const cur = currentDistrict();
+  DISTRICTS.forEach((d) => {
+    const pr = progress(d.places);
+    const st = { sel: cur?.id === d.id, dim: !!cur && cur.id !== d.id, p: pr.total ? pr.done / pr.total : 0 };
+    const k = `${st.sel}|${st.dim}|${st.p}`;
+    if (lastPaint[d.fid] !== k) { lastPaint[d.fid] = k; map.setFeatureState({ source: 'distritos', id: d.fid }, st); }
+  });
+  if (cur) cur.barrios.forEach((b) => {
+    const l = blvl(b);
+    if (lastB[b.fid] !== l) { lastB[b.fid] = l; map.setFeatureState({ source: 'barrios', id: b.fid }, { l }); }
+  });
+  const bl = cur?.id || '';
+  if (bl !== lastBLine) {
+    lastBLine = bl;
+    for (const id of ['b-line', 'b-fill']) {
+      map.setLayoutProperty(id, 'visibility', cur ? 'visible' : 'none');
+      if (cur) map.setFilter(id, ['==', ['get', 'district'], cur.id]);
+    }
+  }
+  $('#heat-legend')?.toggleAttribute('hidden', !!cur || S.tab !== 'map');
+  fitLabels();
+}
+
+export const passStatus = (p) => S.statusFilter === 'all' || (S.statusFilter === 'todo' && lvl(p.id) === 0) ||
+  (S.statusFilter === 'done' && lvl(p.id) > 0) || (S.statusFilter === 'gps' && lvl(p.id) === 2);
+
+// El wrapper del Marker lo posiciona MapLibre con transform: sin transiciones. Escala/fade en el .pin interior.
+let pinsKey = null;
+const pinMarkers = new Map();               // placeId -> { marker, el }
+function makePin(p) {
+  const wrap = document.createElement('div'), el = document.createElement('div');
+  el.dataset.id = p.id; wrap.appendChild(el);
+  // Que los toques en el pin no lleguen a los gestos del mapa (arrastre/doble toque)
+  ['mousedown', 'touchstart', 'pointerdown', 'dblclick'].forEach((ev) => wrap.addEventListener(ev, (e) => e.stopPropagation(), { passive: true }));
+  wrap.onclick = (e) => {
+    if (S.placing) return;
+    e.stopPropagation();
+    const d = districtOf[p.id];
+    if (S.view.type === 'place') return S.view.id === p.id ? openDistrict(d.id, { refit: true }) : openPlace(p.id, 'pin');
+    if (S.selId === p.id) return deselect(d);                 // 2º tap: deseleccionar y centrar distrito
+    if (sheet.dataset.state === 'min') setSheet('half');
+    selectFromMap(p.id);
+    track('pin_tapped', { place: p.id, type: p.type, district: d.id });
+  };
+  return { marker: new maplibregl.Marker({ element: wrap }).setLngLat(ll(p)).addTo(map), el, lvl: -1 };
+}
+export function drawPins() {
+  if (!map) return;
+  const cur = currentDistrict();
+  const key = cur ? cur.id + S.statusFilter : null;
+  const enter = key && pinsKey !== key;
+  pinsKey = key;
+  const want = new Set(cur ? cur.places.filter((p) => passStatus(p) || S.view.id === p.id).map((p) => p.id) : []);
+  for (const [id, m] of pinMarkers) if (!want.has(id)) { m.marker.remove(); pinMarkers.delete(id); }
+  for (const id of want) {
+    let m = pinMarkers.get(id);
+    const fresh = !m;
+    if (fresh) { m = makePin(BYID[id]); pinMarkers.set(id, m); }
+    const l = lvl(id);
+    const cls = `pin v${l}${S.selId === id ? ' sel' : ''}${fresh && enter ? ' enter' : ''}`;
+    if (m.el.className !== cls && !(m.el.classList.contains('flash') && cls === m.el.className.replace(' flash', ''))) m.el.className = cls;
+    if (m.lvl !== l) { m.lvl = l; m.el.innerHTML = l === 1 ? ICON_CHECK : l === 2 ? ICON_GPS : ''; }
+  }
+}
+
+// Posición propia
+let meMarker = null;
+export function showMeOnMap(pos) {
+  if (!map) return;
+  const c = [pos.coords[1], pos.coords[0]];
+  if (meMarker) meMarker.setLngLat(c);
+  else { const el = document.createElement('div'); el.className = 'me'; meMarker = new maplibregl.Marker({ element: el }).setLngLat(c).addTo(map); }
+}

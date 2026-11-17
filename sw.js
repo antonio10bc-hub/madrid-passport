@@ -4,7 +4,8 @@
 const VERSION = 'mp-v16';
 const SHELL = [
   './', 'index.html', 'manifest.webmanifest', 'css/styles.css',
-  'js/config.js', 'js/auth.js', 'vendor/supabase/supabase.js', 'js/data.js', 'js/icons.js', 'js/badges.js', 'js/share.js', 'js/app.js',
+  'js/config.js', 'js/auth.js', 'vendor/supabase/supabase.js', 'js/data.js', 'js/icons.js', 'js/badges.js', 'js/share.js',
+  ...['main', 'util', 'i18n', 'state', 'geo', 'sheet', 'map', 'gps', 'wiki', 'views', 'pages', 'level', 'sync', 'analytics'].map((m) => `js/app/${m}.js`),
   'data/distritos.geojson', 'data/barrios.geojson',
   'vendor/maplibre/maplibre-gl.js', 'vendor/maplibre/maplibre-gl.css',
   'icons/icon.svg', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png',
@@ -38,5 +39,6 @@ self.addEventListener('fetch', (e) => {
   if (url.hostname === 'tiles.openfreemap.org') return e.respondWith(staleWhileRevalidate(req, `${VERSION}-tiles`));
   if (/(^|\.)wikimedia\.org$/.test(url.hostname)) return e.respondWith(staleWhileRevalidate(req, `${VERSION}-img`));
   if (url.hostname.endsWith('.supabase.co')) return;              // API/auth: siempre red
+  if (url.pathname.startsWith('/ingest')) return;                 // analítica (proxy PostHog): sin caché
   if (url.origin === location.origin) return e.respondWith(networkFirst(req));
 });
