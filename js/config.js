@@ -2,5 +2,5 @@
 // Rellenar tras crear el proyecto: Supabase → Project Settings → API.
 window.MP_CONFIG = {
   supabaseUrl: 'https://nskkysjqdceukxidvnos.supabase.co',
-  supabaseAnonKey: '',    // anon public key
+  supabaseAnonKey: 'sb_publishable_HmPl4k_MxLDGIfYRALcy8g_0U5hZmef',   // publishable key (pública)
 };
