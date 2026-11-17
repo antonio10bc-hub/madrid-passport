@@ -1,0 +1,12 @@
+<!doctype html><meta charset="utf-8"><title>Iconos pin</title>
+<style>body{margin:0;background:#f4f1ec;font:600 18px system-ui;display:flex;gap:40px;padding:40px;justify-content:center}figure{margin:0;text-align:center}figure b{display:block}svg{width:300px;height:300px;display:block;margin-bottom:12px}svg.s{width:64px;height:64px;display:inline-block;margin:0 6px 10px}</style>
+<figure id="A"><b>A · Pin blanco</b></figure><figure id="B"><b>B · Pin rojo</b></figure><figure id="C"><b>C · Pin línea</b></figure>
+<script>
+const P='M512 880C430 770 262 610 262 430A250 250 0 0 1 762 430C762 610 594 770 512 880Z',
+D='<defs><clipPath id="m"><rect width="1024" height="1024" rx="229"/></clipPath><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D6202C"/><stop offset="1" stop-color="#B3141F"/></linearGradient></defs>',
+T=(a,b,w,x=381,y=455,s=1)=>`<g fill="none" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"><path d="M${x} ${y}l${60*s} ${60*s} ${110*s}-${120*s}" stroke="${a}"/><path d="M${x+92*s} ${y}l${60*s} ${60*s} ${110*s}-${120*s}" stroke="${b}"/></g>`,
+G={A:`<rect width="1024" height="1024" fill="url(#bg)"/><path d="${P}" fill="#000" opacity=".22" transform="translate(10 22)"/><path d="${P}" fill="#fff"/>${T('#D6202C','#C9A227',46)}`,
+B:`<rect width="1024" height="1024" fill="#FBF8F3"/><path d="${P}" fill="url(#bg)"/>${T('#fff','#F2D27A',46)}`,
+C:`<rect width="1024" height="1024" fill="url(#bg)"/><path d="${P}" fill="none" stroke="#fff" stroke-width="52" stroke-linejoin="round" transform="translate(512 470) scale(.92) translate(-512 -470)"/>${T('#fff','#F2D27A',52,366,460,1.1)}`};
+for(const k in G){const mk=c=>`<svg class="${c}" viewBox="0 0 1024 1024">${D}<g clip-path="url(#m)">${G[k]}</g></svg>`;document.getElementById(k).insertAdjacentHTML("afterbegin",mk("")+mk("s")+mk("s"));}
+</script>
