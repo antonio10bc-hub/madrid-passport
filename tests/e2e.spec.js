@@ -172,6 +172,14 @@ test('ficha: la foto no se recrea al pulsar favorito o el check', async ({ page 
   await expect(page.locator('.hero')).toHaveAttribute('data-mark', '1');
 });
 
+test('ficha: metro más cercano con sus líneas y botón de transporte', async ({ page }) => {
+  await openCentro(page);
+  await page.locator('#pl-puerta-sol').click();
+  await expect(page.locator('.info-row.metro')).toContainText('Sol');
+  await expect(page.locator('.info-row.metro .mline')).toHaveCount(3);          // L1, L2, L3
+  await expect(page.locator('.cta[data-nav="transit"]')).toHaveAttribute('href', /travelmode=transit/);
+});
+
 test('deshacer: marcar y desmarcar desde el aviso', async ({ page }) => {
   await openCentro(page);
   await markVisited(page, 'plaza-mayor');

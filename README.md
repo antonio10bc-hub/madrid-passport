@@ -61,6 +61,7 @@ unión de logros) y después cada cambio se sube automáticamente. Sin configura
 comparando coordenadas con Wikipedia, «↺» borra el progreso.
 
 ## Datos
+- `python3 tools/metro_fetch.py`: estaciones de Metro con sus líneas (Wikipedia) → `data/metro.json` (metro más cercano en la ficha).
 - `tools/places.tsv`: lista de lugares (id, nombre, tipo, zona, título de Wikipedia). Tipos: Plaza, Calle, Barrio, Parque,
   Gastronomía, Mercado, Museo, Monumento, Iglesia, Cultura, Estadio, Mirador, Teatro.
 - `python3 tools/wiki_fetch.py` (incremental; `--all` para todo): coordenadas, foto, extracto y título en inglés → `tools/wiki.json`.
