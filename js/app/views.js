@@ -165,8 +165,8 @@ function renderDistrict() {
   body.innerHTML = `
     <button class="back" id="back">${t('districts')}</button>
     <div class="d-head"><h2>${esc(d.name)}</h2><p>${t('d.sub', { done: pr.done, total: pr.total, gps: pr.gps })}</p></div>
-    <div class="chips seg">${F.map(([k, tx, n]) => `<button class="chip ${S.statusFilter === k ? 'on' : ''}" data-f="${k}">${tx} <b>${n}</b></button>`).join('')}</div>
-    <div class="sort-row"><span>${t('sort')}</span>${['zone', 'near', 'todo'].map((k) => `<button class="${S.sort === k ? 'on' : ''}" data-sort="${k}">${t('sort.' + k)}</button>`).join('')}</div>
+    <div class="opt-row" role="group" aria-label="${esc(t('filter'))}"><span class="opt-ico" title="${esc(t('filter'))}">${MP_ICON('filter', 'ico')}</span>${F.map(([k, tx, n]) => `<button class="${S.statusFilter === k ? 'on' : ''}" data-f="${k}" aria-pressed="${S.statusFilter === k}">${tx} <b>${n}</b></button>`).join('')}</div>
+    <div class="opt-row" role="group" aria-label="${esc(t('sort'))}"><span class="opt-ico" title="${esc(t('sort'))}">${MP_ICON('sort', 'ico')}</span>${['zone', 'near', 'todo'].map((k) => `<button class="${S.sort === k ? 'on' : ''}" data-sort="${k}" aria-pressed="${S.sort === k}">${t('sort.' + k)}</button>`).join('')}</div>
     ${list || `<div class="empty-state">${t('empty.filter')}</div>`}
     ${d.barrios.length ? barriosHTML(d) : ''}`;
   $('#back').onclick = goHome;
