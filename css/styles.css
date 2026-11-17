@@ -514,3 +514,51 @@ button, a, input, .place, .row, .pitem { touch-action: manipulation; }
 .nt-txt b { font-size: 15px; line-height: 1.25; }
 .nt-txt span { font-size: 13px; color: var(--muted); line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 @media (prefers-reduced-motion: reduce) { .notif { transition: opacity .2s; transform: none; opacity: 0; } .notif.in { opacity: 1; } }
+
+/* ---------- Aviso con acción (Deshacer) ---------- */
+.toast.act { pointer-events: auto; display: flex; align-items: center; gap: 14px; padding: 6px 6px 6px 16px; }
+.toast button { color: #FF8A92; font-weight: 700; font-size: 14px; padding: 8px 10px; min-height: 36px; border-radius: 10px; }
+.toast button:active { background: rgba(255,255,255,.12); }
+@media (prefers-color-scheme: dark) { .toast button { color: var(--red); } }
+
+/* ---------- Listas: favoritos / quiero ir ---------- */
+.lists { display: flex; gap: 8px; margin: -2px 0 12px; }
+.lst { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 40px; border-radius: 12px;
+  background: var(--bg-2); font-size: 14px; font-weight: 600; color: var(--ink); }
+.lst .ico { width: 18px; height: 18px; color: var(--muted); }
+.lst.f.on { background: rgba(var(--red-a),.1); color: var(--red); }
+.lst.f.on .ico { color: var(--red); fill: var(--red); }
+.lst.w.on { background: rgba(47,123,246,.12); color: #2F7BF6; }
+.lst.w.on .ico { color: #2F7BF6; fill: #2F7BF6; }
+.lst:active { transform: scale(.97); }
+.chip.list .ico { color: var(--red); }
+.chip.list[data-t="__want"] .ico { color: #2F7BF6; }
+.chip.list.on .ico { color: #fff; }
+.ico.mk { width: 13px; height: 13px; margin-left: 5px; vertical-align: -1px; stroke-width: 2.2; }
+.ico.mk.fav { color: var(--red); fill: var(--red); }
+.ico.mk.want { color: #2F7BF6; fill: #2F7BF6; }
+
+/* ---------- Pines agrupados ---------- */
+.cluster { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; cursor: pointer;
+  background: conic-gradient(var(--red) var(--p), rgba(var(--red-a),.18) 0); box-shadow: 0 2px 6px rgba(0,0,0,.25); }
+.cluster span { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--bg);
+  font-size: 12px; font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+.cluster.all span { background: var(--red); color: #fff; }
+.cluster.all-gps { background: var(--gold); }
+.cluster.all-gps span { background: var(--gold); color: #fff; }
+.cluster:active { transform: scale(.94); }
+
+/* ---------- Cómo llegar (a pie / transporte) y metro más cercano ---------- */
+.ctas { display: flex; gap: 8px; }
+.ctas .cta { flex: 1.4; }
+.ctas .cta.alt { flex: 1; background: var(--bg-2); color: var(--ink); }
+.ctas .cta.alt svg { stroke: var(--ink); fill: none; }
+.info-row.metro { align-items: center; }
+.info-row.metro p { line-height: 1.5; }
+.info-row.metro small { color: var(--muted); font-size: 12px; }
+.m-logo { width: 22px; height: 22px; flex: none; border-radius: 50%; display: grid; place-items: center; background: #E0292F; color: #fff;
+  font-size: 12px; font-weight: 800; box-shadow: 0 0 0 2px #fff inset; border: 1.5px solid #E0292F; }
+.mline { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 5px; margin-left: 3px; border-radius: 10px;
+  font-style: normal; font-size: 11px; font-weight: 800; vertical-align: 1px; }
+.mline.r { box-shadow: inset 0 0 0 1.5px #005AA9; color: #005AA9 !important; }
+.info-row + .info-row { margin-top: 8px; }

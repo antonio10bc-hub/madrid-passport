@@ -2,9 +2,11 @@
 import { $, dist, fmtDist, toast, esc, css, stampDate } from './util.js';
 import { S, PLACES, lvl, bKey, save } from './state.js';
 import { t } from './i18n.js';
-import { map, showMeOnMap, centerOffset } from './map.js';
+import { map, showMeOnMap, centerOffset, flashBarrio } from './map.js';
+import { notify } from './notify.js';
+import { setTab } from './pages.js';
 import { barrioAt } from './geo.js';
-import { render, openPlace, commit } from './views.js';
+import { render, openPlace, openDistrict, commit } from './views.js';
 import { wikiSummary } from './wiki.js';
 import { track } from './analytics.js';
 
@@ -73,7 +75,9 @@ function checkBarrio(pos) {
   const now = Date.now(), prev = S.visits[bKey(b)];
   S.visits[bKey(b)] = { lvl: 2, t: prev?.t || now, gpsAt: now };
   track('barrio_discovered', { barrio: b.id, district: b.district?.id, method: 'gps' });
-  toast(t('barrio.new', { name: b.name }));
+  flashBarrio(b);
+  notify({ icon: 'barrio', kicker: t('barrio.kicker'), title: b.name, text: b.district?.name || '', gold: true,
+    onTap: () => { track('barrio_notif_tapped', { barrio: b.id }); setTab('map'); if (b.district) openDistrict(b.district.id, { via: 'notif' }); } });
   commit();
 }
 

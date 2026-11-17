@@ -3,7 +3,7 @@ import { $, esc, css, isDark, ll, ICON_CHECK, ICON_GPS } from './util.js';
 import { S, DISTRICTS, BYID, districtOf, lvl, blvl, progress, currentDistrict } from './state.js';
 import { distGeo, barGeo } from './geo.js';
 import { pad, sheet, setSheet } from './sheet.js';
-import { openDistrict, openPlace, goHome, deselect, selectFromMap } from './views.js';
+import { openDistrict, openPlace, goHome, deselect, selectFromMap, homeResults } from './views.js';
 import { setFake, setFollow, radiusFor } from './gps.js';
 import { track } from './analytics.js';
 
@@ -55,6 +55,9 @@ function addLayers() {
     'line-width': ['case', ['boolean', ['feature-state', 'sel'], false], 2.5, 1.2],
   }});
   // Área en la que se puede confirmar por GPS el lugar seleccionado
+  map.addSource('b-flash', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
+  map.addLayer({ id: 'b-flash-fill', type: 'fill', source: 'b-flash', paint: { 'fill-color': GOLD, 'fill-opacity': 0 } });
+  map.addLayer({ id: 'b-flash-line', type: 'line', source: 'b-flash', paint: { 'line-color': GOLD, 'line-width': 3, 'line-opacity': 0 } });
   map.addSource('gps-area', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
   map.addLayer({ id: 'gps-fill', type: 'fill', source: 'gps-area', paint: { 'fill-color': GOLD, 'fill-opacity': 0.1 } });
   map.addLayer({ id: 'gps-line', type: 'line', source: 'gps-area', paint: { 'line-color': GOLD, 'line-opacity': 0.7, 'line-width': 1.5, 'line-dasharray': [2, 2] } });
@@ -119,6 +122,7 @@ export async function initMap() {
   });
   LABEL_ORDER = [...DISTRICTS].sort((x, y) => y.places.length - x.places.length);
   map.on('moveend', fitLabels);
+  map.on('zoomend', clusterPins);
   // Créditos plegados (ⓘ): MapLibre los despliega al cargar el estilo, así que se pliegan también al quedar inactivo
   const foldAttrib = () => map.getContainer().querySelector('.maplibregl-ctrl-attrib')?.classList.remove('maplibregl-compact-show');
   foldAttrib(); map.once('idle', foldAttrib);
@@ -217,6 +221,7 @@ function makePin(p) {
     if (S.placing) return;
     e.stopPropagation();
     const d = districtOf[p.id];
+    if (S.view.type === 'home') return openPlace(p.id, 'pin');
     if (S.view.type === 'place') return S.view.id === p.id ? openDistrict(d.id, { refit: true }) : openPlace(p.id, 'pin');
     if (S.selId === p.id) { deselect(d); return drawGpsArea(); }   // 2º tap: deseleccionar y centrar distrito
     if (sheet.dataset.state === 'min') setSheet('half');
@@ -230,10 +235,11 @@ export function drawPins() {
   if (!map) return;
   drawGpsArea();
   const cur = currentDistrict();
-  const key = cur ? cur.id + S.statusFilter : null;
+  const homeList = !cur && S.view.type === 'home' && S.typeFilter;           // portada con filtro: pines de los resultados
+  const key = cur ? cur.id + S.statusFilter : homeList ? 'home' + S.typeFilter : null;
   const enter = key && pinsKey !== key;
   pinsKey = key;
-  const want = new Set(cur ? cur.places.filter((p) => passStatus(p) || S.view.id === p.id).map((p) => p.id) : []);
+  const want = new Set((cur ? cur.places.filter((p) => passStatus(p) || S.view.id === p.id) : homeList ? homeResults() : []).map((p) => p.id));
   for (const [id, m] of pinMarkers) if (!want.has(id)) { m.marker.remove(); pinMarkers.delete(id); }
   for (const id of want) {
     let m = pinMarkers.get(id);
@@ -244,6 +250,59 @@ export function drawPins() {
     if (m.el.className !== cls && !(m.el.classList.contains('flash') && cls === m.el.className.replace(' flash', ''))) m.el.className = cls;
     if (m.lvl !== l) { m.lvl = l; m.el.innerHTML = l === 1 ? ICON_CHECK : l === 2 ? ICON_GPS : ''; }
   }
+  clusterPins();
+}
+
+// ---------- Agrupación de pines: los que se tocan en pantalla se juntan en un círculo con el número ----------
+const CLUSTER_PX = 30;
+const clusterMarkers = [];
+export function clusterPins() {
+  if (!map) return;
+  clusterMarkers.splice(0).forEach((m) => m.remove());
+  const items = [...pinMarkers].map(([id, m]) => ({ id, m, p: BYID[id], pt: map.project(ll(BYID[id])) }));
+  const keep = (it) => it.id === S.selId || it.id === S.view.id;            // el seleccionado nunca se agrupa
+  const used = new Set();
+  for (const it of items) {
+    if (used.has(it.id)) continue;
+    used.add(it.id);
+    const g = [it];
+    if (!keep(it)) for (const o of items) {
+      if (!used.has(o.id) && !keep(o) && Math.hypot(o.pt.x - it.pt.x, o.pt.y - it.pt.y) < CLUSTER_PX) { g.push(o); used.add(o.id); }
+    }
+    g.forEach((x) => { const disp = g.length > 1 ? 'none' : ''; const w = x.m.marker.getElement(); if (w.style.display !== disp) w.style.display = disp; });
+    if (g.length < 2) continue;
+    const ps = g.map((x) => x.p), done = ps.filter((x) => lvl(x.id) > 0).length, gps = ps.filter((x) => lvl(x.id) === 2).length;
+    const el = document.createElement('button');
+    el.className = 'cluster' + (gps === ps.length ? ' all-gps' : done === ps.length ? ' all' : done ? ' some' : '');
+    el.style.setProperty('--p', `${(done / ps.length) * 360}deg`);
+    el.innerHTML = `<span>${ps.length}</span>`;
+    el.setAttribute('aria-label', `${ps.length}`);
+    ['mousedown', 'touchstart', 'pointerdown', 'dblclick'].forEach((ev) => el.addEventListener(ev, (e) => e.stopPropagation(), { passive: true }));
+    el.onclick = (e) => {
+      e.stopPropagation();
+      const b = ps.reduce((a, x) => [Math.min(a[0], x.coords[1]), Math.min(a[1], x.coords[0]), Math.max(a[2], x.coords[1]), Math.max(a[3], x.coords[0])], [180, 90, -180, -90]);
+      track('cluster_tapped', { count: ps.length });
+      fit(b, { padding: pad(sheet.dataset.state), maxZoom: Math.max(map.getZoom() + 2, 16), duration: 600 });
+    };
+    const c = ps.reduce((a, x) => [a[0] + x.coords[1] / ps.length, a[1] + x.coords[0] / ps.length], [0, 0]);
+    clusterMarkers.push(new maplibregl.Marker({ element: el }).setLngLat(c).addTo(map));
+  }
+}
+
+// ---------- Barrio nuevo pisado con GPS: destello dorado sobre el mapa ----------
+export function flashBarrio(b) {
+  const src = map?.getSource('b-flash');
+  if (!src) return;
+  src.setData(b.feature);
+  const t0 = performance.now(), D = 2600;
+  const step = (now) => {
+    const k = Math.min(1, (now - t0) / D);
+    const o = 0.42 * Math.abs(Math.sin(k * Math.PI * 3)) * (1 - k * 0.6);
+    map.setPaintProperty('b-flash-fill', 'fill-opacity', k < 1 ? o : 0);
+    map.setPaintProperty('b-flash-line', 'line-opacity', k < 1 ? 0.9 * (1 - k) : 0);
+    if (k < 1) requestAnimationFrame(step); else src.setData({ type: 'FeatureCollection', features: [] });
+  };
+  requestAnimationFrame(step);
 }
 
 // Posición propia

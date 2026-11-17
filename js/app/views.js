@@ -1,11 +1,12 @@
 // Vistas del panel (Madrid, distrito, ficha), navegación y checks.
 import { $, esc, dist, fmtDist, fmtDate, fmtTime, toast, ICON_CHECK, ICON_GPS, ICON_X } from './util.js';
-import { S, PLACES, BYID, DISTRICTS, districtOf, barrioOf, lvl, blvl, bKey, progress, bprogress, currentDistrict, save } from './state.js';
+import { S, PLACES, BYID, DISTRICTS, districtOf, barrioOf, lvl, blvl, bKey, progress, bprogress, currentDistrict, save, inList, listPlaces } from './state.js';
 import { t, typeName, typePlural, lang } from './i18n.js';
 import { body, sheet, setSheet, pad } from './sheet.js';
 import { map, ready, fit, fitCity, centerOffset, paintDistricts, drawPins, passStatus } from './map.js';
 import { getPos, onPosition, radiusFor, gpsStamp, confirmGps, checkNearby } from './gps.js';
 import { enrich } from './wiki.js';
+import { loadMetro, nearestMetro, lineBadge } from './metro.js';
 import { renderPage, setTab, checkBadges, levelState } from './pages.js';
 import { track, setPerson } from './analytics.js';
 import { notify } from './notify.js';
@@ -23,14 +24,24 @@ function renderRing() {
   $('#ring-txt').textContent = pct + '%';
 }
 
-const typeChips = () => `<div class="chips" id="type-chips">${TYPES.map((ty) => `<button class="chip ${S.typeFilter === ty ? 'on' : ''}" data-t="${esc(ty)}">${MP_ICON(ty, 'ico ico-s')}${esc(typePlural(ty))}</button>`).join('')}</div>`;
+// Filtros: primero las listas del usuario (favoritos, quiero ir), luego los tipos
+const LISTS = [['__fav', 'f', 'heart'], ['__want', 'w', 'bookmark']];
+const listChips = () => LISTS.map(([key, k, ico]) => `<button class="chip list ${S.typeFilter === key ? 'on' : ''}" data-t="${key}">${MP_ICON(ico, 'ico ico-s')}${t('list.' + k)} <b>${listPlaces(k).length}</b></button>`).join('');
+const matchFilter = (p) => !S.typeFilter || (S.typeFilter === '__fav' ? inList('f', p.id) : S.typeFilter === '__want' ? inList('w', p.id) : p.type === S.typeFilter);
+// Resultados de la portada (búsqueda + filtro): lista del panel y pines del mapa
+export function homeResults() {
+  const q = S.query.trim().normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  return PLACES.filter((p) => matchFilter(p) && (!q || p._search.includes(q)));
+}
+const typeChips = () => `<div class="chips" id="type-chips">${listChips()}${TYPES.map((ty) => `<button class="chip ${S.typeFilter === ty ? 'on' : ''}" data-t="${esc(ty)}">${MP_ICON(ty, 'ico ico-s')}${esc(typePlural(ty))}</button>`).join('')}</div>`;
 
+const marks = (p) => (inList('f', p.id) ? MP_ICON('heart', 'ico mk fav') : '') + (inList('w', p.id) ? MP_ICON('bookmark', 'ico mk want') : '');
 export function placeItem(p, extra = '') {
   const l = lvl(p.id), d = districtOf[p.id];
   const dd = S.myPos ? ` · ${fmtDist(dist(S.myPos.coords, p.coords))}` : '';
   return `<button class="pitem" data-place="${p.id}">
     <span class="pthumb t-${l}">${l === 1 ? ICON_CHECK : l === 2 ? ICON_GPS : TI(p.type)}</span>
-    <span class="p-info"><strong>${esc(p.name)}</strong><small>${esc(typeName(p.type))} · ${esc(d?.name || '')}${dd}${extra}</small></span>
+    <span class="p-info"><strong>${esc(p.name)}${marks(p)}</strong><small>${esc(typeName(p.type))} · ${esc(d?.name || '')}${dd}${extra}</small></span>
     <span class="chev"></span></button>`;
 }
 export const bindPlaceItems = (root) => root.querySelectorAll('[data-place]').forEach((el) => (el.onclick = () => { const via = S.tab === 'map' ? 'list' : S.tab; setTab('map'); openPlace(el.dataset.place, via); }));
@@ -39,11 +50,11 @@ let searchT;
 function homeListHTML() {
   const searching = S.query.trim() || S.typeFilter;
   if (searching) {
-    const q = S.query.trim().normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
-    const res = PLACES.filter((p) => (!S.typeFilter || p.type === S.typeFilter) && (!q || p._search.includes(q)));
+    const q = S.query.trim();
+    const res = homeResults();
     if (q) { clearTimeout(searchT); searchT = setTimeout(() => track('search', { q_len: q.length, results: res.length, type: S.typeFilter }), 1500); }
     return `<div class="sec-sub">${t(res.length === 1 ? 'results_1' : 'results_n', { n: res.length })}</div>
-      ${res.map((p) => placeItem(p)).join('') || `<div class="empty-state">${t('noresults')}</div>`}`;
+      ${res.map((p) => placeItem(p)).join('') || `<div class="empty-state">${t(S.typeFilter?.startsWith('__') && !q ? 'list.empty' : 'noresults')}</div>`}`;
   }
   const pr = progress(PLACES);
   return `<div class="sec-title"><h2>${t('districts')}</h2><span>${t('places_of', { done: pr.done, total: pr.total })}</span></div>` + labelOrder().map((d) => {
@@ -89,6 +100,10 @@ function renderHome() {
     // Con el panel bajo, al filtrar se abre a la mitad para ver los resultados
     if (S.typeFilter && ['min', 'peek'].includes(sheet.dataset.state)) setSheet('half');
     render();
+    // Favoritos / quiero ir: encuadrar en el mapa los lugares de la lista
+    const res = S.typeFilter?.startsWith('__') ? homeResults() : [];
+    if (res.length) requestAnimationFrame(() => fit(res.reduce((b, p) => [Math.min(b[0], p.coords[1]), Math.min(b[1], p.coords[0]), Math.max(b[2], p.coords[1]), Math.max(b[3], p.coords[0])], [180, 90, -180, -90]),
+      { padding: pad('half'), maxZoom: 15, duration: 700 }));
   }));
   bindHomeList();
 }
@@ -124,7 +139,7 @@ function renderDistrict() {
     const sub = l === 2 ? `<small class="gps-ok">✓✓ GPS · ${fmtDate(v.gpsAt || v.t)}</small>`
       : l === 1 ? `<small>${t('visited')} ${v.t ? fmtDate(v.t) : ''}${dd}</small>` : `<small>${esc(typeName(p.type))}${dd}</small>`;
     return `<div class="place${S.selId === p.id ? ' sel' : ''}" id="pl-${p.id}" data-open="${p.id}">
-      <div class="p-info"><strong>${esc(p.name)}</strong>${sub}</div>${checks(p)}</div>`;
+      <div class="p-info"><strong>${esc(p.name)}${marks(p)}</strong>${sub}</div>${checks(p)}</div>`;
   };
   const F = [['all', t('f.all'), pr.total], ['todo', t('f.todo'), pr.total - pr.done], ['done', t('f.done'), pr.done], ['gps', 'GPS', pr.gps]];
   const list = Object.entries(zones).map(([z, ps]) => `${z ? `<h3 class="zone">${esc(z)}</h3>` : ''}${ps.map(row).join('')}`).join('');
@@ -143,8 +158,9 @@ function renderDistrict() {
     const b = d.barrios.find((x) => x.id === el.dataset.b), k = 'b:' + b.id, l = blvl(b), stored = lvl(k);
     if (l === 2) return toast(t('barrio.lock.gps'));
     if (l > stored) return toast(t('barrio.lock.place'));
-    if (stored === 1) { delete S.visits[k]; track('barrio_unmarked', { barrio: b.id, district: d.id }); }
-    else { S.visits[k] = { lvl: 1, t: Date.now() }; toast(t('barrio.marked.toast', { name: b.name })); track('barrio_discovered', { barrio: b.id, district: d.id, method: 'manual' }); }
+    const undo = snapshot(k);
+    if (stored === 1) { delete S.visits[k]; track('barrio_unmarked', { barrio: b.id, district: d.id }); toast(t('barrio.unmarked.toast', { name: b.name }), false, undo); }
+    else { S.visits[k] = { lvl: 1, t: Date.now() }; toast(t('barrio.marked.toast', { name: b.name }), false, undo); track('barrio_discovered', { barrio: b.id, district: d.id, method: 'manual' }); }
     commit();
   }));
 }
@@ -154,7 +170,9 @@ function renderPlace() {
   const p = BYID[S.view.id], d = districtOf[p.id], l = lvl(p.id), v = S.visits[p.id], b = barrioOf[p.id];
   $('#title').textContent = d?.name || 'Madrid';
   const dd = S.myPos ? fmtDist(dist(S.myPos.coords, p.coords)) : null;
-  const nav = `https://www.google.com/maps/dir/?api=1&destination=${p.coords[0]},${p.coords[1]}&travelmode=walking`;
+  const nav = (mode) => `https://www.google.com/maps/dir/?api=1&destination=${p.coords[0]},${p.coords[1]}&travelmode=${mode}`;
+  const mt = nearestMetro(p);
+  if (!mt) loadMetro().then(() => { if (S.view.type === 'place' && S.view.id === p.id && nearestMetro(p)) render({ keepScroll: true }); });
   const stamps = [
     v?.t && `<div class="stamp s1">${ICON_CHECK}<span><b>${t('visited')}</b>${fmtDate(v.t)} · ${fmtTime(v.t)}</span></div>`,
     v?.gpsAt && `<div class="stamp s2">${ICON_GPS}<span><b>${t('gps.confirmed')}</b>${fmtDate(v.gpsAt)} · ${fmtTime(v.gpsAt)}</span></div>`,
@@ -167,13 +185,25 @@ function renderPlace() {
       <div><h2>${esc(p.name)}</h2><p>${esc(typeName(p.type))}${p.zone ? ' · ' + esc(p.zone) : b ? ' · ' + esc(b.name) : ''}${dd ? ' · ' + t('at', { d: dd }) : ''}</p></div>
       ${checks(p)}
     </div>
+    <div class="lists">${[['f', 'heart'], ['w', 'bookmark']].map(([k, ico]) => `<button class="lst ${k}${inList(k, p.id) ? ' on' : ''}" data-l="${k}" aria-pressed="${inList(k, p.id)}">${MP_ICON(ico, 'ico')}<span>${t('list.' + k + '1')}</span></button>`).join('')}</div>
     ${stamps ? `<div class="stamps">${stamps}</div>` : ''}
-    <a class="cta" id="nav" href="${nav}" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24"><path d="M3 11l18-8-8 18-2-8-8-2z"/></svg>${t('directions')}</a>
+    <div class="ctas">
+      <a class="cta" data-nav="walking" href="${nav('walking')}" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M3 11l18-8-8 18-2-8-8-2z"/></svg>${t('directions')}</a>
+      <a class="cta alt" data-nav="transit" href="${nav('transit')}" target="_blank" rel="noopener" aria-label="${esc(t('dir.transit'))}">
+        <svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 11h14M8.5 17l-2 4M15.5 17l2 4M9 14h.01M15 14h.01"/></svg>${t('dir.transit')}</a></div>
+    ${mt ? `<div class="info-row metro"><span class="m-logo">M</span><p><b>${esc(mt.name)}</b> ${mt.lines.map(lineBadge).join('')}<br><small>${t('metro.at', { d: fmtDist(mt.d), min: mt.min })}</small></p></div>` : ''}
     <div class="info-row">${MP_ICON('clock')}<p>${esc(t('access.' + (ACCESS_KEYS.includes(p.type) ? p.type : 'x')))}</p></div>
     ${desc ? `<p class="desc">${esc(desc)}</p><p class="src">${t(en || lang === 'es' ? 'src' : 'src.es')}</p>` : ''}`;
   $('#back').onclick = () => openDistrict(d.id, { refit: true });   // salir de la ficha deselecciona y re-centra el distrito
-  $('#nav').onclick = () => track('directions_clicked', { place: p.id, type: p.type });
+  body.querySelectorAll('[data-nav]').forEach((a) => (a.onclick = () => track('directions_clicked', { place: p.id, type: p.type, mode: a.dataset.nav, metro: mt?.name || null })));
+  body.querySelectorAll('[data-l]').forEach((el) => (el.onclick = () => {
+    const k = el.dataset.l, key = `${k}:${p.id}`, on = !S.visits[key];
+    if (on) S.visits[key] = { t: Date.now() }; else delete S.visits[key];
+    track(on ? 'list_added' : 'list_removed', { list: k === 'f' ? 'fav' : 'want', place: p.id, type: p.type });
+    toast(t(`list.${k}.${on ? 'add' : 'del'}`));
+    save(); render({ keepScroll: true });
+  }));
   bindChecks();
   enrich(p).then((ok) => { if (ok && S.view.type === 'place' && S.view.id === p.id) render({ keepScroll: true }); });
 }
@@ -245,13 +275,25 @@ export function commit() {
 }
 export const initLevel = () => { lastLevel = levelState().lv.i; };
 
+// Deshacer: vuelve la entrada (lugar o barrio) y los logros a como estaban antes del toque
+function snapshot(key) {
+  const prev = S.visits[key] ? { ...S.visits[key] } : null, badges = { ...S.badges };
+  return { label: t('undo'), fn: () => {
+    if (prev) S.visits[key] = prev; else delete S.visits[key];
+    S.badges = badges;
+    track('undo', { key });
+    commit();
+  } };
+}
+
 async function onCheck(el) {
   const id = el.dataset.id, a = +el.dataset.a, l = lvl(id), place = BYID[id];
   const props = { place: id, type: place.type, district: districtOf[id]?.id };
   if (a === 1) {
     if (l === 2) return toast(t('chk.locked'));
-    if (l === 1) { delete S.visits[id]; track('place_unchecked', props); }
-    else { S.visits[id] = { lvl: 1, t: Date.now() }; toast(t('chk.marked')); track('place_checked', props); }
+    const undo = snapshot(id);
+    if (l === 1) { delete S.visits[id]; track('place_unchecked', props); toast(t('chk.unmarked'), false, undo); }
+    else { S.visits[id] = { lvl: 1, t: Date.now() }; toast(t('chk.marked'), false, undo); track('place_checked', props); }
   } else {
     if (l === 2) return toast(t('chk.already'));
     el.classList.add('loading');

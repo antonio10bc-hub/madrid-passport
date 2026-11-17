@@ -141,6 +141,50 @@ test('tocar el asa (táctil) pliega y despliega sin abrir el teclado', async ({ 
   expect(await page.evaluate(() => document.activeElement?.id || '')).not.toBe('q');
 });
 
+test('favoritos y «quiero ir»: desde la ficha, filtros primeros y pines en el mapa', async ({ page }) => {
+  const chips = page.locator('#type-chips .chip');
+  await expect(chips.nth(0)).toHaveAttribute('data-t', '__fav');
+  await expect(chips.nth(1)).toHaveAttribute('data-t', '__want');
+  await openCentro(page);
+  await page.locator('#pl-plaza-mayor').click();
+  await page.locator('.lst[data-l="f"]').click();
+  await expect(page.locator('.lst[data-l="f"]')).toHaveClass(/on/);
+  await page.locator('#back').click();
+  await page.locator('#pl-san-miguel').click();
+  await page.locator('.lst[data-l="w"]').click();
+  await page.locator('[data-tab="map"]').click();          // portada
+  await page.locator('.chip[data-t="__fav"]').click();
+  await expect(page.locator('.pitem')).toHaveCount(1);
+  await expect(page.locator('.pitem')).toContainText('Plaza Mayor');
+  await expect(page.locator('.pin[data-id="plaza-mayor"]')).toHaveCount(1);   // pin en el mapa
+  await page.locator('.chip[data-t="__want"]').click();
+  await expect(page.locator('.pitem')).toContainText('San Miguel');
+  await page.reload();                                     // se guarda
+  await expect(page.locator('.chip[data-t="__fav"] b')).toHaveText('1');
+});
+
+test('deshacer: marcar y desmarcar desde el aviso', async ({ page }) => {
+  await openCentro(page);
+  await markVisited(page, 'plaza-mayor');
+  await page.locator('#toast button').click();
+  await expect(page.locator('#pl-plaza-mayor .chk[data-a="1"]')).not.toHaveClass(/on/);
+  await expect(page.locator('#ring-txt')).toHaveText('0%');
+  await markVisited(page, 'plaza-mayor');
+  await page.waitForTimeout(300);
+  await markVisited(page, 'plaza-mayor');                  // desmarcar…
+  await page.locator('#toast button').click();             // …y deshacer
+  await expect(page.locator('#pl-plaza-mayor .chk[data-a="1"]')).toHaveClass(/on/);
+});
+
+test('pines agrupados: al alejar se juntan y al tocar el grupo se acerca', async ({ page }) => {
+  await openCentro(page);
+  await page.evaluate(() => window.__mpMap.jumpTo({ zoom: 12.5 }));
+  await expect(page.locator('.cluster').first()).toBeVisible();
+  const z0 = await page.evaluate(() => window.__mpMap.getZoom());
+  await page.locator('.cluster').first().click();
+  await expect.poll(() => page.evaluate(() => window.__mpMap.getZoom())).toBeGreaterThan(z0);
+});
+
 test('buscador y filtro por tipo', async ({ page }) => {
   await expect(page.locator('#sheet')).toHaveAttribute('data-state', 'peek');
   await page.locator('.chip[data-t="Museo"]').click();

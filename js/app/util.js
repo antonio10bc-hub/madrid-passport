@@ -46,10 +46,17 @@ export const ll = (p) => [p.coords[1], p.coords[0]];       // [lat, lng] → [ln
 
 // ---------- UI ----------
 let toastT;
-export const toast = (msg, err) => {
+// action = { label, fn }: botón dentro del aviso (p. ej. «Deshacer»), que dura más
+export const toast = (msg, err, action) => {
   const el = $('#toast');
-  el.textContent = msg; el.className = 'toast show' + (err ? ' err' : '');
-  clearTimeout(toastT); toastT = setTimeout(() => (el.className = 'toast'), 2600);
+  el.textContent = msg; el.className = 'toast show' + (err ? ' err' : '') + (action ? ' act' : '');
+  if (action) {
+    const b = document.createElement('button');
+    b.textContent = action.label;
+    b.onclick = (e) => { e.stopPropagation(); el.className = 'toast'; action.fn(); };
+    el.appendChild(b);
+  }
+  clearTimeout(toastT); toastT = setTimeout(() => (el.className = 'toast'), action ? 4500 : 2600);
 };
 export const ICON_CHECK = '<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
 export const ICON_GPS = '<svg viewBox="0 0 24 24"><path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0113 0c0 5-6.5 11-6.5 11z"/><path d="M9.5 10l2 2 3.5-3.5"/></svg>';

@@ -27,6 +27,9 @@ export const progress = (places) => ({ done: places.filter((p) => lvl(p.id) > 0)
 export const bKey = (b) => 'b:' + b.id;
 export const blvl = (b) => Math.max(lvl(bKey(b)), ...b.places.map((p) => lvl(p.id)), 0);
 export const bprogress = (barrios) => ({ done: barrios.filter((b) => blvl(b) > 0).length, gps: barrios.filter((b) => blvl(b) === 2).length, total: barrios.length });
+// Listas del usuario: favoritos ('f:<id>') y quiero ir ('w:<id>'), guardadas junto a las visitas (se sincronizan igual)
+export const inList = (k, id) => !!S.visits[`${k}:${id}`];
+export const listPlaces = (k) => PLACES.filter((p) => inList(k, p.id));
 export const districtDone = (d) => d.places.length > 0 && d.places.every((p) => lvl(p.id) > 0);
 
 export const currentDistrict = () => (S.view.type === 'district' ? DISTRICTS.find((d) => d.id === S.view.id) : S.view.type === 'place' ? districtOf[S.view.id] : null);
