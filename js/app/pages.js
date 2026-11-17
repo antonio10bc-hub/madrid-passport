@@ -46,7 +46,7 @@ function renderDiary() {
   const list = days.map((d, i) => {
     const open = dayOpen[d.k] ?? i < 2;
     const np = d.items.filter((x) => x.p).length, nb = d.items.length - np;
-    const gps = d.items.filter((x) => x.p && x.v.lvl === 2).length;
+    const gps = d.items.filter((x) => x.v.lvl === 2).length;   // lugares y barrios en dorado
     return `<section class="day ${open ? 'open' : ''}" data-day="${d.k}">
       <button class="day-h" aria-expanded="${open}"><span>${esc(d.label)}</span>
         <small>${np ? t(np === 1 ? 'place_1' : 'place_n', { n: np }) : ''}${np && nb ? ' · ' : ''}${nb ? t(nb === 1 ? 'barrio_1' : 'barrio_n', { n: nb }) : ''}${gps ? ` · ${gps} GPS` : ''}</small><span class="chev"></span></button>
@@ -54,7 +54,7 @@ function renderDiary() {
   }).join('');
   return `<div id="acct-slot"></div><div class="kpis">
       <div class="stat"><b>${pr.done}</b><small>${t('k.visited')}</small></div>
-      <div class="stat gold"><b>${pr.gps}</b><small>GPS</small></div>
+      <div class="stat gold"><b>${pr.gps + bp.gps}</b><small>GPS</small></div>
       <div class="stat"><b>${bp.done}<span>/${bp.total}</span></b><small>${t('k.barrios')}</small></div>
       <div class="stat"><b>${dComplete}<span>/${DISTRICTS.length}</span></b><small>${t('districts')}</small></div></div>
     ${list || `<div class="empty-state">${t('diary.empty')}</div>`}
