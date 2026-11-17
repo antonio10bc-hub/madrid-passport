@@ -288,21 +288,6 @@ export function goHome() {
   S.view = { type: 'home' }; S.selId = null; setSheet('peek'); render(); body.scrollTop = 0;
   requestAnimationFrame(() => fitCity(true));
 }
-export function deselect(d) {
-  S.selId = null;
-  document.querySelectorAll('.pin.sel, .place.sel').forEach((x) => x.classList.remove('sel', 'flash'));
-  fit(d.bbox, { padding: pad(), maxZoom: 16, duration: 700 });
-}
-export function selectFromMap(id) {
-  S.selId = id;
-  document.querySelectorAll('.pin.sel, .place.sel').forEach((x) => x.classList.remove('sel', 'flash'));
-  document.querySelector(`.pin[data-id="${id}"]`)?.classList.add('sel');
-  const row = document.getElementById('pl-' + id);
-  if (!row) return;
-  void row.offsetWidth;
-  row.classList.add('sel', 'flash');
-  body.scrollTo({ top: row.offsetTop - body.clientHeight / 3, behavior: 'smooth' });
-}
 
 // ---------- Checks ----------
 let lastLevel = null;

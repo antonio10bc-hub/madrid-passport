@@ -224,6 +224,13 @@ test('distrito: ordenar por cercanía y pendientes primero', async ({ page }) =>
   await expect(page.locator('.zone')).toHaveCount(1);                       // sin cabeceras de zona (solo «Barrios»)
 });
 
+test('tocar un pin en el distrito abre directamente su ficha', async ({ page }) => {
+  await openCentro(page);
+  await page.evaluate(() => window.__mpMap.jumpTo({ zoom: 17, center: [-3.70738, 40.41546] }));   // Plaza Mayor, sin agrupar
+  await page.locator('.pin[data-id="plaza-mayor"]').click();
+  await expect(page.locator('.pd-head h2')).toHaveText('Plaza Mayor');
+});
+
 test('ficha: siguiente pendiente cerca', async ({ page }) => {
   await openCentro(page);
   await page.locator('#pl-plaza-mayor').click();

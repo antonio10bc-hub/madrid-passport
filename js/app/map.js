@@ -3,7 +3,7 @@ import { $, esc, css, isDark, ll, ICON_CHECK, ICON_GPS } from './util.js';
 import { S, DISTRICTS, BYID, districtOf, lvl, blvl, progress, currentDistrict } from './state.js';
 import { distGeo, barGeo } from './geo.js';
 import { pad, sheet, setSheet } from './sheet.js';
-import { openDistrict, openPlace, goHome, deselect, selectFromMap, homeResults } from './views.js';
+import { openDistrict, openPlace, goHome, homeResults } from './views.js';
 import { setFake, setFollow, radiusFor } from './gps.js';
 import { track } from './analytics.js';
 
@@ -222,13 +222,10 @@ function makePin(p) {
     if (S.placing) return;
     e.stopPropagation();
     const d = districtOf[p.id];
-    if (S.view.type === 'home') return openPlace(p.id, 'pin');
-    if (S.view.type === 'place') return S.view.id === p.id ? openDistrict(d.id, { refit: true }) : openPlace(p.id, 'pin');
-    if (S.selId === p.id) { deselect(d); return drawGpsArea(); }   // 2º tap: deseleccionar y centrar distrito
-    if (sheet.dataset.state === 'min') setSheet('half');
-    selectFromMap(p.id);
-    drawGpsArea();
-    track('pin_tapped', { place: p.id, type: p.type, district: d.id });
+    // Tocar un pin abre su ficha; tocar el pin del lugar abierto vuelve al distrito
+    if (S.view.type === 'place' && S.view.id === p.id) return openDistrict(d.id, { refit: true });
+    track('pin_tapped', { place: p.id, type: p.type, district: d?.id, view: S.view.type });
+    openPlace(p.id, 'pin');
   };
   return { marker: new maplibregl.Marker({ element: wrap }).setLngLat(ll(p)).addTo(map), el, lvl: -1 };
 }
