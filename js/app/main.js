@@ -7,7 +7,7 @@ import { initSheet } from './sheet.js';
 import { map, initMap } from './map.js';
 import { initGps, afterMap } from './gps.js';
 import { render, initLevel } from './views.js';
-import { initPages, unlockedNow } from './pages.js';
+import { initPages, unlockedNow, levelState } from './pages.js';
 import { initSync } from './sync.js';
 import { initAnalytics, track, setPerson } from './analytics.js';
 
@@ -34,7 +34,9 @@ function initShare() {
       const scope = b.dataset.s, format = b.dataset.f;
       try {
         const L = Object.fromEntries(['title', 'visited', 'gps', 'pending', 'districts', 'barrios'].map((k) => [k, t('share.' + k)]));
-        const r = await MPShare.share({ districts: DISTRICTS, places: PLACES, barrios: BARRIOS, lvl, blvl, district: scope === 'district' ? d : null, format, L });
+        L.level = t('level'); L.pts = t('pts');
+        const { pts, lv } = levelState();
+        const r = await MPShare.share({ districts: DISTRICTS, places: PLACES, barrios: BARRIOS, lvl, blvl, district: scope === 'district' ? d : null, format, L, level: { n: lv.i + 1, name: t('lvl.' + lv.cur.id), pts: pts.total } });
         track('share_done', { scope, format, result: r, district: scope === 'district' ? d.id : null });
         if (r === 'downloaded') toast(t('share.dl'));
       } catch (err) { console.error(err); track('share_error', { scope, format }); toast(t('share.fail'), true); }
