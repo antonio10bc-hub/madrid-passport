@@ -55,6 +55,14 @@ test('confirmar por GPS cerca del lugar: sello dorado y barrio pisado', async ({
   await expect(page.locator('#page-body .pitem.static')).toContainText('Sol');      // barrio sellado por GPS
 });
 
+test('al abrir un lugar se dibuja su área de GPS en el mapa', async ({ page }) => {
+  await openCentro(page);
+  await page.locator('#pl-plaza-mayor').click();
+  await expect.poll(() => page.evaluate(async () => (await import('/js/app/map.js')).gpsAreaId())).toBe('plaza-mayor');
+  await page.locator('#back').click();
+  await expect.poll(() => page.evaluate(async () => (await import('/js/app/map.js')).gpsAreaId())).toBe('');
+});
+
 test('GPS lejos del lugar: avisa y no confirma', async ({ page, context }) => {
   await openCentro(page);
   await markVisited(page, 'plaza-mayor');
@@ -66,11 +74,12 @@ test('GPS lejos del lugar: avisa y no confirma', async ({ page, context }) => {
 
 test('barrios del distrito: marcar uno a mano', async ({ page }) => {
   await openCentro(page);
-  await page.locator('#barrios-h').click();
-  const first = page.locator('.place.barrio .chk:not([disabled])').first();
+  const first = page.locator('.bchip.l0').first();
   await first.click();
-  await expect(page.locator('.place.barrio .chk.on').first()).toBeVisible();
-  await expect(page.locator('#barrios-h small')).toHaveText(/^1\//);
+  await expect(page.locator('.bchip.l1')).toHaveCount(1);
+  await expect(page.locator('#barrios-n')).toHaveText(/^1\//);
+  await page.locator('.bchip.l1').click();                    // marcado a mano: se puede quitar
+  await expect(page.locator('.bchip.l1')).toHaveCount(0);
 });
 
 test('logros: nivel arriba, puntos y progreso por tipo', async ({ page }) => {

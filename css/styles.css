@@ -435,8 +435,9 @@ button, a, input, .place, .row, .pitem { touch-action: manipulation; }
 .day-h { width: 100%; display: flex; align-items: center; gap: 8px; padding: 14px 0 10px; text-align: left; }
 .day-h span:first-child { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--red); }
 .day-h small { margin-left: auto; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
-.day-h .chev { transform: rotate(135deg); transition: transform .2s var(--ease-out); margin: 0 4px 3px 6px; }
-.day.open .day-h .chev { transform: rotate(-45deg); margin-bottom: -3px; }
+/* Desplegable: cerrado › (a la derecha), abierto ⌄ (hacia abajo) */
+.day-h .chev { transform: rotate(45deg); transition: transform .2s var(--ease-out); margin: 0 6px 0 6px; }
+.day.open .day-h .chev { transform: rotate(135deg); margin-bottom: 3px; }
 .day-b .pitem:last-child { border-bottom: 0; }
 .src { text-decoration: none; }
 
@@ -453,12 +454,17 @@ button, a, input, .place, .row, .pitem { touch-action: manipulation; }
 .maplibregl-ctrl-top-left { top: calc(var(--top) + 134px); }
 
 /* ---------- Barrios en el distrito ---------- */
-.barrios { border-top: 1px solid var(--line); margin-top: 14px; }
-.barrios.open .day-h .chev { transform: rotate(-45deg); margin-bottom: -3px; }
-.place.barrio { cursor: default; }
+.barrios { border-top: 1px solid var(--line); margin-top: 18px; padding-top: 4px; }
 .hint { font-size: 12px; color: var(--muted); line-height: 1.4; margin: 0 0 4px; }
-.chk.gold:disabled { background: var(--gold); border-color: var(--gold); opacity: 1; }
-.chk.on:disabled:not(.gold) { opacity: .55; }
+.b-head { display: flex; align-items: baseline; justify-content: space-between; }
+.b-head span { font-size: 12px; font-weight: 600; color: var(--muted); font-variant-numeric: tabular-nums; }
+.b-grid { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 10px; }
+.bchip { display: inline-flex; align-items: center; gap: 5px; min-height: 36px; padding: 6px 12px; border-radius: 999px;
+  border: 1.5px dashed rgba(var(--red-a),.45); font-size: 13px; font-weight: 500; color: var(--ink); background: var(--bg); }
+.bchip svg { width: 14px; height: 14px; fill: none; stroke: #fff; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.bchip.l1 { background: var(--red); border: 1.5px solid var(--red); color: #fff; }
+.bchip.l2 { background: var(--gold); border: 1.5px solid var(--gold); color: #fff; }
+.bchip:active { transform: scale(.96); }
 .pitem.static { cursor: default; }
 
 /* ---------- Logros: nivel ---------- */
@@ -472,18 +478,6 @@ button, a, input, .place, .row, .pitem { touch-action: manipulation; }
 .lvl-card .bar { height: 8px; border-radius: 4px; margin-top: 14px; background: var(--line); }
 .lvl-card .bar i { border-radius: 4px; }
 .lvl-next { font-size: 13px; color: var(--muted); margin-top: 8px; }
-.lvl-how { margin-top: 10px; font-size: 13px; }
-.lvl-how summary { cursor: pointer; color: var(--red); font-weight: 600; list-style: none; min-height: 32px; display: flex; align-items: center; }
-.lvl-how summary::-webkit-details-marker { display: none; }
-.lvl-how ul { list-style: none; padding: 0; margin: 4px 0 8px; }
-.lvl-how li { display: flex; gap: 8px; padding: 6px 0; border-bottom: 1px dashed var(--line); }
-.lvl-how li span { flex: 1; }
-.lvl-how li em { font-style: normal; color: var(--muted); font-variant-numeric: tabular-nums; }
-.lvl-how li b { width: 44px; text-align: right; font-variant-numeric: tabular-nums; }
-.lvl-ladder { display: flex; flex-wrap: wrap; gap: 6px; }
-.lvl-ladder span { font-size: 12px; padding: 4px 9px; border-radius: 999px; background: var(--bg); color: var(--muted); }
-.lvl-ladder span.on { background: rgba(var(--red-a),.1); color: var(--red); font-weight: 600; }
-.lvl-ladder em { font-style: normal; opacity: .7; margin-left: 2px; }
 
 /* ---------- Logros: progreso por tipo ---------- */
 .tp-list { margin: 0 0 18px; }

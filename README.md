@@ -5,7 +5,7 @@ Guía-mapa de Madrid por sus 21 distritos, mobile-first (390×844, iPhone 14). D
 ## Funciones
 - Mapa de distritos (límites oficiales) → tap abre el distrito con sus lugares; tap de nuevo lo cierra.
 - Ficha de lugar: foto, descripción (Wikipedia), acceso, sellos con fecha y botón «Cómo llegar».
-- Doble check: ✓ «he estado» (se puede quitar) y ✓✓ GPS (definitivo). Radio 300 m (600 m parques/estadios) + precisión (máx. 150 m).
+- Doble check: ✓ «he estado» (se puede quitar) y ✓✓ GPS (definitivo). Radio 150 m (350 m parques/estadios) + precisión (máx. 50 m); el área se dibuja en el mapa al seleccionar un lugar.
 - Sugerencia automática al estar cerca de un lugar sin confirmar.
 - Seguimiento de posición (botón ubicación: centra y sigue; arrastrar el mapa lo desactiva).
 - Buscador y filtros por tipo; filtro por estado en el distrito (todos, pendientes, visitados, GPS).
@@ -32,8 +32,8 @@ sugerencias, barrios por GPS, debug) · `level.js` (puntos y niveles) · `i18n.j
 y con `?notrack` (o `localStorage['mp.noTrack']='1'`). Sin emails ni nombres: al iniciar sesión solo se usa el id de Supabase.
 Todos los eventos llevan `app=madrid-passport` (el proyecto de PostHog se comparte con otra app). Eventos propios:
 `app_opened`, `district_opened`, `place_opened`, `pin_tapped`, `place_checked`, `place_unchecked`, `gps_check_attempt`,
-`gps_confirmed`, `gps_too_far`, `gps_error`, `suggestion_shown`, `suggestion_dismissed`, `barrio_discovered`, `barrios_opened`,
-`badge_unlocked`, `level_up`, `search`, `type_filter`, `status_filter`, `tab_viewed`, `type_progress_tapped`, `level_how_opened`,
+`gps_confirmed`, `gps_too_far`, `gps_error`, `suggestion_shown`, `suggestion_dismissed`, `barrio_discovered`,
+`badge_unlocked`, `level_up`, `search`, `type_filter`, `status_filter`, `tab_viewed`, `type_progress_tapped`, `barrio_unmarked`,
 `share_opened`, `share_done`, `share_error`, `directions_clicked`, `locate`, `language_changed`, `login_clicked`, `logout`,
 `sync_error`, `app_installed`, `js_error`; además páginas vistas, autocaptura de clics, web vitals y grabación de sesiones
 (si está activada en el proyecto). Dashboard: «Madrid Passport · Uso».

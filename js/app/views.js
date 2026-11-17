@@ -3,7 +3,7 @@ import { $, esc, dist, fmtDist, fmtDate, fmtTime, toast, ICON_CHECK, ICON_GPS, I
 import { S, PLACES, BYID, DISTRICTS, districtOf, barrioOf, lvl, blvl, bKey, progress, bprogress, currentDistrict, save } from './state.js';
 import { t, typeName, typePlural, lang } from './i18n.js';
 import { body, sheet, setSheet, pad } from './sheet.js';
-import { map, fit, fitCity, centerOffset, paintDistricts, drawPins, passStatus } from './map.js';
+import { map, ready, fit, fitCity, centerOffset, paintDistricts, drawPins, passStatus } from './map.js';
 import { getPos, onPosition, radiusFor, gpsStamp, confirmGps, checkNearby } from './gps.js';
 import { enrich } from './wiki.js';
 import { renderPage, setTab, checkBadges, levelState } from './pages.js';
@@ -99,18 +99,15 @@ function checks(p) {
 }
 const bindChecks = () => body.querySelectorAll('.chk').forEach((el) => (el.onclick = (e) => { e.stopPropagation(); onCheck(el); }));
 
-let barriosOpen = false;
+// Barrios del distrito: siempre visibles como fichas. Pendiente (borde), visitado (rojo), GPS (dorado).
 function barriosHTML(d) {
   const bp = bprogress(d.barrios);
-  const rows = d.barrios.map((b) => {
-    const l = blvl(b), stored = lvl(bKey(b)), derived = l > stored;
-    const sub = l === 2 ? `<small class="gps-ok">✓✓ ${t('barrio.gps')}</small>` : l === 1 ? `<small>${derived ? t('barrio.byplace') : t('barrio.marked')}</small>` : `<small>${t('n_places', { n: b.places.length })}</small>`;
-    return `<div class="place barrio"><div class="p-info"><strong>${esc(b.name)}</strong>${sub}</div>
-      <div class="checks"><button class="chk ${l >= 1 ? 'on' : ''}${l === 2 ? ' gold' : ''}" data-b="${b.id}" ${derived || l === 2 ? 'disabled' : ''} aria-label="${esc(t('chk.been'))}">${l === 2 ? ICON_GPS : ICON_CHECK}</button></div></div>`;
+  const chips = d.barrios.map((b) => {
+    const l = blvl(b);
+    return `<button class="bchip l${l}" data-b="${b.id}" aria-pressed="${l > 0}">${l === 2 ? ICON_GPS : l === 1 ? ICON_CHECK : ''}<span>${esc(b.name)}</span></button>`;
   }).join('');
-  return `<section class="barrios ${barriosOpen ? 'open' : ''}"><button class="day-h" id="barrios-h" aria-expanded="${barriosOpen}"><span>${t('barrios')}</span>
-    <small>${bp.done}/${bp.total}${bp.gps ? ` · ${bp.gps} GPS` : ''}</small><span class="chev"></span></button>
-    <div class="day-b">${barriosOpen ? `<p class="hint">${t('barrio.hint')}</p>${rows}` : ''}</div></section>`;
+  return `<section class="barrios"><div class="b-head"><h3 class="zone">${t('barrios')}</h3><span id="barrios-n">${bp.done}/${bp.total}${bp.gps ? ` · ${bp.gps} GPS` : ''}</span></div>
+    <div class="b-grid">${chips}</div><p class="hint">${t('barrio.hint')}</p></section>`;
 }
 
 function renderDistrict() {
@@ -138,12 +135,13 @@ function renderDistrict() {
   body.querySelectorAll('[data-f]').forEach((el) => (el.onclick = () => { S.statusFilter = el.dataset.f; track('status_filter', { filter: S.statusFilter }); render({ keepScroll: true }); }));
   bindChecks();
   body.querySelectorAll('[data-open]').forEach((el) => (el.onclick = () => openPlace(el.dataset.open, 'list')));
-  $('#barrios-h')?.addEventListener('click', () => { barriosOpen = !barriosOpen; if (barriosOpen) track('barrios_opened', { district: d.id }); render({ keepScroll: true }); });
   body.querySelectorAll('[data-b]').forEach((el) => (el.onclick = (e) => {
     e.stopPropagation();
-    const k = 'b:' + el.dataset.b;
-    if (lvl(k) === 1) delete S.visits[k];
-    else { S.visits[k] = { lvl: 1, t: Date.now() }; track('barrio_discovered', { barrio: el.dataset.b, district: d.id, method: 'manual' }); }
+    const b = d.barrios.find((x) => x.id === el.dataset.b), k = 'b:' + b.id, l = blvl(b), stored = lvl(k);
+    if (l === 2) return toast(t('barrio.lock.gps'));
+    if (l > stored) return toast(t('barrio.lock.place'));
+    if (stored === 1) { delete S.visits[k]; track('barrio_unmarked', { barrio: b.id, district: d.id }); }
+    else { S.visits[k] = { lvl: 1, t: Date.now() }; toast(t('barrio.marked.toast', { name: b.name })); track('barrio_discovered', { barrio: b.id, district: d.id, method: 'manual' }); }
     commit();
   }));
 }
@@ -192,7 +190,7 @@ export function openDistrict(id, { keepMap = false, refit = false, via } = {}) {
   const changed = currentDistrict()?.id !== id;
   S.view = { type: 'district', id };
   if (changed || refit) S.selId = null;
-  if (changed) { S.statusFilter = 'all'; barriosOpen = false; track('district_opened', { district: id, via: via || 'other' }); }
+  if (changed) { S.statusFilter = 'all'; track('district_opened', { district: id, via: via || 'other' }); }
   setSheet('half');
   render();
   body.scrollTop = 0;
@@ -206,7 +204,7 @@ export function openPlace(id, via = 'other') {
   track('place_opened', { place: id, type: p.type, district: districtOf[id]?.id, via, level: lvl(id) });
   if (sheet.dataset.state === 'min' || sheet.dataset.state === 'peek') setSheet('half');
   render(); body.scrollTop = 0;
-  requestAnimationFrame(() => map.flyTo({ center: [p.coords[1], p.coords[0]], zoom: Math.max(map.getZoom(), 15.5), offset: centerOffset(), duration: 700 }));
+  if (ready) requestAnimationFrame(() => map.flyTo({ center: [p.coords[1], p.coords[0]], zoom: Math.max(map.getZoom(), 15.5), offset: centerOffset(), duration: 700 }));
 }
 export function goHome() {
   S.view = { type: 'home' }; S.selId = null; setSheet('peek'); render(); body.scrollTop = 0;

@@ -4,11 +4,11 @@ import { S, DISTRICTS, BYID, districtOf, lvl, blvl, progress, currentDistrict } 
 import { distGeo, barGeo } from './geo.js';
 import { pad, sheet, setSheet } from './sheet.js';
 import { openDistrict, openPlace, goHome, deselect, selectFromMap } from './views.js';
-import { setFake, setFollow } from './gps.js';
+import { setFake, setFollow, radiusFor } from './gps.js';
 import { track } from './analytics.js';
 
 const STYLE = { light: 'https://tiles.openfreemap.org/styles/positron', dark: 'https://tiles.openfreemap.org/styles/dark' };
-export let map = null;
+export let map = null, ready = false;   // ready: estilo cargado y capas añadidas
 let LABEL_ORDER = [];
 const FALLBACK_STYLE = () => ({ version: 8, sources: {}, layers: [{ id: 'bg', type: 'background', paint: { 'background-color': css('--map-bg') } }] });
 async function loadStyle() {
@@ -44,6 +44,29 @@ function addLayers() {
     'line-color': ['case', ['boolean', ['feature-state', 'sel'], false], RED, css('--map-line')],
     'line-width': ['case', ['boolean', ['feature-state', 'sel'], false], 2.5, 1.2],
   }});
+  // Área en la que se puede confirmar por GPS el lugar seleccionado
+  map.addSource('gps-area', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
+  map.addLayer({ id: 'gps-fill', type: 'fill', source: 'gps-area', paint: { 'fill-color': GOLD, 'fill-opacity': 0.1 } });
+  map.addLayer({ id: 'gps-line', type: 'line', source: 'gps-area', paint: { 'line-color': GOLD, 'line-opacity': 0.7, 'line-width': 1.5, 'line-dasharray': [2, 2] } });
+  lastArea = null;
+}
+
+// Círculo (polígono de 64 lados) de radio r metros alrededor de [lat, lng]
+const circle = ([lat, lng], r) => {
+  const dLat = r / 111320, dLng = r / (111320 * Math.cos((lat * Math.PI) / 180));
+  const ring = Array.from({ length: 65 }, (_, i) => { const a = (i / 64) * 2 * Math.PI; return [lng + dLng * Math.cos(a), lat + dLat * Math.sin(a)]; });
+  return { type: 'Feature', geometry: { type: 'Polygon', coordinates: [ring] }, properties: {} };
+};
+let lastArea = null;
+function drawGpsArea() {
+  const src = map?.getSource('gps-area');
+  if (!src) return;
+  const id = S.view.type === 'place' ? S.view.id : S.selId;
+  const p = id && lvl(id) < 2 ? BYID[id] : null;      // ya confirmado: no hace falta
+  const key = p ? p.id : '';
+  if (key === lastArea) return;
+  lastArea = key;
+  src.setData({ type: 'FeatureCollection', features: p ? [circle(p.coords, radiusFor(p, 0))] : [] });
 }
 
 export async function initMap() {
@@ -61,6 +84,7 @@ export async function initMap() {
 
   await new Promise((r) => (map.loaded() ? r() : map.on('load', r)));
   addLayers();
+  ready = true;
   map.on('click', (e) => {
     if (S.placing) return setFake([e.lngLat.lat, e.lngLat.lng]);
     const f = map.queryRenderedFeatures(e.point, { layers: ['d-fill'] })[0];
@@ -94,13 +118,22 @@ export async function initMap() {
     map.setStyle(await loadStyle(), { diff: false });
     map.once('style.load', () => { addLayers(); for (const k in lastPaint) delete lastPaint[k]; for (const k in lastB) delete lastB[k]; lastBLine = undefined; paintDistricts(); });
   });
-  fitCity(false);
+  refitView();
+}
+
+// Encuadre de la vista actual (al terminar de cargar el mapa: el usuario puede haber abierto ya un distrito o lugar)
+export function refitView() {
+  const cur = currentDistrict();
+  if (S.view.type === 'place') { const p = BYID[S.view.id]; map.jumpTo({ center: [p.coords[1], p.coords[0]], zoom: 15.5, offset: centerOffset() }); }
+  else if (cur) fit(cur.bbox, { padding: pad('half'), maxZoom: 16, animate: false });
+  else fitCity(false);
 }
 
 // OJO: `padding` en flyTo/easeTo queda guardado en el mapa y se suma a los fitBounds siguientes
 // (si no cabe, MapLibre no mueve la cámara). Para centrar un punto usamos `offset`, que no persiste.
 export const centerOffset = (state) => { const p = pad(state); return [(p.left - p.right) / 2, (p.top - p.bottom) / 2]; };
 export const fit = (bounds, opts) => {
+  if (!ready) return;                         // aún cargando: initMap encuadra la vista al terminar
   map.resize();                                       // el lienzo puede tener un tamaño viejo (iOS)
   const cur = map.getPadding();
   if (cur.top || cur.bottom || cur.left || cur.right) map.setPadding({ top: 0, bottom: 0, left: 0, right: 0 });
@@ -175,15 +208,17 @@ function makePin(p) {
     e.stopPropagation();
     const d = districtOf[p.id];
     if (S.view.type === 'place') return S.view.id === p.id ? openDistrict(d.id, { refit: true }) : openPlace(p.id, 'pin');
-    if (S.selId === p.id) return deselect(d);                 // 2º tap: deseleccionar y centrar distrito
+    if (S.selId === p.id) { deselect(d); return drawGpsArea(); }   // 2º tap: deseleccionar y centrar distrito
     if (sheet.dataset.state === 'min') setSheet('half');
     selectFromMap(p.id);
+    drawGpsArea();
     track('pin_tapped', { place: p.id, type: p.type, district: d.id });
   };
   return { marker: new maplibregl.Marker({ element: wrap }).setLngLat(ll(p)).addTo(map), el, lvl: -1 };
 }
 export function drawPins() {
   if (!map) return;
+  drawGpsArea();
   const cur = currentDistrict();
   const key = cur ? cur.id + S.statusFilter : null;
   const enter = key && pinsKey !== key;
@@ -209,3 +244,4 @@ export function showMeOnMap(pos) {
   if (meMarker) meMarker.setLngLat(c);
   else { const el = document.createElement('div'); el.className = 'me'; meMarker = new maplibregl.Marker({ element: el }).setLngLat(c).addTo(map); }
 }
+export const gpsAreaId = () => lastArea;   // tests e2e

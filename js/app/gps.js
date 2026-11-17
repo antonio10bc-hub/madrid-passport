@@ -8,9 +8,10 @@ import { render, openPlace, commit } from './views.js';
 import { wikiSummary } from './wiki.js';
 import { track } from './analytics.js';
 
-// Radio para validar por GPS (m). Parques y estadios son grandes: margen mayor. Se suma la precisión (máx. 150 m).
-const GPS_RADIUS = 300, GPS_RADIUS_BIG = 600, BIG_TYPES = ['Parque', 'Estadio'];
-export const radiusFor = (p, acc) => (BIG_TYPES.includes(p.type) ? GPS_RADIUS_BIG : GPS_RADIUS) + Math.min(acc || 0, 150);
+// Radio para validar por GPS (m). Parques y estadios son grandes: margen mayor. Se suma la precisión (máx. 50 m).
+// El área (sin la precisión) se dibuja en el mapa al seleccionar un lugar.
+const GPS_RADIUS = 150, GPS_RADIUS_BIG = 350, BIG_TYPES = ['Parque', 'Estadio'];
+export const radiusFor = (p, acc) => (BIG_TYPES.includes(p.type) ? GPS_RADIUS_BIG : GPS_RADIUS) + Math.min(acc || 0, 50);
 
 // ---------- Modo debug: GPS falso (?debug=1 o pulsación larga en el botón de ubicación) ----------
 function setDebug(on) {

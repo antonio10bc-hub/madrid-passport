@@ -2,7 +2,7 @@
 import { $, esc, css, isDark, dayLabel, fmtTime, toast, stampDate } from './util.js';
 import { S, PLACES, BYID, DISTRICTS, BARRIOS, lvl, blvl, progress, bprogress, districtDone } from './state.js';
 import { t, typePlural, lang, setLang, LANGS } from './i18n.js';
-import { points, levelOf, LEVELS, PTS } from './level.js';
+import { points, levelOf, LEVELS } from './level.js';
 import { placeItem, bindPlaceItems, render, goHome, TYPES } from './views.js';
 import { renderAccount } from './sync.js';
 import { track } from './analytics.js';
@@ -64,16 +64,11 @@ function renderDiary() {
 // ---------- Logros: nivel + progreso por tipo + sellos ----------
 function levelHTML() {
   const { pts, lv } = levelState();
-  const P = pts.parts;
-  const rows = [['visit', P.visit], ['gps', P.gps], ['barrio', P.barrio], ['district', P.district], ['badge', P.badge]];
   return `<section class="lvl-card" id="lvl-card">
     <div class="lvl-top"><span class="lvl-n">${lv.i + 1}</span><div><small>${t('level')} ${lv.i + 1}/${LEVELS.length}</small><h2>${t('lvl.' + lv.cur.id)}</h2></div>
       <b class="lvl-pts">${pts.total}<span> ${t('pts')}</span></b></div>
     <div class="bar"><i style="width:${Math.round(lv.pct * 100)}%"></i></div>
     <p class="lvl-next">${lv.next ? t('level.next', { n: lv.toNext, name: t('lvl.' + lv.next.id) }) : t('level.max')}</p>
-    <details class="lvl-how"><summary>${t('level.how')}</summary>
-      <ul>${rows.map(([k, n]) => `<li><span>${t('pts.' + k)}</span><em>${n} × ${PTS[k]}</em><b>${n * PTS[k]}</b></li>`).join('')}</ul>
-      <p class="lvl-ladder">${LEVELS.map((l, i) => `<span class="${i <= lv.i ? 'on' : ''}">${t('lvl.' + l.id)} <em>${l.min}</em></span>`).join('')}</p></details>
   </section>`;
 }
 function typesHTML() {
@@ -159,7 +154,6 @@ export function renderPage() {
     S.typeFilter = el.dataset.type; S.query = ''; setTab('map'); goHome();
   }));
   pageBody.querySelector('[data-barrios]')?.addEventListener('click', () => toast(t('barrio.hint')));
-  pageBody.querySelector('.lvl-how')?.addEventListener('toggle', (e) => e.target.open && track('level_how_opened'));
   bindPlaceItems(pageBody);
   renderAccount();
 }
