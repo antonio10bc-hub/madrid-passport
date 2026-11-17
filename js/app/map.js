@@ -93,7 +93,7 @@ export async function initMap() {
   // Doble toque = zoom de MapLibre pisaba el re-centrado al volver a tocar un pin o el distrito abierto.
   map.doubleClickZoom.disable();
   map.addControl(new maplibregl.AttributionControl({ compact: true,
-    customAttribution: '© OpenStreetMap · OpenFreeMap · Ayto. Madrid · Wikipedia' }), 'top-right');
+    customAttribution: '© OpenStreetMap · OpenFreeMap · Ayto. Madrid · Wikipedia' }), 'top-left');
 
   await new Promise((r) => (map.loaded() ? r() : map.on('load', r)));
   addLayers();
@@ -203,6 +203,7 @@ export function paintDistricts() {
     }
   }
   $('#heat-legend')?.toggleAttribute('hidden', !!cur || S.tab !== 'map');
+  $('#app').classList.toggle('no-legend', !!cur);   // sin leyenda, la ⓘ sube a su sitio
   fitLabels();
 }
 

@@ -83,10 +83,11 @@ h1 { font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -.02e
 
 /* ---------- Mapa ---------- */
 #map { position: absolute; inset: 0; background: var(--map-bg); }
-/* Créditos del mapa (ⓘ): pequeños, debajo del botón compartir y centrados con él */
-.maplibregl-ctrl-top-right { top: calc(var(--top) + 186px); right: 15px; width: 44px; display: flex; justify-content: flex-end; }
-#app.on-page .maplibregl-ctrl-top-right { display: none; }
-.maplibregl-ctrl-attrib.maplibregl-compact { margin: 0 10px 0 0 !important; opacity: .55; transform: scale(.85); transform-origin: right top; background: rgba(var(--bg-a),.85); color: var(--ink); font-size: 10px; }
+/* Créditos del mapa (ⓘ): pequeños, debajo de la leyenda del mapa de calor; sin leyenda (distrito abierto) ocupan su sitio */
+.maplibregl-ctrl-top-left { top: calc(var(--top) + 146px); left: 15px; transition: top .25s var(--ease-out); }
+#app.no-legend .maplibregl-ctrl-top-left { top: calc(var(--top) + 82px); }
+#app.on-page .maplibregl-ctrl-top-left { display: none; }
+.maplibregl-ctrl-attrib.maplibregl-compact { margin: 0 !important; opacity: .55; transform: scale(.85); transform-origin: left top; background: rgba(var(--bg-a),.85); color: var(--ink); font-size: 10px; }
 .maplibregl-ctrl-attrib a { color: var(--ink); }
 .d-label { pointer-events: auto; }
 .d-label span {
