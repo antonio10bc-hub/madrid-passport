@@ -108,7 +108,7 @@ window.MPShare = (() => {
     const name = `madrid-passport-${opts.district ? opts.district.id : 'madrid'}-${opts.format || 'post'}.png`;
     const file = new File([blob], name, { type: 'image/png' });
     if (navigator.canShare?.({ files: [file] })) {
-      try { await navigator.share({ files: [file], title: 'Mi Madrid Passport' }); return 'shared'; }
+      try { await navigator.share({ files: [file] }); return 'shared'; }   // sin título: iOS muestra la miniatura de la imagen
       catch (e) { if (e.name === 'AbortError') return 'cancel'; }
     }
     const a = document.createElement('a');

@@ -1,7 +1,7 @@
 // Cuenta (Google vía Supabase) y sincronización del progreso.
 import { esc, toast } from './util.js';
 import { S, DISTRICTS, persist, onSave } from './state.js';
-import { t } from './i18n.js';
+import { t, lang } from './i18n.js';
 import { render } from './views.js';
 import { track, identify, resetUser, register } from './analytics.js';
 
@@ -50,7 +50,7 @@ function accountHTML() {
   if (!window.MPAuth?.enabled) return S.debug ? '<div class="acct off">Inicio de sesión sin configurar (js/config.js)</div>' : '';
   const u = MPAuth.user;
   if (!u) return `<div class="acct"><div class="acct-txt"><b>${t('acct.save')}</b><small>${t('acct.why')}</small></div>
-    <button class="gbtn" id="login">${GOOGLE_G}<span>${t('acct.google')}</span></button></div>`;
+    ${MPAuth.gis ? '<div class="gbtn-gis" id="login-gis"></div>' : `<button class="gbtn" id="login">${GOOGLE_G}<span>${t('acct.google')}</span></button>`}</div>`;
   const m = u.user_metadata || {}, name = m.full_name || m.name || u.email;
   const st = t('sync.' + syncState);
   return `<div class="acct in">${m.avatar_url ? `<img class="avatar" src="${esc(m.avatar_url)}" alt="" referrerpolicy="no-referrer">` : `<span class="avatar">${esc((name || '?')[0].toUpperCase())}</span>`}
@@ -61,6 +61,8 @@ export function renderAccount() {
   const el = document.getElementById('acct-slot');
   if (!el) return;
   el.innerHTML = accountHTML();
+  const gis = el.querySelector('#login-gis');
+  if (gis) MPAuth.renderGoogleButton(gis, { lang, onError: () => toast(t('acct.fail'), true) }).catch(() => toast(t('acct.fail'), true));
   el.querySelector('#login')?.addEventListener('click', () => { track('login_clicked'); MPAuth.signIn().catch(() => toast(t('acct.fail'), true)); });
   el.querySelector('#logout')?.addEventListener('click', async () => { await MPAuth.signOut(); track('logout'); resetUser(); toast(t('acct.bye')); });
   el.querySelector('#retry')?.addEventListener('click', pushNow);

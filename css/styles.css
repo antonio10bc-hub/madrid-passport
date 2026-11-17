@@ -698,3 +698,4 @@ button, a, input, .place, .row, .pitem { touch-action: manipulation; }
 .ob-again { width: 100%; display: flex; align-items: center; gap: 8px; margin-top: 22px; min-height: 44px; font-size: 14px; color: var(--muted); }
 .ob-again .ico { width: 18px; height: 18px; }
 @media (prefers-reduced-motion: reduce) { #onboard { animation: none; } }
+.gbtn-gis { width: 100%; min-height: 44px; display: flex; justify-content: center; }

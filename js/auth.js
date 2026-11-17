@@ -37,6 +37,32 @@ window.MPAuth = (() => {
     if (nu?.id !== user?.id || !nu) { user = nu; onChange(user); }
   }
   const signIn = async () => (await client()).auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.origin + location.pathname } });
+
+  // Botón oficial de Google (Google Identity Services): Google pide permiso en nombre de esta web, no de Supabase.
+  // El token de Google se entrega a Supabase con signInWithIdToken (con nonce para evitar reutilizarlo).
+  const gis = () => new Promise((res, rej) => {
+    if (window.google?.accounts?.id) return res();
+    const s = document.createElement('script');
+    s.src = 'https://accounts.google.com/gsi/client'; s.async = true; s.onload = res; s.onerror = rej;
+    document.head.appendChild(s);
+  });
+  const sha256 = async (txt) => [...new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(txt)))].map((b) => b.toString(16).padStart(2, '0')).join('');
+  async function renderGoogleButton(el, { lang = 'es', onError = () => {} } = {}) {
+    await gis();
+    const nonce = crypto.getRandomValues(new Uint32Array(4)).join('-');
+    google.accounts.id.initialize({
+      client_id: cfg.googleClientId, nonce: await sha256(nonce), use_fedcm_for_prompt: true, auto_select: false,
+      callback: async ({ credential }) => {
+        try {
+          const { error } = await (await client()).auth.signInWithIdToken({ provider: 'google', token: credential, nonce });
+          if (error) throw error;
+        } catch (e) { console.error(e); onError(e); }
+      },
+    });
+    el.innerHTML = '';
+    google.accounts.id.renderButton(el, { theme: matchMedia('(prefers-color-scheme: dark)').matches ? 'filled_black' : 'outline',
+      size: 'large', shape: 'pill', text: 'continue_with', logo_alignment: 'left', locale: lang, width: Math.min(el.clientWidth || 320, 400) });
+  }
   const signOut = async () => (await client()).auth.signOut();
   async function pull() {
     const { data, error } = await sb.from('progress').select('visits, badges, updated_at').eq('user_id', user.id).maybeSingle();
@@ -47,5 +73,5 @@ window.MPAuth = (() => {
     const { error } = await sb.from('progress').upsert({ user_id: user.id, visits, badges, updated_at: new Date().toISOString() });
     if (error) throw error;
   }
-  return { enabled, init, signIn, signOut, pull, push, get user() { return user; } };
+  return { enabled, init, signIn, signOut, pull, push, renderGoogleButton, get gis() { return !!cfg.googleClientId; }, get user() { return user; } };
 })();

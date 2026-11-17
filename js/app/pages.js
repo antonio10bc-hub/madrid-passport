@@ -130,8 +130,8 @@ function stampSVG(b, i, n, goal, date) {
   const top = shape === 'circle'
     ? `<path id="arc-${b.id}" d="M 70 70 m -51 0 a 51 51 0 1 1 102 0 a 51 51 0 1 1 -102 0" fill="none"/><text font-size="9.5" font-weight="800" letter-spacing="2.6" fill="${col}"><textPath href="#arc-${b.id}">MADRID PASSPORT · MADRID PASSPORT ·</textPath></text>`
     : `<text x="70" y="${shape === 'rect' ? 50 : 40}" text-anchor="middle" font-size="9" font-weight="800" letter-spacing="2" fill="${col}">MADRID</text>`;
-  return `<svg viewBox="0 0 140 140" class="pp-svg"><defs><filter id="ink-${b.id}"><feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="2" seed="${i + 2}" result="n"/>
-      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.3 1.75" result="m"/><feComposite in="SourceGraphic" in2="m" operator="in"/></filter></defs>
+  return `<svg viewBox="0 0 140 140" class="pp-svg"><defs><filter id="ink-${b.id}" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="${i + 2}" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -0.7 1.3" result="m"/><feComposite in="SourceGraphic" in2="m" operator="in"/></filter></defs>
     <g transform="rotate(${rot} 70 70)" filter="url(#ink-${b.id})" opacity=".92">
       <g fill="none" stroke="${col}"><g stroke-width="3.5">${OUT}</g><g stroke-width="1.5">${IN}</g></g>${top}
       <g transform="translate(55 ${shape === 'circle' ? 46 : 54})">${inkIcon(b.icon, col, 30, 2.2)}</g>

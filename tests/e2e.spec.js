@@ -307,6 +307,8 @@ test('idioma: cambiar a inglés y que se recuerde', async ({ page }) => {
 });
 
 test('compartir: en Madrid directo en historia; con distrito, elegir distrito o Madrid', async ({ page }) => {
+  // Sin hoja de compartir nativa en el navegador de pruebas: se descarga la imagen
+  await page.evaluate(() => Object.defineProperty(navigator, 'canShare', { value: undefined, configurable: true }));
   let dl = page.waitForEvent('download');
   await page.locator('#share').click();                           // sin distrito: sin menú
   expect((await dl).suggestedFilename()).toBe('madrid-passport-madrid-story.png');
