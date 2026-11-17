@@ -125,7 +125,7 @@ h1 { font-size: 28px; font-weight: 700; letter-spacing: -.02em; margin-top: 2px;
   height: calc(100% - var(--top) - 60px - var(--tabbar)); background: var(--bg); border-radius: 28px 28px 0 0;
   box-shadow: 0 -8px 30px var(--shadow);
   transition: transform .35s cubic-bezier(.2,.8,.2,1);
-  display: flex; flex-direction: column;
+  display: flex; flex-direction: column; will-change: transform; contain: layout paint;
 }
 .sheet[data-state="min"] { transform: translateY(calc(100% - 64px)); }
 .sheet[data-state="peek"] { transform: translateY(calc(100% - 150px)); }
@@ -212,7 +212,7 @@ h1 { font-size: 28px; font-weight: 700; letter-spacing: -.02em; margin-top: 2px;
 
 /* Doble check */
 .checks { display: flex; gap: 6px; flex: none; }
-.chk { width: 38px; height: 38px; border-radius: 12px; border: 1.5px solid var(--line); display: grid; place-items: center; transition: all .2s; }
+.chk { width: 38px; height: 38px; border-radius: 12px; border: 1.5px solid var(--line); display: grid; place-items: center; transition: background-color .2s, border-color .2s; }
 .chk svg { width: 18px; height: 18px; fill: none; stroke: var(--chev); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
 .chk.on { background: var(--red); border-color: var(--red); }
 .chk.on svg { stroke: #fff; }
@@ -294,8 +294,7 @@ h1 { font-size: 28px; font-weight: 700; letter-spacing: -.02em; margin-top: 2px;
 /* ---------- Menú inferior ---------- */
 .tabbar {
   position: absolute; z-index: 8; left: 0; right: 0; bottom: 0; height: var(--tabbar);
-  padding-bottom: var(--safe-bot); display: flex; background: rgba(var(--bg-a),.92);
-  -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); border-top: 1px solid var(--line);
+  padding-bottom: var(--safe-bot); display: flex; background: var(--bg); border-top: 1px solid var(--line);
 }
 .tabbar button { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: var(--muted); font-size: 11px; font-weight: 600; }
 .tabbar svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
@@ -303,7 +302,7 @@ h1 { font-size: 28px; font-weight: 700; letter-spacing: -.02em; margin-top: 2px;
 .tabbar button.on svg { stroke-width: 2.1; }
 
 /* ---------- Páginas Diario / Logros ---------- */
-.page { position: absolute; z-index: 7; inset: 0 0 var(--tabbar) 0; background: var(--bg); display: flex; flex-direction: column; animation: page-in .2s ease-out; }
+.page { position: absolute; z-index: 7; inset: 0 0 var(--tabbar) 0; background: var(--bg); display: flex; flex-direction: column; animation: page-in .18s ease-out; contain: strict; }
 .page[hidden] { display: none; }
 @keyframes page-in { from { opacity: 0; transform: translateY(8px); } }
 .page-head { padding: calc(var(--top) + 6px) 20px 10px; flex: none; }
@@ -356,3 +355,8 @@ h1 { font-size: 28px; font-weight: 700; letter-spacing: -.02em; margin-top: 2px;
 .sync.syncing { color: var(--muted); }
 .sync.error { color: var(--red); cursor: pointer; text-decoration: underline; }
 .link { color: var(--red); font-weight: 600; font-size: 14px; padding: 6px; }
+
+/* Rendimiento: no pintar filas/sellos fuera de pantalla */
+.row, .pitem, .place { content-visibility: auto; contain-intrinsic-size: auto 64px; }
+.pp { content-visibility: auto; contain-intrinsic-size: auto 190px; }
+.pp-svg { width: 132px; height: 132px; }

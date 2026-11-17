@@ -158,19 +158,24 @@
   };
 
   const sheet = $('#sheet'), body = $('#sheet-body');
-  const sheetVisible = (state = sheet.dataset.state) => ({ min: 64, peek: 150, half: sheet.offsetHeight * 0.58, full: sheet.offsetHeight }[state]);
+  // Medidas cacheadas (leer offsetHeight en cada navegación forzaba recalcular el diseño)
+  const dims = {};
+  const measure = () => { dims.app = $('#app').offsetHeight; dims.sheet = sheet.offsetHeight; dims.top = $('.topbar').offsetHeight; dims.tab = $('.tabbar').offsetHeight; };
+  addEventListener('resize', () => { measure(); setSheet(sheet.dataset.state); });
+  const sheetVisible = (state = sheet.dataset.state) => ({ min: 64, peek: 150, half: dims.sheet * 0.58, full: dims.sheet }[state]);
   const setSheet = (state) => {
     sheet.dataset.state = state;
-    $('#app').style.setProperty('--sheet-vis', (state === 'full' ? 0 : Math.min(sheetVisible(state), $('#app').offsetHeight * 0.6)) + 'px');
+    if (!dims.app) measure();
+    $('#app').style.setProperty('--sheet-vis', (state === 'full' ? 0 : Math.min(sheetVisible(state), dims.app * 0.6)) + 'px');
   };
   const pad = (state) => {
-    const h = $('#app').offsetHeight, top = $('.topbar').offsetHeight;
-    const tb = $('.tabbar').offsetHeight;
+    if (!dims.app) measure();
+    const h = dims.app, top = dims.top, tb = dims.tab;
     return { top: top + 16, bottom: Math.min(sheetVisible(state) + tb + 20, h - top - 140), left: 28, right: 28 };
   };
 
   // ---------- Mapa ----------
-  let map;
+  let map, LABEL_ORDER = [];
   const markers = { pins: [], me: null };
   const FALLBACK_STYLE = () => ({ version: 8, sources: {}, layers: [{ id: 'bg', type: 'background', paint: { 'background-color': css('--map-bg') } }] });
   async function loadStyle() {
@@ -204,6 +209,7 @@
   async function initMap() {
     map = new maplibregl.Map({
       container: 'map', style: await loadStyle(), center: [-3.70, 40.42], zoom: 10.5,
+      pixelRatio: Math.min(devicePixelRatio || 1, 2), fadeDuration: 0, renderWorldCopies: false, maxPitch: 0,
       attributionControl: false, dragRotate: false, pitchWithRotate: false, touchPitch: false,
     });
     map.touchZoomRotate.disableRotation();
@@ -220,6 +226,8 @@
       places: PLACES.filter((p) => (p.district ? p.district === f.properties.id : inGeom(ll(p), f.geometry))),
     }));
     DISTRICTS.forEach((d) => d.places.forEach((p) => (districtOf[p.id] = d)));
+    PLACES.forEach((p) => (p._search = norm(`${p.name} ${p.zone || ''} ${p.type} ${districtOf[p.id]?.name || ''}`)));
+    DISTRICTS.forEach((d) => (d.ini = d.name.replace(/-.*/, '').split(' ').filter((w) => w.length > 2).map((w) => w[0]).join('').slice(0, 2)));
     PLACES.forEach((p) => { if (!districtOf[p.id]) console.warn('Sin distrito:', p.id); });
     badgesUnlocked = Object.keys(badgesUnlocked).length ? badgesUnlocked : unlockedNow(true);
 
@@ -244,13 +252,14 @@
       el.onclick = (e) => { e.stopPropagation(); if (!placing) openDistrict(d.id); };
       d.labelMarker = new maplibregl.Marker({ element: el }).setLngLat(d.label).addTo(map);
     });
+    LABEL_ORDER = [...DISTRICTS].sort((x, y) => y.places.length - x.places.length);
     map.on('moveend', fitLabels);
     map.getContainer().querySelector('.maplibregl-ctrl-attrib')?.classList.remove('maplibregl-compact-show');
 
     // Modo oscuro: cambia estilo del mapa y recrea capas
     matchMedia('(prefers-color-scheme: dark)').addEventListener('change', async () => {
       map.setStyle(await loadStyle(), { diff: false });
-      map.once('style.load', () => { addLayers(); paintDistricts(); });
+      map.once('style.load', () => { addLayers(); for (const k in lastPaint) delete lastPaint[k]; lastBLine = undefined; paintDistricts(); });
     });
 
     fitCity(false);
@@ -266,66 +275,83 @@
   // Etiquetas sin solapes: prioridad a los distritos con más lugares
   function fitLabels() {
     const placed = [], hide = view.type !== 'home';
-    [...DISTRICTS].sort((x, y) => y.places.length - x.places.length).forEach((d) => {
+    LABEL_ORDER.forEach((d) => {
       const el = d.labelMarker.getElement();
-      if (hide) { el.style.display = 'none'; return; }
-      el.style.display = '';
-      const c = map.project(d.label), w = el.offsetWidth / 2 + 3, h = el.offsetHeight / 2 + 2;
-      const r = [c.x - w, c.y - h, c.x + w, c.y + h];
+      const disp = hide ? 'none' : '';
+      if (el.style.display !== disp) el.style.display = disp;
+      if (hide) return;
+      d.lw ||= el.offsetWidth / 2 + 3; d.lh ||= el.offsetHeight / 2 + 2;   // medidas cacheadas (texto fijo)
+      const c = map.project(d.label);
+      const r = [c.x - d.lw, c.y - d.lh, c.x + d.lw, c.y + d.lh];
       const ok = !placed.some((q) => r[0] < q[2] && r[2] > q[0] && r[1] < q[3] && r[3] > q[1]);
-      el.style.visibility = ok ? 'visible' : 'hidden';
+      const vis = ok ? 'visible' : 'hidden';
+      if (el.style.visibility !== vis) el.style.visibility = vis;
       if (ok) placed.push(r);
     });
   }
 
+
+  const lastPaint = {};
+  let lastBLine;
   function paintDistricts() {
     if (!map.getSource('distritos')) return;
     const cur = currentDistrict();
     DISTRICTS.forEach((d) => {
       const pr = progress(d.places);
-      map.setFeatureState({ source: 'distritos', id: d.fid }, {
-        sel: cur?.id === d.id, dim: !!cur && cur.id !== d.id, p: pr.total ? pr.done / pr.total : 0,
-      });
+      const st = { sel: cur?.id === d.id, dim: !!cur && cur.id !== d.id, p: pr.total ? pr.done / pr.total : 0 };
+      const k = `${st.sel}|${st.dim}|${st.p}`;
+      if (lastPaint[d.fid] !== k) { lastPaint[d.fid] = k; map.setFeatureState({ source: 'distritos', id: d.fid }, st); }
     });
-    map.setLayoutProperty('b-line', 'visibility', cur ? 'visible' : 'none');
-    if (cur) map.setFilter('b-line', ['==', ['get', 'district'], cur.id]);
+    const bl = cur?.id || '';
+    if (bl !== lastBLine) {
+      lastBLine = bl;
+      map.setLayoutProperty('b-line', 'visibility', cur ? 'visible' : 'none');
+      if (cur) map.setFilter('b-line', ['==', ['get', 'district'], cur.id]);
+    }
     fitLabels();
   }
+
 
   const passStatus = (p) => statusFilter === 'all' || (statusFilter === 'todo' && lvl(p.id) === 0) ||
     (statusFilter === 'done' && lvl(p.id) > 0) || (statusFilter === 'gps' && lvl(p.id) === 2);
 
   // El wrapper del Marker lo posiciona MapLibre con transform: sin transiciones. Escala/fade en el .pin interior.
   let pinsKey = null;
+  const pinMarkers = new Map();               // placeId -> { marker, el }
+  function makePin(p) {
+    const wrap = document.createElement('div'), el = document.createElement('div');
+    el.dataset.id = p.id; wrap.appendChild(el);
+    // Que los toques en el pin no lleguen a los gestos del mapa (arrastre/doble toque)
+    ['mousedown', 'touchstart', 'pointerdown', 'dblclick'].forEach((ev) => wrap.addEventListener(ev, (e) => e.stopPropagation(), { passive: true }));
+    wrap.onclick = (e) => {
+      if (placing) return;
+      e.stopPropagation();
+      const d = districtOf[p.id];
+      if (view.type === 'place') return view.id === p.id ? openDistrict(d.id, { refit: true }) : openPlace(p.id);
+      if (selId === p.id) return deselect(d);                 // 2º tap: deseleccionar y centrar distrito
+      if (sheet.dataset.state === 'min') setSheet('half');
+      selectFromMap(p.id);
+    };
+    return { marker: new maplibregl.Marker({ element: wrap }).setLngLat(ll(p)).addTo(map), el, lvl: -1 };
+  }
   function drawPins() {
-    markers.pins.forEach((m) => m.remove()); markers.pins = [];
     const cur = currentDistrict();
     const key = cur ? cur.id + statusFilter : null;
     const enter = key && pinsKey !== key;
     pinsKey = key;
-    if (!cur) return;
-    cur.places.filter((p) => passStatus(p) || view.id === p.id).forEach((p) => {
-      const wrap = document.createElement('div');
-      const el = document.createElement('div');
-      const l = lvl(p.id);
-      el.className = `pin v${l}${selId === p.id ? ' sel' : ''}${enter ? ' enter' : ''}`;
-      el.dataset.id = p.id;
-      el.innerHTML = l === 1 ? ICON_CHECK : l === 2 ? ICON_GPS : '';
-      wrap.appendChild(el);
-      // Que los toques en el pin no lleguen a los gestos del mapa (arrastre/doble toque)
-      ['mousedown', 'touchstart', 'pointerdown', 'dblclick'].forEach((ev) => wrap.addEventListener(ev, (e) => e.stopPropagation(), { passive: true }));
-      wrap.onclick = (e) => {
-        if (placing) return;
-        e.stopPropagation();
-        const d = districtOf[p.id];
-        if (view.type === 'place') return view.id === p.id ? openDistrict(d.id, { refit: true }) : openPlace(p.id);
-        if (selId === p.id) return deselect(d);                 // 2º tap: deseleccionar y centrar distrito
-        if (sheet.dataset.state === 'min') setSheet('half');
-        selectFromMap(p.id);
-      };
-      markers.pins.push(new maplibregl.Marker({ element: wrap }).setLngLat(ll(p)).addTo(map));
-    });
+    const want = new Set(cur ? cur.places.filter((p) => passStatus(p) || view.id === p.id).map((p) => p.id) : []);
+    for (const [id, m] of pinMarkers) if (!want.has(id)) { m.marker.remove(); pinMarkers.delete(id); }
+    for (const id of want) {
+      let m = pinMarkers.get(id);
+      const fresh = !m;
+      if (fresh) { m = makePin(BYID[id]); pinMarkers.set(id, m); }
+      const l = lvl(id);
+      const cls = `pin v${l}${selId === id ? ' sel' : ''}${fresh && enter ? ' enter' : ''}`;
+      if (m.el.className !== cls && !(m.el.classList.contains('flash') && cls === m.el.className.replace(' flash', ''))) m.el.className = cls;
+      if (m.lvl !== l) { m.lvl = l; m.el.innerHTML = l === 1 ? ICON_CHECK : l === 2 ? ICON_GPS : ''; }
+    }
   }
+
 
   // ---------- Geolocalización ----------
   // Modo debug: GPS falso (?debug=1 o pulsación larga en el botón de ubicación)
@@ -497,8 +523,10 @@
     $('#ring-txt').textContent = pct + '%';
   }
 
+  const TYPE_COUNT = PLACES.reduce((m, p) => ((m[p.type] = (m[p.type] || 0) + 1), m), {});
+  const TYPES = Object.keys(TYPE_COUNT).sort((a, b) => TYPE_COUNT[b] - TYPE_COUNT[a]);
   const typeChips = () => {
-    const types = [...new Set(PLACES.map((p) => p.type))].sort((a, b) => PLACES.filter((p) => p.type === b).length - PLACES.filter((p) => p.type === a).length);
+    const types = TYPES;
     return `<div class="chips" id="type-chips">${types.map((t) => `<button class="chip ${typeFilter === t ? 'on' : ''}" data-t="${esc(t)}">${MP_ICON(t, 'ico ico-s')}${esc(TYPE_PLURAL[t] || t)}</button>`).join('')}</div>`;
   };
 
@@ -511,44 +539,56 @@
       <span class="chev"></span></button>`;
   }
 
-  function renderHome() {
-    $('#title').textContent = 'Explora Madrid';
-    const pr = progress(PLACES);
+  function homeListHTML() {
     const searching = query.trim() || typeFilter;
-    let content;
     if (searching) {
       const q = norm(query.trim());
-      const res = PLACES.filter((p) => (!typeFilter || p.type === typeFilter) &&
-        (!q || norm(`${p.name} ${p.zone || ''} ${p.type} ${districtOf[p.id]?.name || ''}`).includes(q)));
-      content = `<div class="sec-sub">${res.length} resultado${res.length === 1 ? '' : 's'}</div>
+      const res = PLACES.filter((p) => (!typeFilter || p.type === typeFilter) && (!q || p._search.includes(q)));
+      return `<div class="sec-sub">${res.length} resultado${res.length === 1 ? '' : 's'}</div>
         ${res.map((p) => placeItem(p)).join('') || '<div class="empty-state">Sin resultados</div>'}`;
-    } else {
-      const list = [...DISTRICTS].sort((a, b) => b.places.length - a.places.length);
-      content = `<div class="sec-title"><h2>Distritos</h2><span>${pr.done}/${pr.total} lugares</span></div>` + list.map((d) => {
-        const p = progress(d.places);
-        const ini = d.name.replace(/-.*/, '').split(' ').filter((w) => w.length > 2).map((w) => w[0]).join('').slice(0, 2);
-        return `<button class="row ${p.total && p.done === p.total ? 'done' : ''}" data-id="${d.id}">
-          <div class="badge">${ini}</div>
-          <div class="r-info"><strong>${esc(d.name)}</strong><small>${p.total} lugares${p.gps ? ` · ${p.gps} GPS` : ''}</small>
-            <div class="bar"><i style="width:${(p.done / p.total) * 100}%"></i></div></div>
-          <span class="r-count">${p.done}/${p.total}</span><span class="chev"></span>
-        </button>`;
-      }).join('');
     }
+    const pr = progress(PLACES);
+    return `<div class="sec-title"><h2>Distritos</h2><span>${pr.done}/${pr.total} lugares</span></div>` + LABEL_ORDER.map((d) => {
+      const p = progress(d.places);
+      return `<button class="row ${p.total && p.done === p.total ? 'done' : ''}" data-id="${d.id}">
+        <div class="badge">${d.ini}</div>
+        <div class="r-info"><strong>${esc(d.name)}</strong><small>${p.total} lugares${p.gps ? ` · ${p.gps} GPS` : ''}</small>
+          <div class="bar"><i style="width:${(p.done / p.total) * 100}%"></i></div></div>
+        <span class="r-count">${p.done}/${p.total}</span><span class="chev"></span>
+      </button>`;
+    }).join('');
+  }
+  function bindHomeList() {
+    body.querySelectorAll('.row').forEach((el) => (el.onclick = () => openDistrict(el.dataset.id)));
+    bindPlaceItems(body);
+  }
+  function renderHome() {
+    $('#title').textContent = 'Explora Madrid';
+    const searching = query.trim() || typeFilter;
     body.innerHTML = `
       <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
         <input id="q" type="search" placeholder="Buscar lugares, barrios…" value="${esc(query)}" autocomplete="off">
         ${searching ? '<button id="q-clear" aria-label="Limpiar">✕</button>' : ''}</div>
       ${typeChips()}
-      <div id="home-list">${content}</div>`;
+      <div id="home-list">${homeListHTML()}</div>`;
     const q = $('#q');
-    q.oninput = () => { query = q.value; const pos = q.selectionStart; render({ keepScroll: true }); const nq = $('#q'); nq.focus(); nq.setSelectionRange(pos, pos); };
+    let qT;
+    q.oninput = () => {
+      clearTimeout(qT);
+      qT = setTimeout(() => {
+        const was = !!(query.trim() || typeFilter);
+        query = q.value;
+        const now = !!(query.trim() || typeFilter);
+        if (was !== now) { const pos = q.selectionStart; render({ keepScroll: true }); const nq = $('#q'); nq.focus(); nq.setSelectionRange(pos, pos); return; }
+        $('#home-list').innerHTML = homeListHTML(); bindHomeList();
+      }, 120);
+    };
     q.onfocus = () => { if (sheet.dataset.state !== 'full') setSheet('full'); };
     $('#q-clear')?.addEventListener('click', () => { query = ''; typeFilter = null; render(); });
     body.querySelectorAll('[data-t]').forEach((el) => (el.onclick = () => { typeFilter = typeFilter === el.dataset.t ? null : el.dataset.t; render(); }));
-    body.querySelectorAll('.row').forEach((el) => (el.onclick = () => openDistrict(el.dataset.id)));
-    bindPlaceItems(body);
+    bindHomeList();
   }
+
 
   // ---------- Páginas del menú inferior: Diario / Logros ----------
   let tab = 'map';
@@ -572,18 +612,20 @@
   }
   // Logros como sellos de pasaporte (tinta con textura). Formas y giro fijos por logro.
   const GOLD_BADGES = new Set(['gps-1', 'gps-10', 'madrid-entero', 'distrito-5']);
-  const inkIcon = (name, col, size, sw) => MP_ICON(name).replace('class="ico"', `class="ico" width="${size}" height="${size}" style="color:${col};stroke-width:${sw}"`);
+  // Atributos explícitos: el sello se usa como <img>, donde no llega el CSS de la app
+  const inkIcon = (name, col, size, sw) => MP_ICON(name).replace('class="ico"', `width="${size}" height="${size}" fill="none" stroke="${col}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round"`);
   function stampSVG(b, i, n, goal, date) {
     const shape = ['circle', 'rect', 'oct'][i % 3];
     const rot = [-9, 6, -4, 11, -7, 3, 8, -12, 5, -3, 9, -6, 7, -10, 4, -5, 10][i % 17];
     const OUT = { circle: '<circle cx="70" cy="70" r="58"/>', rect: '<rect x="14" y="28" width="112" height="84" rx="10"/>', oct: '<polygon points="48,12 92,12 128,48 128,92 92,128 48,128 12,92 12,48"/>' }[shape];
     const IN = { circle: '<circle cx="70" cy="70" r="44"/>', rect: '<rect x="22" y="36" width="96" height="68" rx="6"/>', oct: '<polygon points="52,22 88,22 118,52 118,88 88,118 52,118 22,88 22,52"/>' }[shape];
     if (!date) {
-      return `<svg viewBox="0 0 140 140" class="pp-svg"><g fill="none" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="4 5" opacity=".45">${OUT}</g>
-        <g transform="translate(58 50)" opacity=".4">${inkIcon(b.icon, 'var(--muted)', 24, 1.6)}</g>
-        <text x="70" y="96" text-anchor="middle" font-size="11" font-weight="700" fill="var(--muted)">${Math.min(n, goal)}/${goal}</text></svg>`;
+      const mu = css('--muted');
+      return `<svg viewBox="0 0 140 140" class="pp-svg"><g fill="none" stroke="${mu}" stroke-width="1.5" stroke-dasharray="4 5" opacity=".45">${OUT}</g>
+        <g transform="translate(58 50)" opacity=".4">${inkIcon(b.icon, mu, 24, 1.6)}</g>
+        <text x="70" y="96" text-anchor="middle" font-size="11" font-weight="700" fill="${mu}">${Math.min(n, goal)}/${goal}</text></svg>`;
     }
-    const col = GOLD_BADGES.has(b.id) ? 'var(--gold)' : 'var(--red)';
+    const col = GOLD_BADGES.has(b.id) ? css('--gold') : css('--red');
     const top = shape === 'circle'
       ? `<path id="arc-${b.id}" d="M 70 70 m -51 0 a 51 51 0 1 1 102 0 a 51 51 0 1 1 -102 0" fill="none"/><text font-size="9.5" font-weight="800" letter-spacing="2.6" fill="${col}"><textPath href="#arc-${b.id}">MADRID PASSPORT · MADRID PASSPORT ·</textPath></text>`
       : `<text x="70" y="${shape === 'rect' ? 50 : 40}" text-anchor="middle" font-size="9" font-weight="800" letter-spacing="2" fill="${col}">MADRID</text>`;
@@ -595,6 +637,21 @@
         <g transform="translate(55 ${shape === 'circle' ? 46 : 54})">${inkIcon(b.icon, col, 30, 2.2)}</g>
         <text x="70" y="${shape === 'circle' ? 92 : 98}" text-anchor="middle" font-size="${shape === 'circle' ? 8.5 : 10}" font-weight="800" letter-spacing="${shape === 'circle' ? 1 : 1.5}" fill="${col}">${when}</text></g></svg>`;
   }
+  // Cada sello se convierte en <img> (data URI) y se cachea por estado + tema
+  const stampCache = new Map();
+  function stampImg(b, i, n, goal, date) {
+    const k = `${b.id}|${date ? date : n + '/' + goal}|${isDark()}`;
+    let html = stampCache.get(k);
+    if (!html) {
+      const svg = stampSVG(b, i, n, goal, date).replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="280" height="280" ')
+        .replace(/var\(--[a-z-]+\)/g, (v) => css(v.slice(4, -1)))
+        .replace(/<text /g, '<text font-family="-apple-system,system-ui,sans-serif" ')
+        .replace(/href="#/g, 'xlink:href="#');
+      html = `<img class="pp-svg" alt="" src="data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}">`;
+      stampCache.set(k, html);
+    }
+    return html;
+  }
   function renderBadges() {
     const s = badgeState();
     const got = MP_BADGES.filter((b) => badgesUnlocked[b.id]).length;
@@ -603,7 +660,7 @@
       .sort((x, y) => (x.date && y.date ? x.date - y.date : x.date ? -1 : y.date ? 1 : y.n / y.goal - x.n / x.goal));
     return `<div class="pp-head"><span>Mis sellos</span><span>${got} / ${MP_BADGES.length}</span></div>
       <div class="pp-grid">${items.map(({ b, i, n, goal, date }) => `<div class="pp ${date ? 'on' : ''}" title="${esc(b.desc)}">
-        ${stampSVG(b, i, n, goal, date)}<strong>${esc(b.name)}</strong><small>${date ? esc(b.desc) : esc(b.desc)}</small></div>`).join('')}</div>`;
+        ${stampImg(b, i, n, goal, date)}<strong>${esc(b.name)}</strong><small>${date ? esc(b.desc) : esc(b.desc)}</small></div>`).join('')}</div>`;
   }
 
   function renderPage() {
