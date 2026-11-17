@@ -1,25 +1,45 @@
 (() => {
+  // ---------- Config ----------
   // Radio para validar por GPS (m). Parques y estadios son grandes: margen mayor. Se suma la precisión del GPS (máx. 150 m).
   const GPS_RADIUS = 300, GPS_RADIUS_BIG = 600, BIG_TYPES = ['Parque', 'Estadio'];
-  const KEY = 'mp.visits.v1';
-  const RED = '#D6202C';
-  const STYLE_URL = 'https://tiles.openfreemap.org/styles/positron';   // gratis, sin API key
+  const KEY = 'mp.visits.v1', KEY_BADGES = 'mp.badges.v1';
+  const STYLE = { light: 'https://tiles.openfreemap.org/styles/positron', dark: 'https://tiles.openfreemap.org/styles/dark' };
+  // Info de acceso genérica por tipo (no inventamos horarios concretos)
+  const ACCESS = {
+    Plaza: 'Espacio público · acceso libre 24 h', Calle: 'Espacio público · acceso libre', Barrio: 'Espacio público · acceso libre',
+    Parque: 'Acceso libre · consulta horario de apertura', Gastronomía: 'Establecimiento · consulta horario',
+    Mercado: 'Consulta horario de apertura', Museo: 'Consulta horario y precio en la web oficial',
+    Monumento: 'Exterior libre · interior: consulta horario y precio', Iglesia: 'Consulta horario de culto y visitas',
+    Cultura: 'Consulta programación, horario y precio', Estadio: 'Tour y partidos: consulta en la web oficial',
+    Mirador: 'Consulta horario y precio',
+  };
+  const TYPE_ICON = { Plaza: '⛲', Calle: '🚶', Barrio: '🏘️', Parque: '🌳', Gastronomía: '☕', Mercado: '🧺', Museo: '🖼️', Monumento: '🏛️', Iglesia: '⛪', Cultura: '🎭', Estadio: '🏟️', Mirador: '🌇' };
+  const TYPE_PLURAL = { Museo: 'Museos', Parque: 'Parques', Mercado: 'Mercados', Plaza: 'Plazas', Monumento: 'Monumentos', Iglesia: 'Iglesias', Mirador: 'Miradores', Cultura: 'Cultura', Estadio: 'Estadios', Barrio: 'Barrios', Calle: 'Calles', Gastronomía: 'Gastronomía' };
+
   const $ = (s) => document.querySelector(s);
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const norm = (s) => String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+  const isDark = () => matchMedia('(prefers-color-scheme: dark)').matches;
 
   // ---------- Estado ----------
   let visits = {};
   try { visits = JSON.parse(localStorage.getItem(KEY)) || {}; } catch {}
-  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(visits)); } catch {} };
+  let badgesUnlocked = {};
+  try { badgesUnlocked = JSON.parse(localStorage.getItem(KEY_BADGES)) || {}; } catch {}
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(visits)); localStorage.setItem(KEY_BADGES, JSON.stringify(badgesUnlocked)); } catch {} };
   const lvl = (id) => visits[id]?.lvl || 0;
-  const progress = (places) => ({
-    done: places.filter((p) => lvl(p.id) > 0).length,
-    gps: places.filter((p) => lvl(p.id) === 2).length,
-    total: places.length,
-  });
+  const progress = (places) => ({ done: places.filter((p) => lvl(p.id) > 0).length, gps: places.filter((p) => lvl(p.id) === 2).length, total: places.length });
+
   const PLACES = window.PLACES;
-  let DISTRICTS = [];                     // {id, name, feature, bbox, center, places[]}
-  let current = null;                     // distrito abierto
-  let myPos = null;
+  const BYID = Object.fromEntries(PLACES.map((p) => [p.id, p]));
+  let DISTRICTS = [];
+  const districtOf = {};                  // placeId -> distrito
+  // Vista actual: home | district | place
+  let view = { type: 'home' };
+  let homeTab = 'distritos', query = '', typeFilter = null, statusFilter = 'all';
+  let selId = null, myPos = null;
+  const currentDistrict = () => (view.type === 'district' ? DISTRICTS.find((d) => d.id === view.id) : view.type === 'place' ? districtOf[view.id] : null);
 
   // ---------- Geo utils ----------
   const dist = ([a, b], [c, d]) => {
@@ -28,6 +48,7 @@
     return 2 * R * Math.asin(Math.sqrt(x));
   };
   const fmtDist = (m) => (m < 1000 ? `${Math.round(m)} m` : `${(m / 1000).toFixed(1)} km`);
+  const radiusFor = (p, acc) => (BIG_TYPES.includes(p.type) ? GPS_RADIUS_BIG : GPS_RADIUS) + Math.min(acc || 0, 150);
   const polys = (g) => (g.type === 'Polygon' ? [g.coordinates] : g.coordinates);
   const inRing = ([x, y], ring) => {
     let ins = false;
@@ -43,7 +64,6 @@
     polys(g).forEach((p) => p[0].forEach(([x, y]) => { b = [Math.min(b[0], x), Math.min(b[1], y), Math.max(b[2], x), Math.max(b[3], y)]; }));
     return b;
   };
-  // Punto para la etiqueta: centro de la bbox del polígono mayor, ajustado a dentro si cae fuera
   const labelPoint = (g) => {
     const big = polys(g).sort((a, b) => b[0].length - a[0].length)[0];
     const [x0, y0, x1, y1] = bboxOf({ type: 'Polygon', coordinates: big });
@@ -55,22 +75,30 @@
     }
     return c;
   };
+  const ll = (p) => [p.coords[1], p.coords[0]];
 
   // ---------- UI utils ----------
   let toastT;
   const toast = (msg, err) => {
     const t = $('#toast');
     t.textContent = msg; t.className = 'toast show' + (err ? ' err' : '');
-    clearTimeout(toastT); toastT = setTimeout(() => (t.className = 'toast'), 2400);
+    clearTimeout(toastT); toastT = setTimeout(() => (t.className = 'toast'), 2600);
   };
   const ICON_CHECK = '<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
   const ICON_GPS = '<svg viewBox="0 0 24 24"><path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0113 0c0 5-6.5 11-6.5 11z"/><path d="M9.5 10l2 2 3.5-3.5"/></svg>';
+  const fmtDate = (t) => new Date(t).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: new Date(t).getFullYear() !== new Date().getFullYear() ? 'numeric' : undefined });
+  const fmtTime = (t) => new Date(t).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+  const dayLabel = (t) => {
+    const d = new Date(t), today = new Date(); today.setHours(0, 0, 0, 0);
+    const diff = Math.round((today - new Date(d.getFullYear(), d.getMonth(), d.getDate())) / 864e5);
+    return diff === 0 ? 'Hoy' : diff === 1 ? 'Ayer' : d.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
+  };
+
   const sheet = $('#sheet'), body = $('#sheet-body');
-  const setSheet = (state) => { sheet.dataset.state = state; };
-  // Alto visible del sheet por estado (debe cuadrar con css/styles.css)
-  const sheetVisible = (state = sheet.dataset.state) => {
-    const h = sheet.offsetHeight;
-    return { min: 64, peek: 150, half: h * 0.58, full: h }[state];
+  const sheetVisible = (state = sheet.dataset.state) => ({ min: 64, peek: 150, half: sheet.offsetHeight * 0.58, full: sheet.offsetHeight }[state]);
+  const setSheet = (state) => {
+    sheet.dataset.state = state;
+    $('#app').style.setProperty('--sheet-vis', (state === 'full' ? 0 : Math.min(sheetVisible(state), $('#app').offsetHeight * 0.6)) + 'px');
   };
   const pad = (state) => {
     const h = $('#app').offsetHeight, top = $('.topbar').offsetHeight;
@@ -78,89 +106,102 @@
   };
 
   // ---------- Mapa ----------
-  const FALLBACK_STYLE = { version: 8, sources: {}, layers: [{ id: 'bg', type: 'background', paint: { 'background-color': '#F3F2EF' } }] };
   let map;
-  const markers = { labels: [], pins: [], me: null };
-
-  async function initMap() {
-    let style = FALLBACK_STYLE;
-    try { const r = await fetch(STYLE_URL); if (r.ok) style = await r.json(); } catch {}
-    map = new maplibregl.Map({
-      container: 'map', style, center: [-3.70, 40.42], zoom: 10.5,
-      attributionControl: false, dragRotate: false, pitchWithRotate: false, touchPitch: false,
-    });
-    map.touchZoomRotate.disableRotation();
-    map.addControl(new maplibregl.AttributionControl({ compact: true,
-      customAttribution: '© OpenStreetMap · OpenFreeMap · Ayto. Madrid' }), 'top-left');
-
-    const geo = await (await fetch('data/distritos.geojson')).json();
-    DISTRICTS = geo.features.map((f) => ({
-      id: f.properties.id, name: f.properties.name, short: f.properties.name.split('-')[0], fid: f.id, feature: f,
-      bbox: bboxOf(f.geometry), label: labelPoint(f.geometry),
-      places: PLACES.filter((p) => inGeom([p.coords[1], p.coords[0]], f.geometry)),
-    }));
-    PLACES.forEach((p) => { if (!DISTRICTS.some((d) => d.places.includes(p))) console.warn('Sin distrito:', p.id); });
-
-    await new Promise((r) => (map.loaded() ? r() : map.on('load', r)));
+  const markers = { pins: [], me: null };
+  const FALLBACK_STYLE = () => ({ version: 8, sources: {}, layers: [{ id: 'bg', type: 'background', paint: { 'background-color': css('--map-bg') } }] });
+  async function loadStyle() {
+    try { const r = await fetch(STYLE[isDark() ? 'dark' : 'light']); if (r.ok) return await r.json(); } catch {}
+    return FALLBACK_STYLE();
+  }
+  let geo;
+  function addLayers() {
+    const RED = css('--red');
     map.addSource('distritos', { type: 'geojson', data: geo });
     map.addSource('barrios', { type: 'geojson', data: 'data/barrios.geojson' });
-    // Velo para atenuar fuera del distrito seleccionado
     map.addLayer({ id: 'd-fill', type: 'fill', source: 'distritos', paint: {
       'fill-color': RED,
       'fill-opacity': ['case',
         ['boolean', ['feature-state', 'dim'], false], 0,
         ['boolean', ['feature-state', 'sel'], false], 0.04,
-        ['boolean', ['feature-state', 'has'], false], ['+', 0.07, ['*', 0.33, ['coalesce', ['feature-state', 'p'], 0]]],
-        0],
+        ['+', 0.07, ['*', 0.33, ['coalesce', ['feature-state', 'p'], 0]]]],
     }});
     map.addLayer({ id: 'd-mask', type: 'fill', source: 'distritos', paint: {
-      'fill-color': '#ffffff', 'fill-opacity': ['case', ['boolean', ['feature-state', 'dim'], false], 0.65, 0],
+      'fill-color': css('--bg'), 'fill-opacity': ['case', ['boolean', ['feature-state', 'dim'], false], 0.65, 0],
     }});
     map.addLayer({ id: 'b-line', type: 'line', source: 'barrios', layout: { visibility: 'none' }, paint: {
       'line-color': RED, 'line-opacity': 0.35, 'line-width': 0.8, 'line-dasharray': [2, 2],
     }});
     map.addLayer({ id: 'd-line', type: 'line', source: 'distritos', paint: {
-      'line-color': ['case', ['boolean', ['feature-state', 'sel'], false], RED, '#B8B8C0'],
+      'line-color': ['case', ['boolean', ['feature-state', 'sel'], false], RED, css('--map-line')],
       'line-width': ['case', ['boolean', ['feature-state', 'sel'], false], 2.5, 1.2],
     }});
+  }
+
+  async function initMap() {
+    map = new maplibregl.Map({
+      container: 'map', style: await loadStyle(), center: [-3.70, 40.42], zoom: 10.5,
+      attributionControl: false, dragRotate: false, pitchWithRotate: false, touchPitch: false,
+    });
+    map.touchZoomRotate.disableRotation();
+    map.addControl(new maplibregl.AttributionControl({ compact: true,
+      customAttribution: '© OpenStreetMap · OpenFreeMap · Ayto. Madrid · Wikipedia' }), 'top-left');
+
+    geo = await (await fetch('data/distritos.geojson')).json();
+    DISTRICTS = geo.features.map((f) => ({
+      id: f.properties.id, name: f.properties.name, short: f.properties.name.split('-')[0], fid: f.id, feature: f,
+      bbox: bboxOf(f.geometry), label: labelPoint(f.geometry),
+      places: PLACES.filter((p) => (p.district ? p.district === f.properties.id : inGeom(ll(p), f.geometry))),
+    }));
+    DISTRICTS.forEach((d) => d.places.forEach((p) => (districtOf[p.id] = d)));
+    PLACES.forEach((p) => { if (!districtOf[p.id]) console.warn('Sin distrito:', p.id); });
+    badgesUnlocked = Object.keys(badgesUnlocked).length ? badgesUnlocked : unlockedNow(true);
+
+    await new Promise((r) => (map.loaded() ? r() : map.on('load', r)));
+    addLayers();
     map.on('click', (e) => {
       if (placing) return setFake([e.lngLat.lat, e.lngLat.lng]);
       const f = map.queryRenderedFeatures(e.point, { layers: ['d-fill'] })[0];
       if (!f) return;
-      if (current && current.fid === f.id) goHome();        // tap en el distrito abierto: deseleccionar
+      const cur = currentDistrict();
+      if (cur && cur.fid === f.id) goHome();            // tap en el distrito abierto: deseleccionar
       else openDistrict(f.properties.id);
     });
     map.on('mouseenter', 'd-fill', () => (map.getCanvas().style.cursor = 'pointer'));
     map.on('mouseleave', 'd-fill', () => (map.getCanvas().style.cursor = ''));
+    map.on('dragstart', () => setFollow(false));
 
     DISTRICTS.forEach((d) => {
       const el = document.createElement('button');
-      el.className = 'd-label' + (d.places.length ? '' : ' empty');
-      el.innerHTML = `<span>${d.short}</span>`;
+      el.className = 'd-label';
+      el.innerHTML = `<span>${esc(d.short)}</span>`;
       el.onclick = (e) => { e.stopPropagation(); if (!placing) openDistrict(d.id); };
       d.labelMarker = new maplibregl.Marker({ element: el }).setLngLat(d.label).addTo(map);
     });
     map.on('moveend', fitLabels);
-    // Atribución plegada (botón ⓘ)
     map.getContainer().querySelector('.maplibregl-ctrl-attrib')?.classList.remove('maplibregl-compact-show');
+
+    // Modo oscuro: cambia estilo del mapa y recrea capas
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', async () => {
+      map.setStyle(await loadStyle(), { diff: false });
+      map.once('style.load', () => { addLayers(); paintDistricts(); });
+    });
+
     fitCity(false);
-    refresh();
-    if (debug && fakePos) showMe({ coords: fakePos, acc: 5 });
+    render();
+    if (debug && fakePos) { showMe({ coords: fakePos, acc: 5 }); checkNearby(myPos); }
   }
 
-  // Encuadre de toda la ciudad (21 distritos), centrado en el hueco visible entre cabecera y sheet
   const fitCity = (animate = true) => {
     const b = DISTRICTS.reduce((a, d) => [Math.min(a[0], d.bbox[0]), Math.min(a[1], d.bbox[1]), Math.max(a[2], d.bbox[2]), Math.max(a[3], d.bbox[3])], [180, 90, -180, -90]);
     map.fitBounds(b, { padding: pad('peek'), animate, duration: 700 });
   };
 
-  // Oculta etiquetas que no caben en su distrito al zoom actual
-  // Etiquetas sin solapes: prioridad a los distritos con más lugares (Centro primero)
+  // Etiquetas sin solapes: prioridad a los distritos con más lugares
   function fitLabels() {
-    const placed = [];
+    const placed = [], hide = view.type !== 'home';
     [...DISTRICTS].sort((x, y) => y.places.length - x.places.length).forEach((d) => {
       const el = d.labelMarker.getElement();
-      if (current) { el.style.display = 'none'; return; }
+      if (hide) { el.style.display = 'none'; return; }
       el.style.display = '';
       const c = map.project(d.label), w = el.offsetWidth / 2 + 3, h = el.offsetHeight / 2 + 2;
       const r = [c.x - w, c.y - h, c.x + w, c.y + h];
@@ -171,27 +212,32 @@
   }
 
   function paintDistricts() {
+    if (!map.getSource('distritos')) return;
+    const cur = currentDistrict();
     DISTRICTS.forEach((d) => {
       const pr = progress(d.places);
       map.setFeatureState({ source: 'distritos', id: d.fid }, {
-        sel: current?.id === d.id, dim: !!current && current.id !== d.id, has: pr.total > 0,
-        p: pr.total ? pr.done / pr.total : 0,
+        sel: cur?.id === d.id, dim: !!cur && cur.id !== d.id, p: pr.total ? pr.done / pr.total : 0,
       });
     });
-    map.setLayoutProperty('b-line', 'visibility', current ? 'visible' : 'none');
-    if (current) map.setFilter('b-line', ['==', ['get', 'district'], current.id]);
+    map.setLayoutProperty('b-line', 'visibility', cur ? 'visible' : 'none');
+    if (cur) map.setFilter('b-line', ['==', ['get', 'district'], cur.id]);
     fitLabels();
   }
 
-  // El elemento del Marker (wrapper) lo posiciona MapLibre con transform: no debe llevar transiciones.
-  // Escala/fade van en el .pin interior. Fade solo al cambiar de distrito, no al marcar checks.
-  let pinsFor = null;
+  const passStatus = (p) => statusFilter === 'all' || (statusFilter === 'todo' && lvl(p.id) === 0) ||
+    (statusFilter === 'done' && lvl(p.id) > 0) || (statusFilter === 'gps' && lvl(p.id) === 2);
+
+  // El wrapper del Marker lo posiciona MapLibre con transform: sin transiciones. Escala/fade en el .pin interior.
+  let pinsKey = null;
   function drawPins() {
     markers.pins.forEach((m) => m.remove()); markers.pins = [];
-    const enter = current && pinsFor !== current.id;
-    pinsFor = current?.id || null;
-    if (!current) return;
-    current.places.forEach((p) => {
+    const cur = currentDistrict();
+    const key = cur ? cur.id + statusFilter : null;
+    const enter = key && pinsKey !== key;
+    pinsKey = key;
+    if (!cur) return;
+    cur.places.filter((p) => passStatus(p) || view.id === p.id).forEach((p) => {
       const wrap = document.createElement('div');
       const el = document.createElement('div');
       const l = lvl(p.id);
@@ -200,40 +246,41 @@
       el.innerHTML = l === 1 ? ICON_CHECK : l === 2 ? ICON_GPS : '';
       wrap.appendChild(el);
       wrap.onclick = (e) => {
-        if (placing) return;                    // colocando GPS falso: el tap va al mapa
+        if (placing) return;
         e.stopPropagation();
+        if (view.type === 'place') return openPlace(p.id);
         if (sheet.dataset.state === 'min') setSheet('half');
-        selectPlace(p.id);
+        selectFromMap(p.id);
       };
-      markers.pins.push(new maplibregl.Marker({ element: wrap }).setLngLat([p.coords[1], p.coords[0]]).addTo(map));
+      markers.pins.push(new maplibregl.Marker({ element: wrap }).setLngLat(ll(p)).addTo(map));
     });
   }
 
   // ---------- Geolocalización ----------
-  // Modo debug: GPS falso. Se activa con ?debug=1 o manteniendo pulsado el botón de ubicación.
-  let debug = false, fakePos = null, placing = false;   // placing: el próximo tap en el mapa fija la posición
+  // Modo debug: GPS falso (?debug=1 o pulsación larga en el botón de ubicación)
+  let debug = false, fakePos = null, placing = false;
   try { debug = new URLSearchParams(location.search).has('debug') || localStorage.getItem('mp.debug') === '1'; fakePos = JSON.parse(localStorage.getItem('mp.fake')); } catch {}
   function setDebug(on) {
     debug = on;
     try { localStorage.setItem('mp.debug', on ? '1' : '0'); } catch {}
     $('#debug').hidden = !on;
-    if (on) { toast('GPS falso activado'); if (fakePos) showMe({ coords: fakePos, acc: 5 }); setPlacing(!fakePos); }
-    else { setPlacing(false); toast('GPS falso desactivado'); }
+    if (on) { stopWatch(); toast('GPS falso activado'); if (fakePos) { showMe({ coords: fakePos, acc: 5 }); checkNearby(myPos); } setPlacing(!fakePos); }
+    else { setPlacing(false); toast('GPS falso desactivado'); maybeWatch(); }
   }
   function setPlacing(on) {
     placing = on;
     $('#debug').classList.toggle('placing', on);
-    $('#app').classList.toggle('placing', on);   // etiquetas y pines no capturan el tap
+    $('#app').classList.toggle('placing', on);
     $('#debug-move').textContent = on ? 'Cancelar' : 'Mover';
     $('#debug-pos').textContent = on ? 'toca el mapa para colocarte' : fakePos ? `${fakePos[0].toFixed(4)}, ${fakePos[1].toFixed(4)}` : 'sin posición';
   }
   function setFake(c) {
     fakePos = c;
     try { localStorage.setItem('mp.fake', JSON.stringify(c)); } catch {}
-    showMe({ coords: c, acc: 5 });
     setPlacing(false);
     toast('Posición falsa fijada');
-    if (current) renderDistrict();
+    onPosition({ coords: c, acc: 5 });
+    if (view.type !== 'home') render({ keepScroll: true });
   }
   const getPos = () => new Promise((res, rej) => {
     if (debug) return fakePos ? res({ coords: fakePos, acc: 5 }) : rej(new Error('Pulsa «Mover» y toca el mapa para fijar tu posición falsa'));
@@ -244,30 +291,132 @@
   });
   function showMe(pos) {
     myPos = pos;
-    const ll = [pos.coords[1], pos.coords[0]];
-    if (markers.me) markers.me.setLngLat(ll);
-    else { const el = document.createElement('div'); el.className = 'me'; markers.me = new maplibregl.Marker({ element: el }).setLngLat(ll).addTo(map); }
+    if (!map) return;
+    const c = [pos.coords[1], pos.coords[0]];
+    if (markers.me) markers.me.setLngLat(c);
+    else { const el = document.createElement('div'); el.className = 'me'; markers.me = new maplibregl.Marker({ element: el }).setLngLat(c).addTo(map); }
   }
+  // Seguimiento continuo de la posición
+  let watchId = null, follow = false;
+  function onPosition(pos) {
+    showMe(pos);
+    if (follow) map.easeTo({ center: [pos.coords[1], pos.coords[0]], duration: 600 });
+    checkNearby(pos);
+  }
+  function startWatch() {
+    if (watchId != null || debug || !navigator.geolocation) return;
+    watchId = navigator.geolocation.watchPosition(
+      (p) => onPosition({ coords: [p.coords.latitude, p.coords.longitude], acc: p.coords.accuracy }),
+      () => {}, { enableHighAccuracy: true, maximumAge: 5000 });
+  }
+  function stopWatch() { if (watchId != null) navigator.geolocation.clearWatch(watchId); watchId = null; }
+  function maybeWatch() {   // si el permiso ya está concedido, seguimos la posición sin preguntar
+    navigator.permissions?.query({ name: 'geolocation' }).then((r) => { if (r.state === 'granted') startWatch(); }).catch(() => {});
+  }
+  function setFollow(on) { follow = on; $('#locate').classList.toggle('active', on); }
+
   let pressT, longPressed = false;
   $('#locate').addEventListener('pointerdown', () => { longPressed = false; pressT = setTimeout(() => { longPressed = true; setDebug(!debug); }, 700); });
   ['pointerup', 'pointerleave'].forEach((ev) => $('#locate').addEventListener(ev, () => clearTimeout(pressT)));
-  $('#share').onclick = async () => {
-    if (!DISTRICTS.length) return;
-    $('#share').classList.add('loading');
+  $('#locate').onclick = async () => {
+    if (longPressed) return;
+    if (follow) return setFollow(false);
     try {
-      const r = await MPShare.share({ districts: DISTRICTS, places: PLACES, lvl });
-      if (r === 'downloaded') toast('Imagen descargada');
-    } catch (e) { console.error(e); toast('No se pudo generar la imagen', true); }
-    $('#share').classList.remove('loading');
+      const p = await getPos();
+      onPosition(p); startWatch(); setFollow(!debug);
+      map.flyTo({ center: [p.coords[1], p.coords[0]], zoom: Math.max(map.getZoom(), 15.5), padding: pad(), duration: 800 });
+    } catch { toast('No se pudo obtener tu ubicación', true); }
   };
   $('#debug-off').onclick = () => setDebug(false);
   $('#debug-move').onclick = () => setPlacing(!placing);
-  $('#debug-reset').onclick = () => { visits = {}; save(); refresh(); toast('Progreso borrado'); };
-  $('#locate').onclick = async () => {
-    if (longPressed) return;
-    try { const p = await getPos(); showMe(p); map.flyTo({ center: [p.coords[1], p.coords[0]], zoom: 15.5, duration: 800 }); }
-    catch { toast('No se pudo obtener tu ubicación', true); }
+  $('#debug-validate').onclick = () => validateAll();
+  $('#debug-reset').onclick = () => { visits = {}; badgesUnlocked = {}; save(); render(); toast('Progreso borrado'); };
+
+  // ---------- Wikipedia (desde el navegador del usuario) ----------
+  const wikiSummary = async (title) => {
+    const r = await fetch(`https://es.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title.replace(/ /g, '_'))}`);
+    if (!r.ok) throw new Error('wiki ' + r.status);
+    return r.json();
   };
+  // Completa foto/descripción que falten en data.js; cachea en localStorage
+  async function enrich(p) {
+    if ((p.desc && p.img) || !p.wiki || p._tried) return false;
+    p._tried = true;
+    let s = null;
+    try { s = JSON.parse(localStorage.getItem('mp.wiki.' + p.id)); } catch {}
+    if (!s) {
+      try {
+        const w = await wikiSummary(p.wiki);
+        if (w.type === 'disambiguation') return false;
+        s = { img: w.thumbnail?.source, desc: w.extract, url: w.content_urls?.mobile?.page };
+        try { localStorage.setItem('mp.wiki.' + p.id, JSON.stringify(s)); } catch {}
+      } catch { return false; }
+    }
+    p.img ||= s.img; p.desc ||= s.desc; p.url ||= s.url;
+    return true;
+  }
+  // Debug: compara nuestras coordenadas con Wikipedia y descarga un informe JSON
+  async function validateAll() {
+    const list = PLACES.filter((p) => p.wiki), out = [];
+    for (let i = 0; i < list.length; i++) {
+      const p = list[i];
+      $('#debug-pos').textContent = `validando ${i + 1}/${list.length}…`;
+      let w = null;
+      try { w = await wikiSummary(p.wiki); } catch {}
+      const c = w?.coordinates;
+      out.push({ id: p.id, title: w?.title || null, kind: w?.type || 'error', ours: p.coords, wiki: c ? [c.lat, c.lon] : null,
+        diff: c ? Math.round(dist(p.coords, [c.lat, c.lon])) : null, img: w?.thumbnail?.source || null, desc: w?.extract || null,
+        url: w?.content_urls?.mobile?.page || null });
+      await new Promise((r) => setTimeout(r, 120));
+    }
+    const blob = new Blob([JSON.stringify(out, null, 1)], { type: 'application/json' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'validacion-lugares.json'; a.click();
+    const far = out.filter((o) => o.diff > 150).length, nok = out.filter((o) => !o.wiki).length;
+    setPlacing(false);
+    toast(`Informe descargado · ${far} lejos (>150 m) · ${nok} sin coords`);
+  }
+
+  // ---------- Sugerencia automática al estar cerca ----------
+  const dismissed = new Set();
+  let suggested = null;
+  function checkNearby(pos) {
+    let best = null;
+    if (pos) for (const p of PLACES) {
+      if (lvl(p.id) === 2 || dismissed.has(p.id)) continue;
+      const d = dist(pos.coords, p.coords);
+      if (d <= radiusFor(p, pos.acc) && (!best || d < best.d)) best = { p, d };
+    }
+    const el = $('#suggest');
+    suggested = best?.p || null;
+    if (!suggested) { el.classList.remove('show'); return; }
+    $('#suggest-name').textContent = suggested.name;
+    $('#suggest-sub').textContent = `${lvl(suggested.id) === 1 ? 'Ya lo marcaste · ' : ''}a ${fmtDist(best.d)} · ¿confirmar por GPS?`;
+    el.classList.add('show');
+  }
+  $('#suggest-ok').onclick = () => {
+    if (!suggested || !myPos) return;
+    const id = suggested.id;
+    visits[id] = { ...(visits[id] || { t: Date.now() }), lvl: 2, gpsAt: Date.now(), gps: myPos.coords };
+    toast(`✓✓ ${suggested.name} confirmado`);
+    commit();
+    checkNearby(myPos);
+  };
+  $('#suggest-no').onclick = () => { if (suggested) dismissed.add(suggested.id); checkNearby(myPos); };
+  $('#suggest-open').onclick = () => suggested && openPlace(suggested.id);
+
+  // ---------- Logros ----------
+  const badgeState = () => ({ places: PLACES, districts: DISTRICTS, lvl, visits });
+  function unlockedNow(silent) {
+    const s = badgeState(), out = { ...(silent ? {} : badgesUnlocked) };
+    MP_BADGES.forEach((b) => { const [n, goal] = b.test(s); if (goal > 0 && n >= goal && !out[b.id]) out[b.id] = Date.now(); });
+    return out;
+  }
+  function checkBadges() {
+    const before = badgesUnlocked, after = unlockedNow(false);
+    const fresh = MP_BADGES.filter((b) => after[b.id] && !before[b.id]);
+    badgesUnlocked = after;
+    if (fresh.length) setTimeout(() => toast(`${fresh[0].icon} Logro: ${fresh[0].name}${fresh.length > 1 ? ` (+${fresh.length - 1})` : ''}`), 900);
+  }
 
   // ---------- Vistas ----------
   function renderRing() {
@@ -277,101 +426,196 @@
     $('#ring-txt').textContent = pct + '%';
   }
 
+  const typeChips = () => {
+    const types = [...new Set(PLACES.map((p) => p.type))].sort((a, b) => PLACES.filter((p) => p.type === b).length - PLACES.filter((p) => p.type === a).length);
+    return `<div class="chips" id="type-chips">${types.map((t) => `<button class="chip ${typeFilter === t ? 'on' : ''}" data-t="${esc(t)}">${TYPE_ICON[t] || ''} ${esc(TYPE_PLURAL[t] || t)}</button>`).join('')}</div>`;
+  };
+
+  function placeItem(p, extra = '') {
+    const l = lvl(p.id), d = districtOf[p.id];
+    const dd = myPos ? ` · ${fmtDist(dist(myPos.coords, p.coords))}` : '';
+    return `<button class="pitem" data-place="${p.id}">
+      <span class="pthumb t-${l}">${l === 1 ? ICON_CHECK : l === 2 ? ICON_GPS : TYPE_ICON[p.type] || ''}</span>
+      <span class="p-info"><strong>${esc(p.name)}</strong><small>${esc(p.type)} · ${esc(d?.name || '')}${dd}${extra}</small></span>
+      <span class="chev"></span></button>`;
+  }
+
   function renderHome() {
     $('#title').textContent = 'Explora Madrid';
     const pr = progress(PLACES);
-    const list = [...DISTRICTS].sort((a, b) => b.places.length - a.places.length);
-    body.innerHTML = `
-      <div class="sec-title"><h2>Distritos</h2><span>${pr.done}/${pr.total} lugares</span></div>
-      <p class="hint">Toca un distrito en el mapa o elige uno de la lista</p>
-      ${list.map((d) => {
+    const searching = query.trim() || typeFilter;
+    let content = '';
+    if (searching) {
+      const q = norm(query.trim());
+      const res = PLACES.filter((p) => (!typeFilter || p.type === typeFilter) &&
+        (!q || norm(`${p.name} ${p.zone || ''} ${p.type} ${districtOf[p.id]?.name || ''}`).includes(q)));
+      content = `<div class="sec-sub">${res.length} resultado${res.length === 1 ? '' : 's'}</div>
+        ${res.map((p) => placeItem(p)).join('') || '<div class="empty-state">Sin resultados</div>'}`;
+    } else if (homeTab === 'distritos') {
+      const list = [...DISTRICTS].sort((a, b) => b.places.length - a.places.length);
+      content = list.map((d) => {
         const p = progress(d.places);
         const ini = d.name.replace(/-.*/, '').split(' ').filter((w) => w.length > 2).map((w) => w[0]).join('').slice(0, 2);
-        const sub = p.total ? `${p.total} lugares` : 'Próximamente';
-        return `<button class="row ${p.total && p.done === p.total ? 'done' : ''} ${p.total ? '' : 'empty'}" data-id="${d.id}">
+        return `<button class="row ${p.total && p.done === p.total ? 'done' : ''}" data-id="${d.id}">
           <div class="badge">${ini}</div>
-          <div class="r-info"><strong>${d.name}</strong><small>${sub}</small>
-            ${p.total ? `<div class="bar"><i style="width:${(p.done / p.total) * 100}%"></i></div>` : ''}</div>
-          ${p.total ? `<span class="r-count">${p.done}/${p.total}</span>` : ''}<span class="chev"></span>
+          <div class="r-info"><strong>${esc(d.name)}</strong><small>${p.total} lugares${p.gps ? ` · ${p.gps} GPS` : ''}</small>
+            <div class="bar"><i style="width:${(p.done / p.total) * 100}%"></i></div></div>
+          <span class="r-count">${p.done}/${p.total}</span><span class="chev"></span>
         </button>`;
-      }).join('')}`;
+      }).join('');
+    } else if (homeTab === 'diario') {
+      const items = Object.entries(visits).filter(([id]) => BYID[id]).map(([id, v]) => ({ p: BYID[id], v, t: v.gpsAt || v.t || 0 })).sort((a, b) => b.t - a.t);
+      if (!items.length) content = '<div class="empty-state">Tu diario está vacío.<br>Marca tu primer lugar para empezar.</div>';
+      else {
+        let lastDay = '';
+        content = items.map(({ p, v, t }) => {
+          const day = t ? dayLabel(t) : 'Sin fecha';
+          const head = day !== lastDay ? `<h3 class="zone">${esc(day)}</h3>` : '';
+          lastDay = day;
+          return head + placeItem(p, t ? ` · ${fmtTime(t)}${v.lvl === 2 ? ' · GPS' : ''}` : '');
+        }).join('');
+      }
+    } else {
+      const s = badgeState();
+      const got = MP_BADGES.filter((b) => badgesUnlocked[b.id]).length;
+      content = `<div class="sec-sub">${got}/${MP_BADGES.length} conseguidos</div><div class="badges">${MP_BADGES.map((b) => {
+        const [n, goal] = b.test(s), on = !!badgesUnlocked[b.id];
+        return `<div class="bdg ${on ? 'on' : ''}"><span class="bi">${b.icon}</span><strong>${esc(b.name)}</strong>
+          <small>${on ? 'Conseguido ' + fmtDate(badgesUnlocked[b.id]) : esc(b.desc)}</small>
+          ${on ? '' : `<div class="bar"><i style="width:${goal ? Math.min(100, (n / goal) * 100) : 0}%"></i></div><small class="bn">${Math.min(n, goal)}/${goal}</small>`}</div>`;
+      }).join('')}</div>`;
+    }
+    body.innerHTML = `
+      <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="Buscar lugares, barrios…" value="${esc(query)}" autocomplete="off">
+        ${searching ? '<button id="q-clear" aria-label="Limpiar">✕</button>' : ''}</div>
+      ${typeChips()}
+      ${searching ? '' : `<div class="tabs">
+        ${[['distritos', 'Distritos'], ['diario', 'Diario'], ['logros', 'Logros']].map(([k, t]) => `<button class="tab ${homeTab === k ? 'on' : ''}" data-tab="${k}">${t}</button>`).join('')}
+        <span class="tabs-meta">${pr.done}/${pr.total}</span></div>`}
+      <div id="home-list">${content}</div>`;
+    const q = $('#q');
+    q.oninput = () => { query = q.value; const pos = q.selectionStart; render({ keepScroll: true }); const nq = $('#q'); nq.focus(); nq.setSelectionRange(pos, pos); };
+    q.onfocus = () => { if (sheet.dataset.state !== 'full') setSheet('full'); };
+    $('#q-clear')?.addEventListener('click', () => { query = ''; typeFilter = null; render(); });
+    body.querySelectorAll('[data-t]').forEach((el) => (el.onclick = () => { typeFilter = typeFilter === el.dataset.t ? null : el.dataset.t; render(); }));
+    body.querySelectorAll('[data-tab]').forEach((el) => (el.onclick = () => { homeTab = el.dataset.tab; render(); }));
     body.querySelectorAll('.row').forEach((el) => (el.onclick = () => openDistrict(el.dataset.id)));
+    bindPlaceItems();
+  }
+  const bindPlaceItems = () => body.querySelectorAll('[data-place]').forEach((el) => (el.onclick = () => openPlace(el.dataset.place)));
+
+  function checks(p) {
+    const l = lvl(p.id);
+    return `<div class="checks">
+      <button class="chk ${l >= 1 ? 'on' : ''}" data-a="1" data-id="${p.id}" aria-label="He estado">${ICON_CHECK}</button>
+      <button class="chk gps ${l === 2 ? 'on' : ''}" data-a="2" data-id="${p.id}" ${l === 0 ? 'disabled' : ''} aria-label="Verificar con GPS">${ICON_GPS}</button>
+    </div>`;
+  }
+  const bindChecks = () => body.querySelectorAll('.chk').forEach((el) => (el.onclick = (e) => { e.stopPropagation(); onCheck(el); }));
+
+  function renderDistrict() {
+    const d = currentDistrict(), pr = progress(d.places);
+    $('#title').textContent = d.name;
+    const zones = {};
+    d.places.filter(passStatus).forEach((p) => (zones[p.zone || ''] ||= []).push(p));
+    const row = (p) => {
+      const l = lvl(p.id), v = visits[p.id];
+      const dd = myPos ? ` · ${fmtDist(dist(myPos.coords, p.coords))}` : '';
+      const sub = l === 2 ? `<small class="gps-ok">✓✓ GPS · ${fmtDate(v.gpsAt || v.t)}</small>`
+        : l === 1 ? `<small>Visitado ${v.t ? fmtDate(v.t) : ''}${dd}</small>` : `<small>${esc(p.type)}${dd}</small>`;
+      return `<div class="place${selId === p.id ? ' sel' : ''}" id="pl-${p.id}" data-open="${p.id}">
+        <div class="p-info"><strong>${esc(p.name)}</strong>${sub}</div>${checks(p)}</div>`;
+    };
+    const F = [['all', 'Todos', pr.total], ['todo', 'Pendientes', pr.total - pr.done], ['done', 'Visitados', pr.done], ['gps', 'GPS', pr.gps]];
+    const list = Object.entries(zones).map(([z, ps]) => `${z ? `<h3 class="zone">${esc(z)}</h3>` : ''}${ps.map(row).join('')}`).join('');
+    body.innerHTML = `
+      <button class="back" id="back">Distritos</button>
+      <div class="d-head"><h2>${esc(d.name)}</h2><p>Distrito de Madrid · ${pr.done}/${pr.total} visitados · ${pr.gps} GPS</p></div>
+      <div class="chips seg">${F.map(([k, t, n]) => `<button class="chip ${statusFilter === k ? 'on' : ''}" data-f="${k}">${t} <b>${n}</b></button>`).join('')}</div>
+      ${list || '<div class="empty-state">Nada por aquí con este filtro</div>'}`;
+    $('#back').onclick = goHome;
+    body.querySelectorAll('[data-f]').forEach((el) => (el.onclick = () => { statusFilter = el.dataset.f; render({ keepScroll: true }); }));
+    bindChecks();
+    body.querySelectorAll('[data-open]').forEach((el) => (el.onclick = () => openPlace(el.dataset.open)));
   }
 
-  function openDistrict(id) {
-    current = DISTRICTS.find((d) => d.id === id); selId = null;
+  function renderPlace() {
+    const p = BYID[view.id], d = districtOf[p.id], l = lvl(p.id), v = visits[p.id];
+    $('#title').textContent = d?.name || 'Madrid';
+    const dd = myPos ? fmtDist(dist(myPos.coords, p.coords)) : null;
+    const nav = `https://www.google.com/maps/dir/?api=1&destination=${p.coords[0]},${p.coords[1]}&travelmode=walking`;
+    const stamps = [
+      v?.t && `<div class="stamp s1">${ICON_CHECK}<span><b>Visitado</b>${fmtDate(v.t)} · ${fmtTime(v.t)}</span></div>`,
+      v?.gpsAt && `<div class="stamp s2">${ICON_GPS}<span><b>Confirmado por GPS</b>${fmtDate(v.gpsAt)} · ${fmtTime(v.gpsAt)}</span></div>`,
+    ].filter(Boolean).join('');
+    body.innerHTML = `
+      <button class="back" id="back">${esc(d?.name || 'Volver')}</button>
+      <div class="hero ${p.img ? '' : 'noimg'}">${p.img ? `<img src="${esc(p.img)}" alt="" loading="lazy" onerror="this.parentNode.classList.add('noimg');this.remove()">` : ''}<span class="hero-ico">${TYPE_ICON[p.type] || '📍'}</span></div>
+      <div class="pd-head">
+        <div><h2>${esc(p.name)}</h2><p>${esc(p.type)}${p.zone ? ' · ' + esc(p.zone) : ''}${dd ? ' · a ' + dd : ''}</p></div>
+        ${checks(p)}
+      </div>
+      ${stamps ? `<div class="stamps">${stamps}</div>` : ''}
+      <a class="cta" href="${nav}" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M3 11l18-8-8 18-2-8-8-2z"/></svg>Cómo llegar</a>
+      <div class="info-row"><span>🕒</span><p>${esc(ACCESS[p.type] || 'Consulta horario')}</p></div>
+      ${p.desc ? `<p class="desc">${esc(p.desc)}</p>` : ''}
+      ${p.url ? `<a class="src" href="${esc(p.url)}" target="_blank" rel="noopener">Más información en Wikipedia ↗</a>` : ''}`;
+    $('#back').onclick = () => { selId = p.id; openDistrict(d.id, { keepMap: true }); };
+    bindChecks();
+    enrich(p).then((ok) => { if (ok && view.type === 'place' && view.id === p.id) render({ keepScroll: true }); });
+  }
+
+  function render({ keepScroll = false } = {}) {
+    const st = body.scrollTop;
+    renderRing();
+    ({ home: renderHome, district: renderDistrict, place: renderPlace })[view.type]();
+    if (keepScroll) body.scrollTop = st;
+    if (map && DISTRICTS.length) { paintDistricts(); drawPins(); }
+    document.querySelector('.share-menu')?.remove();
+  }
+
+  // ---------- Navegación ----------
+  function openDistrict(id, { keepMap = false } = {}) {
+    const changed = currentDistrict()?.id !== id;
+    view = { type: 'district', id };
+    if (changed) { selId = null; statusFilter = 'all'; }
     setSheet('half');
+    render();
     body.scrollTop = 0;
-    refresh();
-    requestAnimationFrame(() => map.fitBounds(current.bbox, { padding: pad('half'), maxZoom: 16, duration: 800 }));
+    const d = DISTRICTS.find((x) => x.id === id);
+    if (!keepMap) requestAnimationFrame(() => map.fitBounds(d.bbox, { padding: pad('half'), maxZoom: 16, duration: 800 }));
+    if (selId) { const r = document.getElementById('pl-' + selId); if (r) body.scrollTop = r.offsetTop - body.clientHeight / 3; }
+  }
+  function openPlace(id) {
+    view = { type: 'place', id }; selId = id;
+    if (sheet.dataset.state === 'min' || sheet.dataset.state === 'peek') setSheet('half');
+    render(); body.scrollTop = 0;
+    const p = BYID[id];
+    requestAnimationFrame(() => map.flyTo({ center: ll(p), zoom: Math.max(map.getZoom(), 15.5), padding: pad(), duration: 700 }));
+  }
+  function goHome() {
+    view = { type: 'home' }; selId = null; setSheet('peek'); render(); body.scrollTop = 0;
+    requestAnimationFrame(() => fitCity(true));
   }
 
-  // Selección desde el mapa: resalta pin y fila (destello + estado sutil persistente)
-  let selId = null;
-  function selectPlace(id) {
+  // Tap en pin (vista distrito): resalta fila
+  function selectFromMap(id) {
     selId = id;
     document.querySelectorAll('.pin.sel, .place.sel').forEach((x) => x.classList.remove('sel', 'flash'));
     document.querySelector(`.pin[data-id="${id}"]`)?.classList.add('sel');
     const row = document.getElementById('pl-' + id);
     if (!row) return;
-    void row.offsetWidth;                    // reinicia la animación si se repite el tap
+    void row.offsetWidth;
     row.classList.add('sel', 'flash');
     body.scrollTo({ top: row.offsetTop - body.clientHeight / 3, behavior: 'smooth' });
   }
-  // Selección desde la lista: resalta fila y pin, y centra el pin si queda fuera del hueco visible
-  function selectFromList(id) {
-    selId = id;
-    document.querySelectorAll('.pin.sel, .place.sel').forEach((x) => x.classList.remove('sel', 'flash'));
-    const pin = document.querySelector(`.pin[data-id="${id}"]`);
-    const row = document.getElementById('pl-' + id);
-    row?.classList.add('sel');
-    if (pin) { pin.classList.remove('flash'); void pin.offsetWidth; pin.classList.add('sel', 'flash'); }
-    const p = PLACES.find((x) => x.id === id), pt = map.project([p.coords[1], p.coords[0]]), pd = pad();
-    const h = $('#app').offsetHeight, w = $('#app').offsetWidth;
-    if (pt.x < pd.left || pt.x > w - pd.right || pt.y < pd.top || pt.y > h - pd.bottom)
-      map.easeTo({ center: [p.coords[1], p.coords[0]], padding: pd, duration: 500 });
-  }
 
-  function goHome() {
-    current = null; setSheet('peek'); body.scrollTop = 0; refresh();
-    requestAnimationFrame(() => fitCity(true));
-  }
-
-  function renderDistrict() {
-    const d = current, pr = progress(d.places);
-    $('#title').textContent = d.name;
-    const zones = {};
-    d.places.forEach((p) => (zones[p.zone || ''] ||= []).push(p));
-    const placeRow = (p) => {
-      const l = lvl(p.id);
-      const dd = myPos ? ` · ${fmtDist(dist(myPos.coords, p.coords))}` : '';
-      const sub = l === 2 ? '<small class="gps-ok">✓✓ Verificado por GPS</small>' : `<small>${p.type}${dd}</small>`;
-      return `<div class="place${selId === p.id ? ' sel' : ''}" id="pl-${p.id}">
-        <div class="p-info"><strong>${p.name}</strong>${sub}</div>
-        <div class="checks">
-          <button class="chk ${l >= 1 ? 'on' : ''}" data-a="1" data-id="${p.id}" aria-label="He estado">${ICON_CHECK}</button>
-          <button class="chk gps ${l === 2 ? 'on' : ''}" data-a="2" data-id="${p.id}" ${l === 0 ? 'disabled' : ''} aria-label="Verificar con GPS">${ICON_GPS}</button>
-        </div></div>`;
-    };
-    body.innerHTML = `
-      <button class="back" id="back">Distritos</button>
-      <div class="d-head"><h2>${d.name}</h2><p>Distrito de Madrid</p></div>
-      ${pr.total ? `
-      <div class="d-stats">
-        <div class="stat"><b>${pr.done}/${pr.total}</b><small>Visitados</small></div>
-        <div class="stat"><b>${pr.gps}</b><small>Verificados GPS</small></div>
-      </div>
-      <div class="legend"><span><i style="background:var(--red)"></i>He estado</span><span><i style="background:var(--gold)"></i>Verificado GPS</span></div>
-      ${Object.entries(zones).map(([z, ps]) => `${z ? `<h3 class="zone">${z}</h3>` : ''}${ps.map(placeRow).join('')}`).join('')}`
-      : '<div class="empty-state">Aún no hay lugares en este distrito.<br>Próximamente.</div>'}`;
-    $('#back').onclick = goHome;
-    body.querySelectorAll('.chk').forEach((el) => (el.onclick = (e) => { e.stopPropagation(); onCheck(el); }));
-    body.querySelectorAll('.place').forEach((el) => (el.onclick = () => selectFromList(el.id.slice(3))));
-  }
-
+  // ---------- Checks ----------
+  function commit() { checkBadges(); save(); render({ keepScroll: true }); }
   async function onCheck(el) {
-    const id = el.dataset.id, a = +el.dataset.a, l = lvl(id);
-    const place = PLACES.find((p) => p.id === id);
+    const id = el.dataset.id, a = +el.dataset.a, l = lvl(id), place = BYID[id];
     if (a === 1) {
       if (l === 2) return toast('Confirmado por GPS · no se puede quitar');
       if (l === 1) delete visits[id];
@@ -380,43 +624,64 @@
       if (l === 2) return toast('Ya verificado por GPS');
       el.classList.add('loading');
       try {
-        const pos = await getPos(); showMe(pos);
+        const pos = await getPos(); onPosition(pos);
         const d = dist(pos.coords, place.coords);
-        const radius = (BIG_TYPES.includes(place.type) ? GPS_RADIUS_BIG : GPS_RADIUS) + Math.min(pos.acc || 0, 150);
-        if (d <= radius) {
+        if (d <= radiusFor(place, pos.acc)) {
           visits[id] = { ...visits[id], lvl: 2, gpsAt: Date.now(), gps: pos.coords };
           toast('✓✓ Ubicación confirmada');
         } else toast(`Estás a ${fmtDist(d)} · acércate más`, true);
       } catch (e) { toast(debug ? e.message : 'No se pudo obtener tu ubicación', true); }
       el.classList.remove('loading');
     }
-    const st = body.scrollTop; save(); refresh(); body.scrollTop = st;
+    commit();
+    checkNearby(myPos);
   }
 
-  function refresh() {
-    renderRing();
-    current ? renderDistrict() : renderHome();
-    if (map && DISTRICTS.length) { paintDistricts(); drawPins(); }
-  }
+  // ---------- Compartir ----------
+  $('#share').onclick = (e) => {
+    e.stopPropagation();
+    const open = document.querySelector('.share-menu');
+    if (open) return open.remove();
+    const d = currentDistrict();
+    const opts = [['city', 'post', 'Todo Madrid · Post'], ['city', 'story', 'Todo Madrid · Historia']];
+    if (d) opts.unshift(['district', 'post', `${d.name} · Post`], ['district', 'story', `${d.name} · Historia`]);
+    const m = document.createElement('div');
+    m.className = 'share-menu';
+    m.innerHTML = `<p>Compartir imagen</p>${opts.map(([s, f, t]) => `<button data-s="${s}" data-f="${f}">${esc(t)}</button>`).join('')}`;
+    $('#app').appendChild(m);
+    m.querySelectorAll('button').forEach((b) => (b.onclick = async () => {
+      m.remove();
+      $('#share').classList.add('loading');
+      try {
+        const r = await MPShare.share({ districts: DISTRICTS, places: PLACES, lvl, district: b.dataset.s === 'district' ? d : null, format: b.dataset.f });
+        if (r === 'downloaded') toast('Imagen descargada');
+      } catch (err) { console.error(err); toast('No se pudo generar la imagen', true); }
+      $('#share').classList.remove('loading');
+    }));
+  };
+  document.addEventListener('click', (e) => { if (!e.target.closest('.share-menu')) document.querySelector('.share-menu')?.remove(); });
 
-  // Sheet: min (casi oculto) / peek / half / full. Arrastre con dedo o ratón; tap en el asa pliega/despliega.
+  // ---------- Sheet: min / peek / half / full ----------
   const ORDER = ['min', 'peek', 'half', 'full'];
   let drag = null;
   sheet.addEventListener('pointerdown', (e) => {
     const onHandle = e.target.closest('#handle');
-    if (onHandle || (e.pointerType === 'touch' && body.scrollTop <= 0)) drag = { y: e.clientY, onHandle };
+    if (onHandle || (e.pointerType === 'touch' && body.scrollTop <= 0 && !e.target.closest('input'))) drag = { y: e.clientY, onHandle };
   });
   window.addEventListener('pointerup', (e) => {
     if (!drag) return;
     const dy = e.clientY - drag.y, i = ORDER.indexOf(sheet.dataset.state), wasHandle = drag.onHandle; drag = null;
     if (dy > 50) setSheet(ORDER[Math.max(0, i - (dy > 220 ? 2 : 1))]);
     else if (dy < -50) setSheet(ORDER[Math.min(3, i + (dy < -220 ? 2 : 1))]);
-    else if (wasHandle) setSheet(sheet.dataset.state === 'min' ? (current ? 'half' : 'peek') : 'min');
+    else if (wasHandle) setSheet(sheet.dataset.state === 'min' ? (view.type === 'home' ? 'peek' : 'half') : 'min');
   });
 
+  // ---------- Arranque ----------
   setSheet('peek');
   $('#debug').hidden = !debug;
-  if (debug) setPlacing(!fakePos);
+  if (debug) setPlacing(!fakePos); else maybeWatch();
   renderRing();
   initMap().catch((e) => { console.error(e); toast('Error cargando el mapa', true); });
+  if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost'))
+    navigator.serviceWorker.register('sw.js').catch(() => {});
 })();
