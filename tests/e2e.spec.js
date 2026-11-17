@@ -180,6 +180,40 @@ test('ficha: metro más cercano con sus líneas y botón de transporte', async (
   await expect(page.locator('.cta[data-nav="transit"]')).toHaveAttribute('href', /travelmode=transit/);
 });
 
+test('portada: lugares pendientes cerca de ti', async ({ page }) => {
+  await expect(page.locator('.near .pitem').first()).toBeVisible();          // geolocalización en Sol
+  await expect(page.locator('.near .pitem').first()).toContainText('min a pie');
+  await expect(page.locator('.near .pitem')).toHaveCount(5);
+});
+
+test('distrito: ordenar por cercanía y pendientes primero', async ({ page }) => {
+  await openCentro(page);
+  await markVisited(page, 'puerta-sol');
+  await page.locator('[data-sort="near"]').click();
+  await expect(page.locator('.place').first()).toHaveAttribute('id', 'pl-puerta-sol');   // estás en Sol
+  await page.locator('[data-sort="todo"]').click();
+  await expect(page.locator('.place').first()).not.toHaveAttribute('id', 'pl-puerta-sol');  // visitado: al final
+  await expect(page.locator('.zone')).toHaveCount(1);                       // sin cabeceras de zona (solo «Barrios»)
+});
+
+test('ficha: siguiente pendiente cerca', async ({ page }) => {
+  await openCentro(page);
+  await page.locator('#pl-plaza-mayor').click();
+  const next = page.locator('.next-row');
+  await expect(next).toBeVisible();
+  const id = await next.getAttribute('data-next');
+  await next.click();
+  await expect(page.locator('.hero')).toHaveAttribute('data-for', id);
+});
+
+test('logros: comparativa con otros usuarios', async ({ page }) => {
+  await page.route(/rpc\/visited_percentile/, (r) => r.fulfill({ json: { users: 10, below: 8 } }));
+  await openCentro(page);
+  await markVisited(page, 'plaza-mayor');
+  await page.locator('[data-tab="badges"]').click();
+  await expect(page.locator('.lvl-rank')).toContainText('80');
+});
+
 test('deshacer: marcar y desmarcar desde el aviso', async ({ page }) => {
   await openCentro(page);
   await markVisited(page, 'plaza-mayor');
@@ -226,11 +260,16 @@ test('idioma: cambiar a inglés y que se recuerde', async ({ page }) => {
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
 });
 
-test('compartir: genera y descarga la imagen', async ({ page }) => {
+test('compartir: en Madrid directo en historia; con distrito, elegir distrito o Madrid', async ({ page }) => {
+  let dl = page.waitForEvent('download');
+  await page.locator('#share').click();                           // sin distrito: sin menú
+  expect((await dl).suggestedFilename()).toBe('madrid-passport-madrid-story.png');
+  await openCentro(page);
   await page.locator('#share').click();
-  const dl = page.waitForEvent('download');
-  await page.locator('.share-menu button[data-s="city"][data-f="post"]').click();
-  expect((await dl).suggestedFilename()).toBe('madrid-passport-madrid-post.png');
+  await expect(page.locator('.share-menu button')).toHaveCount(2);
+  dl = page.waitForEvent('download');
+  await page.locator('.share-menu button[data-s="district"]').click();
+  expect((await dl).suggestedFilename()).toBe('madrid-passport-centro-story.png');
 });
 
 test('niveles: cálculo de puntos (módulo level.js)', async ({ page }) => {

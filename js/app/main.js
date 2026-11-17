@@ -12,36 +12,33 @@ import { initSync } from './sync.js';
 import { initAnalytics, track, setPerson } from './analytics.js';
 
 // ---------- Compartir ----------
+// Compartir: siempre en formato historia (9:16). Con un distrito abierto se elige distrito o todo Madrid; si no, directo.
+async function doShare(district) {
+  const scope = district ? 'district' : 'city';
+  $('#share').classList.add('loading');
+  try {
+    const L = Object.fromEntries(['title', 'visited', 'gps', 'pending', 'districts', 'barrios'].map((k) => [k, t('share.' + k)]));
+    L.level = t('level'); L.pts = t('pts');
+    const { pts, lv } = levelState();
+    const r = await MPShare.share({ districts: DISTRICTS, places: PLACES, barrios: BARRIOS, lvl, blvl, district, format: 'story', L, level: { n: lv.i + 1, name: t('lvl.' + lv.cur.id), pts: pts.total } });
+    track('share_done', { scope, format: 'story', result: r, district: district?.id || null });
+    if (r === 'downloaded') toast(t('share.dl'));
+  } catch (err) { console.error(err); track('share_error', { scope }); toast(t('share.fail'), true); }
+  $('#share').classList.remove('loading');
+}
 function initShare() {
   $('#share').onclick = (e) => {
     e.stopPropagation();
     const open = document.querySelector('.share-menu');
     if (open) return open.remove();
     const d = currentDistrict();
-    // Icono = rectángulo con la proporción real del formato
-    const FMT = { post: [t('share.post'), '4:5', 12, 15], story: [t('share.story'), '9:16', 9, 16] };
-    const fmtIco = (f) => { const [, , w, h] = FMT[f]; return `<svg class="fmt" viewBox="0 0 20 20"><rect x="${(20 - w) / 2}" y="${(20 - h) / 2}" width="${w}" height="${h}" rx="2"/></svg>`; };
-    const opt = (scope, f) => `<button data-s="${scope}" data-f="${f}">${fmtIco(f)}<span>${FMT[f][0]} <em>${FMT[f][1]}</em></span></button>`;
-    const group = (scope, label) => `<p>${esc(label)}</p>${opt(scope, 'post')}${opt(scope, 'story')}`;
+    track('share_opened', { district: d?.id || null });
+    if (!d) return doShare(null);
     const m = document.createElement('div');
     m.className = 'share-menu';
-    m.innerHTML = (d ? group('district', d.name) : '') + group('city', t('share.city'));
+    m.innerHTML = `<button data-s="district">${MP_ICON('flag', 'ico')}<span>${esc(d.name)}</span></button><button data-s="city">${MP_ICON('map', 'ico')}<span>${esc(t('share.city'))}</span></button>`;
     $('#app').appendChild(m);
-    track('share_opened', { district: d?.id || null });
-    m.querySelectorAll('button').forEach((b) => (b.onclick = async () => {
-      m.remove();
-      $('#share').classList.add('loading');
-      const scope = b.dataset.s, format = b.dataset.f;
-      try {
-        const L = Object.fromEntries(['title', 'visited', 'gps', 'pending', 'districts', 'barrios'].map((k) => [k, t('share.' + k)]));
-        L.level = t('level'); L.pts = t('pts');
-        const { pts, lv } = levelState();
-        const r = await MPShare.share({ districts: DISTRICTS, places: PLACES, barrios: BARRIOS, lvl, blvl, district: scope === 'district' ? d : null, format, L, level: { n: lv.i + 1, name: t('lvl.' + lv.cur.id), pts: pts.total } });
-        track('share_done', { scope, format, result: r, district: scope === 'district' ? d.id : null });
-        if (r === 'downloaded') toast(t('share.dl'));
-      } catch (err) { console.error(err); track('share_error', { scope, format }); toast(t('share.fail'), true); }
-      $('#share').classList.remove('loading');
-    }));
+    m.querySelectorAll('button').forEach((b) => (b.onclick = () => { m.remove(); doShare(b.dataset.s === 'district' ? d : null); }));
   };
   document.addEventListener('click', (e) => { if (!e.target.closest('.share-menu')) document.querySelector('.share-menu')?.remove(); });
 }

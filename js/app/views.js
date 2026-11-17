@@ -1,5 +1,5 @@
 // Vistas del panel (Madrid, distrito, ficha), navegación y checks.
-import { $, esc, dist, fmtDist, fmtDate, fmtTime, toast, ICON_CHECK, ICON_GPS, ICON_X } from './util.js';
+import { $, esc, dist, fmtDist, walkMin, fmtDate, fmtTime, toast, ICON_CHECK, ICON_GPS, ICON_X } from './util.js';
 import { S, PLACES, BYID, DISTRICTS, districtOf, barrioOf, lvl, blvl, bKey, progress, bprogress, currentDistrict, save, inList, listPlaces } from './state.js';
 import { t, typeName, typePlural, lang } from './i18n.js';
 import { body, sheet, setSheet, pad } from './sheet.js';
@@ -15,7 +15,7 @@ const TI = (ty) => MP_ICON(ty);
 const TYPE_COUNT = PLACES.reduce((m, p) => ((m[p.type] = (m[p.type] || 0) + 1), m), {});
 export const TYPES = Object.keys(TYPE_COUNT).sort((a, b) => TYPE_COUNT[b] - TYPE_COUNT[a]);
 let LABEL_ORDER = null;
-const labelOrder = () => (LABEL_ORDER ||= [...DISTRICTS].sort((x, y) => y.places.length - x.places.length));
+const labelOrder = () => (DISTRICTS.length ? (LABEL_ORDER ||= [...DISTRICTS].sort((x, y) => y.places.length - x.places.length)) : []);   // no cachear antes de cargar los distritos
 
 function renderRing() {
   const pr = progress(PLACES);
@@ -57,7 +57,7 @@ function homeListHTML() {
       ${res.map((p) => placeItem(p)).join('') || `<div class="empty-state">${t(S.typeFilter?.startsWith('__') && !q ? 'list.empty' : 'noresults')}</div>`}`;
   }
   const pr = progress(PLACES);
-  return `<div class="sec-title"><h2>${t('districts')}</h2><span>${t('places_of', { done: pr.done, total: pr.total })}</span></div>` + labelOrder().map((d) => {
+  return nearbyHTML() + `<div class="sec-title"><h2>${t('districts')}</h2><span>${t('places_of', { done: pr.done, total: pr.total })}</span></div>` + labelOrder().map((d) => {
     const p = progress(d.places);
     return `<button class="row ${p.total && p.done === p.total ? 'done' : ''}" data-id="${d.id}">
       <div class="badge">${d.ini}</div>
@@ -67,7 +67,23 @@ function homeListHTML() {
     </button>`;
   }).join('');
 }
+// Pendientes a menos de 10 min a pie de tu posición (o los 2 más cercanos si no hay ninguno tan cerca)
+const NEAR_MIN = 10;
+function nearbyHTML() {
+  if (!S.myPos) return `<button class="near-cta" id="near-locate">${MP_ICON('pin', 'ico')}<span>${t('near.cta')}</span></button>`;
+  const all = PLACES.filter((p) => lvl(p.id) === 0).map((p) => ({ p, d: dist(S.myPos.coords, p.coords) })).sort((a, b) => a.d - b.d);
+  let list = all.filter((x) => walkMin(x.d) <= NEAR_MIN).slice(0, 5), title = t('near.title', { n: NEAR_MIN });
+  if (!list.length) { list = all.slice(0, 2); title = t('near.closest'); }
+  if (!list.length) return '';
+  return `<section class="near"><div class="b-head"><h3 class="zone">${title}</h3></div>
+    ${list.map(({ p, d }) => placeItem(p, ` · ${t('min_walk', { n: walkMin(d) })}`)).join('')}</section>`;
+}
 function bindHomeList() {
+  $('#near-locate')?.addEventListener('click', async (e) => {
+    e.currentTarget.classList.add('loading');
+    try { const pos = await getPos(); onPosition(pos); track('nearby_located'); render({ keepScroll: true }); }
+    catch { toast(t('gps.fail'), true); e.currentTarget?.classList.remove('loading'); }
+  });
   body.querySelectorAll('.row').forEach((el) => (el.onclick = () => openDistrict(el.dataset.id, { via: 'list' })));
   bindPlaceItems(body);
 }
@@ -132,7 +148,10 @@ function renderDistrict() {
   const d = currentDistrict(), pr = progress(d.places);
   $('#title').textContent = d.name;
   const zones = {};
-  d.places.filter(passStatus).forEach((p) => (zones[p.zone || ''] ||= []).push(p));
+  const shown = d.places.filter(passStatus);
+  const dOf = (p) => (S.myPos ? dist(S.myPos.coords, p.coords) : 0);
+  if (S.sort === 'zone' || (S.sort === 'near' && !S.myPos)) shown.forEach((p) => (zones[p.zone || ''] ||= []).push(p));
+  else zones[''] = [...shown].sort((a, b) => (S.sort === 'todo' ? (lvl(a.id) > 0) - (lvl(b.id) > 0) : 0) || dOf(a) - dOf(b) || a.name.localeCompare(b.name, 'es'));
   const row = (p) => {
     const l = lvl(p.id), v = S.visits[p.id];
     const dd = S.myPos ? ` · ${fmtDist(dist(S.myPos.coords, p.coords))}` : '';
@@ -147,10 +166,18 @@ function renderDistrict() {
     <button class="back" id="back">${t('districts')}</button>
     <div class="d-head"><h2>${esc(d.name)}</h2><p>${t('d.sub', { done: pr.done, total: pr.total, gps: pr.gps })}</p></div>
     <div class="chips seg">${F.map(([k, tx, n]) => `<button class="chip ${S.statusFilter === k ? 'on' : ''}" data-f="${k}">${tx} <b>${n}</b></button>`).join('')}</div>
+    <div class="sort-row"><span>${t('sort')}</span>${['zone', 'near', 'todo'].map((k) => `<button class="${S.sort === k ? 'on' : ''}" data-sort="${k}">${t('sort.' + k)}</button>`).join('')}</div>
     ${list || `<div class="empty-state">${t('empty.filter')}</div>`}
     ${d.barrios.length ? barriosHTML(d) : ''}`;
   $('#back').onclick = goHome;
   body.querySelectorAll('[data-f]').forEach((el) => (el.onclick = () => { S.statusFilter = el.dataset.f; track('status_filter', { filter: S.statusFilter }); render({ keepScroll: true }); }));
+  body.querySelectorAll('[data-sort]').forEach((el) => (el.onclick = async () => {
+    S.sort = el.dataset.sort;
+    try { localStorage.setItem('mp.sort', S.sort); } catch {}
+    track('district_sort', { sort: S.sort });
+    if (S.sort !== 'zone' && !S.myPos) { try { onPosition(await getPos()); } catch { if (S.sort === 'near') toast(t('gps.fail'), true); } }
+    render({ keepScroll: true });
+  }));
   bindChecks();
   body.querySelectorAll('[data-open]').forEach((el) => (el.onclick = () => openPlace(el.dataset.open, 'list')));
   body.querySelectorAll('[data-b]').forEach((el) => (el.onclick = (e) => {
@@ -165,6 +192,14 @@ function renderDistrict() {
   }));
 }
 
+// Siguiente lugar pendiente más cercano a este (para ir encadenando)
+const nextOf = (p) => PLACES.filter((x) => x.id !== p.id && lvl(x.id) === 0).map((x) => ({ x, d: dist(p.coords, x.coords) })).sort((a, b) => a.d - b.d)[0];
+function nextHTML(p) {
+  const n = nextOf(p);
+  if (!n || n.d > 3000) return '';
+  return `<button class="next-row" data-next="${n.x.id}"><span class="next-ico">${MP_ICON(n.x.type, 'ico')}</span>
+    <span class="next-txt"><small>${t('next.title')}</small><b>${esc(n.x.name)}</b><small>${esc(typeName(n.x.type))} · ${fmtDist(n.d)} · ${t('min_walk', { n: walkMin(n.d) })}</small></span><span class="chev"></span></button>`;
+}
 const ACCESS_KEYS = ['Plaza', 'Calle', 'Barrio', 'Parque', 'Gastronomía', 'Mercado', 'Museo', 'Monumento', 'Iglesia', 'Cultura', 'Estadio', 'Mirador', 'Teatro'];
 function renderPlace() {
   const p = BYID[S.view.id], d = districtOf[p.id], l = lvl(p.id), v = S.visits[p.id], b = barrioOf[p.id];
@@ -194,12 +229,14 @@ function renderPlace() {
         <svg viewBox="0 0 24 24"><path d="M3 11l18-8-8 18-2-8-8-2z"/></svg>${t('directions')}</a>
       <a class="cta alt" data-nav="transit" href="${nav('transit')}" target="_blank" rel="noopener" aria-label="${esc(t('dir.transit'))}">
         <svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 11h14M8.5 17l-2 4M15.5 17l2 4M9 14h.01M15 14h.01"/></svg>${t('dir.transit')}</a></div>
+    ${nextHTML(p)}
     ${mt ? `<div class="info-row metro"><span class="m-logo">M</span><p><b>${esc(mt.name)}</b> ${mt.lines.map(lineBadge).join('')}<br><small>${t('metro.at', { d: fmtDist(mt.d), min: mt.min })}</small></p></div>` : ''}
     <div class="info-row">${MP_ICON('clock')}<p>${esc(t('access.' + (ACCESS_KEYS.includes(p.type) ? p.type : 'x')))}</p></div>
     ${desc ? `<p class="desc">${esc(desc)}</p><p class="src">${t(en || lang === 'es' ? 'src' : 'src.es')}</p>` : ''}`;
   const newHero = body.querySelector('.hero');
   if (oldHero && oldHero.dataset.img === newHero.dataset.img) newHero.replaceWith(oldHero);
   $('#back').onclick = () => openDistrict(d.id, { refit: true });   // salir de la ficha deselecciona y re-centra el distrito
+  body.querySelectorAll('[data-next]').forEach((el) => (el.onclick = () => { track('next_nearby_opened', { from: p.id, to: el.dataset.next }); openPlace(el.dataset.next, 'next'); }));
   body.querySelectorAll('[data-nav]').forEach((a) => (a.onclick = () => track('directions_clicked', { place: p.id, type: p.type, mode: a.dataset.nav, metro: mt?.name || null })));
   body.querySelectorAll('[data-l]').forEach((el) => (el.onclick = () => {
     const k = el.dataset.l, key = `${k}:${p.id}`, on = !S.visits[key];

@@ -16,7 +16,7 @@ Guía-mapa de Madrid por sus 21 distritos, mobile-first (390×844, iPhone 14). D
   (toca un tipo para verlo en el mapa) y sellos.
 - Puntos: visita 10 · GPS +15 · barrio 5 · distrito completo 50 · logro 20 (`js/app/level.js`).
 - Español / inglés (automático por el idioma del móvil; selector en Diario). Descripciones en inglés desde la Wikipedia en inglés.
-- Compartir imagen: todo Madrid o el distrito, formato post (4:5) o historia (9:16).
+- Compartir imagen (historia 9:16): todo Madrid, o el distrito abierto si lo hay, con el nivel del usuario.
 - Modo oscuro automático. PWA instalable con uso sin conexión (mapa y fotos ya vistos quedan en caché).
 
 ## Código
@@ -34,7 +34,7 @@ Todos los eventos llevan `app=madrid-passport` (el proyecto de PostHog se compar
 `app_opened`, `district_opened`, `place_opened`, `pin_tapped`, `place_checked`, `place_unchecked`, `gps_check_attempt`,
 `gps_confirmed`, `gps_too_far`, `gps_error`, `suggestion_shown`, `suggestion_dismissed`, `barrio_discovered`,
 `badge_unlocked`, `badge_notif_tapped`, `level_up`, `search`, `type_filter`, `status_filter`, `tab_viewed`, `type_progress_tapped`, `barrio_unmarked`,
-`share_opened`, `share_done`, `share_error`, `directions_clicked`, `locate`, `language_changed`, `login_clicked`, `logout`,
+`share_opened`, `share_done`, `share_error`, `nearby_located`, `district_sort`, `next_nearby_opened`, `list_added`, `list_removed`, `undo`, `cluster_tapped`, `barrio_notif_tapped`, `directions_clicked`, `locate`, `language_changed`, `login_clicked`, `logout`,
 `sync_error`, `app_installed`, `js_error`; además páginas vistas, autocaptura de clics, web vitals y grabación de sesiones
 (si está activada en el proyecto). Dashboard: «Madrid Passport · Uso».
 

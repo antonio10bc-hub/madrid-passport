@@ -1,6 +1,6 @@
 // Geolocalización: posición real o falsa (debug), seguimiento, sugerencia por cercanía y barrios pisados.
 import { $, dist, fmtDist, toast, esc, css, stampDate } from './util.js';
-import { S, PLACES, lvl, bKey, save } from './state.js';
+import { S, PLACES, DISTRICTS, lvl, bKey, save } from './state.js';
 import { t } from './i18n.js';
 import { map, showMeOnMap, centerOffset, flashBarrio } from './map.js';
 import { notify } from './notify.js';
@@ -49,7 +49,9 @@ export const getPos = () => new Promise((res, rej) => {
 // ---------- Seguimiento continuo ----------
 let watchId = null, follow = false;
 export function onPosition(pos) {
+  const first = !S.myPos;
   S.myPos = pos;
+  if (first && S.view.type !== 'place' && DISTRICTS.length) setTimeout(() => render({ keepScroll: true }), 0);
   showMeOnMap(pos);
   if (follow) map.easeTo({ center: [pos.coords[1], pos.coords[0]], duration: 600 });
   checkBarrio(pos);

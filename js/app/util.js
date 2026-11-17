@@ -14,6 +14,7 @@ export const dist = ([a, b], [c, d]) => {
   const x = Math.sin(((c - a) * r) / 2) ** 2 + Math.cos(a * r) * Math.cos(c * r) * Math.sin(((d - b) * r) / 2) ** 2;
   return 2 * R * Math.asin(Math.sqrt(x));
 };
+export const walkMin = (m) => Math.max(1, Math.round((m * 1.3) / 80));   // minutos a pie (80 m/min y algo de rodeo)
 export const fmtDist = (m) => (m < 1000 ? `${Math.round(m)} m` : `${(m / 1000).toFixed(1)} km`);
 export const polys = (g) => (g.type === 'Polygon' ? [g.coordinates] : g.coordinates);
 export const inRing = ([x, y], ring) => {

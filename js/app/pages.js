@@ -35,6 +35,30 @@ export const levelState = () => {
   return { pts, lv: levelOf(pts.total) };
 };
 
+// ---------- Comparativa anónima con el resto de usuarios (función visited_percentile en Supabase) ----------
+let pctCache = null, pctLoading = false;
+async function loadPercentile(n) {
+  const cfg = window.MP_CONFIG || {};
+  if (!cfg.supabaseUrl || pctLoading || (pctCache && pctCache.n === n)) return;
+  pctLoading = true;
+  try {
+    const r = await fetch(`${cfg.supabaseUrl}/rest/v1/rpc/visited_percentile`, {
+      method: 'POST', headers: { apikey: cfg.supabaseAnonKey, 'Content-Type': 'application/json' }, body: JSON.stringify({ n }) });
+    if (r.ok) {
+      const { users, below } = await r.json();
+      pctCache = { n, users, pct: users ? Math.round((below / users) * 100) : 0 };
+      if (S.tab === 'badges') renderPage();
+    }
+  } catch {}
+  pctLoading = false;
+}
+const percentileHTML = (n) => {
+  if (!n) return '';
+  if (!pctCache || pctCache.n !== n) { loadPercentile(n); return ''; }
+  if (pctCache.users < 5 || pctCache.pct < 1) return '';
+  return `<p class="lvl-rank">${MP_ICON('route', 'ico')}<span>${t('rank', { pct: pctCache.pct })}</span></p>`;
+};
+
 // ---------- Diario ----------
 const dayOpen = {};                                   // estado de plegado por día (sesión)
 const dayKey = (ts) => { const d = new Date(ts); return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`; };
@@ -74,6 +98,7 @@ function levelHTML() {
       <b class="lvl-pts">${pts.total}<span> ${t('pts')}</span></b></div>
     <div class="bar"><i style="width:${Math.round(lv.pct * 100)}%"></i></div>
     <p class="lvl-next">${lv.next ? t('level.next', { n: lv.toNext, name: t('lvl.' + lv.next.id) }) : t('level.max')}</p>
+    ${percentileHTML(pts.parts.visit)}
   </section>`;
 }
 function typesHTML() {

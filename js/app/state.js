@@ -8,7 +8,9 @@ export const S = {
   view: { type: 'home' },            // home | district | place
   query: '', typeFilter: null, statusFilter: 'all', selId: null, myPos: null,
   tab: 'map', debug: false, fakePos: null, placing: false,
+  sort: 'zone',                       // orden de la lista del distrito: zone | near | todo
 };
+try { const so = localStorage.getItem('mp.sort'); if (['zone', 'near', 'todo'].includes(so)) S.sort = so; } catch {}
 try {
   S.debug = new URLSearchParams(location.search).has('debug') || localStorage.getItem('mp.debug') === '1';
   S.fakePos = JSON.parse(localStorage.getItem('mp.fake'));
