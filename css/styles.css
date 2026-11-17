@@ -66,20 +66,20 @@ a { color: inherit; text-decoration: none; }
 .topbar {
   position: absolute; z-index: 5; top: 0; left: 0; right: 0;
   padding: calc(var(--top) + 6px) 20px 26px;
-  display: flex; justify-content: space-between; align-items: flex-end;
+  display: flex; justify-content: space-between; align-items: center;
   background: linear-gradient(var(--bg) 78%, rgba(var(--bg-a),0));
   pointer-events: none;
 }
 .topbar > * { pointer-events: auto; }
 .brand { display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 600; color: var(--muted); }
 .brand-mark { width: 18px; height: 18px; flex: none; }
-h1 { font-size: 28px; font-weight: 700; letter-spacing: -.02em; margin-top: 2px; max-width: 270px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.ring { position: relative; width: 46px; height: 46px; flex: none; }
+h1 { font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -.02em; max-width: 270px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ring { position: relative; width: 34px; height: 34px; flex: none; }
 .ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
-.ring circle { fill: none; stroke-width: 3.2; }
+.ring circle { fill: none; stroke-width: 3.4; }
 .ring-bg { stroke: var(--line); }
 .ring-fg { stroke: var(--red); stroke-linecap: round; stroke-dasharray: 100 100; stroke-dashoffset: 100; transition: stroke-dashoffset .6s ease; }
-.ring span { position: absolute; inset: 0; display: grid; place-items: center; font-size: 11px; font-weight: 700; }
+.ring span { position: absolute; inset: 0; display: grid; place-items: center; font-size: 9.5px; font-weight: 700; letter-spacing: -.02em; }
 
 /* ---------- Mapa ---------- */
 #map { position: absolute; inset: 0; background: var(--map-bg); }
@@ -109,7 +109,7 @@ h1 { font-size: 28px; font-weight: 700; letter-spacing: -.02em; margin-top: 2px;
 
 /* Botones flotantes */
 .locate {
-  position: absolute; z-index: 5; right: 21px; top: calc(var(--top) + 82px);
+  position: absolute; z-index: 5; right: 15px; top: calc(var(--top) + 82px);
   width: 44px; height: 44px; border-radius: 14px; background: var(--bg);
   box-shadow: var(--elev-2); display: grid; place-items: center;
 }
@@ -119,7 +119,7 @@ h1 { font-size: 28px; font-weight: 700; letter-spacing: -.02em; margin-top: 2px;
 .locate.share { top: calc(var(--top) + 134px); }
 .locate.loading svg { animation: pulse 1s infinite; }
 .share-menu {
-  position: absolute; z-index: 9; right: 21px; top: calc(var(--top) + 186px); width: 230px;
+  position: absolute; z-index: 9; right: 15px; top: calc(var(--top) + 186px); width: 230px;
   background: var(--bg); border-radius: 18px; box-shadow: var(--elev-2); padding: 6px; animation: pop .18s var(--ease-out); transform-origin: top right;
 }
 .share-menu p { font-size: 12px; color: var(--muted); padding: 8px 10px 4px; }
