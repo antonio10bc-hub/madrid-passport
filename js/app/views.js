@@ -252,9 +252,12 @@ function renderPlace() {
 
 export function render({ keepScroll = false } = {}) {
   const st = body.scrollTop;
+  // Filas de filtros con scroll horizontal: conservar su posición al volver a pintar (si no, saltan al principio)
+  const xs = [...body.querySelectorAll('.chips, .opt-row')].map((el) => el.scrollLeft);
   renderRing();
   ({ home: renderHome, district: renderDistrict, place: renderPlace })[S.view.type]();
   if (keepScroll) body.scrollTop = st;
+  body.querySelectorAll('.chips, .opt-row').forEach((el, i) => { if (xs[i]) el.scrollLeft = xs[i]; });
   if (map && DISTRICTS.length) { paintDistricts(); drawPins(); }
   document.querySelector('.share-menu')?.remove();
   renderPage();

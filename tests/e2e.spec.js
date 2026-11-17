@@ -239,6 +239,16 @@ test('pines agrupados: al alejar se juntan y al tocar el grupo se acerca', async
   expect(await page.evaluate(() => window.__minZ)).toBeGreaterThanOrEqual(z0 - 0.01);   // sin alejarse antes de acercar
 });
 
+test('al pulsar un filtro, la fila de filtros no vuelve al principio', async ({ page }) => {
+  const row = page.locator('#type-chips');
+  await row.evaluate((el) => (el.scrollLeft = 300));
+  await page.waitForTimeout(100);
+  const x = await row.evaluate((el) => el.scrollLeft);
+  expect(x).toBeGreaterThan(0);
+  await row.evaluate((el) => el.querySelectorAll('.chip')[5].click());   // clic sin que el test desplace la fila
+  await expect.poll(() => page.locator('#type-chips').evaluate((el) => el.scrollLeft)).toBe(x);
+});
+
 test('buscador y filtro por tipo', async ({ page }) => {
   await expect(page.locator('#sheet')).toHaveAttribute('data-state', 'peek');
   await page.locator('.chip[data-t="Museo"]').click();
