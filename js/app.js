@@ -238,7 +238,12 @@
       const f = map.queryRenderedFeatures(e.point, { layers: ['d-fill'] })[0];
       if (!f) return;
       const cur = currentDistrict();
-      if (cur && cur.fid === f.id) goHome();            // tap en el distrito abierto: deseleccionar
+      if (cur && cur.fid === f.id) {
+        // Tap en el distrito abierto: si hay un lugar seleccionado (o su ficha abierta), primero vuelve al distrito;
+        // si no, sale a la vista de Madrid
+        if (view.type === 'place' || selId) openDistrict(cur.id, { refit: true });
+        else goHome();
+      }
       else openDistrict(f.properties.id);
     });
     map.on('mouseenter', 'd-fill', () => (map.getCanvas().style.cursor = 'pointer'));
