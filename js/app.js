@@ -180,22 +180,29 @@
     fitLabels();
   }
 
+  // El elemento del Marker (wrapper) lo posiciona MapLibre con transform: no debe llevar transiciones.
+  // Escala/fade van en el .pin interior. Fade solo al cambiar de distrito, no al marcar checks.
+  let pinsFor = null;
   function drawPins() {
     markers.pins.forEach((m) => m.remove()); markers.pins = [];
+    const enter = current && pinsFor !== current.id;
+    pinsFor = current?.id || null;
     if (!current) return;
     current.places.forEach((p) => {
+      const wrap = document.createElement('div');
       const el = document.createElement('div');
       const l = lvl(p.id);
-      el.className = `pin v${l}${selId === p.id ? ' sel' : ''}`;
+      el.className = `pin v${l}${selId === p.id ? ' sel' : ''}${enter ? ' enter' : ''}`;
       el.dataset.id = p.id;
       el.innerHTML = l === 1 ? ICON_CHECK : l === 2 ? ICON_GPS : '';
-      el.onclick = (e) => {
+      wrap.appendChild(el);
+      wrap.onclick = (e) => {
         if (placing) return;                    // colocando GPS falso: el tap va al mapa
         e.stopPropagation();
         if (sheet.dataset.state === 'min') setSheet('half');
         selectPlace(p.id);
       };
-      markers.pins.push(new maplibregl.Marker({ element: el }).setLngLat([p.coords[1], p.coords[0]]).addTo(map));
+      markers.pins.push(new maplibregl.Marker({ element: wrap }).setLngLat([p.coords[1], p.coords[0]]).addTo(map));
     });
   }
 

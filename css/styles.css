@@ -164,7 +164,7 @@ h1 { font-size: 28px; font-weight: 700; letter-spacing: -.02em; margin-top: 2px;
 .debug.placing { background: rgba(47,123,246,.95); }
 .debug.placing #debug-move { background: #fff; color: #2F7BF6; }
 .debug.placing small { color: #DCE8FF; }
-#app.placing .d-label, #app.placing .pin { pointer-events: none; }
+#app.placing .d-label, #app.placing .maplibregl-marker { pointer-events: none; }
 #app.placing #map { cursor: crosshair; }
 
 /* Selección desde el mapa */
@@ -177,3 +177,7 @@ h1 { font-size: 28px; font-weight: 700; letter-spacing: -.02em; margin-top: 2px;
 @keyframes flash { 0%, 25% { background: rgba(214,32,44,.16); } 100% { background: rgba(214,32,44,.045); } }
 .pin { transition: transform .2s; }
 .pin.sel { transform: scale(1.35); box-shadow: 0 0 0 4px rgba(214,32,44,.22), 0 2px 6px rgba(0,0,0,.25); z-index: 2; }
+
+.pin.enter { animation: pin-in .18s ease-out; }
+@keyframes pin-in { from { opacity: 0; transform: scale(.6); } }
+.pin.sel.enter { animation: none; }
