@@ -6,7 +6,8 @@
   "lng": -3.70361,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ed/MADRID_100206_UDCI_023.jpg/960px-MADRID_100206_UDCI_023.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La Puerta del Sol es una plaza de la ciudad española de Madrid. En ella se encuentra desde 1950 el denominado kilómetro cero de las carreteras radiales del país. El edificio más antiguo de la Puerta del Sol es la Real Casa de Correos y en ella destaca el reloj de torre que fue construido y donado en el siglo XIX por José Rodríguez de Losada, y cuyas campanadas de las 12 de la noche del 31 de diciembre marcan la tradicional toma de las doce uvas a la gran mayoría de los españoles.",
-  "url": "https://es.wikipedia.org/wiki/Puerta_del_Sol"
+  "url": "https://es.wikipedia.org/wiki/Puerta_del_Sol",
+  "title_en": "Puerta del Sol"
  },
  "plaza-mayor": {
   "title": "Plaza Mayor de Madrid",
@@ -15,7 +16,8 @@
   "lng": -3.70738056,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/44/Plaza_Mayor_de_Madrid_06.jpg/960px-Plaza_Mayor_de_Madrid_06.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La plaza Mayor está situada en el centro de Madrid, en el barrio de Sol,  junto a la calle Mayor y a 300 metros de la Puerta del Sol.",
-  "url": "https://es.wikipedia.org/wiki/Plaza_Mayor_de_Madrid"
+  "url": "https://es.wikipedia.org/wiki/Plaza_Mayor_de_Madrid",
+  "title_en": "Plaza Mayor, Madrid"
  },
  "san-miguel": {
   "title": "Mercado de San Miguel",
@@ -24,7 +26,8 @@
   "lng": -3.708869,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b3/Mercado_de_San_Miguel_2025.jpg/960px-Mercado_de_San_Miguel_2025.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El Mercado de San Miguel, ubicado en la plaza del mismo nombre, junto a la Plaza Mayor de Madrid (España), es un mercado de titularidad privada cuya característica más remarcable es que conserva su estructura original de hierro de principios del siglo XX.​ Tiene dos plantas y una superficie de 1200 metros cuadrados.\nInaugurado en mayo de 1916 como mercado de abastos, en mayo del 2009 pasa a convertirse en el primer mercado gastronómico. Durante 2018 el mercado experimenta un periodo de consolidación de gran parte de su contenido gastronómico.",
-  "url": "https://es.wikipedia.org/wiki/Mercado_de_San_Miguel"
+  "url": "https://es.wikipedia.org/wiki/Mercado_de_San_Miguel",
+  "title_en": "Market of San Miguel"
  },
  "san-gines": {
   "title": "Chocolatería San Ginés",
@@ -33,7 +36,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ae/Chocolater%C3%ADa_%22San_Gines%22-Madrid-2009.jpg/960px-Chocolater%C3%ADa_%22San_Gines%22-Madrid-2009.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La Chocolatería San Ginés es una popular chocolatería de Madrid, fundada en 1894 y situada en el pasadizo de San Ginés, junto a la Puerta del Sol, tradicional local para la degustación de chocolate con churros.​​",
-  "url": "https://es.wikipedia.org/wiki/Chocolater%C3%ADa_San_Gin%C3%A9s"
+  "url": "https://es.wikipedia.org/wiki/Chocolater%C3%ADa_San_Gin%C3%A9s",
+  "title_en": "Chocolatería San Ginés"
  },
  "descalzas": {
   "title": "Monasterio de las Descalzas Reales",
@@ -42,7 +46,8 @@
   "lng": null,
   "img": null,
   "desc": "Bajo la denominación de monasterio o convento de las Descalzas Reales existen varios edificios religiosos, relacionados con la orden de las clarisas franciscanas descalzas.",
-  "url": "https://es.wikipedia.org/wiki/Monasterio_de_las_Descalzas_Reales"
+  "url": "https://es.wikipedia.org/wiki/Monasterio_de_las_Descalzas_Reales",
+  "title_en": null
  },
  "gran-via": {
   "title": "Gran Vía",
@@ -51,7 +56,8 @@
   "lng": -3.70361,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/MADRID_100206_UDCI_019.jpg/960px-MADRID_100206_UDCI_019.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La Gran Vía es una de las principales calles de la ciudad española de Madrid. Comienza en la calle de Alcalá y termina en la plaza de España. Es un importante hito en la ciudad desde su construcción a principios de siglo XX visto desde el punto de vista comercial, turístico y de ocio.",
-  "url": "https://es.wikipedia.org/wiki/Gran_V%C3%ADa"
+  "url": "https://es.wikipedia.org/wiki/Gran_V%C3%ADa",
+  "title_en": "Gran Vía, Madrid"
  },
  "metropolis": {
   "title": "Edificio Metrópolis",
@@ -60,7 +66,8 @@
   "lng": -3.69746667,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/64/Edificio_Metr%C3%B3polis_%286_de_diciembre_de_2005%2C_Madrid%29.JPG/960px-Edificio_Metr%C3%B3polis_%286_de_diciembre_de_2005%2C_Madrid%29.JPG?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El Edificio Metrópolis es un edificio de la ciudad española de Madrid, de estilo ecléctico de inspiración francesa, ubicado en la esquina de la calle de Alcalá con la calle Gran Vía (Distrito Centro).",
-  "url": "https://es.wikipedia.org/wiki/Edificio_Metr%C3%B3polis"
+  "url": "https://es.wikipedia.org/wiki/Edificio_Metr%C3%B3polis",
+  "title_en": "Metropolis Building, Madrid"
  },
  "circulo-bellas-artes": {
   "title": "Círculo de Bellas Artes",
@@ -69,7 +76,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a1/C%C3%ADrculo_de_Bellas_Artes_%28Madrid%29_06.jpg/960px-C%C3%ADrculo_de_Bellas_Artes_%28Madrid%29_06.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El Círculo de Bellas Artes (CBA) es una entidad cultural privada sin ánimo de lucro con sede en la madrileña calle Alcalá, en Madrid. Fundada en 1880, desde 1921 está declarada “Centro de Protección de las Bellas Artes y de Utilidad Pública”. Es un centro multidisciplinar, ya que en él se desarrollan actividades que abarcan desde las artes plásticas hasta la literatura pasando por la ciencia, la música, la filosofía, el cine o las artes escénicas.",
-  "url": "https://es.wikipedia.org/wiki/C%C3%ADrculo_de_Bellas_Artes"
+  "url": "https://es.wikipedia.org/wiki/C%C3%ADrculo_de_Bellas_Artes",
+  "title_en": "Círculo de Bellas Artes"
  },
  "academia-bellas-artes": {
   "title": "Real Academia de Bellas Artes de San Fernando",
@@ -78,7 +86,8 @@
   "lng": -3.7007,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b9/Emblem_of_the_Spanish_Royal_Academy_of_Fine_Arts.svg/960px-Emblem_of_the_Spanish_Royal_Academy_of_Fine_Arts.svg.png?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La Real Academia de Bellas Artes de San Fernando (RABASF) es una institución integrada en el Instituto de España. Fue creada por Real Decreto de 12 de abril de 1752 y su sede está en la ciudad de Madrid (España).",
-  "url": "https://es.wikipedia.org/wiki/Real_Academia_de_Bellas_Artes_de_San_Fernando"
+  "url": "https://es.wikipedia.org/wiki/Real_Academia_de_Bellas_Artes_de_San_Fernando",
+  "title_en": "Royal Academy of Fine Arts of San Fernando"
  },
  "palacio-real": {
   "title": "Palacio Real de Madrid",
@@ -87,7 +96,8 @@
   "lng": -3.714312,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9b/Palacio_Real_de_Madrid_Julio_2016_%28cropped%29.jpg/960px-Palacio_Real_de_Madrid_Julio_2016_%28cropped%29.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El Palacio Real de Madrid es la residencia oficial del rey de España; no obstante, la familia real no habita en él, sino en el Palacio de la Zarzuela, por lo que es utilizado para ceremonias de Estado y actos solemnes.​\nCon una extensión de 135 000 m² y 3418 habitaciones (casi el doble que el Palacio de Buckingham o el Palacio de Versalles​), es el palacio real más grande de Europa Occidental​ y uno de los más grandes del mundo. Alberga un valioso patrimonio histórico-artístico, destacando el conjunto de instrumentos musicales conocido como los Stradivarius Palatinos, y colecciones muy relevantes de otras disciplinas como pintura, escultura y tapicería. Las salas de Estado y las colecciones artísticas están abiertas a las visitas siempre que no haya actos oficiales.​\nDesde la dictadura de Francisco Franco también se le conoce con el sobrenombre de Palacio de Oriente, a pesar de estar situado en la parte más occidental de Madrid, debido a su ubicación en la plaza de Oriente, llamada así al estar situada al este del palacio.",
-  "url": "https://es.wikipedia.org/wiki/Palacio_Real_de_Madrid"
+  "url": "https://es.wikipedia.org/wiki/Palacio_Real_de_Madrid",
+  "title_en": "Royal Palace of Madrid"
  },
  "almudena": {
   "title": "Catedral de la Almudena",
@@ -96,7 +106,8 @@
   "lng": -3.714444,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c1/Almudena_2022_-_overview.jpg/960px-Almudena_2022_-_overview.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La Santa Iglesia Catedral Metropolitana de Santa María la Real de la Almudena, conocida simplemente como catedral de la Almudena,​ es una catedral de culto católico, dedicada a la Virgen María bajo la advocación de la Almudena, y sede episcopal de Madrid.\nConstruida muy cerca del emplazamiento de la anterior y muy antigua iglesia de Santa María de la Almudena, que se levantó a su vez sobre una mezquita, la catedral está dedicada a la Virgen de la Almudena, patrona de Madrid. El nombre de esta virgen y catedral derivan de la palabra árabe al-mudayna, que significa \"ciudadela\".",
-  "url": "https://es.wikipedia.org/wiki/Catedral_de_la_Almudena"
+  "url": "https://es.wikipedia.org/wiki/Catedral_de_la_Almudena",
+  "title_en": "Almudena Cathedral"
  },
  "plaza-oriente": {
   "title": "Plaza de Oriente",
@@ -105,7 +116,8 @@
   "lng": -3.71222,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b4/Madrid_-_Royal_Palace_of_Madrid_-_20171027160239.jpg/960px-Madrid_-_Royal_Palace_of_Madrid_-_20171027160239.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La plaza de Oriente está situada en el centro histórico de la ciudad española de Madrid. Se trata de una plaza rectangular de cabecera curvada, de carácter monumental, cuyo trazado definitivo responde a un diseño de 1844 de Narciso Pascual Colomer, heredero de varios proyectos anteriores. Uno de sus principales impulsores fue el rey José I, quien ordenó la demolición de las casas medievales situadas sobre su solar.",
-  "url": "https://es.wikipedia.org/wiki/Plaza_de_Oriente"
+  "url": "https://es.wikipedia.org/wiki/Plaza_de_Oriente",
+  "title_en": "Plaza de Oriente"
  },
  "sabatini": {
   "title": "Jardines de Sabatini",
@@ -114,7 +126,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d2/Palacio_Real%2C_Madrid%2C_Espa%C3%B1a%2C_2014-12-27%2C_DD_09.JPG/960px-Palacio_Real%2C_Madrid%2C_Espa%C3%B1a%2C_2014-12-27%2C_DD_09.JPG?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "Los jardines de Sabatini se encuentran situados frente a la fachada norte del Palacio Real de Madrid (España), entre la calle de Bailén y la cuesta de San Vicente.",
-  "url": "https://es.wikipedia.org/wiki/Jardines_de_Sabatini"
+  "url": "https://es.wikipedia.org/wiki/Jardines_de_Sabatini",
+  "title_en": "Sabatini Gardens"
  },
  "cava-baja": {
   "title": "Calle de la Cava Baja",
@@ -123,7 +136,8 @@
   "lng": null,
   "img": "https://upload.wikimedia.org/wikipedia/commons/0/02/Calle_de_la_Cava_Baja_%28Madrid%291.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
   "desc": "La calle de la Cava Baja es una calle de Madrid perteneciente al barrio de palacio que se encuentra en el denominado Madrid de los Austrias. Corre desde la plaza de Puerta Cerrada hasta la plaza del Humilladero, y es adyacente y paralela a la Cava Alta, que nace en la puerta de Moros y desemboca en la calle de Toledo. Ambas Cavas reciben su nombre de las minas que permitían el acceso a la población medieval durante la dominación árabe, aunque estuvieran cerradas sus puertas.",
-  "url": "https://es.wikipedia.org/wiki/Calle_de_la_Cava_Baja"
+  "url": "https://es.wikipedia.org/wiki/Calle_de_la_Cava_Baja",
+  "title_en": null
  },
  "plaza-paja": {
   "title": "Plaza de la Paja",
@@ -132,7 +146,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a4/Visual_Plaza_de_la_Paja.jpg/960px-Visual_Plaza_de_la_Paja.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La plaza de la Paja se encuentra en la zona conocida como Madrid de los Austrias, en el centro histórico de la capital española y dentro del castizo barrio de La Latina.",
-  "url": "https://es.wikipedia.org/wiki/Plaza_de_la_Paja"
+  "url": "https://es.wikipedia.org/wiki/Plaza_de_la_Paja",
+  "title_en": null
  },
  "san-francisco": {
   "title": "Real basílica de San Francisco el Grande",
@@ -141,7 +156,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/26/Bas%C3%ADlica_de_San_Francisco_el_Grande_%28Madrid%29_13.jpg/960px-Bas%C3%ADlica_de_San_Francisco_el_Grande_%28Madrid%29_13.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La Real Basílica de San Francisco el Grande, oficialmente Basílica de Nuestra Señora de los Ángeles, es una iglesia católica en Madrid, en el barrio de Palacio, dentro del casco histórico de la capital de España. Preside la cara occidental de la plaza de San Francisco, configurada por la intersección de la calle Bailén y la Carrera de San Francisco. Forma parte del convento franciscano de Jesús y María, fundado a principios del siglo XIII, sobre una desaparecida ermita dedicada a santa María.",
-  "url": "https://es.wikipedia.org/wiki/Real_bas%C3%ADlica_de_San_Francisco_el_Grande"
+  "url": "https://es.wikipedia.org/wiki/Real_bas%C3%ADlica_de_San_Francisco_el_Grande",
+  "title_en": "Royal Basilica of Saint Francis the Great"
  },
  "rastro": {
   "title": "El Rastro",
@@ -150,7 +166,8 @@
   "lng": null,
   "img": null,
   "desc": "El Rastro puede hacer referencia a:\n\nEl Rastro de Madrid, un mercado al aire libre en el centro histórico de Madrid.\nEl Rastro, una parroquia y pueblo en el Estado Guárico, Venezuela.\nEl rastro de Cthulhu, juego de rol basado en misterios y horror\nEl rastro, programa de televisión colombiano.",
-  "url": "https://es.wikipedia.org/wiki/El_Rastro"
+  "url": "https://es.wikipedia.org/wiki/El_Rastro",
+  "title_en": null
  },
  "plaza-lavapies": {
   "title": "Plaza de Lavapiés",
@@ -159,7 +176,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6e/Plaza_Lavapies%2C_Madrid%2C_13.08.14.jpg/960px-Plaza_Lavapies%2C_Madrid%2C_13.08.14.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La plaza de Lavapiés es un espacio abierto en el sinuoso trazado del Lavapiés madrileño, en el barrio de Embajadores del distrito Centro de la capital española.",
-  "url": "https://es.wikipedia.org/wiki/Plaza_de_Lavapi%C3%A9s"
+  "url": "https://es.wikipedia.org/wiki/Plaza_de_Lavapi%C3%A9s",
+  "title_en": "Plaza de Lavapiés"
  },
  "reina-sofia": {
   "title": "Museo Nacional Centro de Arte Reina Sofía",
@@ -168,7 +186,8 @@
   "lng": -3.6939961,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4a/Museo_Nacional_Centro_de_Arte_Reina_Sof%C3%ADa_logo.svg/960px-Museo_Nacional_Centro_de_Arte_Reina_Sof%C3%ADa_logo.svg.png?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El Museo Nacional Centro de Arte Reina Sofía (MNCARS), conocido comúnmente como Museo Reina Sofía, es un museo español de arte del siglo XX y contemporáneo, con sede en la ciudad de Madrid.\nTomó como sede el antiguo Hospital General de Madrid, gran edificio neoclásico del siglo XVIII situado en la zona de Atocha, cerca de la estación homónima de tren y de la Estación del Arte de Metro. Este hospital fue diseñado inicialmente por José de Hermosilla y continuado posteriormente por Francesco Sabatini, y actualmente se le conoce como edificio Sabatini en honor a este arquitecto italiano.",
-  "url": "https://es.wikipedia.org/wiki/Museo_Nacional_Centro_de_Arte_Reina_Sof%C3%ADa"
+  "url": "https://es.wikipedia.org/wiki/Museo_Nacional_Centro_de_Arte_Reina_Sof%C3%ADa",
+  "title_en": "Museo Nacional Centro de Arte Reina Sofía"
  },
  "tabacalera": {
   "title": "Real Fábrica de Tabacos de Madrid",
@@ -177,7 +196,8 @@
   "lng": null,
   "img": null,
   "desc": null,
-  "url": "https://es.wikipedia.org/wiki/Real_F%C3%A1brica_de_Tabacos_de_Madrid"
+  "url": "https://es.wikipedia.org/wiki/Real_F%C3%A1brica_de_Tabacos_de_Madrid",
+  "title_en": null
  },
  "san-fernando": {
   "title": "Mercado de San Fernando",
@@ -186,7 +206,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8d/Mercado_de_San_Fernando_%28Madrid%29_02.jpg/960px-Mercado_de_San_Fernando_%28Madrid%29_02.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El Mercado de San Fernando (denominado también Mercado Municipal de Embajadores) es un edificio que hace las funciones de mercado de abastos en Madrid.​ Se encuentra ubicado en la calle de Embajadores (Distrito Centro), a camino entre el Casino de la Reina y la Plaza Agustín Lara. El mercado fue inaugurado en el año 1944 dando servicio a los vecinos de Lavapiés y parte de la Arganzuela. El diseño se debe al arquitecto Casto Fernández-Shaw.",
-  "url": "https://es.wikipedia.org/wiki/Mercado_de_San_Fernando"
+  "url": "https://es.wikipedia.org/wiki/Mercado_de_San_Fernando",
+  "title_en": null
  },
  "lope": {
   "title": "Casa-Museo de Lope de Vega",
@@ -195,7 +216,8 @@
   "lng": -3.697593,
   "img": "https://upload.wikimedia.org/wikipedia/commons/a/af/Casa-Museo_de_Lope_de_Vega_%28Madrid%29_01.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
   "desc": "La Casa-Museo de Lope de Vega se encuentra en el número 11 de la calle de Cervantes de la ciudad española de Madrid.",
-  "url": "https://es.wikipedia.org/wiki/Casa-Museo_de_Lope_de_Vega"
+  "url": "https://es.wikipedia.org/wiki/Casa-Museo_de_Lope_de_Vega",
+  "title_en": "House-Museum of Lope de Vega"
  },
  "trinitarias": {
   "title": "Convento de las Trinitarias Descalzas",
@@ -204,7 +226,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/51/Convento_de_las_Trinitarias_Descalzas_%28Madrid%29_01.jpg/960px-Convento_de_las_Trinitarias_Descalzas_%28Madrid%29_01.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El monasterio de San Ildefonso y San Juan de Mata, más conocido por su antiguo nombre de convento de las Trinitarias Descalzas de San Ildefonso, es un conjunto arquitectónico de iglesia y monasterio barrocos de la capital de España, dentro del perímetro del Madrid de los Austrias.​ La primitiva construcción data de 1609, y el conjunto conservado se encuentra en la manzana formada por la Costanilla de las Trinitarias y la calle de Huertas, con fachada a la calle de Lope de Vega.",
-  "url": "https://es.wikipedia.org/wiki/Convento_de_las_Trinitarias_Descalzas"
+  "url": "https://es.wikipedia.org/wiki/Convento_de_las_Trinitarias_Descalzas",
+  "title_en": "Convent of the Barefoot Trinitarians"
  },
  "congreso": {
   "title": "Palacio de las Cortes",
@@ -213,7 +236,8 @@
   "lng": -3.696542,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/51/Congreso_de_los_Diputados_%28Espa%C3%B1a%29_17.jpg/960px-Congreso_de_los_Diputados_%28Espa%C3%B1a%29_17.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El Palacio de las Cortes o Palacio del Congreso de los Diputados, según la página web oficial,​ es el edificio que alberga el Congreso de los Diputados, una de las dos Cámaras de las Cortes Generales, el Parlamento español. Está situado en la plaza de las Cortes de Madrid, entre la calle de Zorrilla y la Carrera de San Jerónimo, a escasa distancia del paseo del Prado. Es uno de los edificios emblemáticos del Madrid del siglo xix, de estilo neoclásico.",
-  "url": "https://es.wikipedia.org/wiki/Palacio_de_las_Cortes"
+  "url": "https://es.wikipedia.org/wiki/Palacio_de_las_Cortes",
+  "title_en": "Palacio de las Cortes, Madrid"
  },
  "thyssen": {
   "title": "Museo Thyssen-Bornemisza",
@@ -222,7 +246,8 @@
   "lng": -3.694925,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/84/Museo_Thyssen-Bornemisza_%28Madrid%29_07.jpg/960px-Museo_Thyssen-Bornemisza_%28Madrid%29_07.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El Museo Nacional Thyssen-Bornemisza (pronunciado: [ˈtisemboɾneˈmisa]) es una pinacoteca de maestros antiguos y modernos ubicada en Madrid (España). Su existencia se debe al acuerdo de arrendamiento (1988) y a la posterior adquisición, por parte del Gobierno español (1993), del núcleo más valioso de la colección privada formada en Suiza a lo largo de seis décadas por la familia Thyssen-Bornemisza. \nSu repertorio, que abarca la evolución de la pintura europea y estadounidense de varios siglos, complementa el expuesto en el Prado y en el Reina Sofía al aportar numerosos ejemplos de grandes maestros extranjeros que no estaban representados en los museos estatales del país: primitivos italianos y flamencos de los siglos XIV y XV (Duccio, Jan van Eyck), figuras clave del Renacimiento (Ghirlandaio, Carpaccio, Holbein), pintura barroca holandesa (Frans Hals, Jan Steen, Ruisdael), vedutismo veneciano del siglo XVIII (Canaletto, Bellotto, Guardi), un repertorio casi completo de la época impresionista (Manet, Monet, Degas, Van Gogh, Gauguin), un conjunto de pintura estadounidense único en Europa (Winslow Homer, Georgia O'Keeffe, Edward Hopper) y diversas corrientes del arte moderno del siglo XX como expresionismo alemán (Kirchner, Grosz, Beckmann), vanguardia rusa (Kandinski, Natalia Goncharova, Malevich), Expresionismo abstracto (Pollock, Willem de Kooning), pop art (Tom Wesselmann, David Hockney) y figuración entre las décadas de 1930 y 1980 (Marc Chagall, Balthus, Lucian Freud, Richard Estes).",
-  "url": "https://es.wikipedia.org/wiki/Museo_Thyssen-Bornemisza"
+  "url": "https://es.wikipedia.org/wiki/Museo_Thyssen-Bornemisza",
+  "title_en": "Thyssen-Bornemisza Museum"
  },
  "caixaforum": {
   "title": "CaixaForum Madrid",
@@ -231,7 +256,8 @@
   "lng": -3.692897,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0e/Caixaforum_Madrid_2024.jpg/960px-Caixaforum_Madrid_2024.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "CaixaForum es un centro cultural gestionado por la Fundación \"la Caixa\" y ubicado en el paseo del Prado n.º 36 en Madrid. En julio del 2021 fue incluido en la lista de Patrimonio Mundial, elaborada por la UNESCO, como parte del patrimonio Paseo del Prado y el Buen Retiro, Paisaje de las Artes y las Ciencias, llamada de forma abreviada Paisaje de la luz.​ El centro se ubica en una de las escasas muestras de arquitectura industrial del casco histórico de la ciudad: la antigua Central Eléctrica del Mediodía, de comienzos del siglo XX.​ El proyecto de rehabilitación fue desarrollado por el estudio de los arquitectos suizos Herzog & de Meuron y la instalación fue inaugurada en 2008.​\nCaixaForum Madrid forma parte de una red de centros CaixaForum que se extiende por varios puntos de la geografía española: CaixaForum Barcelona, CaixaForum Sevilla, CaixaForum Zaragoza,CaixaForum Palma, CaixaForum Girona, CaixaForum Lérida, CaixaForum Tarragona y CaixaForum Valencia y CaixaForum Macaya.",
-  "url": "https://es.wikipedia.org/wiki/CaixaForum_Madrid"
+  "url": "https://es.wikipedia.org/wiki/CaixaForum_Madrid",
+  "title_en": "CaixaForum Madrid"
  },
  "dos-mayo": {
   "title": "Plaza del Dos de Mayo",
@@ -240,7 +266,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a8/Plaza_del_Dos_de_Mayo%2C_Madrid.jpg/960px-Plaza_del_Dos_de_Mayo%2C_Madrid.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La plaza del Dos de Mayo es una plaza del barrio madrileño de Universidad, en el distrito Centro. Fue creada en 1869, en el por entonces denominado barrio de Maravillas, zona que siempre se ha denominado Barrio de Maravillas pero que actualmente algunos han intentado renombrar como Malasaña (por la existencia de una calle con este nombre en el barrio). Popularmente recibe también el nombre de \"plaza del Dosde\".​​ Rememora la gesta popular del levantamiento del 2 de mayo al inicio de la Guerra de la Independencia de España contra las tropas francesas de ocupación.​ \nForman su perímetro o desembocan en ella las calles de San Andrés, Daoíz, Velarde, calle de Ruiz, la calle del Dos de Mayo y las antiguas de San José y San Pedro.",
-  "url": "https://es.wikipedia.org/wiki/Plaza_del_Dos_de_Mayo"
+  "url": "https://es.wikipedia.org/wiki/Plaza_del_Dos_de_Mayo",
+  "title_en": "Plaza del Dos de Mayo"
  },
  "san-ildefonso": {
   "title": "Mercado de San Ildefonso",
@@ -249,7 +276,8 @@
   "lng": null,
   "img": null,
   "desc": "El Mercado de San Ildefonso fue un mercado de abastos de Madrid situado en la que luego sería plazuela de San Ildefonso, dentro del chispero barrio de Maravillas.​ Fue uno de los primeros edificios de este género en desaparecer tras permanecer activo más de un siglo, desde 1835 hasta 1970, año en que fue derribado.​",
-  "url": "https://es.wikipedia.org/wiki/Mercado_de_San_Ildefonso"
+  "url": "https://es.wikipedia.org/wiki/Mercado_de_San_Ildefonso",
+  "title_en": null
  },
  "alemanes": {
   "title": "Iglesia de San Antonio de los Alemanes",
@@ -258,7 +286,8 @@
   "lng": -3.703828,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4d/Iglesia_de_San_Antonio_de_los_Alemanes_%28Madrid%29_01.jpg/960px-Iglesia_de_San_Antonio_de_los_Alemanes_%28Madrid%29_01.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La iglesia de San Antonio de los Alemanes, fundada como iglesia de San Antonio de los Portugueses, es una iglesia situada en el distrito Centro de Madrid (España), en la conjunción de la calle de la Puebla con la corredera Baja de San Pablo. Ejemplo claro del barroco madrileño, se emplearon en su construcción materiales de bajo coste como el ladrillo y el yeso, con una fachada sobria y chapitel. La principal novedad de esta iglesia es su planta elíptica, una de las pocas que hay en España, así como el hecho de que está enteramente pintada al fresco, tanto la cúpula como las paredes.",
-  "url": "https://es.wikipedia.org/wiki/Iglesia_de_San_Antonio_de_los_Alemanes"
+  "url": "https://es.wikipedia.org/wiki/Iglesia_de_San_Antonio_de_los_Alemanes",
+  "title_en": "Church of Saint Anthony of the Germans"
  },
  "conde-duque": {
   "title": "Cuartel del Conde-Duque",
@@ -267,7 +296,8 @@
   "lng": -3.710681,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2e/Cuartel_de_Conde_Duque_in_Madrid_Spain_%28cropped%29.jpg/960px-Cuartel_de_Conde_Duque_in_Madrid_Spain_%28cropped%29.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El cuartel del Conde-Duque es un edificio de estilo barroco churrigueresco construido en la ciudad española de Madrid por el arquitecto madrileño Pedro de Ribera, a partir de 1717. Se encuentra en la calle del Conde Duque, no lejos del palacio de Liria y el Museo ABC. Su uso inicial militar dio paso a su reconversión como centro cultural y de ocio, donde son programados conciertos, exposiciones y ferias.",
-  "url": "https://es.wikipedia.org/wiki/Cuartel_del_Conde-Duque"
+  "url": "https://es.wikipedia.org/wiki/Cuartel_del_Conde-Duque",
+  "title_en": "Cuartel del Conde-Duque"
  },
  "plaza-chueca": {
   "title": "Plaza de Chueca",
@@ -276,7 +306,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/Plaza_de_Chueca.001_-_Madrid.JPG/960px-Plaza_de_Chueca.001_-_Madrid.JPG?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La plaza de Chueca, antes llamada plaza de San Gregorio Magno,​ es un pequeño espacio peatonal de la ciudad española de Madrid, en el barrio de Justicia, distrito Centro, enmarcado por la calle de Gravina, al este, y la de Augusto Figueroa al oeste, a un costado del inicio de la Gran Vía de Madrid. Dedicada desde 1943 al compositor madrileño Federico Chueca,​ da nombre a todo el barrio.",
-  "url": "https://es.wikipedia.org/wiki/Plaza_de_Chueca"
+  "url": "https://es.wikipedia.org/wiki/Plaza_de_Chueca",
+  "title_en": null
  },
  "san-anton": {
   "title": "Mercado de San Antón",
@@ -285,7 +316,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ad/Mercado_de_San_Anton_during_World_Pride.jpg/960px-Mercado_de_San_Anton_during_World_Pride.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El Mercado de San Antón es un mercado de abastos ubicado en el barrio de Chueca en Madrid.​ El primer edificio se construye en el año 1945 bajo el proyecto del arquitecto Carlos de la Torre y Costa.​ La evolución del barrio hace que en los años noventa los cambios de costumbres en los consumidores del barrio, disminuyendo la demanda, decae el uso del mercado.",
-  "url": "https://es.wikipedia.org/wiki/Mercado_de_San_Ant%C3%B3n"
+  "url": "https://es.wikipedia.org/wiki/Mercado_de_San_Ant%C3%B3n",
+  "title_en": null
  },
  "longoria": {
   "title": "Palacio Longoria",
@@ -294,7 +326,8 @@
   "lng": -3.696594,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/Palacio_Longoria_%28Madrid%29_16.jpg/960px-Palacio_Longoria_%28Madrid%29_16.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El palacio de don Javier González-Longoria, más conocido como palacio Longoria, es un palacio modernista  español del siglo XX construido en el distrito Centro de Madrid, en la confluencia de las calles Fernando VI y Pelayo. En la actualidad es la sede de la SGAE (Sociedad General de Autores y Editores).",
-  "url": "https://es.wikipedia.org/wiki/Palacio_Longoria"
+  "url": "https://es.wikipedia.org/wiki/Palacio_Longoria",
+  "title_en": "Longoria Palace"
  },
  "romanticismo": {
   "title": "Museo del Romanticismo (Madrid)",
@@ -303,7 +336,8 @@
   "lng": -3.698839,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/Madrid%2C_Museo_del_Romanticismo_%2826698290717%29.jpg/960px-Madrid%2C_Museo_del_Romanticismo_%2826698290717%29.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El Museo del Romanticismo es un museo español, de titularidad estatal, situado en Madrid. Conserva una importante colección de objetos históricos y artísticos centrada en la vida cotidiana y las costumbres del siglo XIX, con especial atención a la corriente estética del Romanticismo.\nEn un primer momento el museo fue conocido con el nombre de Museo Romántico, pero tras la reforma que concluyó en 2009 se adoptó el nombre actual.",
-  "url": "https://es.wikipedia.org/wiki/Museo_del_Romanticismo_(Madrid)"
+  "url": "https://es.wikipedia.org/wiki/Museo_del_Romanticismo_(Madrid)",
+  "title_en": "Museum of Romanticism (Madrid)"
  },
  "cibeles": {
   "title": "Plaza de Cibeles",
@@ -312,7 +346,8 @@
   "lng": -3.69306,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/aa/Cibeles_desde_el_Ayuntamiento_%28Madrid%29_%2814203354114%29.jpg/960px-Cibeles_desde_el_Ayuntamiento_%28Madrid%29_%2814203354114%29.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La plaza de Cibeles se encuentra en la ciudad española de Madrid, en la intersección de la calle de Alcalá (que la cruza de oeste a este) con el paseo de Recoletos (al norte) y el paseo del Prado (al sur). Este lugar, uno de los más simbólicos de la capital, divide los límites de los distritos Centro, Retiro y Salamanca.\nEn el centro del recinto, se sitúa la célebre fuente de Cibeles, esculpida en el año 1782, a partir de un diseño de Ventura Rodríguez.",
-  "url": "https://es.wikipedia.org/wiki/Plaza_de_Cibeles"
+  "url": "https://es.wikipedia.org/wiki/Plaza_de_Cibeles",
+  "title_en": "Plaza de Cibeles"
  },
  "cristal": {
   "title": "Palacio de Cristal (Madrid)",
@@ -321,7 +356,8 @@
   "lng": null,
   "img": null,
   "desc": null,
-  "url": "https://es.wikipedia.org/wiki/Palacio_de_Cristal_(Madrid)"
+  "url": "https://es.wikipedia.org/wiki/Palacio_de_Cristal_(Madrid)",
+  "title_en": null
  },
  "estanque": {
   "title": "Estanque Grande del Buen Retiro",
@@ -330,7 +366,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d6/Jardines_del_Buen_Retiro_de_Madrid.jpg/960px-Jardines_del_Buen_Retiro_de_Madrid.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El Estanque Grande del Buen Retiro, conocido popularmente como el Estanque del Retiro, es una extensión de agua de origen artificial, que se encuentra en el Parque del Retiro, en la ciudad española de Madrid. \nFue creado en la primera mitad del siglo XVII como uno de los elementos paisajísticos más relevantes del Buen Retiro,​ una antigua posesión de la Corona española surgida durante el reinado de Felipe IV (1605-1665). Su titularidad corresponde, desde el año 1868, al Ayuntamiento de Madrid, al igual que los espacios ajardinados sobre los que se conformó el parque público actual.",
-  "url": "https://es.wikipedia.org/wiki/Estanque_Grande_del_Buen_Retiro"
+  "url": "https://es.wikipedia.org/wiki/Estanque_Grande_del_Buen_Retiro",
+  "title_en": null
  },
  "angel-caido": {
   "title": "Fuente del Ángel Caído",
@@ -339,7 +376,8 @@
   "lng": -3.682189,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/22/Fuente_del_%C3%81ngel_Ca%C3%ADdo_2025.jpg/960px-Fuente_del_%C3%81ngel_Ca%C3%ADdo_2025.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La fuente del Ángel Caído o monumento del Ángel Caído se encuentra en el parque del Retiro de la villa de Madrid, en la glorieta del Ángel Caído, sobre el solar que ocupaba la fábrica de Porcelanas de la China, destruida durante la Guerra de la Independencia en 1813. Es obra de Ricardo Bellver (escultura principal) y Francisco Jareño (pedestal).",
-  "url": "https://es.wikipedia.org/wiki/Fuente_del_%C3%81ngel_Ca%C3%ADdo"
+  "url": "https://es.wikipedia.org/wiki/Fuente_del_%C3%81ngel_Ca%C3%ADdo",
+  "title_en": "Fuente del Ángel Caído"
  },
  "velazquez": {
   "title": "Palacio de Velázquez",
@@ -348,7 +386,8 @@
   "lng": -3.681989,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f6/Palacio_de_Vel%C3%A1zquez_%28Madrid%29_05.jpg/960px-Palacio_de_Vel%C3%A1zquez_%28Madrid%29_05.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El Palacio de Velázquez se encuentra situado en el parque del Retiro de la ciudad española de Madrid. Fue construido entre los años 1881 y 1883 con motivo de la celebración de la Exposición Nacional de Minería llevada a cabo en la ciudad entre los meses de mayo y noviembre de 1883.",
-  "url": "https://es.wikipedia.org/wiki/Palacio_de_Vel%C3%A1zquez"
+  "url": "https://es.wikipedia.org/wiki/Palacio_de_Vel%C3%A1zquez",
+  "title_en": "Palacio de Velázquez"
  },
  "alcala": {
   "title": "Puerta de Alcalá",
@@ -357,7 +396,8 @@
   "lng": -3.688727,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/06/Puerta_de_Alcal%C3%A1_2025.jpg/960px-Puerta_de_Alcal%C3%A1_2025.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La Puerta de Alcalá es una de las cinco antiguas puertas reales que daban acceso a la ciudad de Madrid (España).​\nSe encuentra situada en el centro de la rotonda de la plaza de la Independencia. En el cruce de las calles de Alcalá, Alfonso XII, Serrano y Salustiano Olózaga, junto a las puertas del Retiro: Puerta de España, Puerta de la Independencia (entrada principal a los jardines del Retiro) y Puerta de Hernani.​ \nLa puerta daba acceso a aquellos viajeros que entraban antiguamente en la población desde la dirección de Alcalá de Henares (Aragón o Francia).​ En la actualidad es una puerta monumental que se encuentra ubicada junto a la Fuente de Cibeles y el parque del Retiro. Fue construida por mandato de Carlos III en sustitución de otra puerta anterior que existía ya desde el siglo XVI.​ El diseño y obra pertenece al arquitecto italiano Francesco Sabatini.​ Compitieron con Sabatini otros proyectos por parte de arquitectos españoles: Ventura Rodríguez y de José de Hermosilla, siendo finalmente elegido personalmente por el Rey el diseño de Sabatini.",
-  "url": "https://es.wikipedia.org/wiki/Puerta_de_Alcal%C3%A1"
+  "url": "https://es.wikipedia.org/wiki/Puerta_de_Alcal%C3%A1",
+  "title_en": "Puerta de Alcalá"
  },
  "prado": {
   "title": "Museo del Prado",
@@ -366,7 +406,8 @@
   "lng": -3.69222222,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/68/Museo_del_Prado_2016_%2825185969599%29.jpg/960px-Museo_del_Prado_2016_%2825185969599%29.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El Museo del Prado, oficialmente Museo Nacional del Prado, es uno de los museos de arte más sobresalientes del mundo,​​ así como uno de los más visitados (el noveno en 2023).​ Con sede en Madrid, España, está asimismo considerado como la institución cultural más importante del país, según el Observatorio de la Cultura de 2023, estudio realizado entre varios centenares de profesionales del sector.​\nSingularmente rico en cuadros de maestros españoles y de varias escuelas pictóricas del resto de Europa entre los siglos XV y XVIII, y españoles del XIX, según manifestó el historiador del arte e hispanista Jonathan Brown «pocos se atreverían a poner en duda que es el museo más importante del mundo en pintura europea».​ Su principal atractivo radica en la amplia presencia de Velázquez, el Greco, Goya (el artista más extensamente representado en el museo),​ Tiziano, Rubens y el Bosco, de los que posee las mejores y más extensas colecciones que existen en el mundo,​​ a lo que hay que sumar destacados grupos de obras de autores tan importantes como los españoles Pedro Berruguete, Morales, Sánchez Coello, Ribera, Zurbarán, Murillo, Valdés Leal, Paret, Rosales, Fortuny y Sorolla, y extranjeros como Fra Angelico, Rafael, Veronese, Tintoretto, Durero, Patinir, Moro, Van Dyck, Jordaens, Poussin, Tiepolo y Mengs, por citar solo algunos de los más relevantes.\nAlfonso E. Pérez Sánchez, antiguo director de la institución, afirmaba que «representa a los ojos del mundo lo más significativo de nuestra cultura y lo más brillante y perdurable de nuestra historia».​\nEl inventario de bienes artísticos comprende, a diciembre de 2025, 39 755 piezas, desglosadas en 8529 pinturas, 10 806 dibujos, 6567 estampas y matrices de estampación, 1109 esculturas y fragmentos escultóricos, 4131 piezas de artes decorativas (incluidas armas, armaduras, medallas y monedas), y 8613 fotografías históricas (anteriores a 1939).​\nPor endémicas limitaciones de espacio, el museo exhibía una selección de obras de máxima calidad (unas 900), por lo que era definido como «la mayor concentración de obras maestras por metro cuadrado». Con la ampliación de Rafael Moneo, inaugurada en 2007, se previó que la selección expuesta crecería en un 50 %, con unas 450 obras más.​ Además, en 2018 se reabrieron las salas del ático norte.",
-  "url": "https://es.wikipedia.org/wiki/Museo_del_Prado"
+  "url": "https://es.wikipedia.org/wiki/Museo_del_Prado",
+  "title_en": "Museo del Prado"
  },
  "botanico": {
   "title": "Real Jardín Botánico de Madrid",
@@ -375,7 +416,8 @@
   "lng": -3.691398,
   "img": "https://upload.wikimedia.org/wikipedia/commons/d/d6/Jardin-Botanico-Madrid-Linneo.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
   "desc": "El Real Jardín Botánico de Madrid es un centro de investigación del Consejo Superior de Investigaciones Científicas. Fundado por Real Orden de 17 de octubre de 1755 por el rey Fernando VI en el Soto de Migas Calientes, cerca del río Manzanares, Carlos III ordenó el traslado a su ubicación actual en 1781, al Paseo del Prado, junto al Museo de Ciencias Naturales que se estaba construyendo (actualmente Museo del Prado), en Madrid, España. Este jardín botánico alberga en tres terrazas escalonadas, plantas de América y del Pacífico, además de plantas europeas.",
-  "url": "https://es.wikipedia.org/wiki/Real_Jard%C3%ADn_Bot%C3%A1nico_de_Madrid"
+  "url": "https://es.wikipedia.org/wiki/Real_Jard%C3%ADn_Bot%C3%A1nico_de_Madrid",
+  "title_en": "Real Jardín Botánico de Madrid"
  },
  "san-jeronimo": {
   "title": "Iglesia de San Jerónimo el Real",
@@ -384,7 +426,8 @@
   "lng": -3.691138,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4c/MadridAgosto201320100101000011SAM_3038.jpg/960px-MadridAgosto201320100101000011SAM_3038.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La iglesia de San Jerónimo el Real es un templo parroquial católico conocido por su importancia histórica y artística, habiendo sido iglesia del monasterio homónimo de la orden de San Jerónimo.\nEste antiguo cenobio era conocido popularmente como «Los Jerónimos», fue uno de los monasterios más importantes de Madrid, regido originariamente por la Orden de San Jerónimo. Junto a él existía el llamado Cuarto Real, luego ampliado como Palacio del Buen Retiro en tiempos de Felipe IV.\nDel convento subsisten actualmente la iglesia, convertida en parroquia de san Jerónimo, y un claustro renacentista.",
-  "url": "https://es.wikipedia.org/wiki/Iglesia_de_San_Jer%C3%B3nimo_el_Real"
+  "url": "https://es.wikipedia.org/wiki/Iglesia_de_San_Jer%C3%B3nimo_el_Real",
+  "title_en": "Church of Saint Jerome the Royal"
  },
  "observatorio": {
   "title": "Real Observatorio de Madrid",
@@ -393,7 +436,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b9/Real_Observatorio_Madrid.png/960px-Real_Observatorio_Madrid.png?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El Real Observatorio de Madrid es una institución científica ubicada en una pequeña colina junto al parque del Buen Retiro, en Madrid, capital de España. El cerro donde se haya situado es el extremo SO del Buen Retiro y llamado Altillo de San Blas debido a la ermita construida por Luis de Paredes y Paz, en 1588, en la que se veneraba una reliquia del santo. Fundado en 1790, cuenta con varios edificios entre los que destaca el diseñado por Juan de Villanueva a finales del siglo XVIII. Actualmente, el Real Observatorio de Madrid alberga la sede del Observatorio Astronómico Nacional y del Observatorio Geofísico Central,​ ambos pertenecientes al Instituto Geográfico Nacional.​ Desde 2002, Rafael Bachiller es el director del Real Observatorio de Madrid.",
-  "url": "https://es.wikipedia.org/wiki/Real_Observatorio_de_Madrid"
+  "url": "https://es.wikipedia.org/wiki/Real_Observatorio_de_Madrid",
+  "title_en": "Royal Observatory of Madrid"
  },
  "atocha": {
   "title": "Estación de Atocha",
@@ -402,7 +446,8 @@
   "lng": -3.69166667,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/71/Estaci%C3%B3n_de_Atocha_-_felipe_gabaldon.jpg/960px-Estaci%C3%B3n_de_Atocha_-_felipe_gabaldon.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La estación de Atocha es un complejo ferroviario situado en las cercanías de la plaza del Emperador Carlos V, en Madrid (España). Hace las funciones de nudo ferroviario, y esto la convierte en la estación con más tráfico de pasajeros del país, así como una de las principales de Europa.\nRegistró en 2015 un tráfico de 108 millones de pasajeros; correspondiendo 87 millones al servicio de Cercanías, 17 millones a la larga distancia y AVE y 2,6 millones a los servicios regionales de Media Distancia.​ El complejo ferroviario es un conjunto de estaciones y de edificios ubicados en la zona.",
-  "url": "https://es.wikipedia.org/wiki/Estaci%C3%B3n_de_Atocha"
+  "url": "https://es.wikipedia.org/wiki/Estaci%C3%B3n_de_Atocha",
+  "title_en": "Madrid Atocha railway station"
  },
  "colon": {
   "title": "Plaza Colón",
@@ -411,7 +456,8 @@
   "lng": null,
   "img": null,
   "desc": "Plaza de Colón o Plaza Colón se denominan algunas vías públicas en diversas ciudades, nombradas en honor a Cristóbal Colón:",
-  "url": "https://es.wikipedia.org/wiki/Plaza_Col%C3%B3n"
+  "url": "https://es.wikipedia.org/wiki/Plaza_Col%C3%B3n",
+  "title_en": null
  },
  "man": {
   "title": "Museo Arqueológico Nacional de España",
@@ -420,7 +466,8 @@
   "lng": -3.689422,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0a/Museo_Arqueol%C3%B3gico_Nacional_logo.svg/960px-Museo_Arqueol%C3%B3gico_Nacional_logo.svg.png?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El Museo Arqueológico Nacional (MAN) es un museo nacional español con sede en el Palacio de Biblioteca y Museos Nacionales de Madrid, un edificio del siglo XIX, iniciado por el arquitecto Francisco Jareño y Alarcón y finalizado por Antonio Ruiz de Salces, que comparte con la Biblioteca Nacional​ y que se ubica en la calle Serrano, junto a la plaza de Colón.\nEs el principal museo español dedicado a la arqueología. Su colección se nutre de piezas originarias de España, desde la Prehistoria hasta la Edad Moderna.",
-  "url": "https://es.wikipedia.org/wiki/Museo_Arqueol%C3%B3gico_Nacional_de_Espa%C3%B1a"
+  "url": "https://es.wikipedia.org/wiki/Museo_Arqueol%C3%B3gico_Nacional_de_Espa%C3%B1a",
+  "title_en": "National Museum of Archaeology (Madrid)"
  },
  "biblioteca": {
   "title": "Biblioteca Nacional de España",
@@ -429,7 +476,8 @@
   "lng": -3.690215,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/27/Biblioteca_Nacional_de_Espa%C3%B1a_%28Madrid%29_09.jpg/960px-Biblioteca_Nacional_de_Espa%C3%B1a_%28Madrid%29_09.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La Biblioteca Nacional de España (BNE) es un organismo autónomo​ encargado del depósito del patrimonio bibliográfico y documental de España. Dedicada a reunir, catalogar y conservar fondos bibliográficos, custodia alrededor de treinta millones de publicaciones producidas en territorio nacional desde comienzos del siglo XVIII: libros, revistas, mapas, grabados, dibujos, partituras y folletos.\nLa Biblioteca Nacional difunde este patrimonio bibliográfico a través de su catálogo y de la elaboración de la Bibliografía Española y desarrolla servicios al público que van desde las salas de consulta y los servicios a distancia a través su página web,​ a los servicios de información bibliográfica especializada y el préstamo interbibliotecario.",
-  "url": "https://es.wikipedia.org/wiki/Biblioteca_Nacional_de_Espa%C3%B1a"
+  "url": "https://es.wikipedia.org/wiki/Biblioteca_Nacional_de_Espa%C3%B1a",
+  "title_en": "Biblioteca Nacional de España"
  },
  "linares": {
   "title": "Palacio de Linares",
@@ -438,7 +486,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6b/Palacio_de_Linares_-_01.jpg/960px-Palacio_de_Linares_-_01.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El palacio de Linares, conocido en sus primeros años como palacio de Murga, es un inmueble de la ciudad española de Madrid, situado entre el paseo de Recoletos y la calle de Alcalá, abriendo su fachada principal a la plaza de Cibeles. Ocupa los terrenos de los antiguos Molinos de Plata y del Pósito Real de Madrid, gran almacén de cereal pensado para atender posibles crisis de abastecimiento en la ciudad. Clausurado y sin uso durante casi un siglo, el palacio fue reabierto en 1992 como Casa de América tras una laboriosa restauración.",
-  "url": "https://es.wikipedia.org/wiki/Palacio_de_Linares"
+  "url": "https://es.wikipedia.org/wiki/Palacio_de_Linares",
+  "title_en": "Palace of Linares"
  },
  "serrano": {
   "title": "Calle de Serrano",
@@ -447,7 +496,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/aa/Calle_Serrano_-_panoramio.jpg/960px-Calle_Serrano_-_panoramio.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La calle de Serrano es una conocida vía de la ciudad de Madrid, es considerada una de las calles más caras y exclusivas de la capital española,​y el centro de la «Milla de Oro madrileña», la zona de lujo correspondiente. En Serrano se concentran un gran número de marcas de lujo, entre ellas Prada, Gucci, Versace o Yves Saint Laurent. La calle surgió cuando el inversor José de Salamanca y Mayol creó el barrio con su nombre a mediados del siglo XIX: el barrio de Salamanca.",
-  "url": "https://es.wikipedia.org/wiki/Calle_de_Serrano"
+  "url": "https://es.wikipedia.org/wiki/Calle_de_Serrano",
+  "title_en": "Calle de Serrano"
  },
  "lazaro": {
   "title": "Museo Lázaro Galdiano",
@@ -456,7 +506,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f6/Museo_L%C3%A1zaro_Galdiano_%28Madrid%29_05.jpg/960px-Museo_L%C3%A1zaro_Galdiano_%28Madrid%29_05.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El Museo Lázaro Galdiano, en Madrid (España), es un museo estatal de origen privado, que alberga una amplia y heterogénea colección, formada con interés enciclopédico hacia todas las artes y técnicas. Este excepcional conjunto, constituido por más de 12 600 piezas, fue reunido por el coleccionista y editor José Lázaro Galdiano, quien al morir en 1947 lo legó al Estado español junto con su residencia madrileña, la sede de su editorial La España Moderna y una biblioteca de 20 000 volúmenes.\nTras crearse la Fundación Lázaro Galdiano y adaptarse como museo la antigua residencia del donante (Parque Florido, en el barrio de Salamanca de Madrid), la colección se presentó al público el 27 de enero de 1951.",
-  "url": "https://es.wikipedia.org/wiki/Museo_L%C3%A1zaro_Galdiano"
+  "url": "https://es.wikipedia.org/wiki/Museo_L%C3%A1zaro_Galdiano",
+  "title_en": "Lázaro Galdiano Museum"
  },
  "mercado-paz": {
   "title": "Mercado de la Paz",
@@ -465,7 +516,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/81/Mercado_de_la_Paz.JPG/960px-Mercado_de_la_Paz.JPG?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El Mercado de la Paz es un mercado de abastos municipal ubicado en el barrio de Salamanca (Madrid). Fue edificado en 1879 con un estilo modernismo, siendo el último de los mercados municipales construidos en el siglo XIX. Fue completamente remodelado en los años cuarenta y se cambió por completo su distribución interior y fachadas. De todos ellos este y el de los Mostenses se encuentra funcionando a comienzos del siglo XXI (ambos profundamente remodelados).",
-  "url": "https://es.wikipedia.org/wiki/Mercado_de_la_Paz"
+  "url": "https://es.wikipedia.org/wiki/Mercado_de_la_Paz",
+  "title_en": null
  },
  "ventas": {
   "title": "Las Ventas",
@@ -474,7 +526,8 @@
   "lng": -3.663278,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fd/Plaza_de_Toros_de_Las_Ventas_%28Madrid%29_04_modified.jpg/960px-Plaza_de_Toros_de_Las_Ventas_%28Madrid%29_04_modified.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La plaza de toros de Las Ventas de Madrid es el mayor coso taurino de España. Con  23 798 espectadores, es la tercera plaza de toros con más aforo del mundo, tras las de México y Valencia (Venezuela).​ También es la segunda más grande en cuanto al diámetro de su ruedo —61,5 m— tras la de Ronda.​ \nSe encuentra en el número 237 de la calle de Alcalá, en el barrio de La Guindalera del distrito de Salamanca. La estación de metro más cercana es la de Ventas (línea 2 y línea 5).",
-  "url": "https://es.wikipedia.org/wiki/Las_Ventas"
+  "url": "https://es.wikipedia.org/wiki/Las_Ventas",
+  "title_en": "Las Ventas"
  },
  "fuente-berro": {
   "title": "Parque de la Quinta de la Fuente del Berro",
@@ -483,7 +536,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/14/Fuente_del_Berro.jpg/960px-Fuente_del_Berro.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La Quinta de la Fuente del Berro es un parque público de Madrid (España) que ocupa los terrenos de lo que en principio fue la Quinta de Miraflores, encargada por Felipe IV como un nuevo real sitio.\nEn la actualidad ocupa una extensión de más de 13 hectáreas (con los Jardines Sancho Dávila), delimitado por la calle de Enrique D'Almonte, la avenida de Alcalde Sáinz de Baranda y la M-30, llegando hasta la calle de Alcalá y el puente de Ventas siguiendo paralelo a la M-30 al unirse a los Jardines Sancho Dávila, con una extensión de más de 53 000 m². Esta última zona, los jardines Sancho Dávila, se incorporó en mayo de 1968.",
-  "url": "https://es.wikipedia.org/wiki/Parque_de_la_Quinta_de_la_Fuente_del_Berro"
+  "url": "https://es.wikipedia.org/wiki/Parque_de_la_Quinta_de_la_Fuente_del_Berro",
+  "title_en": null
  },
  "anden-0": {
   "title": "Estación de Chamberí",
@@ -492,7 +546,8 @@
   "lng": -3.69772,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7a/And%C3%A9n_0-_Estaci%C3%B3n_de_Chamber%C3%AD_%2834808988711%29.jpg/960px-And%C3%A9n_0-_Estaci%C3%B3n_de_Chamber%C3%AD_%2834808988711%29.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "Chamberí es una  estación clausurada del Metro de Madrid que estuvo en servicio entre 1919 y 1966. Actualmente opera como museo tras su reapertura el 25 de marzo de 2008. La parada formaba parte de la línea 1 y se encontraba situada entre las estaciones de Iglesia y Bilbao, bajo la Plaza de Chamberí, en el distrito homónimo.",
-  "url": "https://es.wikipedia.org/wiki/Estaci%C3%B3n_de_Chamber%C3%AD"
+  "url": "https://es.wikipedia.org/wiki/Estaci%C3%B3n_de_Chamber%C3%AD",
+  "title_en": "Chamberí (Madrid Metro)"
  },
  "sorolla": {
   "title": "Museo Sorolla",
@@ -501,7 +556,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/15/Museo_Sorolla_%28Madrid%29_02.jpg/960px-Museo_Sorolla_%28Madrid%29_02.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El Museo Sorolla es un museo estatal español ubicado en un palacete del paseo del General Martínez Campos de Madrid, emplazamiento que sirvió de taller y vivienda al pintor Joaquín Sorolla (1863-1923) junto a su mujer, Clotilde García del Castillo, y sus tres hijos. \nEl edificio fue construido en 1911 bajo la dirección del arquitecto Enrique María Repullés, que materializó los deseos del pintor de crear un espacio que fusionase el área de trabajo y su vivienda y que además contase con un espacio de jardín. La vivienda conserva el ambiente original de muchos de los espacios, además de alojar una amplia colección de obras de Sorolla, así como también numerosos objetos que reunió como coleccionista durante su vida.",
-  "url": "https://es.wikipedia.org/wiki/Museo_Sorolla"
+  "url": "https://es.wikipedia.org/wiki/Museo_Sorolla",
+  "title_en": "Sorolla Museum"
  },
  "olavide": {
   "title": "Plaza de Olavide",
@@ -510,7 +566,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d6/El_entorno_de_la_Plaza_de_Olavide%2C_m%C3%A1s_seguro_gracias_al_Fondo_de_Reequilibrio_Territorial_02.jpg/960px-El_entorno_de_la_Plaza_de_Olavide%2C_m%C3%A1s_seguro_gracias_al_Fondo_de_Reequilibrio_Territorial_02.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La Plaza de Olavide (antes plaza de la Princesa y plaza Industrial),​ es una amplia glorieta octogonal, corazón del barrio de Trafalgar,​ en el distrito de Chamberí de Madrid. Confluyen en ella las calles de Trafalgar, Raimundo Lulio, Santa Feliciana, Murillo, Palafox, Jordán, Gonzalo de Córdoba y Olid.",
-  "url": "https://es.wikipedia.org/wiki/Plaza_de_Olavide"
+  "url": "https://es.wikipedia.org/wiki/Plaza_de_Olavide",
+  "title_en": "Plaza de Olavide"
  },
  "sala-canal": {
   "title": "Sala Canal de Isabel II",
@@ -519,7 +576,8 @@
   "lng": null,
   "img": null,
   "desc": null,
-  "url": "https://es.wikipedia.org/wiki/Sala_Canal_de_Isabel_II"
+  "url": "https://es.wikipedia.org/wiki/Sala_Canal_de_Isabel_II",
+  "title_en": null
  },
  "geominero": {
   "title": "Museo Geominero (Madrid)",
@@ -528,7 +586,8 @@
   "lng": null,
   "img": "https://upload.wikimedia.org/wikipedia/commons/b/b8/Museo_Geominero_-_main_hall_-_Madrid_Spain_01.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
   "desc": "El Museo Geominero, en Madrid, España, alberga colecciones de minerales, rocas y fósiles de España y sus antiguos territorios de ultramar, así como ejemplares de yacimientos significativos de otros lugares del mundo. Entre sus objetivos están el estudio y difusión del patrimonio geológico, mineralógico y paleontológico español.​ Hasta 1989, fecha en la que recibe su denominación actual, fue referido en numerosas ocasiones como Museo Geológico Nacional.​ Se ubica en el edificio del Instituto Geológico y Minero de España, institución de la que depende administrativamente.\nEl Museo Geominero es una unidad del Instituto Geológico y Minero de España (centro nacional del Consejo Superior de Investigaciones Científicas, CSIC), en cuya sede principal se encuentra ubicado.",
-  "url": "https://es.wikipedia.org/wiki/Museo_Geominero_(Madrid)"
+  "url": "https://es.wikipedia.org/wiki/Museo_Geominero_(Madrid)",
+  "title_en": "Museo Geominero"
  },
  "debod": {
   "title": "Templo de Debod",
@@ -537,7 +596,8 @@
   "lng": -3.71777778,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a6/Templo_de_Debod_in_Madrid.jpg/960px-Templo_de_Debod_in_Madrid.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El templo de Debod es un edificio del antiguo Egipto localizado actualmente en la ciudad española de Madrid. Está situado al oeste de la plaza de España, junto al paseo del Pintor Rosales (parque del Oeste), en un alto donde se encontraba el cuartel de la Montaña.  Al ser trasladado a España, se situó de manera que conservase aproximadamente la misma orientación que en su lugar de origen, de este a oeste.",
-  "url": "https://es.wikipedia.org/wiki/Templo_de_Debod"
+  "url": "https://es.wikipedia.org/wiki/Templo_de_Debod",
+  "title_en": "Temple of Debod"
  },
  "rosaleda": {
   "title": "Parque del Oeste",
@@ -546,7 +606,8 @@
   "lng": null,
   "img": null,
   "desc": "Parque del Oeste puede hacer referencia a los siguientes lugares:",
-  "url": "https://es.wikipedia.org/wiki/Parque_del_Oeste"
+  "url": "https://es.wikipedia.org/wiki/Parque_del_Oeste",
+  "title_en": null
  },
  "florida": {
   "title": "Ermita de San Antonio de la Florida",
@@ -555,7 +616,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/Ermita_de_San_Antonio_de_la_Florida_Madrid.jpg/960px-Ermita_de_San_Antonio_de_la_Florida_Madrid.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La ermita de San Antonio de la Florida (conocida también como Real Ermita de San Antonio de la Florida), se encuentra situada en la plaza del mismo nombre, y se considera como la única superviviente de las tres ermitas dedicadas a san Antonio de Padua que hubo a las afueras de Madrid (esta de la Florida, Alemanes y Retiro).​ Se ubica en el distrito de Moncloa-Aravaca y es la tercera ermita construida en las cercanías. Fue catalogada como monumento histórico-artístico en el año 1905.​ La denominación de la ermita, debería ser desde comienzos del siglo XX, en plural,​ es decir: las ermitas de San Antonio. Son dos ermitas similares que desde 1929 se han especializado en dos vertientes: una de ellas ofrece al público las decoraciones murales obra de Francisco de Goya (siendo además museo y panteón del pintor), mientras que la otra está habilitada sólo para el culto religioso.​ \nDesde el siglo XIX se celebra en sus cercanías la verbena de San Antonio de la Florida cada 13 de junio (considerada popularmente una de las primeras verbenas del año), que con el tiempo se han ido convirtiendo de romería en verbena.​ Verbena que ejecuta todavía el ritual de los trece alfileres, así como la recogida de panes del santo.",
-  "url": "https://es.wikipedia.org/wiki/Ermita_de_San_Antonio_de_la_Florida"
+  "url": "https://es.wikipedia.org/wiki/Ermita_de_San_Antonio_de_la_Florida",
+  "title_en": "Royal Chapel of St. Anthony of La Florida"
  },
  "faro": {
   "title": "Faro de Moncloa",
@@ -564,7 +626,8 @@
   "lng": -3.72154167,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/Faro_de_la_Moncloa_-_06.jpg/960px-Faro_de_la_Moncloa_-_06.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La Torre de Iluminación y Comunicaciones del Ayuntamiento de Madrid,​ más conocida como Faro de Moncloa, es una estructura de 110 metros de altura, situada en la Ciudad Universitaria de Madrid (España), en el distrito de Moncloa-Aravaca. Es visible desde todo el noroeste de la capital. \nFue proyectada por el arquitecto madrileño Salvador Pérez Arroyo en 1990.",
-  "url": "https://es.wikipedia.org/wiki/Faro_de_Moncloa"
+  "url": "https://es.wikipedia.org/wiki/Faro_de_Moncloa",
+  "title_en": "Faro de Moncloa"
  },
  "museo-america": {
   "title": "Museo de América",
@@ -573,7 +636,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/80/Exterior2023.jpg/960px-Exterior2023.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El Museo de América es un museo nacional español con sede en Madrid, en el número 6 de la avenida de los Reyes Católicos, en la Ciudad Universitaria. Fue creado mediante Decreto de 19 de abril de 1941 como un deslinde de las colecciones de arqueología, arte y etnografía americanos que hasta ese momento pertenecían al Museo Arqueológico Nacional. \nPosee más de 25 000 obras, que comprenden cronológicamente desde el Paleolítico hasta la actualidad​ y cubren la totalidad del continente.",
-  "url": "https://es.wikipedia.org/wiki/Museo_de_Am%C3%A9rica"
+  "url": "https://es.wikipedia.org/wiki/Museo_de_Am%C3%A9rica",
+  "title_en": "Museo de América"
  },
  "teleferico": {
   "title": "Teleférico de Madrid",
@@ -582,7 +646,8 @@
   "lng": null,
   "img": "https://upload.wikimedia.org/wikipedia/commons/3/38/Teleferico-madrid-020910.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
   "desc": "El Teleférico de Madrid es un sistema de telecabina que comienza en el paseo del Pintor Rosales y termina en la Casa de Campo. En su trayecto sobrevuela la rosaleda del Parque del Oeste, la estación de cercanías de Príncipe Pío, la ermita de San Antonio de la Florida y el río Manzanares y termina junto a la plaza de los Pasos Perdidos de la Casa de Campo (cerro Garabitas). En esta terminal hay un restaurante-cafetería y un aparcamiento para automóviles y en la del paseo de Rosales otro aparcamiento, con 350 plazas, y un restaurante, El Balcón de Rosales, explotado por la misma empresa propietaria del teleférico.",
-  "url": "https://es.wikipedia.org/wiki/Telef%C3%A9rico_de_Madrid"
+  "url": "https://es.wikipedia.org/wiki/Telef%C3%A9rico_de_Madrid",
+  "title_en": "Teleférico de Madrid"
  },
  "casa-campo": {
   "title": "Casa de Campo",
@@ -591,7 +656,8 @@
   "lng": -3.75595,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/La_Casa_de_Campo%2C_m%C3%A1s_protegida_%2801%29.jpg/960px-La_Casa_de_Campo%2C_m%C3%A1s_protegida_%2801%29.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La Casa de Campo es un área forestal declarada bien de interés cultural como Sitio Histórico y se encuentra ubicado en Madrid, capital de España. Es el mayor parque público del municipio. Situado al oeste de la ciudad, pertenece al barrio administrativo de la Casa de Campo, en el distrito de Moncloa-Aravaca.",
-  "url": "https://es.wikipedia.org/wiki/Casa_de_Campo"
+  "url": "https://es.wikipedia.org/wiki/Casa_de_Campo",
+  "title_en": "Casa de Campo"
  },
  "arco-victoria": {
   "title": "Arco de la Victoria",
@@ -600,7 +666,8 @@
   "lng": -3.720193,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Madrid_Arco_de_la_Victoria01.jpg/960px-Madrid_Arco_de_la_Victoria01.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El arco de la Victoria —conocido popularmente también como Puerta de la Moncloa, por su similitud con las puertas de Alcalá y Toledo, o como arco del Triunfo— es un arco de triunfo situado en Madrid, construido entre 1950 y 1956. Se trata de una obra conmemorativa de la victoria del bando sublevado sobre el bando republicano en la guerra civil.​​ Está situado en una de las entradas principales de la capital de España, la de la autovía del Noroeste, en el centro de la denominada avenida de la Memoria del distrito de Moncloa-Aravaca.\nSe construyó por indicación inicial de la Comisión Permanente de la Junta de la Ciudad Universitaria.​ El arco posee una altura total de 49 m.",
-  "url": "https://es.wikipedia.org/wiki/Arco_de_la_Victoria"
+  "url": "https://es.wikipedia.org/wiki/Arco_de_la_Victoria",
+  "title_en": "Arco de la Victoria"
  },
  "museo-traje": {
   "title": "Museo del Traje (Madrid)",
@@ -609,7 +676,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/Madrid_-_Museo_del_Traje_02.jpg/960px-Madrid_-_Museo_del_Traje_02.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El Museo del Traje es un museo español, dependiente del Ministerio de Cultura, ubicado en la Ciudad Universitaria de Madrid. Su objetivo básico es promover el conocimiento de la evolución histórica de la indumentaria y de los testimonios del patrimonio etnológico representativos de las culturas de los pueblos de España.\nEs un Museo Nacional de España adscrito al Ministerio de Cultura, de gestión exclusiva de la Dirección General de Bellas Artes y Patrimonio Cultural.",
-  "url": "https://es.wikipedia.org/wiki/Museo_del_Traje_(Madrid)"
+  "url": "https://es.wikipedia.org/wiki/Museo_del_Traje_(Madrid)",
+  "title_en": "Museo del Traje"
  },
  "matadero": {
   "title": "Matadero Madrid",
@@ -618,7 +686,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d3/Casa_Terneras-Matadero-Legazpi.JPG/960px-Casa_Terneras-Matadero-Legazpi.JPG?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El Matadero y Mercado Municipal de Ganados de Madrid, también conocido por su uso primordial durante su periodo de funcionamiento y por su ubicación como Matadero Municipal de Legazpi o Matadero Municipal de Arganzuela, fue un conjunto de cuarenta y ocho edificios dedicado a realizar funciones de matadero industrial y mercado de ganado en la ciudad de Madrid durante las décadas centrales del siglo XX, así como de centro de reclusión y clasificación de mendigos tras la Guerra civil.",
-  "url": "https://es.wikipedia.org/wiki/Matadero_Madrid"
+  "url": "https://es.wikipedia.org/wiki/Matadero_Madrid",
+  "title_en": "Matadero Madrid"
  },
  "planetario": {
   "title": "Planetario de Madrid",
@@ -627,7 +696,8 @@
   "lng": -3.685442,
   "img": "https://upload.wikimedia.org/wikipedia/commons/7/77/Planetario_de_Madrid_01.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
   "desc": "El Planetario de Madrid es un planetario, obra del arquitecto madrileño Salvador Pérez Arroyo, perteneciente al Ayuntamiento de Madrid y ubicado dentro del parque de Enrique Tierno Galván. Ofrece jornadas al aire libre gratuitas y tiene sesiones individuales y en grupo sobre la divulgación de la astronomía. Durante los años 2016 y 2017 fue sometido a una profunda renovación tanto tecnológica como de las instalaciones y edificio.",
-  "url": "https://es.wikipedia.org/wiki/Planetario_de_Madrid"
+  "url": "https://es.wikipedia.org/wiki/Planetario_de_Madrid",
+  "title_en": "Madrid Planetarium"
  },
  "madrid-rio": {
   "title": "Madrid Río",
@@ -636,7 +706,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cd/Madrid_in_May_2017_64_edited.jpg/960px-Madrid_in_May_2017_64_edited.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "Madrid Río es un parque urbano de la ciudad española de Madrid, levantado a lo largo de un tramo urbano del río Manzanares tras el soterramiento de la autovía de circunvalación M-30 en esta zona. Es fruto de un proyecto dirigido por los estudios de arquitectura Burgos/Garrido, Porras/La Casta, Rubio/Álvarez-Sala y West 8,​ que ganaron el concurso internacional de ideas organizado por el Ayuntamiento de Madrid en 2005 para reurbanizar la zona.​​\nEl proyecto partió con la idea de recuperar las márgenes del río Manzanares para el uso y disfrute de los ciudadanos, y fue una idea central en la remodelación de la M-30, liderada por el ingeniero Manuel Melis Maynar. El tramo que actualmente se conoce como Madrid Río es el tramo del río que se encontraba encajonado por la vía rápida de circunvalación M-30, una vía que aislaba el río entre las dos direcciones de la autovía además de suponer una barrera y fractura entre los dos lados de la ciudad, el distrito de Arganzuela en el lado izquierdo, y los distritos de Latina, Carabanchel y Usera en el lado derecho.​ La conexión de la M-30 con la autovía A-5, la carretera de Extremadura, separaba la ciudad de forma infranqueable de la Casa de Campo, el parque más grande de Madrid.",
-  "url": "https://es.wikipedia.org/wiki/Madrid_R%C3%ADo"
+  "url": "https://es.wikipedia.org/wiki/Madrid_R%C3%ADo",
+  "title_en": "Madrid Río"
  },
  "invernadero": {
   "title": "Palacio de Cristal de la Arganzuela",
@@ -645,7 +716,8 @@
   "lng": -3.69996944,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/Entrada_Invernadero_ElMatadero_Aganzuela_2012-9-01.jpg/960px-Entrada_Invernadero_ElMatadero_Aganzuela_2012-9-01.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El Palacio de Cristal de la Arganzuela se encuentra situado en la ciudad española de Madrid, en las instalaciones de lo que fue antiguamente parte del Matadero Municipal de Arganzuela. Cuenta con una extensión de 7100 m².​ Se lo conocía popularmente con el nombre de Nave de Patatas, y se conserva su gran estructura rectangular de perfiles de acero, que es utilizada como invernadero y museo botánico, con plantas de diversos lugares del mundo.",
-  "url": "https://es.wikipedia.org/wiki/Palacio_de_Cristal_de_la_Arganzuela"
+  "url": "https://es.wikipedia.org/wiki/Palacio_de_Cristal_de_la_Arganzuela",
+  "title_en": null
  },
  "tierno-galvan": {
   "title": "Parque de Enrique Tierno Galván",
@@ -654,7 +726,8 @@
   "lng": -3.68538,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5c/S.D._MADRID_PARQUE_TIERNO_GALVAN_-_ZOOMVISION_-_ESTANQUE_2.jpg/960px-S.D._MADRID_PARQUE_TIERNO_GALVAN_-_ZOOMVISION_-_ESTANQUE_2.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El parque de Enrique Tierno Galván es un parque urbano está situado en el sureste de la ciudad de Madrid (España). Con 45 hectáreas, es uno de los de mayor superficie de la ciudad.",
-  "url": "https://es.wikipedia.org/wiki/Parque_de_Enrique_Tierno_Galv%C3%A1n"
+  "url": "https://es.wikipedia.org/wiki/Parque_de_Enrique_Tierno_Galv%C3%A1n",
+  "title_en": null
  },
  "bernabeu": {
   "title": "Estadio Santiago Bernabéu",
@@ -663,7 +736,8 @@
   "lng": -3.68835,
   "img": "https://upload.wikimedia.org/wikipedia/commons/9/98/Location_map_Madrid.png?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
   "desc": "El estadio Santiago Bernabéu​​ es un recinto deportivo propiedad del Real Madrid Club de Fútbol, ubicado en el paseo de la Castellana de Madrid, España, concretamente en el distrito de Chamartín.",
-  "url": "https://es.wikipedia.org/wiki/Estadio_Santiago_Bernab%C3%A9u"
+  "url": "https://es.wikipedia.org/wiki/Estadio_Santiago_Bernab%C3%A9u",
+  "title_en": "Bernabéu (stadium)"
  },
  "auditorio": {
   "title": "Auditorio Nacional de Música",
@@ -672,7 +746,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/06/Auditorio_Nacional_de_M%C3%BAsica%2C_Madrid%2C_Espa%C3%B1a.jpg/960px-Auditorio_Nacional_de_M%C3%BAsica%2C_Madrid%2C_Espa%C3%B1a.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El Auditorio Nacional de Música es una sala de conciertos situada en Madrid, dedicada preferentemente a conciertos de música clásica. Es un organismo dependiente del Instituto Nacional de las Artes Escénicas y de la Música (Ministerio de Cultura). Obra del arquitecto José María García de Paredes, fue inaugurado el 21 de octubre de 1988 y su construcción fue programada dentro del Plan Nacional de Auditorios, destinado a dotar al país de una adecuada infraestructura musical.​\nEs sede de la Orquesta Nacional de España, del Coro Nacional de España y de la Joven Orquesta Nacional de España.",
-  "url": "https://es.wikipedia.org/wiki/Auditorio_Nacional_de_M%C3%BAsica"
+  "url": "https://es.wikipedia.org/wiki/Auditorio_Nacional_de_M%C3%BAsica",
+  "title_en": "National Auditorium of Music"
  },
  "ciencias-naturales": {
   "title": "Museo Nacional de Ciencias Naturales",
@@ -681,7 +756,8 @@
   "lng": -3.69028056,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9e/Palacio_de_las_Artes_e_Industrias_%28Madrid%29_01.jpg/960px-Palacio_de_las_Artes_e_Industrias_%28Madrid%29_01.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El Museo Nacional de Ciencias Naturales (MNCN) es un centro perteneciente al Consejo Superior de Investigaciones Científicas (CSIC) de España y está dedicado al estudio y difusión de las ciencias naturales. Se ubica en el antiguo Palacio de las Artes y la Industria del paseo de la Castellana de Madrid.",
-  "url": "https://es.wikipedia.org/wiki/Museo_Nacional_de_Ciencias_Naturales"
+  "url": "https://es.wikipedia.org/wiki/Museo_Nacional_de_Ciencias_Naturales",
+  "title_en": "National Museum of Natural Sciences, Madrid"
  },
  "parque-berlin": {
   "title": "Parque de Berlín",
@@ -690,7 +766,8 @@
   "lng": null,
   "img": "https://upload.wikimedia.org/wikipedia/commons/b/b2/Parque_de_Berl%C3%ADn_01.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
   "desc": "El parque de Berlín es una zona verde urbana arbolada de Madrid situada en el barrio de Ciudad Jardín, Chamartín. Cuenta con cerca de 5 ha,​​ entre las calles de San Ernesto, Marcenado, la avenida Ramón y Cajal, y Doctor Marco Corera (callejón sin salida paralelo a Príncipe de Vergara).",
-  "url": "https://es.wikipedia.org/wiki/Parque_de_Berl%C3%ADn"
+  "url": "https://es.wikipedia.org/wiki/Parque_de_Berl%C3%ADn",
+  "title_en": null
  },
  "torres-blancas": {
   "title": "Torres Blancas",
@@ -699,7 +776,8 @@
   "lng": -3.67201,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/Torres_Blancas_%28Madrid%29_04.jpg/960px-Torres_Blancas_%28Madrid%29_04.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "Torres Blancas es un edificio de Madrid, España, ejemplo de arquitectura organicista​ y brutalista, con la peculiaridad de que se aplica a un bloque de viviendas de lujo en lugar de económicas.​​Se encuentra en la confluencia del número 2 de la calle Corazón de María con el número 37 de la avenida de América.\nEl proyecto, firmado por Francisco Javier Sáenz de Oiza como arquitecto y la participación de ingenieros como Leonardo Fernández Troyano y Carlos Fernández Casado , es de 1961, y las obras se prolongaron desde 1964 hasta 1968. Con este edificio, su primer proyecto internacionalmente conocido, Sáenz de Oiza, ganó el premio de la Excelencia Europea en 1974.​\nEl edificio fue un experimento propiciado por un cliente, Juan Huarte Beaumont (propietario de la constructora del mismo nombre, Huarte), que se significó en los años 1960 por su apoyo a la vanguardia española, construyendo algunos de los mejores edificios de España en los años 1960 y 1970.​ Corresponde a la llamada etapa orgánica de la arquitectura madrileña con marcada tendencia neoexpresionista y sugerencias surrealistas, todo ello sumado a su carácter experimental.",
-  "url": "https://es.wikipedia.org/wiki/Torres_Blancas"
+  "url": "https://es.wikipedia.org/wiki/Torres_Blancas",
+  "title_en": "Torres Blancas"
  },
  "maravillas": {
   "title": "Mercado de Maravillas",
@@ -708,7 +786,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d1/Mercado_de_Maravillas_%28Madrid%29_01.jpg/960px-Mercado_de_Maravillas_%28Madrid%29_01.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El Mercado de Maravillas (de nombre completo Mercado Municipal de Maravillas) es un mercado de abastos madrileño ubicado en la calle de Bravo Murillo (n.º 122).​ En 1942 se inaugura el mercado diseñado por el arquitecto Pedro Muguruza Otaño ya en 1933, pretendía ser en la década de los cincuenta uno de los más grandes de la ciudad. Se edificó en el solar que dejó en el barrio de Cuatro Caminos el Colegio de Nuestra Señora de las Maravillas tras ser incendiado en 1931. El mercado finalizado en el periodo de posguerra posee una superficie de 8700 metros cuadrados y sus más de 250 puestos.",
-  "url": "https://es.wikipedia.org/wiki/Mercado_de_Maravillas"
+  "url": "https://es.wikipedia.org/wiki/Mercado_de_Maravillas",
+  "title_en": null
  },
  "torre-picasso": {
   "title": "Torre Picasso",
@@ -717,7 +796,8 @@
   "lng": -3.6925,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/37/Torre_Picasso_-_01.jpg/960px-Torre_Picasso_-_01.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La Torre Picasso es un rascacielos situado en Madrid, España, en la plaza de Pablo Ruiz Picasso, dentro del complejo empresarial y comercial AZCA, ubicado junto al paseo de la Castellana en el corazón financiero de la capital española. En su momento, con sus 43 plantas y 157 metros de altura, fue el rascacielos más alto de Madrid y de España. \nFue proyectada por el arquitecto estadounidense de origen japonés Minoru Yamasaki (quien también proyectó el desaparecido World Trade Center de la ciudad de Nueva York, de ahí su parecido), en colaboración, para la adaptación normativa, con el equipo español dirigido por Jordi Mir Valls y Rafael Coll Pujol.",
-  "url": "https://es.wikipedia.org/wiki/Torre_Picasso"
+  "url": "https://es.wikipedia.org/wiki/Torre_Picasso",
+  "title_en": "Torre Picasso"
  },
  "puerta-europa": {
   "title": "Puerta de Europa",
@@ -726,7 +806,8 @@
   "lng": -3.68777778,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/40/Puerta_de_Europa.002_-_Madrid.JPG/960px-Puerta_de_Europa.002_-_Madrid.JPG?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "Puerta de Europa son dos rascacielos inclinados de oficinas con una altura de 114 metros y 26 plantas ubicados en la plaza de Castilla de Madrid (España). También son conocidas popularmente como Torres KIO debido a que fueron promovidas en gran medida por la empresa kuwaití KIO, acrónimo de Kuwait Investment Office. Son las segundas torres gemelas más altas de España, tras las Torres de Santa Cruz en Santa Cruz de Tenerife.",
-  "url": "https://es.wikipedia.org/wiki/Puerta_de_Europa"
+  "url": "https://es.wikipedia.org/wiki/Puerta_de_Europa",
+  "title_en": "Gate of Europe"
  },
  "plaza-castilla": {
   "title": "Plaza de Castilla (Madrid)",
@@ -735,7 +816,8 @@
   "lng": -3.68916667,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/69/Plaza_de_Castilla%2C_Madrid.jpg/960px-Plaza_de_Castilla%2C_Madrid.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La plaza de Castilla es una gran plaza situada al norte de la ciudad de Madrid (España) en el distrito de Chamartín. Está atravesada por el tramo final del paseo de la Castellana, una de las principales arterias de la capital, y constituye el centro neurálgico del barrio de Castilla. \nEn la plaza de Castilla confluyen calles y avenidas como las calle de Bravo Murillo, Mateo Inurria, Agustín de Foxá (que lleva a la estación de Chamartín) o la avenida de Asturias (entre la plaza y el barrio del Pilar), y el paseo de la Castellana, cuyos carriles centrales pasan por debajo de la plaza a través de un túnel, quedando los laterales para acceder a ella.",
-  "url": "https://es.wikipedia.org/wiki/Plaza_de_Castilla_(Madrid)"
+  "url": "https://es.wikipedia.org/wiki/Plaza_de_Castilla_(Madrid)",
+  "title_en": "Plaza de Castilla"
  },
  "pardo": {
   "title": "Palacio Real de El Pardo",
@@ -744,7 +826,8 @@
   "lng": -3.77506,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Palacio_Real_de_El_Pardo_-_01.jpg/960px-Palacio_Real_de_El_Pardo_-_01.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El Palacio Real de El Pardo es una de las residencias de la familia real española. En su origen fue un pabellón de caza de los Austrias, para luego convertirse en la principal residencia invernal del soberano bajo los Borbones. Durante la dictadura franquista fue la residencia oficial de Francisco Franco, y su principal uso en la actualidad es el de alojar a los jefes de Estado extranjeros cuando se hallan de visita oficial en España.",
-  "url": "https://es.wikipedia.org/wiki/Palacio_Real_de_El_Pardo"
+  "url": "https://es.wikipedia.org/wiki/Palacio_Real_de_El_Pardo",
+  "title_en": "Royal Palace of El Pardo"
  },
  "cuatro-torres": {
   "title": "Cuatro Torres Business Area",
@@ -753,7 +836,8 @@
   "lng": -3.68777778,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ab/Campo_de_f%C3%BAtbol_Vicente_del_Bosque_en_2023.jpg/960px-Campo_de_f%C3%BAtbol_Vicente_del_Bosque_en_2023.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "Cuatro Torres Business Area (CTBA) es un parque empresarial junto al paseo de la Castellana, en el barrio de La Paz de Madrid (España), construido sobre los terrenos de la antigua Ciudad Deportiva del Real Madrid. Conocido inicialmente como Madrid Arena, el consorcio de propietarios de las cuatro torres decidió adoptar una nueva imagen corporativa para el conjunto y cambió el nombre a Cuatro Torres Business Area. \nAunque el nombre hace referencia a cuatro edificios, hoy en día también se le puede llamar Cinco Torres, ya que posteriormente se construyó una quinta torre en el mismo entorno: Caleido, inaugurada en 2021.",
-  "url": "https://es.wikipedia.org/wiki/Cuatro_Torres_Business_Area"
+  "url": "https://es.wikipedia.org/wiki/Cuatro_Torres_Business_Area",
+  "title_en": "Cuatro Torres Business Area"
  },
  "monte-pardo": {
   "title": "Monte de El Pardo",
@@ -762,7 +846,8 @@
   "lng": -3.77425556,
   "img": "https://upload.wikimedia.org/wikipedia/commons/5/51/Monte_del_Pardo2.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
   "desc": "El monte de El Pardo es una zona boscosa situada al norte del municipio español de Madrid, en el que se encuentra totalmente integrado, junto con su apéndice, el monte de Viñuelas. Supone más de la cuarta parte (el 26,4 %) del término municipal de la capital.\nEstá considerado como el bosque mediterráneo más importante de la Comunidad de Madrid y uno de los mejor conservados de Europa, tanto en lo que respecta a su flora, con 120 especies catalogadas, como a su fauna, con aproximadamente 200 especies vertebradas.​ Se extiende alrededor del curso medio del río Manzanares, a lo largo de 16 000 hectáreas.",
-  "url": "https://es.wikipedia.org/wiki/Monte_de_El_Pardo"
+  "url": "https://es.wikipedia.org/wiki/Monte_de_El_Pardo",
+  "title_en": "Monte de El Pardo"
  },
  "fuencarral-pueblo": {
   "title": "Fuencarral",
@@ -771,7 +856,8 @@
   "lng": -3.68333333,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/08/Madrid-loc.svg/960px-Madrid-loc.svg.png?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "Fuencarral es un antiguo municipio de España que fue absorbido por el municipio de Madrid el 20 de octubre de 1951​y pertenece en la actualidad al barrio de Valverde en el distrito de Fuencarral-El Pardo. Es conocido en Madrid como «Fuencarral pueblo» por su origen y para distinguirlo de la calle de Fuencarral.",
-  "url": "https://es.wikipedia.org/wiki/Fuencarral"
+  "url": "https://es.wikipedia.org/wiki/Fuencarral",
+  "title_en": "Fuencarral"
  },
  "aluche": {
   "title": "Aluche",
@@ -780,7 +866,8 @@
   "lng": -3.75416667,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/48/Intercambiadoraluche03.jpg/960px-Intercambiadoraluche03.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "Aluche es un barrio de la ciudad de Madrid, ubicado en el distrito de Latina. Toma su nombre del arroyo Luche, que discurría por lo que actualmente es el barrio.",
-  "url": "https://es.wikipedia.org/wiki/Aluche"
+  "url": "https://es.wikipedia.org/wiki/Aluche",
+  "title_en": "Aluche"
  },
  "puerta-angel": {
   "title": "Puerta del Ángel (Madrid)",
@@ -789,7 +876,8 @@
   "lng": null,
   "img": "https://upload.wikimedia.org/wikipedia/commons/7/7f/Iglesia_Santa_Cristina.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
   "desc": "Puerta del Ángel es el nombre que recibe en la ciudad de Madrid el barrio n.º 102, uno de los siete que componen el distrito de Latina. Está situado cruzando el Puente de Segovia, junto a Madrid Río.",
-  "url": "https://es.wikipedia.org/wiki/Puerta_del_%C3%81ngel_(Madrid)"
+  "url": "https://es.wikipedia.org/wiki/Puerta_del_%C3%81ngel_(Madrid)",
+  "title_en": "Puerta del Ángel"
  },
  "cuna-verde-latina": {
   "title": "Parque Cuña Verde de Latina",
@@ -798,7 +886,8 @@
   "lng": null,
   "img": null,
   "desc": null,
-  "url": "https://es.wikipedia.org/wiki/Parque_Cu%C3%B1a_Verde_de_Latina"
+  "url": "https://es.wikipedia.org/wiki/Parque_Cu%C3%B1a_Verde_de_Latina",
+  "title_en": null
  },
  "lucero": {
   "title": "Lucero (Madrid)",
@@ -807,7 +896,8 @@
   "lng": -3.73583333,
   "img": "https://upload.wikimedia.org/wikipedia/commons/b/be/Madrid_lucero_calle_de_cebreros.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
   "desc": "Lucero es el nombre que recibe en la ciudad de Madrid el barrio n.o 103, uno de los siete que componen el distrito de Latina.",
-  "url": "https://es.wikipedia.org/wiki/Lucero_(Madrid)"
+  "url": "https://es.wikipedia.org/wiki/Lucero_(Madrid)",
+  "title_en": "Lucero (Madrid)"
  },
  "ermita-isidro": {
   "title": "Ermita de San Isidro (Madrid)",
@@ -816,7 +906,8 @@
   "lng": null,
   "img": "https://upload.wikimedia.org/wikipedia/commons/c/c4/Ermita_de_San_Isidro.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
   "desc": "La ermita de San Isidro (conocida también como ermita de San Isidro del Campo) es una ermita situada en el distrito de Carabanchel de la ciudad española de Madrid. Dedicada al santo patrón de la ciudad, Isidro Labrador (canonizado en 1622), se ubica en el paseo de la Ermita del Santo, al final del paseo del Quince de Mayo.\nEl origen de la primera ermita data de 1528, cuando la emperatriz Isabel ordenó su construcción junto al manantial donde brota agua que la tradición popular considera milagrosa.​ A las aguas de este manantial se le atribuye la curación del hijo de la reina, el futuro rey Felipe II.​ La ermita existente a comienzos del siglo XVI es hoy una segunda edificación que data del año 1725 (autores indican fechas en décadas posteriores​), financiada por el virrey de Nueva España, Baltasar de Zúñiga.",
-  "url": "https://es.wikipedia.org/wiki/Ermita_de_San_Isidro_(Madrid)"
+  "url": "https://es.wikipedia.org/wiki/Ermita_de_San_Isidro_(Madrid)",
+  "title_en": null
  },
  "parque-isidro": {
   "title": "Parque de San Isidro",
@@ -825,7 +916,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bc/Parque_de_San_Isidro%2C_Madrid.JPG/960px-Parque_de_San_Isidro%2C_Madrid.JPG?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El parque de San Isidro, también conocido popularmente como la Pradera de San Isidro, es una amplia zona verde de la ciudad de Madrid, situado en el barrio de San Isidro del distrito Carabanchel. \nLa histórica Pradera, pintada por Francisco de Goya en 1788,​ fue constituida y catalogada como parque en 1970 por el ayuntamiento de la Villa. Tras su ampliación en 2006, alcanzó los 355 420 metros cuadrados, que incluyen el recinto ferial para la Feria de San Isidro, que se celebra cada 15 de mayo, con motivo de la festividad del patrón de la capital de España.",
-  "url": "https://es.wikipedia.org/wiki/Parque_de_San_Isidro"
+  "url": "https://es.wikipedia.org/wiki/Parque_de_San_Isidro",
+  "title_en": null
  },
  "sacramental-isidro": {
   "title": "Cementerio de San Isidro",
@@ -834,7 +926,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/48/Madrid_-_Sacramental_de_San_Isidro_-_Ferm%C3%ADn_de_Muguiro.jpg/960px-Madrid_-_Sacramental_de_San_Isidro_-_Ferm%C3%ADn_de_Muguiro.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El cementerio sacramental de San Isidro,​ de la Sacramental de San Isidro​​​ o, simplemente, de San Isidro es un cementerio de la ciudad española de Madrid, ubicado en el Barrio de San Isidro, en el distrito de Carabanchel. El camposanto, cuyo primer patio se levantó en 1811, se fue ampliando con nuevos patios a lo largo del siglo xix. Destaca su patio central, el de la Concepción, con un notable conjunto de panteones.",
-  "url": "https://es.wikipedia.org/wiki/Cementerio_de_San_Isidro"
+  "url": "https://es.wikipedia.org/wiki/Cementerio_de_San_Isidro",
+  "title_en": "Saint Isidore Cemetery"
  },
  "santa-maria-antigua": {
   "title": "Ermita de Santa María la Antigua",
@@ -843,7 +936,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/Ermita_de_Santa_Mar%C3%ADa_la_Antigua_%28Madrid%29_01.jpg/960px-Ermita_de_Santa_Mar%C3%ADa_la_Antigua_%28Madrid%29_01.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La ermita de Santa María la Antigua, también conocida como ermita de Nuestra Señora de la Antigua o ermita del Cementerio de Carabanchel, es un templo católico situado en Carabanchel, uno de los veintiún distritos en los que se divide administrativamente la ciudad española de Madrid. Su origen se remonta al siglo XIII y está construida en estilo románico-mudéjar. \nFue la parroquia del antiguo municipio de Carabanchel, hoy día integrado en el citado distrito, y actualmente es la ermita-capilla del cementerio de Carabanchel, a cuyo muro Norte se encuentra adosado.",
-  "url": "https://es.wikipedia.org/wiki/Ermita_de_Santa_Mar%C3%ADa_la_Antigua"
+  "url": "https://es.wikipedia.org/wiki/Ermita_de_Santa_Mar%C3%ADa_la_Antigua",
+  "title_en": "Hermitage of Santa María la Antigua (Madrid)"
  },
  "carcel-carabanchel": {
   "title": "Prisión provincial de Carabanchel",
@@ -852,7 +946,8 @@
   "lng": null,
   "img": null,
   "desc": null,
-  "url": "https://es.wikipedia.org/wiki/Prisi%C3%B3n_provincial_de_Carabanchel"
+  "url": "https://es.wikipedia.org/wiki/Prisi%C3%B3n_provincial_de_Carabanchel",
+  "title_en": null
  },
  "usera-china": {
   "title": "Usera",
@@ -861,7 +956,8 @@
   "lng": -3.70685556,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7d/MADRID_A.V.U._PARQUE_DE_PRADOLONGO_%28VISITA_COMENTADA%29_-_panoramio_%283%29.jpg/960px-MADRID_A.V.U._PARQUE_DE_PRADOLONGO_%28VISITA_COMENTADA%29_-_panoramio_%283%29.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "Usera es uno de los 21 distritos que conforman la ciudad española de Madrid. Está organizado administrativamente en barrios de Orcasitas (121), Orcasur (122), San Fermín (123), Almendrales (124), Moscardó (125), Zofío (126) y Pradolongo (127).",
-  "url": "https://es.wikipedia.org/wiki/Usera"
+  "url": "https://es.wikipedia.org/wiki/Usera",
+  "title_en": "Usera"
  },
  "pradolongo": {
   "title": "Parque de Pradolongo",
@@ -870,7 +966,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7f/MADRID_E.R.U._IGLESIA_MARIS_STELLA_%28CON_COMENTARIOS%29.jpg/960px-MADRID_E.R.U._IGLESIA_MARIS_STELLA_%28CON_COMENTARIOS%29.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El parque de Pradolongo está situado en el barrio homónimo dentro del distrito de Usera, Madrid, entre el polideportivo de Orcasitas y el hospital 12 de Octubre; este parque es el cuarto de Madrid por su extensión (72 hectáreas y media), después de la Casa de Campo, El Retiro y el parque del Oeste.\nFue inaugurado en 1983 por el entonces alcalde de Madrid Enrique Tierno Galván y fue considerado el primer parque democrático de la ciudad, ya que el diseño fue realizado de acuerdo con las necesidades y gusto de aquellos vecinos que iban a disfrutarlo.",
-  "url": "https://es.wikipedia.org/wiki/Parque_de_Pradolongo"
+  "url": "https://es.wikipedia.org/wiki/Parque_de_Pradolongo",
+  "title_en": null
  },
  "caja-magica": {
   "title": "Caja Mágica",
@@ -879,7 +976,8 @@
   "lng": -3.684154,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/29/Caroline_Wozniacki_and_Dinara_Safina_at_the_2009_Mutua_Madrile%C3%B1a_Madrid_Open.jpg/960px-Caroline_Wozniacki_and_Dinara_Safina_at_the_2009_Mutua_Madrile%C3%B1a_Madrid_Open.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La Caja Mágica es un estadio multiusos ubicado en Madrid (España). Se localiza en el barrio de San Fermín, en el distrito de Usera, a orillas del río Manzanares. Ha sido presentada como la instalación de tenis más moderna del mundo, aunque la inversión se revela poco rentable,​ y como la infraestructura estrella de las candidaturas de Madrid a los Juegos Olímpicos de 2012​ y a los Juegos Olímpicos de 2016, que no llegaron a cuajar.",
-  "url": "https://es.wikipedia.org/wiki/Caja_M%C3%A1gica"
+  "url": "https://es.wikipedia.org/wiki/Caja_M%C3%A1gica",
+  "title_en": "Caja Mágica"
  },
  "tio-pio": {
   "title": "Parque del Cerro del Tío Pío",
@@ -888,7 +986,8 @@
   "lng": null,
   "img": null,
   "desc": null,
-  "url": "https://es.wikipedia.org/wiki/Parque_del_Cerro_del_T%C3%ADo_P%C3%ADo"
+  "url": "https://es.wikipedia.org/wiki/Parque_del_Cerro_del_T%C3%ADo_P%C3%ADo",
+  "title_en": null
  },
  "estadio-vallecas": {
   "title": "Estadio de Vallecas",
@@ -897,7 +996,8 @@
   "lng": -3.658961,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e0/Estadio_de_Vallecas_18_de_febrero_de_2025.jpg/960px-Estadio_de_Vallecas_18_de_febrero_de_2025.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El Estadio de Vallecas es un estadio de la Comunidad de Madrid cedido al club de fútbol Rayo Vallecano. Además de acoger los partidos del Rayo Vallecano también se usa para ubicar la meta de la carrera internacional de la San Silvestre Vallecana. Por último, cabe destacar que en el recinto se encuentran las Federaciones Madrileñas de Tenis de Mesa, Ajedrez, Boxeo y Billar.",
-  "url": "https://es.wikipedia.org/wiki/Estadio_de_Vallecas"
+  "url": "https://es.wikipedia.org/wiki/Estadio_de_Vallecas",
+  "title_en": "Vallecas Stadium"
  },
  "asamblea": {
   "title": "Asamblea de Madrid",
@@ -906,7 +1006,8 @@
   "lng": -3.66230278,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/Pleno_de_la_Asamblea_8_octubre.jpg/960px-Pleno_de_la_Asamblea_8_octubre.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La Asamblea de Madrid es el parlamento autonómico de la Comunidad de Madrid (España). Representa a los habitantes de la comunidad autónoma ejerciendo la potestad legislativa. Aprueba los presupuestos del ejecutivo autonómico y controla e impulsa la acción política y de gobierno.",
-  "url": "https://es.wikipedia.org/wiki/Asamblea_de_Madrid"
+  "url": "https://es.wikipedia.org/wiki/Asamblea_de_Madrid",
+  "title_en": "Assembly of Madrid"
  },
  "palomeras": {
   "title": "Palomeras",
@@ -915,7 +1016,8 @@
   "lng": null,
   "img": null,
   "desc": null,
-  "url": "https://es.wikipedia.org/wiki/Palomeras"
+  "url": "https://es.wikipedia.org/wiki/Palomeras",
+  "title_en": null
  },
  "cuna-odonnell": {
   "title": "Parque de la Cuña Verde de O'Donnell",
@@ -924,7 +1026,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/Un_recinto_ferial_e_instalaciones_deportivas_culminar%C3%A1n_la_ampliaci%C3%B3n_de_la_Cu%C3%B1a_Verde_de_O%E2%80%99Donnell_03.jpg/960px-Un_recinto_ferial_e_instalaciones_deportivas_culminar%C3%A1n_la_ampliaci%C3%B3n_de_la_Cu%C3%B1a_Verde_de_O%E2%80%99Donnell_03.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El Parque de la Cuña Verde de O'Donnell es un parque público de la ciudad de Madrid, dentro de los distritos de Moratalaz y Ciudad Lineal.\nEl parque alberga distintas zonas y servicios como un auditorio, carril bici, el campo de entrenamiento del club de fútbol Moratalaz, parques para perros y zonas de ocio para niños y ancianos.",
-  "url": "https://es.wikipedia.org/wiki/Parque_de_la_Cu%C3%B1a_Verde_de_O%27Donnell"
+  "url": "https://es.wikipedia.org/wiki/Parque_de_la_Cu%C3%B1a_Verde_de_O%27Donnell",
+  "title_en": null
  },
  "moratalaz": {
   "title": "Moratalaz",
@@ -933,7 +1036,8 @@
   "lng": -3.64443611,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/47/Madrid_-_Moratalaz_04.jpg/960px-Madrid_-_Moratalaz_04.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "Moratalaz es uno de los 21 distritos que conforman la ciudad de Madrid (Comunidad de Madrid, España). Está situado hacia el sureste de la capital y dividido administrativamente en los barrios de Pavones, Horcajo, Marroquina, Media Legua, Fontarrón y Vinateros. Tiene una población de 95 036 personas y una superficie de 6,34 km², lo que le da una densidad de población de 14 989 hab./km².",
-  "url": "https://es.wikipedia.org/wiki/Moratalaz"
+  "url": "https://es.wikipedia.org/wiki/Moratalaz",
+  "title_en": "Moratalaz"
  },
  "fontarron": {
   "title": "Fontarrón",
@@ -942,7 +1046,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b8/%28Fontarr%C3%B3n%29_MoratalazExperimenta0191.jpg/960px-%28Fontarr%C3%B3n%29_MoratalazExperimenta0191.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "Fontarrón es un barrio del distrito de Moratalaz, en Madrid. Limita al norte con los barrios de Media Legua y Vinateros, al sur con Numancia y Portazgo (Puente de Vallecas), al oeste con Estrella (Retiro) y al este con Pavones. Está delimitado al sur por la Avenida del Mediterráneo, al este por Fuente Carrantona, al oeste por la Avenida de Paz y al norte por Hacienda de Pavones y la Avenida de Moratalaz.",
-  "url": "https://es.wikipedia.org/wiki/Fontarr%C3%B3n"
+  "url": "https://es.wikipedia.org/wiki/Fontarr%C3%B3n",
+  "title_en": "Fontarrón"
  },
  "arturo-soria": {
   "title": "Calle de Arturo Soria",
@@ -951,7 +1056,8 @@
   "lng": -3.66463889,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7d/Calle_de_Arturo_Soria.JPG/960px-Calle_de_Arturo_Soria.JPG?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La calle de Arturo Soria es el eje principal del distrito madrileño de Ciudad Lineal.",
-  "url": "https://es.wikipedia.org/wiki/Calle_de_Arturo_Soria"
+  "url": "https://es.wikipedia.org/wiki/Calle_de_Arturo_Soria",
+  "title_en": null
  },
  "pueblo-nuevo": {
   "title": "Pueblo Nuevo (Madrid)",
@@ -960,7 +1066,8 @@
   "lng": -3.63527778,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/eb/Un_parque_en_Ciudad_Lineal_recordar%C3%A1_a_periodistas_asesinados_en_conflictos_armados_01.jpg/960px-Un_parque_en_Ciudad_Lineal_recordar%C3%A1_a_periodistas_asesinados_en_conflictos_armados_01.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "Pueblo Nuevo es un barrio al este de la ciudad de Madrid, en el distrito de Ciudad Lineal. Sus calles principales son la calle Alcalá y la calle de los Hermanos García Noblejas, que lo separa del distrito de San Blas-Canillejas. Entre los lugares más importantes del barrio se encuentra el centro comercial Alcalá Norte.",
-  "url": "https://es.wikipedia.org/wiki/Pueblo_Nuevo_(Madrid)"
+  "url": "https://es.wikipedia.org/wiki/Pueblo_Nuevo_(Madrid)",
+  "title_en": "Pueblo Nuevo (Madrid)"
  },
  "calero": {
   "title": "El Calero (Madrid)",
@@ -969,7 +1076,8 @@
   "lng": null,
   "img": null,
   "desc": null,
-  "url": "https://es.wikipedia.org/wiki/El_Calero_(Madrid)"
+  "url": "https://es.wikipedia.org/wiki/El_Calero_(Madrid)",
+  "title_en": null
  },
  "quintana": {
   "title": "Quintana (Madrid)",
@@ -978,7 +1086,8 @@
   "lng": null,
   "img": "https://upload.wikimedia.org/wikipedia/commons/7/74/Plaza_quintana_madrid.PNG?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
   "desc": "Quintana (Madrid) es un barrio al este de la ciudad de Madrid. Se encuentra dentro del distrito número 15, Ciudad Lineal. Sus calles principales son la calle de Alcalá y la calle José del Hierro.",
-  "url": "https://es.wikipedia.org/wiki/Quintana_(Madrid)"
+  "url": "https://es.wikipedia.org/wiki/Quintana_(Madrid)",
+  "title_en": "Quintana (Madrid)"
  },
  "felipe-vi": {
   "title": "Parque forestal de Valdebebas-Felipe VI",
@@ -987,7 +1096,8 @@
   "lng": -3.63168889,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d6/Vista_de_Valdebebas_desde_el_mirador_circular_del_parque_de_Felipe_VI.jpg/960px-Vista_de_Valdebebas_desde_el_mirador_circular_del_parque_de_Felipe_VI.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El parque forestal de Valdebebas-Felipe VI es un parque público de la ciudad de Madrid, dentro del desarrollo urbanístico de Valdebebas. La inauguración parcial de 340 hectáreas​ se llevó a cabo en marzo de 2015.​ La extensión final del proyecto del parque es de 470 ha. Conecta por el este con el adyacente Parque Princesa Leonor.​​ Se trata del segundo parque público de Madrid en extensión, solo superado por la Casa de Campo.",
-  "url": "https://es.wikipedia.org/wiki/Parque_forestal_de_Valdebebas-Felipe_VI"
+  "url": "https://es.wikipedia.org/wiki/Parque_forestal_de_Valdebebas-Felipe_VI",
+  "title_en": null
  },
  "juan-pablo-ii": {
   "title": "Parque Juan Pablo II (Madrid)",
@@ -996,7 +1106,8 @@
   "lng": null,
   "img": null,
   "desc": null,
-  "url": "https://es.wikipedia.org/wiki/Parque_Juan_Pablo_II_(Madrid)"
+  "url": "https://es.wikipedia.org/wiki/Parque_Juan_Pablo_II_(Madrid)",
+  "title_en": null
  },
  "hortaleza-pueblo": {
   "title": "Hortaleza",
@@ -1005,7 +1116,8 @@
   "lng": -3.640482,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/Edificio_Mirador.jpg/960px-Edificio_Mirador.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "Hortaleza es uno de los 21 distritos que conforman la ciudad de Madrid. Situado al noreste del municipio, comprende el antiguo término municipal de Hortaleza y parte del de Canillas, anexionados ambos por la capital mediante sendos decretos del año 1949. Los barrios del distrito son: Pinar del Rey, Canillas, Valdefuentes, Apóstol Santiago, Piovera y Palomas.",
-  "url": "https://es.wikipedia.org/wiki/Hortaleza"
+  "url": "https://es.wikipedia.org/wiki/Hortaleza",
+  "title_en": "Hortaleza"
  },
  "pinar-rey": {
   "title": "Parque de Pinar del Rey",
@@ -1014,7 +1126,8 @@
   "lng": null,
   "img": null,
   "desc": null,
-  "url": "https://es.wikipedia.org/wiki/Parque_de_Pinar_del_Rey"
+  "url": "https://es.wikipedia.org/wiki/Parque_de_Pinar_del_Rey",
+  "title_en": null
  },
  "boetticher": {
   "title": "Nave Boetticher",
@@ -1023,7 +1136,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Madrid_-_Villaverde%2C_Catedral_de_las_Nuevas_Tecnolog%C3%ADas_04.jpg/960px-Madrid_-_Villaverde%2C_Catedral_de_las_Nuevas_Tecnolog%C3%ADas_04.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La nave Boetticher y Navarro era una antigua fábrica de material pesado para la industria hidroeléctrica, ascensores y calefacción. Actualmente, La Nave es el centro de innovación público más grande del Ayuntamiento de Madrid.",
-  "url": "https://es.wikipedia.org/wiki/Nave_Boetticher"
+  "url": "https://es.wikipedia.org/wiki/Nave_Boetticher",
+  "title_en": null
  },
  "dehesa-boyal": {
   "title": "Dehesa Boyal de Villaverde",
@@ -1032,7 +1146,8 @@
   "lng": null,
   "img": null,
   "desc": null,
-  "url": "https://es.wikipedia.org/wiki/Dehesa_Boyal_de_Villaverde"
+  "url": "https://es.wikipedia.org/wiki/Dehesa_Boyal_de_Villaverde",
+  "title_en": null
  },
  "villaverde-alto": {
   "title": "Villaverde Alto, Casco Histórico de Villaverde",
@@ -1041,7 +1156,8 @@
   "lng": -3.71166667,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/78/Plaza_Mayor_de_Villaverde_Alto_-_Murales_de_invierno_-_I_-_83_%2816910686532%29.jpg/960px-Plaza_Mayor_de_Villaverde_Alto_-_Murales_de_invierno_-_I_-_83_%2816910686532%29.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "Villaverde Alto, Casco Histórico de Villaverde (anteriormente San Andrés) es un barrio de la ciudad de Madrid, ubicado en el distrito de Villaverde. El barrio es el casco histórico del antiguo municipio de Villaverde, que da nombre al distrito. \nEstá encuadrado junto con las barriadas de Plata y Castañar, la Colonia Marconi y el polígono industrial de Villaverde.",
-  "url": "https://es.wikipedia.org/wiki/Villaverde_Alto,_Casco_Hist%C3%B3rico_de_Villaverde"
+  "url": "https://es.wikipedia.org/wiki/Villaverde_Alto,_Casco_Hist%C3%B3rico_de_Villaverde",
+  "title_en": "Villaverde Alto (Madrid)"
  },
  "colonia-marconi": {
   "title": "Colonia Marconi",
@@ -1050,7 +1166,8 @@
   "lng": -3.70064444,
   "img": null,
   "desc": "La Colonia Marconi se encuentra ubicada en Madrid, en el distrito de Villaverde.\nAntiguamente, dicha colonia estaba formada por casas bajas donde residían los trabajadores de la Compañía Marconi, que estaba colindante al mismo y que dio nombre al barrio. Actualmente dicho enclave está constituido por pisos que se finalizaron de construir en 2001.",
-  "url": "https://es.wikipedia.org/wiki/Colonia_Marconi"
+  "url": "https://es.wikipedia.org/wiki/Colonia_Marconi",
+  "title_en": null
  },
  "vallecas-pueblo": {
   "title": "Villa de Vallecas",
@@ -1059,7 +1176,8 @@
   "lng": -3.62135,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1c/Madrid_-_Villa_de_Vallecas_-_Iglesia_de_San_Pedro_ad_V%C3%ADncula_07.jpg/960px-Madrid_-_Villa_de_Vallecas_-_Iglesia_de_San_Pedro_ad_V%C3%ADncula_07.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "Villa de Vallecas es uno de los 21 distritos de Madrid, situado a 9 km al sureste de Madrid. Está organizado administrativamente en tres barrios: casco histórico de Vallecas (18.1), Santa Eugenia (18.2) y Ensanche de Vallecas (18.3).",
-  "url": "https://es.wikipedia.org/wiki/Villa_de_Vallecas"
+  "url": "https://es.wikipedia.org/wiki/Villa_de_Vallecas",
+  "title_en": "Villa de Vallecas"
  },
  "gavia": {
   "title": "Parque de La Gavia",
@@ -1068,7 +1186,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3e/%22El_parque_de_La_Gavia_es_un_nuevo_pulm%C3%B3n_verde_de_referencia_en_el_sur_de_Madrid%22_%2802%29.jpg/960px-%22El_parque_de_La_Gavia_es_un_nuevo_pulm%C3%B3n_verde_de_referencia_en_el_sur_de_Madrid%22_%2802%29.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La Gavia es un parque español de la ciudad de Madrid, en el distrito de Villa de Vallecas.\nEl parque se divide en dos zonas, una urbana y otra forestal, separadas por el cauce del arroyo de La Gavia.",
-  "url": "https://es.wikipedia.org/wiki/Parque_de_La_Gavia"
+  "url": "https://es.wikipedia.org/wiki/Parque_de_La_Gavia",
+  "title_en": null
  },
  "santa-eugenia": {
   "title": "Santa Eugenia (Madrid)",
@@ -1077,7 +1196,8 @@
   "lng": -3.61138889,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/Santa_Eugenia._01_%28cropped%29.JPG/960px-Santa_Eugenia._01_%28cropped%29.JPG?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "Santa Eugenia es un barrio de la ciudad de Madrid que forma parte del Distrito de Villa de Vallecas. Se encuentra a 9 km al sureste del centro de la ciudad. Se caracteriza por la gran variedad de zonas ajardinadas que rodean sus edificios.",
-  "url": "https://es.wikipedia.org/wiki/Santa_Eugenia_(Madrid)"
+  "url": "https://es.wikipedia.org/wiki/Santa_Eugenia_(Madrid)",
+  "title_en": "Santa Eugenia (Madrid)"
  },
  "ensanche-vallecas": {
   "title": "Ensanche de Vallecas",
@@ -1086,7 +1206,8 @@
   "lng": -3.60326389,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9a/Ensanche_de_Vallecas._183._Barrios_de_Madrid.svg/960px-Ensanche_de_Vallecas._183._Barrios_de_Madrid.svg.png?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El Ensanche de Vallecas es un barrio administrativo de Madrid, perteneciente al distrito de Villa de Vallecas, planteado en la década de 1990 para ampliar la ciudad. Reconocido administrativamente en 2017,​ sus primeros vecinos llegaron al barrio en noviembre de 2006. También conocido popularmente como PAU de Vallecas, debido a su denominación como Plan de Actuación Urbanística (PAU).",
-  "url": "https://es.wikipedia.org/wiki/Ensanche_de_Vallecas"
+  "url": "https://es.wikipedia.org/wiki/Ensanche_de_Vallecas",
+  "title_en": "Ensanche de Vallecas"
  },
  "valdebernardo": {
   "title": "Parque Forestal de Valdebernardo",
@@ -1095,7 +1216,8 @@
   "lng": null,
   "img": null,
   "desc": null,
-  "url": "https://es.wikipedia.org/wiki/Parque_Forestal_de_Valdebernardo"
+  "url": "https://es.wikipedia.org/wiki/Parque_Forestal_de_Valdebernardo",
+  "title_en": null
  },
  "vicalvaro-pueblo": {
   "title": "Vicálvaro",
@@ -1104,7 +1226,8 @@
   "lng": -3.60806,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cf/Iglesia_de_Sta._Mar%C3%ADa_la_Antigua_%28Vic%C3%A1lvaro%2C_Madrid%29_02.jpg/960px-Iglesia_de_Sta._Mar%C3%ADa_la_Antigua_%28Vic%C3%A1lvaro%2C_Madrid%29_02.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "Vicálvaro es uno de los 21 distritos de Madrid (Comunidad de Madrid, España), situado en el este de la capital a 8 km del centro de la ciudad de Madrid y dividido administrativamente en cuatro barrios: \n\nCasco histórico de Vicálvaro (19.1): 38 064 habitantes (2025).\nValdebernardo (19.2): 17 695 habitantes (2025).\nValderrivas (19.3): 17 982 habitantes (2025).",
-  "url": "https://es.wikipedia.org/wiki/Vic%C3%A1lvaro"
+  "url": "https://es.wikipedia.org/wiki/Vic%C3%A1lvaro",
+  "title_en": "Vicálvaro"
  },
  "cerro-almodovar": {
   "title": "Cerro Almodóvar",
@@ -1113,7 +1236,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/54/Cerro_de_Almod%C3%B3var_%2822_de_octubre_de_2017%2C_Madrid%29_05.jpg/960px-Cerro_de_Almod%C3%B3var_%2822_de_octubre_de_2017%2C_Madrid%29_05.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El cerro Almodóvar​ es un cerro testigo​ ubicado en la parte central de la península ibérica, en el municipio español de Madrid.",
-  "url": "https://es.wikipedia.org/wiki/Cerro_Almod%C3%B3var"
+  "url": "https://es.wikipedia.org/wiki/Cerro_Almod%C3%B3var",
+  "title_en": null
  },
  "metropolitano": {
   "title": "Estadio Metropolitano",
@@ -1122,7 +1246,8 @@
   "lng": null,
   "img": null,
   "desc": "«Estadio Metropolitano» puede hacer referencia al nombre de diferentes infraestructuras:\nEn Colombia:\n\nEstadio Metropolitano Roberto Meléndez: estadio en Barranquilla (Colombia).\nEstadio Metropolitano de Techo: estadio en Bogotá (Colombia).\nEstadio Metropolitano Ciudad de Itagüí: estadio en Itagüí (Colombia)\nEn España:\n\nEstadio Metropolitano: estadio en Madrid (España), conocido por razones de patrocinio como Riyadh Air Metropolitano, sede del Atlético de Madrid.",
-  "url": "https://es.wikipedia.org/wiki/Estadio_Metropolitano"
+  "url": "https://es.wikipedia.org/wiki/Estadio_Metropolitano",
+  "title_en": "Estadio Metropolitano (disambiguation)"
  },
  "quinta-molinos": {
   "title": "Quinta de los Molinos",
@@ -1131,7 +1256,8 @@
   "lng": null,
   "img": null,
   "desc": "La Quinta de los Molinos es un monumento nacional situado en la ciudad de La Habana, Cuba. Importante por haber sido la residencia de los Capitanes Generales durante el período colonial, residencia del prócer Máximo Gómez y por albergar el Jardín botánico de La Habana y el Museo Máximo Gómez.",
-  "url": "https://es.wikipedia.org/wiki/Quinta_de_los_Molinos"
+  "url": "https://es.wikipedia.org/wiki/Quinta_de_los_Molinos",
+  "title_en": null
  },
  "torre-arias": {
   "title": "Parque de la Quinta de Torre Arias",
@@ -1140,7 +1266,8 @@
   "lng": null,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7b/Parque_Quinta_de_Torre_Arias%2C_Madrid%2C_Espa%C3%B1a%2C_2017_02.jpg/960px-Parque_Quinta_de_Torre_Arias%2C_Madrid%2C_Espa%C3%B1a%2C_2017_02.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La Quinta de Torre Arias es un parque histórico que se encuentra en el barrio de Salvador en el distrito de San Blas-Canillejas de la ciudad española de Madrid. Está delimitado por la actual calle de Alcalá (antes camino y luego carretera de Alcalá de Henares), y por las calles de Rodríguez Ayuso, Eduardo Terán, Fernando Mijares y Marquesado de Santa Marta.",
-  "url": "https://es.wikipedia.org/wiki/Parque_de_la_Quinta_de_Torre_Arias"
+  "url": "https://es.wikipedia.org/wiki/Parque_de_la_Quinta_de_Torre_Arias",
+  "title_en": null
  },
  "canillejas": {
   "title": "Canillejas",
@@ -1149,7 +1276,8 @@
   "lng": -3.6099,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5d/Canillejas._207._Barrios_de_Madrid.svg/960px-Canillejas._207._Barrios_de_Madrid.svg.png?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "Canillejas es un barrio de la ciudad de Madrid, ubicado en el distrito de San Blas-Canillejas.",
-  "url": "https://es.wikipedia.org/wiki/Canillejas"
+  "url": "https://es.wikipedia.org/wiki/Canillejas",
+  "title_en": "Canillejas"
  },
  "capricho": {
   "title": "Parque de El Capricho",
@@ -1158,7 +1286,8 @@
   "lng": -3.59867,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e7/007002_-_Madrid_%288236811769%29.jpg/960px-007002_-_Madrid_%288236811769%29.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El parque de El Capricho es un jardín histórico-artístico de 14 hectáreas en forma de triángulo ubicado en el barrio de la Alameda de Osuna del distrito de Barajas, al noreste de la ciudad de Madrid, España. Se construyó por expreso deseo de la duquesa de Osuna, que sufragó las obras y lo cuidó hasta su fallecimiento. En 1900 pasó a manos de Gustavo Bauer, a quien heredaría Ignacio Bauer Landauer ​ hasta que en 1945 la Sociedad Inmobiliaria Alameda de Osuna adquirió el jardín.",
-  "url": "https://es.wikipedia.org/wiki/Parque_de_El_Capricho"
+  "url": "https://es.wikipedia.org/wiki/Parque_de_El_Capricho",
+  "title_en": "El Capricho Park"
  },
  "juan-carlos-i": {
   "title": "Parque Juan Carlos I",
@@ -1167,7 +1296,8 @@
   "lng": -3.60605,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/Parque_Juan_Carlos_I_view03.jpg/960px-Parque_Juan_Carlos_I_view03.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El parque Juan Carlos I es un parque público ubicado al nordeste de Madrid, en el barrio de Corralejos (distrito de Barajas). Se extiende por un área de 160 ha, que lo convierten en el segundo parque más grande de la capital española, por delante del parque del Retiro (118 ha) y solo superado por el cercano parque forestal de Valdebebas-Felipe VI. Cuenta con un lago, un auditorio al aire libre​ y numerosas esculturas abstractas. El parque cuenta con un tren gratuito que lo recorre.",
-  "url": "https://es.wikipedia.org/wiki/Parque_Juan_Carlos_I"
+  "url": "https://es.wikipedia.org/wiki/Parque_Juan_Carlos_I",
+  "title_en": "Juan Carlos I Park"
  },
  "barajas-pueblo": {
   "title": "Barajas",
@@ -1176,7 +1306,8 @@
   "lng": -3.58489,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/de/Barajas_Plaza_Hermanos_Faco_y_Iglesia_San_Pedro.jpg/960px-Barajas_Plaza_Hermanos_Faco_y_Iglesia_San_Pedro.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "Barajas es uno de los 21 distritos que conforman la ciudad de Madrid, organizado administrativamente en los barrios de Alameda de Osuna (21.1), Aeropuerto (21.2), Casco histórico de Barajas (21.3), Timón (21.4) y Corralejos (21.5).",
-  "url": "https://es.wikipedia.org/wiki/Barajas"
+  "url": "https://es.wikipedia.org/wiki/Barajas",
+  "title_en": "Barajas (Madrid)"
  },
  "aeropuerto": {
   "title": "Aeropuerto Adolfo Suárez Madrid-Barajas",
@@ -1185,7 +1316,8 @@
   "lng": -3.56083333,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f1/Aena_Madrid_logo.svg/960px-Aena_Madrid_logo.svg.png?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El Aeropuerto Adolfo Suárez Madrid-Barajas (IATA: MAD, OACI: LEMD),​​ llamado hasta 2014 Aeropuerto de Madrid-Barajas,​ es un aeropuerto español público propiedad de Aena, situado a 12 km del centro de Madrid dirección noreste. Está ubicado en el distrito de Barajas del término municipal de Madrid, si bien se extiende también por los municipios de Paracuellos de Jarama, San Sebastián de los Reyes y Alcobendas. Es el primer aeropuerto español por tráfico de pasajeros, carga aérea y operaciones,​ así como el cuarto de Europa y decimocuarto del mundo por número de pasajeros​ y el segundo aeropuerto más grande de Europa en tamaño físico, detrás del aeropuerto Charles de Gaulle de París.",
-  "url": "https://es.wikipedia.org/wiki/Aeropuerto_Adolfo_Su%C3%A1rez_Madrid-Barajas"
+  "url": "https://es.wikipedia.org/wiki/Aeropuerto_Adolfo_Su%C3%A1rez_Madrid-Barajas",
+  "title_en": "Madrid–Barajas Airport"
  },
  "alameda-osuna": {
   "title": "Alameda de Osuna",
@@ -1194,6 +1326,797 @@
   "lng": -3.58777778,
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/De_Madrid_al_cielo_91.jpg/960px-De_Madrid_al_cielo_91.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "Alameda de Osuna es uno de los cinco barrios pertenecientes al distrito de Barajas, en la periferia nordeste de la ciudad de Madrid (España). Su cercanía al aeropuerto de Madrid-Barajas y su peculiar ubicación geográfica lo convierte en un barrio singular de la ciudad.",
-  "url": "https://es.wikipedia.org/wiki/Alameda_de_Osuna"
+  "url": "https://es.wikipedia.org/wiki/Alameda_de_Osuna",
+  "title_en": "Alameda de Osuna"
+ },
+ "teatro-real": {
+  "title": "Teatro Real (Madrid)",
+  "qid": "Q211250",
+  "lat": 40.41824,
+  "lng": -3.71037,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/90/Teatro_Real_de_Madrid_2025.jpg/960px-Teatro_Real_de_Madrid_2025.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El Teatro Real es un teatro de ópera de Madrid, España.​​ Situado en la plaza de Oriente, frente al Palacio Real, y conocido coloquialmente como El Real, está considerado como la máxima institución de las artes escénicas y musicales del país y uno de los teatros de ópera más prestigiosos de Europa.\nLa primera piedra del Teatro Real se colocó el 23 de abril de 1818, bajo el reinado de Fernando VII, y fue inaugurado formalmente por su hija la reina Isabel II el 19 de noviembre de 1850. Cerró en 1925 debido a daños en el edificio y reabrió el 13 de octubre de 1966 como sala de música sinfónica.",
+  "url": "https://es.wikipedia.org/wiki/Teatro_Real_(Madrid)",
+  "title_en": "Teatro Real"
+ },
+ "santa-ana": {
+  "title": "Plaza de Santa Ana (Madrid)",
+  "qid": "Q740210",
+  "lat": 40.41471389,
+  "lng": -3.70089722,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bc/Plaza_Santa_Ana_May2013.JPG/960px-Plaza_Santa_Ana_May2013.JPG?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "La plaza de Santa Ana (también llamada plaza del Príncipe Alfonso) es un espacio abierto del barrio de Cortes, en el distrito Centro de Madrid. Data de 1810 y a lo largo de su historia ha sufrido numerosos procesos de urbanización que han modificado su aspecto con diversa fortuna. En su perímetro se encuentran edificios como el del Teatro Español y el Hotel Reina Victoria, y esculturas de dramaturgos como Pedro Calderón de la Barca y Federico García Lorca.",
+  "url": "https://es.wikipedia.org/wiki/Plaza_de_Santa_Ana_(Madrid)",
+  "title_en": "Plaza de Santa Ana"
+ },
+ "vaguada": {
+  "title": "El Pilar (Madrid)",
+  "qid": "Q3773964",
+  "lat": 40.47822778,
+  "lng": -3.71154167,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/92/Avenida_de_Monforte_de_Lemos_%28Madrid%29_02.jpg/960px-Avenida_de_Monforte_de_Lemos_%28Madrid%29_02.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El Pilar, nombrado frecuentemente como barrio del Pilar, es un barrio situado en el noroeste de la ciudad de Madrid (España) perteneciente al distrito de Fuencarral-El Pardo.",
+  "url": "https://es.wikipedia.org/wiki/El_Pilar_(Madrid)",
+  "title_en": "El Pilar (Madrid)"
+ },
+ "botin": {
+  "title": "Sobrino de Botín",
+  "qid": "Q2263744",
+  "lat": 40.41421111,
+  "lng": -3.70808611,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/Casa_Bot%C3%ADn-Madrid-2009.jpg/960px-Casa_Bot%C3%ADn-Madrid-2009.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "Sobrino de Botín es un restaurante de Madrid situado en la planta baja del número 17 de la calle de Cuchilleros, junto a la Plaza Mayor de Madrid.​ Figura en el Libro Guinness de los récords como el más antiguo del mundo ya que, supuestamente, se fundó en 1725 y ha funcionado ininterrumpidamente desde entonces.​​ \nSe trata de una leyenda;​ el restaurante, entonces denominado \"Pastelería de Cándido Remis, sobrino de Botín\", se abrió en 1865.​ Es por ello que Peter Besas asegura que ninguno de los viajeros que visitaron Madrid en el siglo xix, y que posteriormente han documentado sus viajes, menciona “Botín”.​\nEl edificio que ocupa el restaurante Sobrino de Botín presenta una fachada de ladrillos con vista clásica del siglo XVI y ocupa cuatro plantas del mismo. La cocina es tradicional castellana.",
+  "url": "https://es.wikipedia.org/wiki/Sobrino_de_Bot%C3%ADn",
+  "title_en": "Sobrino de Botín"
+ },
+ "casa-labra": {
+  "title": "Casa Labra",
+  "qid": "Q5754287",
+  "lat": 40.41719722,
+  "lng": -3.70453611,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Casa_Labra-2009.jpg/960px-Casa_Labra-2009.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "Casa Labra es un bar-restaurante de Madrid fundado en 1860 y ubicado en la calle de Tetuán, 12, a muy pocos metros de la céntrica Puerta del Sol.",
+  "url": "https://es.wikipedia.org/wiki/Casa_Labra",
+  "title_en": "Casa Labra"
+ },
+ "lhardy": {
+  "title": "Lhardy",
+  "qid": "Q3237508",
+  "lat": 40.41666667,
+  "lng": -3.70138889,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/81/Restaurante_Lhardy-2009.jpg/960px-Restaurante_Lhardy-2009.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "Lhardy es un restaurante ubicado en pleno centro de Madrid (Carrera de San Jerónimo n.º 8). Fundado en el año 1839 por el francés Emilio Huguenin Lhardy,​ es considerado uno de los primeros y más antiguos restaurantes de Madrid.\nEl local abrió como pastelería y, poco a poco, fue ofreciendo comidas.",
+  "url": "https://es.wikipedia.org/wiki/Lhardy",
+  "title_en": "Lhardy"
+ },
+ "museo-chicote": {
+  "title": "Museo Chicote",
+  "qid": "Q5637302",
+  "lat": 40.41967222,
+  "lng": -3.69891389,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0f/Gran_V%C3%ADa_12_%28Madrid%29_01.jpg/960px-Gran_V%C3%ADa_12_%28Madrid%29_01.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El Museo Chicote, antes conocido como Bar Chicote o bar de Perico Chicote, es un local de la calle Gran Vía madrileña n.º 12, inaugurado en 1931 por Pedro Chicote, el barman del Hotel Ritz,​ como uno de los primeros locales de cóctel en la capital española.",
+  "url": "https://es.wikipedia.org/wiki/Museo_Chicote",
+  "title_en": null
+ },
+ "cafe-gijon": {
+  "title": "Café Gijón",
+  "qid": "Q1025608",
+  "lat": 40.422242,
+  "lng": -3.692364,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8f/Caf%C3%A9_Gij%C3%B3n.jpg/960px-Caf%C3%A9_Gij%C3%B3n.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El Café Gijón (llamado también Gran Café de Gijón) es un establecimiento de Madrid, famoso por sus tertulias a lo largo del siglo xx. Situado en el número 21 del paseo de Recoletos, fue fundado el 15 de mayo de 1888 por Gumersindo Gómez (o García), un asturiano afincado en la capital de España.​​ Dispone de una terraza en el pasillo central del paseo, y era uno de los pocos cafés de tertulia supervivientes en el Madrid de comienzos del siglo xxi. Cerró a finales de 2025 y cambió de dueño, reabriéndose en abril de 2026 con un nuevo nombre: Capucchino Grand Café Gijón.",
+  "url": "https://es.wikipedia.org/wiki/Caf%C3%A9_Gij%C3%B3n",
+  "title_en": "Café Gijón"
+ },
+ "teatro-espanol": {
+  "title": "Teatro Español",
+  "qid": "Q3891573",
+  "lat": 40.414852,
+  "lng": -3.699982,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c2/Madrid_-_Teatro_Espa%C3%B1ol.jpg/960px-Madrid_-_Teatro_Espa%C3%B1ol.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El Teatro Español, llamado Teatro del Príncipe hasta 1849, es un teatro público de la ciudad española de Madrid, perteneciente al Ayuntamiento de la capital.",
+  "url": "https://es.wikipedia.org/wiki/Teatro_Espa%C3%B1ol",
+  "title_en": "Teatro Español (Madrid)"
+ },
+ "teatro-zarzuela": {
+  "title": "Teatro de la Zarzuela",
+  "qid": "Q3321632",
+  "lat": 40.417186111111,
+  "lng": -3.6967805555556,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c1/Teatro_de_la_Zarzuela%2C_fachada_principal.jpg/960px-Teatro_de_la_Zarzuela%2C_fachada_principal.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El Teatro de la Zarzuela es un teatro de Madrid (España), inaugurado en 1856, históricamente situado en el número 4 de la calle de Jovellanos, desde 2022 en la plazuela de Teresa Berganza, en el barrio de Justicia.",
+  "url": "https://es.wikipedia.org/wiki/Teatro_de_la_Zarzuela",
+  "title_en": "Teatro de la Zarzuela"
+ },
+ "teatro-comedia": {
+  "title": "Teatro de la Comedia (Madrid)",
+  "qid": "Q10378974",
+  "lat": 40.41556944,
+  "lng": -3.70039167,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b7/Teatro_de_la_Comedia_%28Madrid%29_01.jpg/960px-Teatro_de_la_Comedia_%28Madrid%29_01.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El Teatro de la Comedia es una sala de teatro de Madrid inaugurada en la calle del Príncipe en 1875 y reconstruida en 1915 tras un devastador incendio.​ En 1986 fue designado sede de la Compañía Nacional de Teatro Clásico y en 1999 fue adquirido, con otras cinco plantas del mismo edificio, por el Ministerio de Cultura de España.​​\nEn octubre de 2015, después de trece años cerrado por las obras de rehabilitación, vuelve a abrirse con la representación de El alcalde de Zalamea.​ Después de esta reforma, la sala dispone de seiscientas treinta butacas; además, dispone de una nueva sala con cien butacas, denominada «Tirso de Molina».",
+  "url": "https://es.wikipedia.org/wiki/Teatro_de_la_Comedia_(Madrid)",
+  "title_en": "Teatro de la Comedia"
+ },
+ "teatro-maria-guerrero": {
+  "title": "Teatro María Guerrero",
+  "qid": "Q5399324",
+  "lat": 40.422916642028966,
+  "lng": -3.692983708464193,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a9/Teatro_Mar%C3%ADa_Guerrero_%28Madrid%29_01.jpg/960px-Teatro_Mar%C3%ADa_Guerrero_%28Madrid%29_01.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El Teatro María Guerrero (denominado antiguamente Teatro de la Princesa) es un teatro público situado en Madrid. Pertenece al Ministerio de Cultura de España, y dentro de ese al Instituto Nacional de las Artes Escénicas y de la Música (INAEM). Junto con el teatro Valle-Inclán, es sede del Centro Dramático Nacional (CDN), denominación del teatro nacional de España.",
+  "url": "https://es.wikipedia.org/wiki/Teatro_Mar%C3%ADa_Guerrero",
+  "title_en": "Theatre of María Guerrero"
+ },
+ "teatro-lara": {
+  "title": "Teatro Lara",
+  "qid": "Q6139776",
+  "lat": 40.422013888889,
+  "lng": -3.7044472222222,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5c/Teatro_Lara_%28Madrid%29_01.jpg/960px-Teatro_Lara_%28Madrid%29_01.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El teatro Lara es un vetusto teatro a la italiana construido en 1879 en el número 15 de la Corredera Baja de San Pablo del madrileño Barrio de Maravillas,​ en el entorno de lo que desde el último tercio del siglo XX se conoce como zona Malasaña.​ Nació de la iniciativa particular del \"plutócrata Cándido Lara\",​ y fue inaugurado el 3 de septiembre de 1880.",
+  "url": "https://es.wikipedia.org/wiki/Teatro_Lara",
+  "title_en": null
+ },
+ "teatro-abadia": {
+  "title": "Teatro de La Abadía",
+  "qid": "Q3982248",
+  "lat": 40.435316666667,
+  "lng": -3.7095694444444,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8f/La_Abad%C3%ADa.jpg/960px-La_Abad%C3%ADa.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "La Abadía es un centro de estudios y creación escénica de Madrid, España, en la línea de los teatros de arte europeos, con un equipo estable, dirigido por Juan Mayorga. Aúna la investigación y el entrenamiento permanentes con la creación de espectáculos. La actividad públicamente más visible del Teatro de La Abadía es la de producir montajes y acoger los trabajos de compañías afines.",
+  "url": "https://es.wikipedia.org/wiki/Teatro_de_La_Abad%C3%ADa",
+  "title_en": null
+ },
+ "teatro-circo-price": {
+  "title": "Circo Price",
+  "qid": "Q5121553",
+  "lat": 40.40583333,
+  "lng": -3.69861111,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f2/Circo_Price_en_Recoletos_ca._1870.jpg/960px-Circo_Price_en_Recoletos_ca._1870.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El Circo Price fue un circo fundado en 1853 por el écuyer irlandés Thomas Price,​​ e instalado en el paseo de Recoletos de la ciudad de Madrid (España) y trasladado en 1880 a la Plaza del Rey, ocupando el solar en el que habían estado el Circo Olímpico y luego el Teatro del Circo.​ El antiguo Teatro-Circo de Price fue demolido en 1970.​ En marzo de 2007, el Ayuntamiento de Madrid le dio este nombre al nuevo centro cultural de la Ronda de Atocha, que incluye un circo estable.​",
+  "url": "https://es.wikipedia.org/wiki/Circo_Price",
+  "title_en": "Circo Price"
+ },
+ "cuesta-moyano": {
+  "title": "Cuesta de Moyano",
+  "qid": "Q5794001",
+  "lat": 40.409586,
+  "lng": -3.690817,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/de/Bookstalls_in_Madrid.JPG/960px-Bookstalls_in_Madrid.JPG?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "La cuesta de Moyano es el nombre popular con el que se conoce a la calle de Claudio Moyano de Madrid, famosa por las casetas de venta de libros (muchas de ellas, de libreros de viejo o de segunda mano) que están instaladas junto a la verja del jardín botánico.​ La calle comunica el paseo del Prado con el parque del Retiro y actualmente está peatonalizada. Recibe su nombre del político zamorano Claudio Moyano, autor de la Ley de Instrucción Pública de 1855 y que tiene una estatua de bronce en el arranque de la subida. Al final de la cuesta hay otra estatua dedicada al escritor vasco Pío Baroja.",
+  "url": "https://es.wikipedia.org/wiki/Cuesta_de_Moyano",
+  "title_en": null
+ },
+ "fundacion-march": {
+  "title": "Fundación Juan March",
+  "qid": "Q29043218",
+  "lat": 40.43126888888889,
+  "lng": -3.681391111111111,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Fundaci%C3%B3n_Juan_March_%28Madrid%29_01.jpg/960px-Fundaci%C3%B3n_Juan_March_%28Madrid%29_01.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "La Fundación Juan March fue creada en 1955 por el financiero español Juan March Ordinas. Desarrolla sus actividades filantrópicas en el campo de la cultura humanística y científica.",
+  "url": "https://es.wikipedia.org/wiki/Fundaci%C3%B3n_Juan_March",
+  "title_en": "Fundación Juan March"
+ },
+ "museo-ferrocarril": {
+  "title": "Museo del Ferrocarril de Madrid",
+  "qid": "Q6034436",
+  "lat": 40.39833333333333,
+  "lng": -3.694166666666667,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/53/Madrid_-_Estaci%C3%B3n_Delicias_-_130120_123012.jpg/960px-Madrid_-_Estaci%C3%B3n_Delicias_-_130120_123012.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El Museo del Ferrocarril de Madrid, originalmente denominado Museo Nacional Ferroviario, es una institución dedicada a promover el conocimiento y la divulgación del ferrocarril en España, desde su origen hasta la actualidad. Inaugurado en 1984 en la histórica estación de Delicias, es gestionado por la Fundación de los Ferrocarriles Españoles. Desde el año 2009 forma parte de la Red de Museos de España, estando adscrito al Ministerio de Fomento.",
+  "url": "https://es.wikipedia.org/wiki/Museo_del_Ferrocarril_de_Madrid",
+  "title_en": "Railway Museum (Madrid)"
+ },
+ "puente-toledo": {
+  "title": "Puente de Toledo",
+  "qid": "Q3845616",
+  "lat": 40.399678,
+  "lng": -3.714941,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3c/Un_paseo_a_media_tarde_por_los_alrededores_del_r%C3%ADo_Manzanares_%2814170903005%29.jpg/960px-Un_paseo_a_media_tarde_por_los_alrededores_del_r%C3%ADo_Manzanares_%2814170903005%29.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El puente de Toledo se encuentra situado en la ciudad española de Madrid. Es de estilo barroco churrigueresco y fue construido entre los años 1718 y 1732 por el arquitecto Pedro de Ribera. Une ambas riberas del río Manzanares, enlazando la glorieta de Pirámides, en la orilla este, con la glorieta del Marqués de Vadillo, en la orilla oeste,​ sirviendo de límite entre los distritos de Arganzuela y Carabanchel.",
+  "url": "https://es.wikipedia.org/wiki/Puente_de_Toledo",
+  "title_en": "Bridge of Toledo (Madrid)"
+ },
+ "pasarela-arganzuela": {
+  "title": "Puente monumental de Arganzuela",
+  "qid": "Q6091341",
+  "lat": 40.397631,
+  "lng": -3.711689,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/54/Puente_monumental_del_parque_de_Arganzuela.jpg/960px-Puente_monumental_del_parque_de_Arganzuela.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El puente monumental de Arganzuela o puente de Perrault está situado en la ciudad española de Madrid. Cruza el río Manzanares y el parque Madrid Río, enlazando los distritos de Carabanchel y Arganzuela. Se encuentra ubicado entre el puente de Toledo y el puente de Praga.",
+  "url": "https://es.wikipedia.org/wiki/Puente_monumental_de_Arganzuela",
+  "title_en": "Arganzuela Footbridge"
+ },
+ "plaza-chamberi": {
+  "title": "Plaza de Chamberí",
+  "qid": "Q26789351",
+  "lat": 40.432758333333,
+  "lng": -3.6971611111111,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/81/Plaza_de_Chamber%C3%AD%2C_Madrid.jpg/960px-Plaza_de_Chamber%C3%AD%2C_Madrid.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "La plaza de Chamberí es una plaza de la ciudad de Madrid.",
+  "url": "https://es.wikipedia.org/wiki/Plaza_de_Chamber%C3%AD",
+  "title_en": null
+ },
+ "museo-arte-publico": {
+  "title": "Museo de Escultura al Aire Libre de La Castellana",
+  "qid": "Q2283575",
+  "lat": 40.43303,
+  "lng": -3.68748,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/69/La_Sirena_Varada_%28E._Chillida%29_01.jpg/960px-La_Sirena_Varada_%28E._Chillida%29_01.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El Museo de Escultura al Aire Libre de La Castellana,​ que alberga diecisiete esculturas abstractas de autores españoles, se encuentra ubicado en Madrid (España), bajo el puente Enrique de la Mata Gorostizaga, que une la calle de Juan Bravo con la de Eduardo Dato sobre el paseo de la Castellana, entre los distritos madrileños de Chamberí y Salamanca.\nFue ideado por el artista Eusebio Sempere, quien se encargó también del diseño de las barandillas del paso elevado. Las obras se distribuyen bajo el tablero del puente, destacando entre ellas la espléndida La sirena varada de Eduardo Chillida, que cuelga de la estructura del puente y en el otro lado del paseo de la Castellana las monumentales Unidades-Yunta de Pablo Serrano.",
+  "url": "https://es.wikipedia.org/wiki/Museo_de_Escultura_al_Aire_Libre_de_La_Castellana",
+  "title_en": null
+ },
+ "nuevos-ministerios": {
+  "title": "Nuevos Ministerios",
+  "qid": "Q2919276",
+  "lat": 40.443963888889,
+  "lng": -3.6934638888889,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/Nuevos_Ministerios_%28Madrid%29_01.jpg/960px-Nuevos_Ministerios_%28Madrid%29_01.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "Nuevos Ministerios constituyen un complejo gubernamental que alberga las sedes de varios ministerios en el distrito de Chamberí, en la ciudad de Madrid (España); en la actualidad, acoge la sede de los ministerios de Transportes y Movilidad Sostenible, de Trabajo y Economía Social, de Vivienda y Agenda Urbana y de Transición Ecológica y Reto Demográfico. Se encuentra situado en la manzana delimitada por el Paseo de la Castellana, las calles Raimundo Fernández Villaverde, Agustín de Betancourt y la plaza de San Juan de la Cruz.\nEl proyecto original es obra del arquitecto Secundino Zuazo Ugalde y desde muy pronto contó con el patrocinio del entonces ministro de Obras Públicas, Indalecio Prieto.​ Su construcción se inició en 1933 y, a pesar de que se vio paralizada durante la Guerra Civil, todo el complejo quedó finalizado en 1942.",
+  "url": "https://es.wikipedia.org/wiki/Nuevos_Ministerios",
+  "title_en": "Nuevos Ministerios"
+ },
+ "el-viso": {
+  "title": "El Viso (Madrid)",
+  "qid": "Q4778",
+  "lat": 40.44436667,
+  "lng": -3.68883056,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/%28El_Viso%29_Vista_de_Madrid_-_Salamanca_01_%28cropped%29.jpg/960px-%28El_Viso%29_Vista_de_Madrid_-_Salamanca_01_%28cropped%29.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El Viso es un barrio del distrito de Chamartín, situado en la zona noreste de la ciudad de Madrid. Toma su nombre de la colonia histórica realizada en el periodo 1933-1936 por el arquitecto e ingeniero de montes Rafael Bergamín Gutiérrez (generación del 25) con la colaboración de Luis Felipe Vivanco.​ La colonia constituye un ejemplo del racionalismo madrileño (al igual que en su momento algunos edificios de las Facultades de la Ciudad Universitaria).​ Se compone de casas unifamiliares de dos pisos, muchas de las cuales fueron habitadas por intelectuales de la época.\nEn la actualidad el barrio comprende, junto a El Viso, las antiguas colonias Parque Residencia e Iturbe IV. \nRepresenta un rectángulo casi perfecto limitado por el Paseo de la Castellana, la Avenida de Concha Espina, la Calle del Príncipe de Vergara y la Calle de María de Molina.",
+  "url": "https://es.wikipedia.org/wiki/El_Viso_(Madrid)",
+  "title_en": "El Viso (Madrid)"
+ },
+ "estacion-chamartin": {
+  "title": "Estación de Madrid-Chamartín-Clara Campoamor",
+  "qid": "Q23081",
+  "lat": 40.472222222222,
+  "lng": -3.6822222222222,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cd/Madrid_chamartin.jpg/960px-Madrid_chamartin.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "Madrid-Chamartín-Clara Campoamor​ es un complejo ferroviario de la ciudad de Madrid, situado en el distrito de Chamartín, en la zona norte de la capital española. Además de constituir un importante nudo ferroviario, Madrid-Chamartín funciona también como gran intercambiador de transportes, al prestar servicios de tren, metro y autobús.\nLa estación tiene sus orígenes en los planes esbozados durante la Segunda República para reorganizar la red arterial ferroviaria de Madrid, si bien su construcción no se completaría hasta transcurridas varias décadas.",
+  "url": "https://es.wikipedia.org/wiki/Estaci%C3%B3n_de_Madrid-Chamart%C3%ADn-Clara_Campoamor",
+  "title_en": "Madrid-Chamartín-Clara Campoamor railway station"
+ },
+ "azca": {
+  "title": "AZCA",
+  "qid": "Q300275",
+  "lat": 40.44916667,
+  "lng": -3.69277778,
+  "img": "https://upload.wikimedia.org/wikipedia/commons/b/b6/AZCA_en_2014._PNOA_cedido_por_%C2%A9_Instituto_Geogr%C3%A1fico_Nacional.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "desc": "AZCA, acrónimo de «Asociación Mixta de Compensación de la Manzana A de la Zona Comercial de la Avenida del Generalísimo», es el nombre por el que se conoce al distrito financiero y de negocios de Madrid (España), ubicado en el barrio de Cuatro Caminos, distrito de Tetuán. Se trata de una supermanzana rectangular de diecinueve hectáreas de superficie compuesta por edificios de oficinas comprendida entre las calles de Raimundo Fernández Villaverde y Orense, la avenida del General Perón y el paseo de la Castellana.​ Asimismo, dentro del ámbito se encuentran las plazas de Pablo Ruiz Picasso, Carlos Trías Beltrán y Manuel Gómez Moreno.\nEn la manzana viven mil ochocientos vecinos, acoge unos veintisiete mil trabajadores y cada día transitan unas cien mil personas.​ En las décadas de 1990 y 2000 experimentó un proceso de deterioro, abandono y degeneración urbana, que lo convirtieron en una zona insegura para el viandante, conocida como los «bajos de AZCA».",
+  "url": "https://es.wikipedia.org/wiki/AZCA",
+  "title_en": "AZCA"
+ },
+ "bravo-murillo": {
+  "title": "Calle de Bravo Murillo",
+  "qid": "Q5740815",
+  "lat": 40.448311111111,
+  "lng": -3.7035944444444,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9b/Calle_de_Bravo_Murillo%2C_Madrid.JPG/960px-Calle_de_Bravo_Murillo%2C_Madrid.JPG?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "La calle de Bravo Murillo es una calle de la ciudad española de Madrid. Su trayecto recorre los distritos de Chamberí y Tetuán en sentido sur-norte desde la glorieta de Quevedo, próxima al centro de la ciudad, hasta la plaza de Castilla.",
+  "url": "https://es.wikipedia.org/wiki/Calle_de_Bravo_Murillo",
+  "title_en": "Calle de Bravo Murillo"
+ },
+ "tetuan-victorias": {
+  "title": "Tetuán (Madrid)",
+  "qid": "Q1773540",
+  "lat": 40.460556,
+  "lng": -3.7,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/Nuevos_Ministerios_%282%29.jpg/960px-Nuevos_Ministerios_%282%29.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "Tetuán es un distrito perteneciente a la ciudad de Madrid (España) y organizado administrativamente en seis barrios: Bellas Vistas, Cuatro Caminos, Castillejos, Almenara, Valdeacederas y Berruguete.\nEl distrito de Tetuán es muy heterogéneo, tanto arquitectónica como socialmente. En él podemos encontrar desde modernos rascacielos, en el complejo AZCA, centro financiero de Madrid, hasta pequeñas casas de tipología rural o semirrural, herencia del barrio en sus orígenes, en la zona oeste del distrito.",
+  "url": "https://es.wikipedia.org/wiki/Tetu%C3%A1n_(Madrid)",
+  "title_en": "Tetuán, Madrid"
+ },
+ "capuchinos-pardo": {
+  "title": "Convento del Santísimo Cristo de El Pardo",
+  "qid": "Q2918236",
+  "lat": 40.51903611,
+  "lng": -3.78885,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0c/Madrid_-_El_Pardo%2C_Convento_del_Sant%C3%ADsimo_Cristo_del_Pardo%2C_Iglesia_de_Nuestra_Se%C3%B1ora_de_los_%C3%81ngeles_04.jpg/960px-Madrid_-_El_Pardo%2C_Convento_del_Sant%C3%ADsimo_Cristo_del_Pardo%2C_Iglesia_de_Nuestra_Se%C3%B1ora_de_los_%C3%81ngeles_04.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El convento de los Padres Capuchinos o convento de Nuestra Señora de los Ángeles (conocido popularmente como el Cristo de El Pardo, por la imagen que allí se venera) es un convento fundado a principios del siglo XVII y regentado desde entonces por la Orden de los Hermanos Menores Capuchinos.\nSe encuentra en el monte de El Pardo, a pocos kilómetros del pueblo del mismo nombre, dentro del término municipal de Madrid (España).",
+  "url": "https://es.wikipedia.org/wiki/Convento_del_Sant%C3%ADsimo_Cristo_de_El_Pardo",
+  "title_en": null
+ },
+ "quinta-pardo": {
+  "title": "Quinta del Duque del Arco",
+  "qid": "Q6095071",
+  "lat": 40.505483333333,
+  "lng": -3.7370111111111,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9f/Quinta-Duque-Arco-Pardo-Madrid-170518-2.jpg/960px-Quinta-Duque-Arco-Pardo-Madrid-170518-2.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "La Real Posesión de la Quinta de El Pardo, anterior propiedad del Duque del Arco, es un ejemplo de las casas de campo que algunos aristócratas de los siglos XVII y XVIII utilizaban para retirarse a las afueras de Madrid. Alberga un palacete, una casa de labor y unos jardines barrocos con esculturas y fuentes. \nSe encuentra en el monte de El Pardo, a 3,5 kilómetros del pueblo del mismo nombre, dentro del término municipal de Madrid (España).",
+  "url": "https://es.wikipedia.org/wiki/Quinta_del_Duque_del_Arco",
+  "title_en": null
+ },
+ "barrio-pilar": {
+  "title": "El Pilar (Madrid)",
+  "qid": "Q3773964",
+  "lat": 40.47822778,
+  "lng": -3.71154167,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/92/Avenida_de_Monforte_de_Lemos_%28Madrid%29_02.jpg/960px-Avenida_de_Monforte_de_Lemos_%28Madrid%29_02.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El Pilar, nombrado frecuentemente como barrio del Pilar, es un barrio situado en el noroeste de la ciudad de Madrid (España) perteneciente al distrito de Fuencarral-El Pardo.",
+  "url": "https://es.wikipedia.org/wiki/El_Pilar_(Madrid)",
+  "title_en": "El Pilar (Madrid)"
+ },
+ "parque-vaguada": {
+  "title": "Parque de la Vaguada (Madrid)",
+  "qid": "Q6062757",
+  "lat": 40.47904,
+  "lng": -3.71062,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7a/Teatro_de_Madrid_%28Espa%C3%B1a%29_02.jpg/960px-Teatro_de_Madrid_%28Espa%C3%B1a%29_02.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El parque de la Vaguada es un parque público ubicado en el Barrio del Pilar, en el distrito de Fuencarral-El Pardo, en Madrid, España.​ Se localiza entre las avenidas de Monforte de Lemos, la avenida de la Ilustración (M-30) y la avenida Betanzos.\nDentro del parque se encuentra la Junta del distrito de Fuencarral-El Pardo, el centro de salud La Vaguada, la biblioteca pública municipal José Saramago, el polideportivo público municipal La Vaguada y el Teatro de Madrid, actualmente clausurado. Se ubica junto al Centro Comercial La Vaguada.",
+  "url": "https://es.wikipedia.org/wiki/Parque_de_la_Vaguada_(Madrid)",
+  "title_en": null
+ },
+ "cerralbo": {
+  "title": "Museo Cerralbo",
+  "qid": "Q976019",
+  "lat": 40.423684,
+  "lng": -3.714577,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/Palacio_del_Marqu%C3%A9s_de_Cerralbo_%28Madrid%29_01.jpg/960px-Palacio_del_Marqu%C3%A9s_de_Cerralbo_%28Madrid%29_01.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El Museo Cerralbo es un museo nacional español con sede en Madrid (España) y que alberga la antigua colección privada de obras de arte, objetos arqueológicos y demás antigüedades reunida por Enrique de Aguilera y Gamboa (1845-1922), XVII marqués de Cerralbo, quien ejerció la política, pero, sobre todo, es recordado por su faceta como historiador y promotor de diversas excavaciones arqueológicas. El Cerralbo se considera un «museo de ambiente», es decir, presenta la singularidad de ser uno de los escasos palacios decimonónicos madrileños que todavía conserva su decoración original.​ \nEl marqués falleció en 1922 y, en su testamento, legó la gran mayoría de sus piezas de arqueología al Museo Arqueológico Nacional y al Museo Nacional de Ciencias Naturales,​ así como el resto de su colección y el palacio que la custodia —construido entre 1883 y 1893 por Alejandro Sureda, Luis Cabello Asó y Luis Cabello Lapiedra, sucesivamente—,​ al Estado, que aceptó el legado testamentario por real orden de 10 de abril y 24 de septiembre de 1924. Diez años después, se constituyó la Fundación Museo Cerralbo (O. M. de 22 de marzo de 1934).​ En su interior, se conservan más de 50 000 objetos, entre antigüedades, esculturas, mobiliario, diversas artes decorativas, dibujos y grabados o pinturas, donde sobresalen grandes nombres como el Greco, Zurbarán, Bronzino, Tintoretto o Van Dyck.",
+  "url": "https://es.wikipedia.org/wiki/Museo_Cerralbo",
+  "title_en": "Cerralbo Museum"
+ },
+ "ciudad-universitaria": {
+  "title": "Ciudad Universitaria de Madrid",
+  "qid": "Q49101402",
+  "lat": 40.444608333333,
+  "lng": -3.7278833333333,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/Facultad_de_Medicina_de_la_UCM_6.PNG/960px-Facultad_de_Medicina_de_la_UCM_6.PNG?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "La Ciudad Universitaria es un campus universitario de la ciudad española de Madrid, ubicado en el barrio de Ciudad Universitaria. Cuenta con el estatus de bien de interés cultural desde 1999, con la categoría de conjunto histórico.",
+  "url": "https://es.wikipedia.org/wiki/Ciudad_Universitaria_de_Madrid",
+  "title_en": "University City of Madrid"
+ },
+ "puente-segovia": {
+  "title": "Puente de Segovia",
+  "qid": "Q2838423",
+  "lat": 40.41416999706624,
+  "lng": -3.7228899615235775,
+  "img": "https://upload.wikimedia.org/wikipedia/commons/f/fc/Spain_Madrid_relief_map.png?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "desc": "El puente de Segovia es un monumento renacentista de la ciudad española de Madrid, obra del arquitecto Juan de Herrera. Se sitúa en el cruce de la calle de Segovia con el río Manzanares, punto que históricamente ha constituido uno de los principales accesos a la villa.\nEn 1996, el puente fue declarado bien de interés cultural con categoría de monumento.​​\nConocido antiguamente como «puente segoviana», las primeras referencias de esta construcción datan del siglo XIV, cuando el rey Alfonso XI de Castilla autorizó su edificación mediante dos cartas escritas en 1345 y en 1346.",
+  "url": "https://es.wikipedia.org/wiki/Puente_de_Segovia",
+  "title_en": "Puente de Segovia, Madrid"
+ },
+ "campamento": {
+  "title": "Campamento (Madrid)",
+  "qid": "Q31169",
+  "lat": 40.3875,
+  "lng": -3.78194444,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Barrio_de_Campamento_%28105%29%2C_Madrid.svg/960px-Barrio_de_Campamento_%28105%29%2C_Madrid.svg.png?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "Campamento es el nombre que recibe en la ciudad de Madrid el barrio n.o 105, uno de los siete que componen el distrito de Latina. Su nombre se debe a la presencia de cuarteles militares en él, actualmente en desuso y en proceso de recalificación como terreno urbanizable (Operación Campamento).​\nEl barrio está urbanizado en menos del 50%​ y sus barriadas se extienden de forma lineal en un margen de la Autovía de Extremadura.",
+  "url": "https://es.wikipedia.org/wiki/Campamento_(Madrid)",
+  "title_en": "Campamento (Madrid)"
+ },
+ "aguilas": {
+  "title": "Las Águilas",
+  "qid": "Q5971372",
+  "lat": 40.3775,
+  "lng": -3.76416667,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5d/Junta_Municipal_de_Latina_%2828_de_junio_de_2015%2C_Madrid%29_02b.jpg/960px-Junta_Municipal_de_Latina_%2828_de_junio_de_2015%2C_Madrid%29_02b.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "Las Águilas es un barrio de la ciudad de Madrid, ubicado en el distrito de Latina. Está delimitado, al noreste, por la avenida de los Poblados, al este, por el parque de las Cruces, al sur, por la avenida de la Aviación y, al noroeste, por el paseo de Extremadura.",
+  "url": "https://es.wikipedia.org/wiki/Las_%C3%81guilas",
+  "title_en": "Las Águilas"
+ },
+ "palacio-vista-alegre": {
+  "title": "Palacio de Vista Alegre",
+  "qid": "Q6058261",
+  "lat": 40.382144444444,
+  "lng": -3.7387277777778,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Madrid_-_Finca_de_Vista_Alegre%2C_Palacio_de_Vista_Alegre_%28Palacio_Nuevo_del_Duque_de_Ri%C3%A1nsares_o_del_Marqu%C3%A9s_de_Salamanca%29_10.jpg/960px-Madrid_-_Finca_de_Vista_Alegre%2C_Palacio_de_Vista_Alegre_%28Palacio_Nuevo_del_Duque_de_Ri%C3%A1nsares_o_del_Marqu%C3%A9s_de_Salamanca%29_10.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El palacio de Vista Alegre está ubicado dentro de la Finca de Vista Alegre en el distrito de Carabanchel (Madrid). Se le conoce también como Palacio Nuevo de la Finca de Vista Alegre, Palacio del Marqués de Salamanca o Palacio del Duque de Riánsares.",
+  "url": "https://es.wikipedia.org/wiki/Palacio_de_Vista_Alegre",
+  "title_en": null
+ },
+ "plaza-vista-alegre": {
+  "title": "Palacio Vistalegre",
+  "qid": "Q1635932",
+  "lat": 40.386111,
+  "lng": -3.738889,
+  "img": "https://upload.wikimedia.org/wikipedia/commons/d/da/Palacio_Vistalegre_01.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "desc": "El Palacio Vistalegre Arena es un edificio multiusos de la ciudad española de Madrid, concebido inicialmente como plaza de toros, situado en el barrio de Vista Alegre, en el distrito de Carabanchel.",
+  "url": "https://es.wikipedia.org/wiki/Palacio_Vistalegre",
+  "title_en": "Palacio Vistalegre"
+ },
+ "colonia-prensa": {
+  "title": "Colonia de la Prensa",
+  "qid": "Q5777910",
+  "lat": 40.37830556,
+  "lng": -3.74788889,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/aa/Colonia_de_la_prensa.jpg/960px-Colonia_de_la_prensa.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "La Colonia de la Prensa es un área residencial histórica de la ciudad de Madrid, ubicada en el distrito de Carabanchel. Construida a principios del siglo XX, fue concebida como urbanización de chalés vacacionales y de retiro por miembros del gremio periodístico, de ahí su nombre.",
+  "url": "https://es.wikipedia.org/wiki/Colonia_de_la_Prensa",
+  "title_en": null
+ },
+ "parque-lineal": {
+  "title": "Parque Lineal del Manzanares",
+  "qid": "Q6062319",
+  "lat": 40.356233333333,
+  "lng": -3.6768027777778,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4d/%C2%AE_MADRID_P.L.M._PARQUE_MANZANARES_PANO_NOR-ESTE_-_panoramio_%288%29_%28colour%2C_contrast%2C_tone%29.jpg/960px-%C2%AE_MADRID_P.L.M._PARQUE_MANZANARES_PANO_NOR-ESTE_-_panoramio_%288%29_%28colour%2C_contrast%2C_tone%29.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El Parque Lineal del Manzanares es un espacio natural vertebrado por el río Manzanares desde su cruce con la M-30 hasta su desembocadura en el río Jarama. Aunque urbanizado en una mínima parte al norte (parque de Ricardo Bofill) es hoy en día un depósito arqueológico y natural de la Comunidad de Madrid.",
+  "url": "https://es.wikipedia.org/wiki/Parque_Lineal_del_Manzanares",
+  "title_en": "Manzanares Park"
+ },
+ "orcasitas": {
+  "title": "Orcasitas",
+  "qid": "Q3773941",
+  "lat": 40.36861111,
+  "lng": -3.71194444,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/Barrio_de_Orcasitas_%28121%29%2C_Madrid.svg/960px-Barrio_de_Orcasitas_%28121%29%2C_Madrid.svg.png?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "Orcasitas es un barrio de Madrid (España), situado en el distrito de Usera. Cuenta con una extensión de poco más de un kilómetro cuadrado (110 hectáreas), y una población de 23 482 habitantes.",
+  "url": "https://es.wikipedia.org/wiki/Orcasitas",
+  "title_en": "Orcasitas"
+ },
+ "moscardo": {
+  "title": "Moscardó (Madrid)",
+  "qid": "Q11937679",
+  "lat": 40.39,
+  "lng": -3.70777778,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/Moscard%C3%B3_%28Madrid%29.JPG/960px-Moscard%C3%B3_%28Madrid%29.JPG?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "Moscardó es un barrio perteneciente al distrito de Usera de Madrid. Limita al noroeste con la A-42 (tras esta comienza el distrito de Carabanchel), al noreste con el río Manzanares y al sur con la calle Marcelo Usera.",
+  "url": "https://es.wikipedia.org/wiki/Moscard%C3%B3_(Madrid)",
+  "title_en": "Moscardó"
+ },
+ "almendrales": {
+  "title": "Estación de Almendrales",
+  "qid": "Q543261",
+  "lat": 40.3833,
+  "lng": -3.6982,
+  "img": null,
+  "desc": null,
+  "url": "https://es.wikipedia.org/wiki/Estaci%C3%B3n_de_Almendrales",
+  "title_en": null
+ },
+ "zofio": {
+  "title": "Zofío",
+  "qid": "Q71751",
+  "lat": 40.37916667,
+  "lng": -3.71527778,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/28/El_Zof%C3%ADo.JPG/960px-El_Zof%C3%ADo.JPG?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "Zofío o El Zofío es un barrio de Madrid (España) situado en distrito de Usera. Limita al norte con Marcelo Usera, al oeste con la A-42, al este con Rafaela Ybarra y al sur con la avenida de los Poblados.",
+  "url": "https://es.wikipedia.org/wiki/Zof%C3%ADo",
+  "title_en": "El Zofío"
+ },
+ "entrevias": {
+  "title": "Entrevías",
+  "qid": "Q71756",
+  "lat": 40.375544444444,
+  "lng": -3.6717083333333,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fd/Plaza_Centro_C%C3%ADvico%2C_El_Pozo_del_T%C3%ADo_Raimundo%2C_Madrid.jpg/960px-Plaza_Centro_C%C3%ADvico%2C_El_Pozo_del_T%C3%ADo_Raimundo%2C_Madrid.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "Entrevías es un barrio de la ciudad de Madrid, ubicado en el distrito de Puente de Vallecas. El nombre del barrio se debe a que este se encuentra en buena parte rodeado por las vías del tren, las cuales constituyen sus límites (si se recorren en el sentido antihorario) desde el este, pasando por el norte, hasta el suroeste. Según el padrón municipal del Ayuntamiento de Madrid de 2021 está habitado por 35.315 personas.",
+  "url": "https://es.wikipedia.org/wiki/Entrev%C3%ADas",
+  "title_en": "Entrevías"
+ },
+ "san-diego": {
+  "title": "San Diego (Madrid)",
+  "qid": "Q11946851",
+  "lat": 40.39638889,
+  "lng": -3.66722222,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/%28San_Diego%29_Vista_panor%C3%A1mica_de_la_estaci%C3%B3n_de_Abro%C3%B1igal_-_2013-Nov-09_-_by_Stromare_%28cropped%29.jpg/960px-%28San_Diego%29_Vista_panor%C3%A1mica_de_la_estaci%C3%B3n_de_Abro%C3%B1igal_-_2013-Nov-09_-_by_Stromare_%28cropped%29.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "San Diego es un barrio administrativo de la ciudad de Madrid, enclavado en el distrito de Puente de Vallecas.",
+  "url": "https://es.wikipedia.org/wiki/San_Diego_(Madrid)",
+  "title_en": "San Diego (Madrid)"
+ },
+ "numancia": {
+  "title": "Numancia (Madrid)",
+  "qid": "Q10338144",
+  "lat": 40.40083333,
+  "lng": -3.66305556,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a5/Madrid_SkyLine_-_Cerro_del_T%C3%ADo_P%C3%ADo.jpg/960px-Madrid_SkyLine_-_Cerro_del_T%C3%ADo_P%C3%ADo.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "Numancia es un barrio administrativo de la ciudad de Madrid, enclavado en el distrito de Puente de Vallecas.",
+  "url": "https://es.wikipedia.org/wiki/Numancia_(Madrid)",
+  "title_en": "Numancia (Madrid)"
+ },
+ "albufera": {
+  "title": "Avenida de la Albufera",
+  "qid": "Q5714221",
+  "lat": 40.391477777778,
+  "lng": -3.6531694444444,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/Teresa_Rivero_%28357460446%29.jpg/960px-Teresa_Rivero_%28357460446%29.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "La avenida de la Albufera es una calle de la ciudad española de Madrid, prolongación natural de la avenida de la Ciudad de Barcelona tras su cruce con la M-30. Funciona como eje vertebrador del distrito Puente de Vallecas.",
+  "url": "https://es.wikipedia.org/wiki/Avenida_de_la_Albufera",
+  "title_en": null
+ },
+ "pavones": {
+  "title": "Pavones",
+  "qid": "Q71760",
+  "lat": 40.39472222,
+  "lng": -3.63305556,
+  "img": "https://upload.wikimedia.org/wikipedia/commons/3/3f/Madrid_pavones_calle_valdebernardo.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "desc": "Pavones es un barrio que ocupa la zona sureste del distrito de Moratalaz, en la ciudad de Madrid. \nSus límites los conforman las calles Luis de Hoyos Sáinz, Laponia, la autopista M-40 y las avenidas del Mediterráneo (A-3) y Fuente Carrantona.",
+  "url": "https://es.wikipedia.org/wiki/Pavones",
+  "title_en": "Pavones"
+ },
+ "marroquina": {
+  "title": "Marroquina",
+  "qid": "Q11935636",
+  "lat": 40.41111111,
+  "lng": -3.64111111,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fc/Otra_toma_del_parque_y_Jos%C3%A9_Bergam%C3%ADn_%284547107795%29.jpg/960px-Otra_toma_del_parque_y_Jos%C3%A9_Bergam%C3%ADn_%284547107795%29.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "Marroquina es un barrio administrativo de Madrid, enclavado en el distrito de Moratalaz, al este del municipio. Tiene una superficie de 1,79 km² y un perímetro aproximado de 6747 metros.​\nZona predominantemente residencial, cuenta con zonas verdes como el parque de la Cuña Verde de O'Donnell (que separa las viviendas del barrio de la M-23),​ el de Moratalaz o los jardines de Dionisio Ridruejo.​ En enero de 2022 contaba con una población de &&&&&&&&&&026402.&&&&&026 402 habitantes.​ Limita al oeste con el barrio de Media Legua, al este con Horcajo y al sur con Vinateros.",
+  "url": "https://es.wikipedia.org/wiki/Marroquina",
+  "title_en": "Marroquina"
+ },
+ "media-legua": {
+  "title": "Media Legua",
+  "qid": "Q27188880",
+  "lat": 38.09730757121188,
+  "lng": -0.9129166299280116,
+  "img": "https://upload.wikimedia.org/wikipedia/commons/1/1c/Media_Legua.JPG?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "desc": "Media Legua es una pedanía compartida por los municipios de Orihuela y Redován, en la comarca de la Vega Baja del Segura, en Alicante.​ Se encuentra a casi un kilómetro del núcleo urbano de Redován, aunque casi enclavado en el límite de Orihuela.​ Las poblaciones más cercanas a Media Legua, además de Redován, son La Campaneta y Molins.​\nCuenta con 236 habitantes.​ En sus orígenes, hay quienes ubican aquí un antiguo poblamiento de principios de la Edad Media, denominado Azanet, de origen bereber.\nSu nombre actual proviene de ser un poblamiento urbano emplazado en una antigua finca agrícola situada a media legua de distancia de la ciudad de Orihuela, y que se llamó así para diferenciarla de la otra finca denominada Los Cuartos (dos cuartos de legua) en el término de Redován.",
+  "url": "https://es.wikipedia.org/wiki/Media_Legua",
+  "title_en": null
+ },
+ "vinateros": {
+  "title": "Vinateros",
+  "qid": "Q10391533",
+  "lat": 40.40305556,
+  "lng": -3.64027778,
+  "img": "https://upload.wikimedia.org/wikipedia/commons/a/ae/%28Vinateros%29_Atardecer_desde_Moratalaz_16_%283636478818%29_%28cropped%29.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "desc": "Vinateros es un barrio del distrito de Moratalaz, en Madrid. Limita al norte con el barrio de Marroquina, al sur con Fontarrón y al este con Pavones. Tiene la forma trapezoidal delimitado por la avenida de Moratalaz, la Hacienda de Pavones, Fuente Carrantona y Pico de Artilleros-Luis de Hoyos Sanz.",
+  "url": "https://es.wikipedia.org/wiki/Vinateros",
+  "title_en": "Vinateros"
+ },
+ "torrespana": {
+  "title": "Torrespaña",
+  "qid": "Q989733",
+  "lat": 40.42051222222222,
+  "lng": -3.664196111111111,
+  "img": "https://upload.wikimedia.org/wikipedia/commons/2/23/Torrespana-Tower-Madrid.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "desc": "Torrespaña (conocida popularmente como El Pirulí) es una torre de telecomunicaciones de Madrid, España. Se encuentra en la confluencia de la calle de O'Donnell con la calle del Alcalde Sainz de Baranda y próxima a la autovía de circunvalación M-30. Es propiedad de la empresa Cellnex Telecom, habiendo pertenecido previamente a RTVE y a Retevisión.",
+  "url": "https://es.wikipedia.org/wiki/Torrespa%C3%B1a",
+  "title_en": "Torrespaña"
+ },
+ "mural-feminista": {
+  "title": "Mural feminista de la Concepción",
+  "qid": "Q105018190",
+  "lat": 40.43711111111111,
+  "lng": -3.6485555555555553,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e2/Panor%C3%A1mica_mural_Polideportivo_Municipal_la_Concepci%C3%B3n.jpg/960px-Panor%C3%A1mica_mural_Polideportivo_Municipal_la_Concepci%C3%B3n.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El mural feminista de la Concepción es una pintura mural titulada La unión hace la fuerza, que fue realizada por el colectivo español Unlogic Crew en el muro exterior del centro deportivo municipal del barrio de la Concepción de Madrid y que muestra los rostros de quince mujeres referentes del feminismo. El proyecto se seleccionó en 2018 a través de una consulta en Decide Madrid (la plataforma de participación ciudadana del Ayuntamiento de Madrid) y su diseño fue elaborado con la participación del vecindario del distrito de Ciudad Lineal.\nEn 2021, el mural fue vandalizado por colectivos de extrema derecha.",
+  "url": "https://es.wikipedia.org/wiki/Mural_feminista_de_la_Concepci%C3%B3n",
+  "title_en": "Concepción Feminist Mural"
+ },
+ "concepcion": {
+  "title": "Concepción (Madrid)",
+  "qid": "Q11915156",
+  "lat": 40.44027778,
+  "lng": -3.64805556,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/41/Barrio_de_la_Concepci%C3%B3n_-_panoramio_%28cropped%29.jpg/960px-Barrio_de_la_Concepci%C3%B3n_-_panoramio_%28cropped%29.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "Concepción es un barrio al este de la ciudad de Madrid. Se encuentra dentro del distrito número 15 de Ciudad Lineal. Sus calles principales son la Avenida Donostiarra, Arturo Soria y la calle Virgen de la Alegría.",
+  "url": "https://es.wikipedia.org/wiki/Concepci%C3%B3n_(Madrid)",
+  "title_en": "Concepción (Madrid)"
+ },
+ "san-pascual": {
+  "title": "San Pascual (Madrid)",
+  "qid": "Q165612",
+  "lat": 40.4425,
+  "lng": -3.6525,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/44/Edificio_AGF_%28Albacete_5%2C_Madrid%29_01.jpg/960px-Edificio_AGF_%28Albacete_5%2C_Madrid%29_01.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El barrio de San Pascual, codificado como 15.5, forma parte del distrito de la Ciudad Lineal, Madrid, situado al noreste de la ciudad.",
+  "url": "https://es.wikipedia.org/wiki/San_Pascual_(Madrid)",
+  "title_en": "San Pascual (Madrid)"
+ },
+ "colina": {
+  "title": "Colina (Madrid)",
+  "qid": "Q18475981",
+  "lat": 40.45666667,
+  "lng": -3.66194444,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c5/Colina_%28Madrid%29_%28cropped%29.JPG/960px-Colina_%28Madrid%29_%28cropped%29.JPG?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "Colina es un barrio del distrito de Ciudad Lineal, en Madrid. Tiene una superficie de 55,97 hectáreas y una población de 6.288 habitantes (2018). Limita al norte con el barrio de Atalaya, al sur con San Juan Bautista,  al este con Canillas (Hortaleza) y al oeste con Hispanoamérica (Chamartín).",
+  "url": "https://es.wikipedia.org/wiki/Colina_(Madrid)",
+  "title_en": "Colina (Madrid)"
+ },
+ "costillares": {
+  "title": "Costillares",
+  "qid": "Q2998461",
+  "lat": null,
+  "lng": null,
+  "img": "https://upload.wikimedia.org/wikipedia/commons/e/e4/Costillares.png?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "desc": "Joaquín Rodríguez llamado Costillares fue un torero español, nacido en Sevilla el 20 de julio de 1743 y fallecido en Madrid el 27 de enero de 1800. Es considerado el padre del espectáculo taurino moderno, como innovador y organizador de la lidia.",
+  "url": "https://es.wikipedia.org/wiki/Costillares",
+  "title_en": "Costillares"
+ },
+ "alfredo-di-stefano": {
+  "title": "Estadio Alfredo Di Stéfano",
+  "qid": "Q645670",
+  "lat": 40.47666667,
+  "lng": -3.61416667,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2a/Estadio_Alfredo_Di_St%C3%A9fano_diciembre_2021.jpg/960px-Estadio_Alfredo_Di_St%C3%A9fano_diciembre_2021.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El Estadio Alfredo Di Stéfano es un estadio de fútbol español inaugurado en Madrid el 9 de mayo de 2006. Adopta este nombre en homenaje a Alfredo Di Stéfano, jugador del Real Madrid Club de Fútbol en los años 50 y 60, y considerado uno de los mejores jugadores de la historia del fútbol mundial. El recinto es la sede de todos los partidos oficiales del primer equipo femenino del club y del primer filial masculino, el Real Madrid Castilla Club de Fútbol.",
+  "url": "https://es.wikipedia.org/wiki/Estadio_Alfredo_Di_St%C3%A9fano",
+  "title_en": "Alfredo Di Stéfano Stadium"
+ },
+ "canillas": {
+  "title": "Canillas (municipio)",
+  "qid": "Q16542489",
+  "lat": 40.45,
+  "lng": -3.63333333,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0a/Ermita_de_San_Blas%2C_espada%C3%B1a%2C_Canillas%2C_Madrid%2C_Espa%C3%B1a%2C_2015.JPG/960px-Ermita_de_San_Blas%2C_espada%C3%B1a%2C_Canillas%2C_Madrid%2C_Espa%C3%B1a%2C_2015.JPG?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "Canillas fue un municipio de España perteneciente a la provincia de Madrid.",
+  "url": "https://es.wikipedia.org/wiki/Canillas_(municipio)",
+  "title_en": null
+ },
+ "sanchinarro": {
+  "title": "Sanchinarro",
+  "qid": "Q3076623",
+  "lat": 40.4907301,
+  "lng": -3.6565818,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7f/Avenida_de_Francisco_Pi_i_Margall_%28Madrid%29_01.jpg/960px-Avenida_de_Francisco_Pi_i_Margall_%28Madrid%29_01.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "Sanchinarro es un área residencial del barrio de Valdefuentes, en el distrito de Hortaleza de la ciudad de Madrid\n(España). Surgió a raíz del Programa de Actuación Urbanística (PAU), derivado a su vez del Plan General de Ordenación Urbana de 1997. Se comenzó a construir a principios de los años 2000.",
+  "url": "https://es.wikipedia.org/wiki/Sanchinarro",
+  "title_en": null
+ },
+ "valdefuentes": {
+  "title": "Valdefuentes (Madrid)",
+  "qid": "Q10388714",
+  "lat": 40.49055556,
+  "lng": -3.62388889,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f0/La_caba%C3%B1a%2C_Parque_Forestal_de_Valdebebas_2015.03.26.jpg/960px-La_caba%C3%B1a%2C_Parque_Forestal_de_Valdebebas_2015.03.26.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "Valdefuentes es un barrio del distrito de Hortaleza de Madrid. Abarca las áreas residenciales de Sanchinarro, Valdebebas, Virgen del Cortijo, Las Cárcavas y el Encinar de los Reyes. En la zona oeste del barrio se encuentra el parque empresarial de Manoteras y al sur de éste, la conocida como Isla de Chamartín, una zona residencial compuesta por varios rascacielos.",
+  "url": "https://es.wikipedia.org/wiki/Valdefuentes_(Madrid)",
+  "title_en": "Valdefuentes (Madrid)"
+ },
+ "san-cristobal": {
+  "title": "San Cristóbal (Madrid)",
+  "qid": "Q390457",
+  "lat": 40.34333333,
+  "lng": -3.68861111,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d8/Madrid_-_Villaverde%2C_Iglesia_de_Nuestra_Se%C3%B1ora_de_los_Desamparados_02.jpg/960px-Madrid_-_Villaverde%2C_Iglesia_de_Nuestra_Se%C3%B1ora_de_los_Desamparados_02.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "San Cristóbal de los Ángeles es un barrio de la ciudad de Madrid, ubicado en el extremo sur del distrito de Villaverde. Cuenta con una población de 16 675 habitantes en 2022, de los cuales cerca del 36 % eran inmigrantes, siendo uno de los barrios de Madrid con mayor porcentaje.​\nEl barrio ha estado históricamente aislado, al ser un rectángulo limitado al norte y este por el ferrocarril, al sur por el antiguo Parque de Automovilismo del Ejército de Tierra y al oeste por la antigua carretera de Andalucía (A-4), actualmente avenida de Andalucía. En 2017, un 25% de las viviendas del barrio estaban desocupadas.​\nHoy en día es uno de los barrios mejor comunicados por medio de diferentes transportes.",
+  "url": "https://es.wikipedia.org/wiki/San_Crist%C3%B3bal_(Madrid)",
+  "title_en": "San Cristóbal (Madrid)"
+ },
+ "butarque": {
+  "title": "Butarque",
+  "qid": "Q390453",
+  "lat": 40.34361111,
+  "lng": -3.67972222,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/Barrio_Butarque.jpg/960px-Barrio_Butarque.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "Butarque es un barrio del distrito de Villaverde, perteneciente al municipio de Madrid, en España.\nTras San Andrés es el barrio más extenso del distrito de Villaverde. \nPróximo a la ribera del río Manzanares, con importantes zonas arqueológicas y naturales sin igual en el Municipio de Madrid.",
+  "url": "https://es.wikipedia.org/wiki/Butarque",
+  "title_en": "Butarque"
+ },
+ "los-angeles": {
+  "title": "Los Ángeles (Madrid)",
+  "qid": "Q390462",
+  "lat": 40.35666667,
+  "lng": -3.69916667,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Calle_Manojo_de_Rosas.jpg/960px-Calle_Manojo_de_Rosas.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "Los Ángeles (conocido popular y extraoficialmente como Ciudad de los Ángeles, Ciudad Los Ángeles o La City) es un barrio de la ciudad de Madrid, ubicado en el distrito de Villaverde.",
+  "url": "https://es.wikipedia.org/wiki/Los_%C3%81ngeles_(Madrid)",
+  "title_en": "Los Ángeles (Madrid)"
+ },
+ "los-rosales": {
+  "title": "Los Rosales (Madrid)",
+  "qid": "Q10319807",
+  "lat": 40.360280555556,
+  "lng": -3.6855611111111,
+  "img": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Madrid_los_rosales_conservatorio.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "desc": "Los Rosales es un barrio de la ciudad de Madrid, ubicado en el distrito de Villaverde. Contaba con una población de 33.000 habitantes en 2001. Destaca la zona residencial denominada Villaverde Bajo.",
+  "url": "https://es.wikipedia.org/wiki/Los_Rosales_(Madrid)",
+  "title_en": "Los Rosales (Madrid)"
+ },
+ "san-pedro-vincula": {
+  "title": "Iglesia de San Pedro ad Víncula (Vallecas)",
+  "qid": "Q5117128",
+  "lat": 40.380464,
+  "lng": -3.620179,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/29/Iglesia_de_San_Pedro_ad_V%C3%ADncula_%28Madrid%29_01.jpg/960px-Iglesia_de_San_Pedro_ad_V%C3%ADncula_%28Madrid%29_01.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "La iglesia de San Pedro ad Víncula se encuentra en Madrid, emplazada en el extremo norte del barrio administrativo Casco histórico de Villa de Vallecas, en el antiguo pueblo de Vallecas, en la calle de Sierra Gorda,  con vuelta a la plaza de Juan Malasaña, del distrito de Villa de Vallecas.\nLa iglesia fue diseñada por Juan de Herrera en el año 1600, siendo la actual torre un añadido de Ventura Rodríguez en el año 1775. Fue restaurada por Francisco Caballero Lasierra en el año 1965 y proyectada y después restaurada de nuevo por José Miguel Ávila Jalvo entre los años 1996 y 2002.",
+  "url": "https://es.wikipedia.org/wiki/Iglesia_de_San_Pedro_ad_V%C3%ADncula_(Vallecas)",
+  "title_en": "Church of St Peter ad Vincula, Madrid"
+ },
+ "mercamadrid": {
+  "title": "Mercamadrid",
+  "qid": "Q6010695",
+  "lat": null,
+  "lng": null,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/Mercamadrid2.jpg/960px-Mercamadrid2.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "Mercamadrid es la plataforma de distribución, comercialización, transformación y departamento de  logística de alimentos frescos más importante de España y un referente internacional. Inició su andadura en el año 1982 y está gestionada por la empresa pública Mercamadrid, S.A.\nLos accionistas de Mercamadrid son el Ayuntamiento de Madrid (51,255%) y la empresa pública estatal Mercasa (48,745%), dependiente de la Sociedad Estatal de Participaciones Industriales (SEPI) y del Ministerio de Agricultura de España.",
+  "url": "https://es.wikipedia.org/wiki/Mercamadrid",
+  "title_en": "Mercamadrid"
+ },
+ "valdecarros": {
+  "title": "Valdecarros",
+  "qid": "Q5481981",
+  "lat": null,
+  "lng": null,
+  "img": null,
+  "desc": "El topónimo Valdecarros puede hacer referencia a:\n\nValdecarros, un municipio español de la provincia de Salamanca, en Castilla y León;\nValdecarros, un proyecto urbanístico de la ciudad española de Madrid, en la Comunidad de Madrid; o\nValdecarros, una estación del Metro de Madrid, en la ciudad española Madrid, Comunidad de Madrid.",
+  "url": "https://es.wikipedia.org/wiki/Valdecarros",
+  "title_en": null
+ },
+ "ambroz": {
+  "title": "Ambroz (Madrid)",
+  "qid": "Q11905294",
+  "lat": 40.41666667,
+  "lng": -3.58333333,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a8/Facultad_de_Ciencias_Jur%C3%ADdicas_y_Sociales_%28URJC%29.JPG/960px-Facultad_de_Ciencias_Jur%C3%ADdicas_y_Sociales_%28URJC%29.JPG?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "Ambroz fue el nombre de un barrio de Madrid ubicado en el distrito de Vicálvaro.​​ En 2017, al redelimitarse internamente el distrito, el ámbito de Ambroz fue incluido dentro del barrio de Casco Histórico de Vicálvaro.​\nEl barrio tomó su nombre de una antigua localidad existente en las proximidades y que, ya en el diccionario geográfico de Pascual Madoz (1846-1850) se describía como un despoblado, cuya parroquia se denominaba San Benito Abad (en la parroquia histórica de Santa María de la Antigua de Vicálvaro, se conservan restos de esta antigua iglesia). Las últimas ruinas que quedaban en pie de este pueblo fueron destruidas en las obras de la Autopista Radial 3.",
+  "url": "https://es.wikipedia.org/wiki/Ambroz_(Madrid)",
+  "title_en": "Ambroz (Madrid)"
+ },
+ "canaveral": {
+  "title": "El Cañaveral",
+  "qid": "Q5821309",
+  "lat": 40.401433333333,
+  "lng": -3.5526166666667,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/af/El_Ca%C3%B1averal._01_%28cropped%29.JPG/960px-El_Ca%C3%B1averal._01_%28cropped%29.JPG?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El Cañaveral es un barrio administrativo de Madrid perteneciente al distrito de Vicálvaro.​ Creado en 2017, anteriormente el nombre hacía referencia al nombre del desarrollo urbanístico de la zona, parte entonces del barrio de Casco Histórico de Vicálvaro. Según los datos del INE de 2021, esta área ocuparía el segundo puesto entre las zonas de mayor potencial urbanístico de España solo por detrás del también madrileño barrio de Valdebebas. Actualmente El Cañaveral cuenta con una población empadronada de 27.014 vecinos en agosto de 2026.",
+  "url": "https://es.wikipedia.org/wiki/El_Ca%C3%B1averal",
+  "title_en": "El Cañaveral"
+ },
+ "las-rosas": {
+  "title": "Rosas (Madrid)",
+  "qid": "Q18880469",
+  "lat": 40.4262,
+  "lng": -3.5948,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/Rosas._205._Barrios_de_Madrid.svg/960px-Rosas._205._Barrios_de_Madrid.svg.png?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "Rosas es un barrio administrativo de Madrid situado al este de la ciudad y perteneciente al distrito de San Blas-Canillejas. En él se encuentran la colonia de Las Musas, los terrenos donde se ubica el Estadio Metropolitano y parte del ámbito de Las Rosas (el Ensanche Este de San Blas), encontrándose el resto de este dividido entre los barrios de Arcos y Pueblo Nuevo.",
+  "url": "https://es.wikipedia.org/wiki/Rosas_(Madrid)",
+  "title_en": "Rosas (Madrid)"
+ },
+ "simancas": {
+  "title": "Simancas (Madrid)",
+  "qid": "Q10371626",
+  "lat": 40.4346,
+  "lng": -3.625,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/49/%28Simancas%29_Aerial-SouthEast_Madrid_%28cropped%29.jpg/960px-%28Simancas%29_Aerial-SouthEast_Madrid_%28cropped%29.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "Simancas es un barrio de la ciudad de Madrid, ubicado en el distrito de San Blas-Canillejas. Tiene una superficie de 227,80 hectáreas y una población de 28.836 habitantes (Mayo de 2022).​ \nLimita al norte con el barrio del Salvador, al sur con los barrios de Hellín y Amposta, al este con el barrio de Canillejas y al oeste con el barrio de Pueblo Nuevo.\nEstá delimitado al sur por la avenida de Arcentales, al norte por la calle de Alcalá, al oeste por la calle Hermanos García Noblejas y al este por la avenida de Canillejas a Vicálvaro.",
+  "url": "https://es.wikipedia.org/wiki/Simancas_(Madrid)",
+  "title_en": "Simancas (Madrid)"
+ },
+ "arcos": {
+  "title": "Arcos (Madrid)",
+  "qid": "Q9627876",
+  "lat": 40.4206,
+  "lng": -3.6171,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3a/Arcos_%28Madrid%29%2C_panor%C3%A1mica.JPG/960px-Arcos_%28Madrid%29%2C_panor%C3%A1mica.JPG?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "Arcos es un barrio del distrito de San Blas-Canillejas, en la ciudad española de Madrid. Contaba con una población de 23 274 habitantes en 2015. Lo delimitan la calle de los Hermanos García Noblejas, la calle de Pobladura del Valle, la avenida de Canillejas a Vicálvaro y la autopista M-40.",
+  "url": "https://es.wikipedia.org/wiki/Arcos_(Madrid)",
+  "title_en": "Arcos (Madrid)"
+ },
+ "ciudad-pegaso": {
+  "title": "Ciudad Pegaso",
+  "qid": "Q5770693",
+  "lat": 40.446508333333,
+  "lng": -3.5953611111111,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/89/Madrid_-_Barrio_de_Rejas%2C_Ciudad_Pegaso_1.JPG/960px-Madrid_-_Barrio_de_Rejas%2C_Ciudad_Pegaso_1.JPG?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "Ciudad Pegaso es una colonia del barrio de Rejas, perteneciente al distrito de San Blas-Canillejas en Madrid, que se inauguró en 1956 con el objetivo de facilitar viviendas a los trabajadores de la empresa estatal ENASA. Se encuentra en el punto kilométrico 10 de la autovía A-2, en su confluencia con el final de la calle de Alcalá.\nEl barrio toma el nombre de la marca de camión más conocida de los que fabricaba ENASA: Pegaso. Las viviendas las alquilaba la empresa a sus empleados por un precio casi simbólico; años después, fueron vendidas a los inquilinos.",
+  "url": "https://es.wikipedia.org/wiki/Ciudad_Pegaso",
+  "title_en": null
+ },
+ "castillo-alameda": {
+  "title": "Castillo de La Alameda",
+  "qid": "Q8342365",
+  "lat": 40.45871944,
+  "lng": -3.5925,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/Castillo_de_La_Alameda_%28Madrid%29_05.jpg/960px-Castillo_de_La_Alameda_%28Madrid%29_05.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El castillo-fortaleza de la Alameda​ (también referido, erróneamente,​ como castillo de Barajas​ o castillo de los Zapata​) está situado en el barrio de Alameda de Osuna dentro del actual distrito madrileño de Barajas, en la Comunidad de Madrid (España). Fue erigido en el siglo XV en la aldea de La Alameda, una aldea de repoblación del siglo XIII.​\nEn su día, fue considerado \n\n \n\nA partir de 1996 se realizaron en el lugar y en sus inmediaciones excavaciones arqueológicas que revelaron restos de asentamientos desde la Edad del Bronce hasta la época romana​ y en la actualidad se encuentra parcialmente restaurado y desde 2010​ su museo está abierto al público.​\nSu titularidad corresponde al Ayuntamiento de Madrid, que lo adquirió por cesión urbanística. Esta construcción, que se encontraba en estado de semirruina, es una de las cuatro fortificaciones medievales que se conservan dentro del término municipal madrileño, junto con el castillo de Viñuelas y los restos de la muralla árabe y cristiana de la capital.",
+  "url": "https://es.wikipedia.org/wiki/Castillo_de_La_Alameda",
+  "title_en": null
+ },
+ "plaza-mayor-barajas": {
+  "title": "Barajas",
+  "qid": "Q807230",
+  "lat": 40.470196,
+  "lng": -3.58489,
+  "img": null,
+  "desc": null,
+  "url": "https://es.wikipedia.org/wiki/Barajas",
+  "title_en": null
+ },
+ "ifema": {
+  "title": "IFEMA",
+  "qid": "Q860060",
+  "lat": 40.46778,
+  "lng": -3.617295,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bd/Logo_IFEMA_Madrid.png/960px-Logo_IFEMA_Madrid.png?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "IFEMA (acrónimo de Institución Ferial de Madrid), cuya denominación oficial es IFEMA Madrid es un consorcio que organiza ferias, salones y congresos en su Recinto Ferial y Palacio de Congresos ubicado en el distrito de Barajas, al nordeste de la ciudad de Madrid, España. El consorcio está formado por la Comunidad de Madrid (31 %), el Ayuntamiento (31 %), la Cámara de Comercio (31 %) y la Fundación Montemadrid (7 %).​ Tiene unos 400 trabajadores.​ \nEn sus eventos se dan cita empresas españolas y extranjeras para generar relaciones comerciales, multiplicar sus contactos y presentar todas las novedades.\nAnualmente celebra más de 123 ferias, que ocupan cerca de 1,5 millones de metros cuadrados netos de exposición, con la participación de más de 33 200 empresas y más de 4 millones de visitantes, de los cuales el 26 % son internacionales.",
+  "url": "https://es.wikipedia.org/wiki/IFEMA",
+  "title_en": "IFEMA"
  }
 }
