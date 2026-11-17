@@ -76,7 +76,7 @@
     if (!window.MPAuth?.enabled) return debug ? '<div class="acct off">Inicio de sesión sin configurar (js/config.js)</div>' : '';
     const u = MPAuth.user;
     if (!u) return `<div class="acct"><div class="acct-txt"><b>Guarda tu pasaporte</b><small>Inicia sesión para no perder tu progreso y usarlo en otros dispositivos.</small></div>
-      <button class="gbtn" id="login">${GOOGLE_G}<span>Continuar con Google</span></button></div>`;
+      <button class="gbtn" id="login">${GOOGLE_G}<span>Entrar con Google</span></button></div>`;
     const m = u.user_metadata || {}, name = m.full_name || m.name || u.email;
     const st = { syncing: 'Sincronizando…', ok: 'Guardado en la nube', error: 'Error al sincronizar · reintentar', idle: 'Conectado' }[syncState];
     return `<div class="acct in">${m.avatar_url ? `<img class="avatar" src="${esc(m.avatar_url)}" alt="" referrerpolicy="no-referrer">` : `<span class="avatar">${esc((name || '?')[0].toUpperCase())}</span>`}
