@@ -1,5 +1,6 @@
 (() => {
-  const GPS_RADIUS = 150;                 // metros para validar visita
+  // Radio para validar por GPS (m). Parques y estadios son grandes: margen mayor. Se suma la precisión del GPS (máx. 150 m).
+  const GPS_RADIUS = 300, GPS_RADIUS_BIG = 600, BIG_TYPES = ['Parque', 'Estadio'];
   const KEY = 'mp.visits.v1';
   const RED = '#D6202C';
   const STYLE_URL = 'https://tiles.openfreemap.org/styles/positron';   // gratis, sin API key
@@ -125,7 +126,9 @@
     map.on('click', (e) => {
       if (placing) return setFake([e.lngLat.lat, e.lngLat.lng]);
       const f = map.queryRenderedFeatures(e.point, { layers: ['d-fill'] })[0];
-      if (f && (!current || current.fid !== f.id)) openDistrict(f.properties.id);
+      if (!f) return;
+      if (current && current.fid === f.id) goHome();        // tap en el distrito abierto: deseleccionar
+      else openDistrict(f.properties.id);
     });
     map.on('mouseenter', 'd-fill', () => (map.getCanvas().style.cursor = 'pointer'));
     map.on('mouseleave', 'd-fill', () => (map.getCanvas().style.cursor = ''));
@@ -248,6 +251,15 @@
   let pressT, longPressed = false;
   $('#locate').addEventListener('pointerdown', () => { longPressed = false; pressT = setTimeout(() => { longPressed = true; setDebug(!debug); }, 700); });
   ['pointerup', 'pointerleave'].forEach((ev) => $('#locate').addEventListener(ev, () => clearTimeout(pressT)));
+  $('#share').onclick = async () => {
+    if (!DISTRICTS.length) return;
+    $('#share').classList.add('loading');
+    try {
+      const r = await MPShare.share({ districts: DISTRICTS, places: PLACES, lvl });
+      if (r === 'downloaded') toast('Imagen descargada');
+    } catch (e) { console.error(e); toast('No se pudo generar la imagen', true); }
+    $('#share').classList.remove('loading');
+  };
   $('#debug-off').onclick = () => setDebug(false);
   $('#debug-move').onclick = () => setPlacing(!placing);
   $('#debug-reset').onclick = () => { visits = {}; save(); refresh(); toast('Progreso borrado'); };
@@ -306,6 +318,19 @@
     row.classList.add('sel', 'flash');
     body.scrollTo({ top: row.offsetTop - body.clientHeight / 3, behavior: 'smooth' });
   }
+  // Selección desde la lista: resalta fila y pin, y centra el pin si queda fuera del hueco visible
+  function selectFromList(id) {
+    selId = id;
+    document.querySelectorAll('.pin.sel, .place.sel').forEach((x) => x.classList.remove('sel', 'flash'));
+    const pin = document.querySelector(`.pin[data-id="${id}"]`);
+    const row = document.getElementById('pl-' + id);
+    row?.classList.add('sel');
+    if (pin) { pin.classList.remove('flash'); void pin.offsetWidth; pin.classList.add('sel', 'flash'); }
+    const p = PLACES.find((x) => x.id === id), pt = map.project([p.coords[1], p.coords[0]]), pd = pad();
+    const h = $('#app').offsetHeight, w = $('#app').offsetWidth;
+    if (pt.x < pd.left || pt.x > w - pd.right || pt.y < pd.top || pt.y > h - pd.bottom)
+      map.easeTo({ center: [p.coords[1], p.coords[0]], padding: pd, duration: 500 });
+  }
 
   function goHome() {
     current = null; setSheet('peek'); body.scrollTop = 0; refresh();
@@ -340,14 +365,16 @@
       ${Object.entries(zones).map(([z, ps]) => `${z ? `<h3 class="zone">${z}</h3>` : ''}${ps.map(placeRow).join('')}`).join('')}`
       : '<div class="empty-state">Aún no hay lugares en este distrito.<br>Próximamente.</div>'}`;
     $('#back').onclick = goHome;
-    body.querySelectorAll('.chk').forEach((el) => (el.onclick = () => onCheck(el)));
+    body.querySelectorAll('.chk').forEach((el) => (el.onclick = (e) => { e.stopPropagation(); onCheck(el); }));
+    body.querySelectorAll('.place').forEach((el) => (el.onclick = () => selectFromList(el.id.slice(3))));
   }
 
   async function onCheck(el) {
     const id = el.dataset.id, a = +el.dataset.a, l = lvl(id);
     const place = PLACES.find((p) => p.id === id);
     if (a === 1) {
-      if (l >= 1) delete visits[id];
+      if (l === 2) return toast('Confirmado por GPS · no se puede quitar');
+      if (l === 1) delete visits[id];
       else { visits[id] = { lvl: 1, t: Date.now() }; toast('Marcado como visitado'); }
     } else {
       if (l === 2) return toast('Ya verificado por GPS');
@@ -355,7 +382,8 @@
       try {
         const pos = await getPos(); showMe(pos);
         const d = dist(pos.coords, place.coords);
-        if (d <= GPS_RADIUS + Math.min(pos.acc || 0, 100)) {
+        const radius = (BIG_TYPES.includes(place.type) ? GPS_RADIUS_BIG : GPS_RADIUS) + Math.min(pos.acc || 0, 150);
+        if (d <= radius) {
           visits[id] = { ...visits[id], lvl: 2, gpsAt: Date.now(), gps: pos.coords };
           toast('✓✓ Ubicación confirmada');
         } else toast(`Estás a ${fmtDist(d)} · acércate más`, true);

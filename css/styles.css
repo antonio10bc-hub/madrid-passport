@@ -172,7 +172,6 @@ h1 { font-size: 28px; font-weight: 700; letter-spacing: -.02em; margin-top: 2px;
 .place::after { content: ''; position: absolute; left: 10px; right: 10px; bottom: 0; height: 1px; background: var(--line); }
 .place:last-child::after, .place.sel::after { display: none; }
 .place.sel { background: rgba(214,32,44,.05); }
-.place.sel::before { content: ''; position: absolute; left: 0; top: 14px; bottom: 14px; width: 3px; border-radius: 2px; background: var(--red); }
 .place.flash { animation: flash 1.4s ease-out; }
 @keyframes flash { 0%, 25% { background: rgba(214,32,44,.16); } 100% { background: rgba(214,32,44,.045); } }
 .pin { transition: transform .2s; }
@@ -181,3 +180,10 @@ h1 { font-size: 28px; font-weight: 700; letter-spacing: -.02em; margin-top: 2px;
 .pin.enter { animation: pin-in .18s ease-out; }
 @keyframes pin-in { from { opacity: 0; transform: scale(.6); } }
 .pin.sel.enter { animation: none; }
+
+.place { cursor: pointer; }
+.locate.share { top: calc(var(--top) + 122px); }
+.locate.share svg { stroke-linejoin: round; }
+.locate.loading svg { animation: pulse 1s infinite; }
+.pin.flash { animation: pin-flash .9s ease-out; }
+@keyframes pin-flash { 0% { box-shadow: 0 0 0 0 rgba(214,32,44,.5); } 100% { box-shadow: 0 0 0 14px rgba(214,32,44,0); } }
