@@ -24,6 +24,7 @@ export async function loadGeo() {
   });
   PLACES.forEach((p) => {
     const d = districtOf[p.id];
+    p._search = norm(`${p.name} ${p.zone || ''} ${p.type}`);
     if (!d) return console.warn('Sin distrito:', p.id);
     const pt = ll(p);
     const b = d.barrios.find((x) => inBbox(pt, x.bbox) && inGeom(pt, x.feature.geometry));

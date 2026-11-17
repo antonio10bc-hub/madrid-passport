@@ -17,7 +17,7 @@ const labelOrder = () => (LABEL_ORDER ||= [...DISTRICTS].sort((x, y) => y.places
 
 function renderRing() {
   const pr = progress(PLACES);
-  const pct = Math.round((pr.done / pr.total) * 100);
+  const pct = pr.done ? Math.max(1, Math.round((pr.done / pr.total) * 100)) : 0;   // con una visita ya se ve avance
   $('#ring-fg').style.strokeDashoffset = 100 - pct;
   $('#ring-txt').textContent = pct + '%';
 }

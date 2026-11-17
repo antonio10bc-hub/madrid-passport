@@ -1842,10 +1842,10 @@
  "media-legua": {
   "title": "Media Legua",
   "qid": "Q27188880",
-  "lat": 38.09730757121188,
-  "lng": -0.9129166299280116,
-  "img": "https://upload.wikimedia.org/wikipedia/commons/1/1c/Media_Legua.JPG?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
-  "desc": "Media Legua es una pedanía compartida por los municipios de Orihuela y Redován, en la comarca de la Vega Baja del Segura, en Alicante.​ Se encuentra a casi un kilómetro del núcleo urbano de Redován, aunque casi enclavado en el límite de Orihuela.​ Las poblaciones más cercanas a Media Legua, además de Redován, son La Campaneta y Molins.​\nCuenta con 236 habitantes.​ En sus orígenes, hay quienes ubican aquí un antiguo poblamiento de principios de la Edad Media, denominado Azanet, de origen bereber.\nSu nombre actual proviene de ser un poblamiento urbano emplazado en una antigua finca agrícola situada a media legua de distancia de la ciudad de Orihuela, y que se llamó así para diferenciarla de la otra finca denominada Los Cuartos (dos cuartos de legua) en el término de Redován.",
+  "lat": null,
+  "lng": null,
+  "img": null,
+  "desc": null,
   "url": "https://es.wikipedia.org/wiki/Media_Legua",
   "title_en": null
  },
@@ -1914,10 +1914,10 @@
   "qid": "Q2998461",
   "lat": null,
   "lng": null,
-  "img": "https://upload.wikimedia.org/wikipedia/commons/e/e4/Costillares.png?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
-  "desc": "Joaquín Rodríguez llamado Costillares fue un torero español, nacido en Sevilla el 20 de julio de 1743 y fallecido en Madrid el 27 de enero de 1800. Es considerado el padre del espectáculo taurino moderno, como innovador y organizador de la lidia.",
-  "url": "https://es.wikipedia.org/wiki/Costillares",
-  "title_en": "Costillares"
+  "img": null,
+  "desc": null,
+  "url": null,
+  "title_en": null
  },
  "alfredo-di-stefano": {
   "title": "Estadio Alfredo Di Stéfano",
@@ -2025,8 +2025,8 @@
   "lat": null,
   "lng": null,
   "img": null,
-  "desc": "El topónimo Valdecarros puede hacer referencia a:\n\nValdecarros, un municipio español de la provincia de Salamanca, en Castilla y León;\nValdecarros, un proyecto urbanístico de la ciudad española de Madrid, en la Comunidad de Madrid; o\nValdecarros, una estación del Metro de Madrid, en la ciudad española Madrid, Comunidad de Madrid.",
-  "url": "https://es.wikipedia.org/wiki/Valdecarros",
+  "desc": null,
+  "url": null,
   "title_en": null
  },
  "ambroz": {
