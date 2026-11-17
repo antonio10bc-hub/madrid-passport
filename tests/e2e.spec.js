@@ -6,6 +6,8 @@ test.beforeEach(async ({ context, page }) => {
   await context.route(/openfreemap|wikipedia|wikimedia|supabase|posthog/, (r) => r.abort());
   await context.grantPermissions(['geolocation']);
   await context.setGeolocation(SOL);
+  // Sin onboarding salvo en su propio test (?ob=1)
+  await context.addInitScript(() => { if (location.search.includes('ob=1')) { if (!sessionStorage.getItem('ob')) { sessionStorage.setItem('ob', '1'); localStorage.removeItem('mp.onboarded'); } } else localStorage.setItem('mp.onboarded', '1'); });
   await page.goto('./');
   await expect(page.locator('.row')).toHaveCount(21);
 });
@@ -15,6 +17,31 @@ const openCentro = async (page) => {
   await expect(page.locator('#title')).toHaveText('Centro');
 };
 const markVisited = (page, id) => page.locator(`#pl-${id} .chk[data-a="1"]`).click();
+
+test('onboarding: 4 pasos con continuar, puntitos y fin con ubicación; no vuelve a salir', async ({ page }) => {
+  await page.goto('./?ob=1');
+  const ob = page.locator('#onboard');
+  await expect(ob).toBeVisible();
+  await expect(ob.locator('.ob-dots i.on')).toHaveCount(1);
+  for (let i = 0; i < 3; i++) { await page.locator('#ob-next').click(); await page.waitForTimeout(500); }
+  await expect(page.locator('#ob-dots i').nth(3)).toHaveClass(/on/);
+  await expect(ob).toContainText('consigue el doble check dorado');
+  await expect(page.locator('#ob-next')).toHaveText('Activar ubicación y empezar');
+  await page.locator('#ob-next').click();
+  await expect(ob).toHaveCount(0);
+  await page.reload();
+  await page.waitForTimeout(800);
+  await expect(page.locator('#onboard')).toHaveCount(0);
+});
+
+test('onboarding: saltar y volver a verlo desde el Diario', async ({ page }) => {
+  await page.goto('./?ob=1');
+  await page.locator('#ob-skip').click();
+  await expect(page.locator('#onboard')).toHaveCount(0);
+  await page.locator('[data-tab="diary"]').click();
+  await page.locator('#ob-again').click();
+  await expect(page.locator('#onboard')).toBeVisible();
+});
 
 test('portada: 21 distritos, progreso a 0 y leyenda del mapa de calor', async ({ page }) => {
   await expect(page.locator('#title')).toHaveText('Explora Madrid');

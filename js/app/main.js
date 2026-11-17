@@ -10,6 +10,7 @@ import { render, initLevel } from './views.js';
 import { initPages, unlockedNow, levelState } from './pages.js';
 import { initSync } from './sync.js';
 import { initAnalytics, track, setPerson } from './analytics.js';
+import { maybeOnboarding } from './onboarding.js';
 
 // ---------- Compartir ----------
 // Compartir: siempre en formato historia (9:16). Con un distrito abierto se elige distrito o todo Madrid; si no, directo.
@@ -56,6 +57,7 @@ async function boot() {
     if (!Object.keys(S.badges).length) S.badges = unlockedNow(true);
     initLevel();
     render();
+    maybeOnboarding();
     const p = PLACES.filter((x) => lvl(x.id) > 0);
     track('app_opened', { visited: p.length, gps: p.filter((x) => lvl(x.id) === 2).length, barrios: BARRIOS.filter((b) => blvl(b) > 0).length, badges: Object.keys(S.badges).length });
     setPerson({ places_visited: p.length, lang });

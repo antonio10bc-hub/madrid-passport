@@ -9,6 +9,11 @@ const TYPES = {
 };
 const DICT = {
   es: {
+    'ob.aria': 'Introducción', 'ob.skip': 'Saltar', 'ob.next': 'Continuar', 'ob.start': 'Activar ubicación y empezar', 'ob.later': 'Ahora no', 'ob.again': 'Ver la introducción',
+    'ob.1.t': 'Explora Madrid', 'ob.1.d': '21 distritos, 128 barrios y más de 200 lugares esperando tu sello.',
+    'ob.2.t': 'Marca lo que visitas', 'ob.2.d': 'Toca ✓ cuando pases por un sitio y tu pasaporte se irá llenando.',
+    'ob.3.t': 'Confírmalo con GPS', 'ob.3.d': 'Si estás allí, consigue el doble check dorado.',
+    'ob.4.t': 'Sube de nivel', 'ob.4.d': 'Gana puntos, desbloquea sellos y pinta tu mapa. De Turista a Gato.',
     'title.home': 'Explora Madrid', 'tab.diary': 'Diario', 'tab.map': 'Mapa', 'tab.badges': 'Logros',
     'aria.progress': 'Progreso', 'aria.locate': 'Mi ubicación', 'aria.share': 'Compartir mi mapa', 'aria.dismiss': 'Descartar',
     'suggest.ok': 'Confirmar', today: 'Hoy', yesterday: 'Ayer', nodate: 'Sin fecha', back: 'Volver',
@@ -47,6 +52,11 @@ const DICT = {
     'debug.nopos': 'sin posición', 'debug.set': 'Posición falsa fijada', 'debug.need': 'Pulsa «Mover» y toca el mapa para fijar tu posición falsa', 'debug.reset': 'Progreso borrado',
   },
   en: {
+    'ob.aria': 'Introduction', 'ob.skip': 'Skip', 'ob.next': 'Continue', 'ob.start': 'Enable location and start', 'ob.later': 'Not now', 'ob.again': 'Watch the intro again',
+    'ob.1.t': 'Explore Madrid', 'ob.1.d': '21 districts, 128 neighbourhoods and 200+ places waiting for your stamp.',
+    'ob.2.t': 'Mark what you visit', 'ob.2.d': 'Tap ✓ when you pass by a place and your passport fills up.',
+    'ob.3.t': 'Confirm it with GPS', 'ob.3.d': "If you're there, get the golden double check.",
+    'ob.4.t': 'Level up', 'ob.4.d': 'Earn points, unlock stamps and paint your map. From Tourist to Gato.',
     'title.home': 'Explore Madrid', 'tab.diary': 'Diary', 'tab.map': 'Map', 'tab.badges': 'Badges',
     'aria.progress': 'Progress', 'aria.locate': 'My location', 'aria.share': 'Share my map', 'aria.dismiss': 'Dismiss',
     'suggest.ok': 'Confirm', today: 'Today', yesterday: 'Yesterday', nodate: 'No date', back: 'Back',

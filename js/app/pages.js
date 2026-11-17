@@ -7,6 +7,7 @@ import { placeItem, bindPlaceItems, render, goHome, TYPES } from './views.js';
 import { renderAccount } from './sync.js';
 import { track } from './analytics.js';
 import { notify } from './notify.js';
+import { showOnboarding } from './onboarding.js';
 import { setSheet } from './sheet.js';
 
 const page = $('#page'), pageBody = $('#page-body');
@@ -87,6 +88,7 @@ function renderDiary() {
       <div class="stat"><b>${bp.done}<span>/${bp.total}</span></b><small>${t('k.barrios')}</small></div>
       <div class="stat"><b>${dComplete}<span>/${DISTRICTS.length}</span></b><small>${t('districts')}</small></div></div>
     ${list || `<div class="empty-state">${t('diary.empty')}</div>`}
+    <button class="ob-again" id="ob-again">${MP_ICON('compass', 'ico')}<span>${t('ob.again')}</span></button>
     <div class="lang-row">${MP_ICON('globe')}<span>${t('language')}</span><div class="lang-seg">${LANGS.map(([k, n]) => `<button class="chip ${lang === k ? 'on' : ''}" data-lang="${k}">${n}</button>`).join('')}</div></div>`;
 }
 
@@ -174,6 +176,7 @@ export function renderPage() {
     dayOpen[k] = !sec.classList.contains('open');
     renderPage();
   }));
+  $('#ob-again')?.addEventListener('click', () => showOnboarding('diary'));
   pageBody.querySelectorAll('[data-lang]').forEach((el) => (el.onclick = () => {
     if (el.dataset.lang === lang) return;
     setLang(el.dataset.lang); track('language_changed', { lang });
