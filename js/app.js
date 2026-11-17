@@ -502,16 +502,42 @@
         <div class="stat"><b>${dComplete}<span>/${DISTRICTS.length}</span></b><small>Distritos</small></div></div>
       ${list || '<div class="empty-state">Tu diario está vacío.<br>Marca tu primer lugar para empezar.</div>'}`;
   }
+  // Logros como sellos de pasaporte (tinta con textura). Formas y giro fijos por logro.
+  const GOLD_BADGES = new Set(['gps-1', 'gps-10', 'madrid-entero', 'distrito-5']);
+  const inkIcon = (name, col, size, sw) => MP_ICON(name).replace('class="ico"', `class="ico" width="${size}" height="${size}" style="color:${col};stroke-width:${sw}"`);
+  function stampSVG(b, i, n, goal, date) {
+    const shape = ['circle', 'rect', 'oct'][i % 3];
+    const rot = [-9, 6, -4, 11, -7, 3, 8, -12, 5, -3, 9, -6, 7, -10, 4, -5, 10][i % 17];
+    const OUT = { circle: '<circle cx="70" cy="70" r="58"/>', rect: '<rect x="14" y="28" width="112" height="84" rx="10"/>', oct: '<polygon points="48,12 92,12 128,48 128,92 92,128 48,128 12,92 12,48"/>' }[shape];
+    const IN = { circle: '<circle cx="70" cy="70" r="44"/>', rect: '<rect x="22" y="36" width="96" height="68" rx="6"/>', oct: '<polygon points="52,22 88,22 118,52 118,88 88,118 52,118 22,88 22,52"/>' }[shape];
+    if (!date) {
+      return `<svg viewBox="0 0 140 140" class="pp-svg"><g fill="none" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="4 5" opacity=".45">${OUT}</g>
+        <g transform="translate(58 50)" opacity=".4">${inkIcon(b.icon, 'var(--muted)', 24, 1.6)}</g>
+        <text x="70" y="96" text-anchor="middle" font-size="11" font-weight="700" fill="var(--muted)">${Math.min(n, goal)}/${goal}</text></svg>`;
+    }
+    const col = GOLD_BADGES.has(b.id) ? 'var(--gold)' : 'var(--red)';
+    const top = shape === 'circle'
+      ? `<path id="arc-${b.id}" d="M 70 70 m -51 0 a 51 51 0 1 1 102 0 a 51 51 0 1 1 -102 0" fill="none"/><text font-size="9.5" font-weight="800" letter-spacing="2.6" fill="${col}"><textPath href="#arc-${b.id}">MADRID PASSPORT · MADRID PASSPORT ·</textPath></text>`
+      : `<text x="70" y="${shape === 'rect' ? 50 : 40}" text-anchor="middle" font-size="9" font-weight="800" letter-spacing="2" fill="${col}">MADRID</text>`;
+    const d = new Date(date), when = `${d.getDate()} ${d.toLocaleDateString('es-ES', { month: 'short' }).replace('.', '').toUpperCase()} ${d.getFullYear()}`;
+    return `<svg viewBox="0 0 140 140" class="pp-svg"><defs><filter id="ink-${b.id}"><feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="2" seed="${i + 2}" result="n"/>
+        <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.3 1.75" result="m"/><feComposite in="SourceGraphic" in2="m" operator="in"/></filter></defs>
+      <g transform="rotate(${rot} 70 70)" filter="url(#ink-${b.id})" opacity=".92">
+        <g fill="none" stroke="${col}"><g stroke-width="3.5">${OUT}</g><g stroke-width="1.5">${IN}</g></g>${top}
+        <g transform="translate(55 ${shape === 'circle' ? 46 : 54})">${inkIcon(b.icon, col, 30, 2.2)}</g>
+        <text x="70" y="${shape === 'circle' ? 92 : 98}" text-anchor="middle" font-size="${shape === 'circle' ? 8.5 : 10}" font-weight="800" letter-spacing="${shape === 'circle' ? 1 : 1.5}" fill="${col}">${when}</text></g></svg>`;
+  }
   function renderBadges() {
     const s = badgeState();
     const got = MP_BADGES.filter((b) => badgesUnlocked[b.id]).length;
-    return `<div class="sec-sub">${got}/${MP_BADGES.length} conseguidos</div><div class="badges">${MP_BADGES.map((b) => {
-      const [n, goal] = b.test(s), on = !!badgesUnlocked[b.id];
-      return `<div class="bdg ${on ? 'on' : ''}"><span class="bi">${MP_ICON(b.icon)}</span><strong>${esc(b.name)}</strong>
-        <small>${on ? 'Conseguido ' + fmtDate(badgesUnlocked[b.id]) : esc(b.desc)}</small>
-        ${on ? '' : `<div class="bar"><i style="width:${goal ? Math.min(100, (n / goal) * 100) : 0}%"></i></div><small class="bn">${Math.min(n, goal)}/${goal}</small>`}</div>`;
-    }).join('')}</div>`;
+    // Conseguidos primero (por fecha), luego pendientes por % de avance
+    const items = MP_BADGES.map((b, i) => { const [n, goal] = b.test(s); return { b, i, n, goal, date: badgesUnlocked[b.id] }; })
+      .sort((x, y) => (x.date && y.date ? x.date - y.date : x.date ? -1 : y.date ? 1 : y.n / y.goal - x.n / x.goal));
+    return `<div class="pp-head"><span>Mis sellos</span><span>${got} / ${MP_BADGES.length}</span></div>
+      <div class="pp-grid">${items.map(({ b, i, n, goal, date }) => `<div class="pp ${date ? 'on' : ''}" title="${esc(b.desc)}">
+        ${stampSVG(b, i, n, goal, date)}<strong>${esc(b.name)}</strong><small>${date ? esc(b.desc) : esc(b.desc)}</small></div>`).join('')}</div>`;
   }
+
   function renderPage() {
     if (tab === 'map') return;
     $('#page-title').textContent = tab === 'diary' ? 'Diario' : 'Logros';

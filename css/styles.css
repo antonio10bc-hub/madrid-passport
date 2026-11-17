@@ -329,3 +329,15 @@ h1 { font-size: 28px; font-weight: 700; letter-spacing: -.02em; margin-top: 2px;
   background: var(--handle); border-radius: 10px; border: 3px solid transparent; background-clip: padding-box;
 }
 #sheet-body::-webkit-scrollbar-thumb:hover, #page-body::-webkit-scrollbar-thumb:hover { background-color: var(--muted); }
+
+/* ---------- Logros: sellos de pasaporte ---------- */
+.pp-head { display: flex; justify-content: space-between; font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--muted); border-bottom: 1px dashed var(--line); padding-bottom: 8px; margin: 2px 0 8px; }
+.pp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 10px; }
+.pp { text-align: center; padding-bottom: 8px; }
+.pp-svg { width: 132px; height: 132px; display: block; margin: 0 auto; }
+.pp strong { display: block; font-size: 13px; font-weight: 600; margin-top: -2px; }
+.pp small { display: block; font-size: 11px; color: var(--muted); margin-top: 1px; line-height: 1.3; padding: 0 6px; }
+.pp:not(.on) strong { color: var(--muted); }
+.pp.on .pp-svg { animation: stamp-in .35s cubic-bezier(.2,1.4,.4,1) both; }
+@keyframes stamp-in { from { transform: scale(1.25); opacity: 0; } }
