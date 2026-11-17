@@ -123,7 +123,7 @@
       'line-width': ['case', ['boolean', ['feature-state', 'sel'], false], 2.5, 1.2],
     }});
     map.on('click', (e) => {
-      if (debug) return setFake([e.lngLat.lat, e.lngLat.lng]);
+      if (placing) return setFake([e.lngLat.lat, e.lngLat.lng]);
       const f = map.queryRenderedFeatures(e.point, { layers: ['d-fill'] })[0];
       if (f && (!current || current.fid !== f.id)) openDistrict(f.properties.id);
     });
@@ -134,7 +134,7 @@
       const el = document.createElement('button');
       el.className = 'd-label' + (d.places.length ? '' : ' empty');
       el.innerHTML = `<span>${d.short}</span>`;
-      el.onclick = (e) => { e.stopPropagation(); if (!debug) openDistrict(d.id); };
+      el.onclick = (e) => { e.stopPropagation(); if (!placing) openDistrict(d.id); };
       d.labelMarker = new maplibregl.Marker({ element: el }).setLngLat(d.label).addTo(map);
     });
     map.on('moveend', fitLabels);
@@ -189,7 +189,7 @@
       el.className = `pin v${l}`;
       el.innerHTML = l === 1 ? ICON_CHECK : l === 2 ? ICON_GPS : '';
       el.onclick = (e) => {
-        if (debug) return;                      // en debug el tap va al mapa (fija GPS falso)
+        if (placing) return;                    // colocando GPS falso: el tap va al mapa
         e.stopPropagation();
         if (sheet.dataset.state === 'min') setSheet('half');
         const row = document.getElementById('pl-' + p.id);
@@ -201,24 +201,32 @@
 
   // ---------- Geolocalización ----------
   // Modo debug: GPS falso. Se activa con ?debug=1 o manteniendo pulsado el botón de ubicación.
-  let debug = false, fakePos = null;
+  let debug = false, fakePos = null, placing = false;   // placing: el próximo tap en el mapa fija la posición
   try { debug = new URLSearchParams(location.search).has('debug') || localStorage.getItem('mp.debug') === '1'; fakePos = JSON.parse(localStorage.getItem('mp.fake')); } catch {}
   function setDebug(on) {
     debug = on;
     try { localStorage.setItem('mp.debug', on ? '1' : '0'); } catch {}
     $('#debug').hidden = !on;
-    if (on) { toast('GPS falso activado · toca el mapa'); if (fakePos) showMe({ coords: fakePos, acc: 5 }); }
-    else toast('GPS falso desactivado');
+    if (on) { toast('GPS falso activado'); if (fakePos) showMe({ coords: fakePos, acc: 5 }); setPlacing(!fakePos); }
+    else { setPlacing(false); toast('GPS falso desactivado'); }
+  }
+  function setPlacing(on) {
+    placing = on;
+    $('#debug').classList.toggle('placing', on);
+    $('#app').classList.toggle('placing', on);   // etiquetas y pines no capturan el tap
+    $('#debug-move').textContent = on ? 'Cancelar' : 'Mover';
+    $('#debug-pos').textContent = on ? 'toca el mapa para colocarte' : fakePos ? `${fakePos[0].toFixed(4)}, ${fakePos[1].toFixed(4)}` : 'sin posición';
   }
   function setFake(c) {
     fakePos = c;
     try { localStorage.setItem('mp.fake', JSON.stringify(c)); } catch {}
     showMe({ coords: c, acc: 5 });
-    $('#debug-pos').textContent = `${c[0].toFixed(4)}, ${c[1].toFixed(4)}`;
+    setPlacing(false);
+    toast('Posición falsa fijada');
     if (current) renderDistrict();
   }
   const getPos = () => new Promise((res, rej) => {
-    if (debug) return fakePos ? res({ coords: fakePos, acc: 5 }) : rej(new Error('Toca el mapa para fijar tu posición falsa'));
+    if (debug) return fakePos ? res({ coords: fakePos, acc: 5 }) : rej(new Error('Pulsa «Mover» y toca el mapa para fijar tu posición falsa'));
     if (!navigator.geolocation) return rej(new Error('GPS no disponible'));
     navigator.geolocation.getCurrentPosition(
       (p) => res({ coords: [p.coords.latitude, p.coords.longitude], acc: p.coords.accuracy }),
@@ -234,6 +242,7 @@
   $('#locate').addEventListener('pointerdown', () => { longPressed = false; pressT = setTimeout(() => { longPressed = true; setDebug(!debug); }, 700); });
   ['pointerup', 'pointerleave'].forEach((ev) => $('#locate').addEventListener(ev, () => clearTimeout(pressT)));
   $('#debug-off').onclick = () => setDebug(false);
+  $('#debug-move').onclick = () => setPlacing(!placing);
   $('#debug-reset').onclick = () => { visits = {}; save(); refresh(); toast('Progreso borrado'); };
   $('#locate').onclick = async () => {
     if (longPressed) return;
@@ -359,7 +368,7 @@
 
   setSheet('peek');
   $('#debug').hidden = !debug;
-  if (fakePos) $('#debug-pos').textContent = `${fakePos[0].toFixed(4)}, ${fakePos[1].toFixed(4)}`;
+  if (debug) setPlacing(!fakePos);
   renderRing();
   initMap().catch((e) => { console.error(e); toast('Error cargando el mapa', true); });
 })();
