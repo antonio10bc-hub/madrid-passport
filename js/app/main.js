@@ -4,7 +4,7 @@ import { S, PLACES, DISTRICTS, BARRIOS, lvl, blvl, currentDistrict } from './sta
 import { t, lang, applyStatic } from './i18n.js';
 import { loadGeo } from './geo.js';
 import { initSheet } from './sheet.js';
-import { map, initMap } from './map.js';
+import { map, initMap, prefetchStyle } from './map.js';
 import { initGps, afterMap } from './gps.js';
 import { render, initLevel } from './views.js';
 import { initPages, unlockedNow, levelState } from './pages.js';
@@ -53,6 +53,7 @@ async function boot() {
   initShare();
   initSync();
   try {
+    prefetchStyle();
     await loadGeo();
     if (!Object.keys(S.badges).length) S.badges = unlockedNow(true);
     initLevel();

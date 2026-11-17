@@ -101,10 +101,11 @@ test('GPS lejos del lugar: avisa y no confirma', async ({ page, context }) => {
 
 test('barrios del distrito: marcar uno a mano', async ({ page }) => {
   await openCentro(page);
+  const n0 = +(await page.locator('#barrios-n').textContent()).split('/')[0];   // Sol puede estar ya sellado por el GPS de prueba
   const first = page.locator('.bchip.l0').first();
   await first.click();
   await expect(page.locator('.bchip.l1')).toHaveCount(1);
-  await expect(page.locator('#barrios-n')).toHaveText(/^1\//);
+  await expect(page.locator('#barrios-n')).toHaveText(new RegExp(`^${n0 + 1}/`));
   await page.locator('.bchip.l1').click();                    // marcado a mano: se puede quitar
   await expect(page.locator('.bchip.l1')).toHaveCount(0);
 });
@@ -113,12 +114,13 @@ test('logros: nivel arriba, puntos y progreso por tipo', async ({ page }) => {
   await page.locator('[data-tab="badges"]').click();
   const card = page.locator('#lvl-card');
   await expect(card).toContainText('Turista');
-  await expect(card.locator('.lvl-pts')).toContainText('0');
+  await expect(card.locator('.lvl-pts')).toContainText(/^(0|5) /);                     // 5 si el GPS de prueba ya selló el barrio Sol
   await page.locator('[data-tab="map"]').click();
   await openCentro(page);
   await markVisited(page, 'plaza-mayor');           // 10 (visita) + 5 (barrio) + 20 (logro «Primer sello»)
   await page.locator('[data-tab="badges"]').click();
-  await expect(card.locator('.lvl-pts')).toContainText('35');
+  // 10 (visita) + 20 (logro «Primer sello») + 5 por cada barrio sellado (el de Plaza Mayor y, si el GPS ya lo pisó, Sol)
+  await expect(card.locator('.lvl-pts')).toContainText(/^(35|40)/);
   await expect(page.locator('.tp-row[data-type="Plaza"] .tp-n')).toHaveText(/^1\//);
   await expect(page.locator('.pp.on')).toHaveCount(1);
   // tocar un tipo lleva al mapa filtrado

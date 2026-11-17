@@ -15,6 +15,27 @@
   <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <title>Madrid Passport</title>
+  <!-- Conexión anticipada al servidor del mapa y precarga de todos los módulos (evita la cascada de imports) -->
+  <link rel="preconnect" href="https://tiles.openfreemap.org" crossorigin>
+  <link rel="modulepreload" href="js/app/main.js">
+  <link rel="modulepreload" href="js/app/util.js">
+  <link rel="modulepreload" href="js/app/i18n.js">
+  <link rel="modulepreload" href="js/app/state.js">
+  <link rel="modulepreload" href="js/app/geo.js">
+  <link rel="modulepreload" href="js/app/sheet.js">
+  <link rel="modulepreload" href="js/app/map.js">
+  <link rel="modulepreload" href="js/app/gps.js">
+  <link rel="modulepreload" href="js/app/wiki.js">
+  <link rel="modulepreload" href="js/app/views.js">
+  <link rel="modulepreload" href="js/app/pages.js">
+  <link rel="modulepreload" href="js/app/level.js">
+  <link rel="modulepreload" href="js/app/sync.js">
+  <link rel="modulepreload" href="js/app/analytics.js">
+  <link rel="modulepreload" href="js/app/notify.js">
+  <link rel="modulepreload" href="js/app/metro.js">
+  <link rel="modulepreload" href="js/app/onboarding.js">
+  <link rel="preload" href="data/distritos.geojson" as="fetch" crossorigin>
+  <link rel="preload" href="data/barrios.geojson" as="fetch" crossorigin>
   <link rel="stylesheet" href="vendor/maplibre/maplibre-gl.css">
   <link rel="stylesheet" href="css/styles.css">
 </head>

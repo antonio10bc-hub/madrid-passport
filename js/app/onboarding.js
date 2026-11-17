@@ -1,7 +1,7 @@
 // Onboarding (primera vez): 4 pantallas con swipe (scroll-snap nativo) o «Continuar», puntitos de progreso y,
 // al final, permiso de ubicación. Se puede volver a ver desde el Diario.
 import { $, esc } from './util.js';
-import { S, DISTRICTS, lvl } from './state.js';
+import { S, PLACES, DISTRICTS, lvl } from './state.js';
 import { t } from './i18n.js';
 import { polys } from './util.js';
 import { getPos, onPosition } from './gps.js';
@@ -95,6 +95,6 @@ export function showOnboarding(source = 'first') {
 
 // Primera vez: solo si nunca se ha visto y no hay progreso (usuarios que ya usaban la app no lo ven)
 export function maybeOnboarding() {
-  if (onboarded() || S.debug || Object.keys(S.visits).some((k) => lvl(k) > 0)) return;
+  if (onboarded() || S.debug || PLACES.some((p) => lvl(p.id) > 0)) return;   // solo cuentan lugares (no barrios pisados al arrancar)
   showOnboarding('first');
 }

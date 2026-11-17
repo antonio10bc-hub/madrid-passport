@@ -27,7 +27,8 @@ export async function loadGeo() {
     p._search = norm(`${p.name} ${p.zone || ''} ${p.type}`);
     if (!d) return console.warn('Sin distrito:', p.id);
     const pt = ll(p);
-    const b = d.barrios.find((x) => inBbox(pt, x.bbox) && inGeom(pt, x.feature.geometry));
+    // Barrio precalculado en data.js (tools/build_data.py); si falta, se calcula
+    const b = (p.barrio && d.barrios.find((x) => x.id === p.barrio)) || (!p.barrio && d.barrios.find((x) => inBbox(pt, x.bbox) && inGeom(pt, x.feature.geometry)));
     if (b) { barrioOf[p.id] = b; b.places.push(p); }
     p._search = norm(`${p.name} ${p.zone || ''} ${p.type} ${d.name} ${b?.name || ''}`);
   });

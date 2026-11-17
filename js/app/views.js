@@ -203,6 +203,8 @@ function nextHTML(p) {
     <span class="next-txt"><b>${esc(n.x.name)}</b><small>${esc(typeName(n.x.type))} · ${fmtDist(n.d)} · ${t('min_walk', { n: walkMin(n.d) })}</small></span>
     <span class="next-go"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></button></section>`;
 }
+// Miniaturas de Wikimedia: 640 px para pantallas normales y 960 px para las de alta densidad (menos datos)
+const srcset = (u) => (/\/960px-/.test(u) ? ` srcset="${esc(u.replace('/960px-', '/640px-'))} 640w, ${esc(u)} 960w"` : '');
 const ACCESS_KEYS = ['Plaza', 'Calle', 'Barrio', 'Parque', 'Gastronomía', 'Mercado', 'Museo', 'Monumento', 'Iglesia', 'Cultura', 'Estadio', 'Mirador', 'Teatro'];
 function renderPlace() {
   const p = BYID[S.view.id], d = districtOf[p.id], l = lvl(p.id), v = S.visits[p.id], b = barrioOf[p.id];
@@ -220,7 +222,7 @@ function renderPlace() {
   const oldHero = body.querySelector(`.hero[data-for="${p.id}"]`);
   body.innerHTML = `
     <button class="back" id="back">${esc(d?.name || t('back'))}</button>
-    <div class="hero ${p.img ? '' : 'noimg'}" data-for="${p.id}" data-img="${esc(p.img || '')}">${p.img ? `<img src="${esc(p.img)}" alt="" loading="lazy" onerror="this.parentNode.classList.add('noimg');this.remove()">` : ''}<span class="hero-ico">${TI(p.type)}</span></div>
+    <div class="hero ${p.img ? '' : 'noimg'}" data-for="${p.id}" data-img="${esc(p.img || '')}">${p.img ? `<img src="${esc(p.img)}"${srcset(p.img)} sizes="(max-width: 520px) 92vw, 360px" alt="" decoding="async" loading="lazy" onerror="this.parentNode.classList.add('noimg');this.remove()">` : ''}<span class="hero-ico">${TI(p.type)}</span></div>
     <div class="pd-head">
       <div><h2>${esc(p.name)}</h2><p>${esc(typeName(p.type))}${p.zone ? ' · ' + esc(p.zone) : b ? ' · ' + esc(b.name) : ''}${dd ? ' · ' + t('at', { d: dd }) : ''}</p></div>
       ${checks(p)}

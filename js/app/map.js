@@ -20,6 +20,8 @@ async function loadStyle() {
       st.layers.forEach((l) => {
         if (l['source-layer'] === 'place' && l.type === 'symbol') l.filter = ['all', l.filter ?? true, ['!=', ['get', 'name'], 'Madrid']];
       });
+      // Capas que no aportan nada aquí (aeropuertos, nombres de ríos pequeños): menos trabajo de dibujo y de etiquetas
+      st.layers = st.layers.filter((l) => !['aeroway', 'aerodrome_label'].includes(l['source-layer']) && !(l['source-layer'] === 'waterway' && l.type === 'symbol'));
       return st;
     }
   } catch {}
@@ -82,9 +84,13 @@ function drawGpsArea() {
   src.setData({ type: 'FeatureCollection', features: p ? [circle(p.coords, radiusFor(p, 0))] : [] });
 }
 
+// El estilo del mapa se pide al arrancar, en paralelo con los límites de distritos y barrios
+let stylePromise = null;
+export const prefetchStyle = () => (stylePromise ||= loadStyle());
+
 export async function initMap() {
   map = new maplibregl.Map({
-    container: 'map', style: await loadStyle(), center: [-3.70, 40.42], zoom: 10.5,
+    container: 'map', style: await prefetchStyle(), maxTileCacheZoomLevels: 3, refreshExpiredTiles: false, center: [-3.70, 40.42], zoom: 10.5,
     pixelRatio: Math.min(devicePixelRatio || 1, 2), fadeDuration: 0, renderWorldCopies: false, maxPitch: 0,
     attributionControl: false, dragRotate: false, pitchWithRotate: false, touchPitch: false,
   });

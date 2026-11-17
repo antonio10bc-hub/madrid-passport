@@ -6,7 +6,10 @@ export const sheet = $('#sheet'), body = $('#sheet-body');
 // Medidas cacheadas (leer offsetHeight en cada navegación forzaba recalcular el diseño).
 // En iOS (sobre todo la app instalada) el alto real puede llegar tarde: no se cachea a ciegas.
 export const dims = {};
-export const measure = () => { dims.app = $('#app').offsetHeight; dims.sheet = sheet.offsetHeight; dims.top = $('.topbar').offsetHeight; dims.tab = $('.tabbar').offsetHeight; return dims; };
+const read = () => { dims.app = $('#app').offsetHeight; dims.sheet = sheet.offsetHeight; dims.top = $('.topbar').offsetHeight; dims.tab = $('.tabbar').offsetHeight; dims.ok = dims.app > 0; return dims; };
+// Con ResizeObserver las medidas se actualizan solas cuando cambian; si aún no hay medidas válidas, se leen
+export const measure = () => (dims.ok && window.ResizeObserver ? dims : read());
+if (window.ResizeObserver) { const ro = new ResizeObserver(() => read()); ['#app', '#sheet', '.topbar', '.tabbar'].forEach((s) => ro.observe($(s))); }
 const MIN_VIS = 28;                                   // plegado: solo se ve el asa gris
 export const sheetVisible = (state = sheet.dataset.state) => ({ min: MIN_VIS, peek: 150, half: dims.sheet * 0.58, full: dims.sheet }[state]);
 export const setSheet = (state) => {
@@ -78,8 +81,8 @@ function gEnd(e) {
 }
 
 export function initSheet(onResize) {
-  ['resize', 'orientationchange', 'pageshow'].forEach((ev) => addEventListener(ev, () => { measure(); setSheet(sheet.dataset.state); onResize(); }));
-  visualViewport?.addEventListener('resize', () => { measure(); onResize(); });
+  ['resize', 'orientationchange', 'pageshow'].forEach((ev) => addEventListener(ev, () => { read(); setSheet(sheet.dataset.state); onResize(); }));
+  visualViewport?.addEventListener('resize', () => { read(); onResize(); });
   // Táctil: en todo el panel (passive:false para poder bloquear el scroll mientras se arrastra)
   sheet.addEventListener('touchstart', (e) => {
     if (e.touches.length !== 1 || e.target.closest('input')) return;
