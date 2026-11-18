@@ -722,13 +722,15 @@ button, a, input, .place, .row, .pitem { touch-action: manipulation; }
 @keyframes ob-dist { from { opacity: 0; transform: scale(.6); } to { opacity: 1; transform: none; } }
 /* 2: el pin cae con rebote y se dibuja el check */
 .ob-drop { transform-origin: 50% 100%; will-change: transform, opacity; }
-.ob-slide.on .ob-drop { animation: ob-drop .7s cubic-bezier(.3,1.5,.5,1) .3s both; }
+/* Ocultos hasta que su paso está activo: si no, se ven en su sitio al deslizar y desaparecen de golpe al empezar la animación */
+.ob-slide:not(.on) :is(.ob-drop, .ob-shadow, .ob-me, .ob-gold, .ob-stamp, .ob-level) { opacity: 0; }
+.ob-slide.on .ob-drop { animation: ob-drop .7s cubic-bezier(.3,1.5,.5,1) .15s both; }
 @keyframes ob-drop { from { transform: translateY(-70px) scale(.9); opacity: 0; } 60% { opacity: 1; } to { transform: none; } }
 .ob-shadow { transform-origin: center; will-change: transform, opacity; }
-.ob-slide.on .ob-shadow { animation: ob-shadow .7s ease-out .3s both; }
+.ob-slide.on .ob-shadow { animation: ob-shadow .7s ease-out .15s both; }
 @keyframes ob-shadow { from { transform: scale(.3); opacity: 0; } }
 .ob-draw { stroke-dasharray: 1; stroke-dashoffset: 1; }
-.ob-slide.on .ob-pin .ob-draw { animation: ob-draw .35s ease-out .9s forwards; }
+.ob-slide.on .ob-pin .ob-draw { animation: ob-draw .35s ease-out .75s forwards; }
 @keyframes ob-draw { to { stroke-dashoffset: 0; } }
 /* 3: el punto azul entra en el área, pulso dorado, el pin salta y se dibuja el doble check */
 .ob-ring { transform-box: fill-box; transform-origin: center; }
