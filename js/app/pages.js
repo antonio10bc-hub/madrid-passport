@@ -265,6 +265,16 @@ export function renderPage() {
   bindPlaceItems(pageBody);
   renderAccount();
 }
+// Vuelta al mapa: la página sale con un fundido corto antes de ocultarse
+function hidePage() {
+  if (page.hidden || page.classList.contains('out')) return;
+  page.classList.add('out');
+  let done = false;
+  const end = () => { if (done) return; done = true; page.classList.remove('out'); if (S.tab === 'map') page.hidden = true; };
+  const onEnd = (e) => { if (e.target === page && e.animationName === 'page-out') { page.removeEventListener('animationend', onEnd); end(); } };
+  page.addEventListener('animationend', onEnd);   // ignora animaciones de los hijos que suben por burbuja
+  setTimeout(end, 300);                                // por si no llega animationend
+}
 export function setTab(tb) {
   if (S.tab !== tb) track('tab_viewed', { tab: tb });
   // Diario ↔ Logros: la página no se oculta, así que se repite la entrada solo en su contenido (el fondo no parpadea)
@@ -273,7 +283,7 @@ export function setTab(tb) {
   S.tab = tb;
   if (tb !== 'diary') settingsOpen = false;
   document.querySelectorAll('.tabbar button').forEach((b) => b.classList.toggle('on', b.dataset.tab === tb));
-  page.hidden = tb === 'map';
+  if (tb === 'map') hidePage(); else { page.classList.remove('out'); page.hidden = false; }
   $('#app').classList.toggle('on-page', tb !== 'map');   // el aviso de cercanía solo en el mapa
   $('#heat-legend')?.toggleAttribute('hidden', tb !== 'map' || S.view.type !== 'home');
   if (tb !== 'map') { pageBody.scrollTop = 0; renderPage(); }
