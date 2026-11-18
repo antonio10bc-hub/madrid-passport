@@ -1014,3 +1014,6 @@ h2, h3 { font-weight: 600; }
 .in-parent .ico { color: var(--coral); }
 .pass-card .acct-txt { padding-right: 64px; }
 .opt-row + .opt-row { margin-bottom: 14px; }   /* aire entre filtros y el primer lugar (con cabecera de zona, el margen se colapsa) */
+/* Nivel: May cabe dentro del anillo dorado (GPS), que ya no queda tapado */
+.lvl-ring { width: 150px; height: 150px; }
+.lvl-face { inset: 37px; padding: 3px; }
