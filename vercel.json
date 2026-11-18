@@ -1,4 +1,12 @@
 {
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "madrid-passport.vercel.app" }],
+      "destination": "https://www.madridpassport.com/:path*",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     { "source": "/ingest/static/:path*", "destination": "https://eu-assets.i.posthog.com/static/:path*" },
     { "source": "/ingest/:path*", "destination": "https://eu.i.posthog.com/:path*" }
