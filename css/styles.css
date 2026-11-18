@@ -524,14 +524,14 @@ button, a, input, .place, .row, .pitem { touch-action: manipulation; }
 .cal-nav:active:not(:disabled) { background: var(--bg-2); }
 .cal-wd, .cal-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; text-align: center; }
 .cal-wd span { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; padding-bottom: 2px; }
-.cal-days > * { aspect-ratio: 1; max-width: 100%; border-radius: 10px; display: grid; place-items: center; font-size: 13px; font-variant-numeric: tabular-nums; color: var(--muted); }
+.cal-days > * { aspect-ratio: 1; max-width: 100%; border-radius: 50%; display: grid; place-items: center; font-size: 13px; font-variant-numeric: tabular-nums; color: var(--muted); }
 .cal-days .today { color: var(--ink); font-weight: 700; }
 .cal-days .v1 { --fill: rgba(var(--red-a),.14); background: var(--fill); color: var(--red); font-weight: 700; }
 .cal-days .v2 { --fill: rgba(var(--red-a),.32); background: var(--fill); color: var(--red); font-weight: 700; }
 .cal-days .v3 { --fill: var(--red); background: var(--fill); color: #fff; font-weight: 700; }
 /* GPS: marco dorado que ocupa la mitad del área de la celda (lado interior = lado / √2 → margen 14,6 % por lado) */
 .cal-days .gp { padding: 14.6%; background: linear-gradient(var(--fill), var(--fill)) content-box, linear-gradient(var(--bg), var(--bg)) content-box, var(--gold); }
-.cal-leg .gp { box-shadow: inset 0 0 0 1.5px var(--gold); }
+.cal-leg .gp { box-shadow: inset 0 0 0 1.5px var(--gold); border-radius: 50%; }
 .cal-days > * { transition: opacity .18s ease-out; }
 .cal.focus .cal-days > :not(.sel) { opacity: .4; }   /* foco: el día elegido a pleno color, el resto atenuado */
 .cal-leg { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin: 10px 2px 0; font-size: 11px; color: var(--muted); }
