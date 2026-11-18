@@ -1013,3 +1013,4 @@ h2, h3 { font-weight: 600; }
 .in-parent { background: var(--bg-2); border-radius: 16px; box-shadow: var(--pop-s); }
 .in-parent .ico { color: var(--coral); }
 .pass-card .acct-txt { padding-right: 64px; }
+.opt-row + .opt-row { margin-bottom: 14px; }   /* aire entre filtros y el primer lugar (con cabecera de zona, el margen se colapsa) */
