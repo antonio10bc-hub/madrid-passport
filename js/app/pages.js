@@ -138,23 +138,28 @@ function renderDiary() {
 }
 
 // ---------- Logros: nivel + progreso por tipo + sellos ----------
+// Anillo SVG: fondo + arco proporcional (pct 0–1). Se usa para el nivel y para cada tipo.
+const ring = (size, r, w, pct, cls) => { const c = 2 * Math.PI * r, h = size / 2;
+  return `<circle class="rg-bg" cx="${h}" cy="${h}" r="${r}" stroke-width="${w}"/>${pct > 0 ? `<circle class="${cls}" cx="${h}" cy="${h}" r="${r}" stroke-width="${w}" stroke-dasharray="${(Math.min(1, pct) * c).toFixed(1)} ${c.toFixed(1)}"/>` : ''}`; };
 function levelHTML() {
-  const { pts, lv } = levelState();
+  const { pts, lv } = levelState(), { visit, gps } = pts.parts;
   return `<section class="lvl-card" id="lvl-card">
-    <div class="lvl-top"><span class="lvl-n">${lv.i + 1}</span><div><small>${t('level')} ${lv.i + 1}/${LEVELS.length}</small><h2>${t('lvl.' + lv.cur.id)}</h2></div>
-      <b class="lvl-pts">${pts.total}<span> ${t('pts')}</span></b></div>
-    <div class="bar"><i style="width:${Math.round(lv.pct * 100)}%"></i></div>
-    <p class="lvl-next">${lv.next ? t('level.next', { n: lv.toNext, name: t('lvl.' + lv.next.id) }) : t('level.max')}</p>
-    ${percentileHTML(pts.parts.visit)}
+    <div class="lvl-ring"><svg viewBox="0 0 112 112" aria-hidden="true">${ring(112, 50, 10, lv.pct, 'rg-red')}${ring(112, 35, 8, visit ? gps / visit : 0, 'rg-gold')}</svg>
+      <span class="lvl-n" aria-label="${t('level')} ${lv.i + 1}/${LEVELS.length}">${lv.i + 1}</span></div>
+    <div class="lvl-info"><h2>${t('lvl.' + lv.cur.id)}</h2><b class="lvl-pts">${pts.total}<span> ${t('pts')}</span></b>
+      <p class="lvl-next"><i class="dot red"></i>${lv.next ? t('level.next', { n: lv.toNext, name: t('lvl.' + lv.next.id) }) : t('level.max')}</p>
+      <p class="lvl-next"><i class="dot gold"></i>${t('gps.n', { n: gps })}</p></div>
+    ${percentileHTML(visit)}
   </section>`;
 }
 function typesHTML() {
   const rows = TYPES.map((ty) => ({ ty, ...progress(PLACES.filter((p) => p.type === ty)) }));
   const bp = bprogress(BARRIOS);
-  const row = (ico, label, pr, attr) => `<button class="tp-row ${pr.done === pr.total ? 'done' : ''}" ${attr}>${MP_ICON(ico, 'ico')}<span class="tp-name">${esc(label)}</span>
-    <span class="bar"><i style="width:${pr.total ? (pr.done / pr.total) * 100 : 0}%"></i></span><span class="tp-n">${pr.done}/${pr.total}</span></button>`;
+  const cell = (label, pr, attr) => `<button class="tp-row ${pr.done === pr.total ? 'done' : ''}" ${attr}>
+    <span class="tp-ring"><svg viewBox="0 0 60 60" aria-hidden="true">${ring(60, 25, 6, pr.total ? pr.done / pr.total : 0, 'rg-red')}</svg><span class="tp-n">${pr.done}/${pr.total}</span></span>
+    <span class="tp-name">${esc(label)}</span></button>`;
   return `<div class="pp-head"><span>${t('bytype')}</span><span>${progress(PLACES).done} / ${PLACES.length}</span></div>
-    <div class="tp-list">${rows.map((r) => row(r.ty, typePlural(r.ty), r, `data-type="${esc(r.ty)}"`)).join('')}${row('barrio', t('barrios'), bp, 'data-barrios')}</div>`;
+    <div class="tp-list">${rows.map((r) => cell(typePlural(r.ty), r, `data-type="${esc(r.ty)}"`)).join('')}${cell(t('barrios'), bp, 'data-barrios')}</div>`;
 }
 
 // Logros como sellos de pasaporte (tinta con textura). Formas y giro fijos por logro.
@@ -209,7 +214,7 @@ function renderBadges() {
   return `${levelHTML()}${typesHTML()}
     <div class="pp-head"><span>${t('stamps')}</span><span>${got} / ${MP_BADGES.length}</span></div>
     <div class="pp-grid">${items.map(({ b, i, n, goal, date }) => `<div class="pp ${date ? 'on' : ''}" title="${esc(badgeDesc(b))}">
-      ${stampImg(b, i, n, goal, date)}<strong>${esc(badgeName(b))}</strong><small>${esc(badgeDesc(b))}</small></div>`).join('')}</div>`;
+      ${stampImg(b, i, n, goal, date)}<strong>${esc(badgeName(b))}</strong></div>`).join('')}</div>`;
 }
 
 // ---------- Ajustes (engranaje del Diario): idioma, introducción y privacidad ----------

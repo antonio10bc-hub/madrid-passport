@@ -361,10 +361,10 @@ h1 { font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -.02e
 /* ---------- Logros: sellos de pasaporte ---------- */
 .pp-head { display: flex; justify-content: space-between; font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
   color: var(--muted); border-bottom: 1px dashed var(--line); padding-bottom: 8px; margin: 2px 0 8px; }
-.pp-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 6px 10px; }
-.pp { text-align: center; padding-bottom: 8px; }
-.pp-svg { width: 132px; height: 132px; display: block; margin: 0 auto; }
-.pp strong { display: block; font-size: 13px; font-weight: 600; margin-top: -2px; }
+.pp-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px 6px; }
+.pp { text-align: center; padding-bottom: 6px; }
+.pp-svg { width: 100%; max-width: 84px; aspect-ratio: 1; height: auto; display: block; margin: 0 auto; }
+.pp strong { display: block; font-size: 11px; font-weight: 600; line-height: 1.25; margin-top: 0; text-wrap: balance; }
 .pp small { display: block; font-size: 11px; color: var(--muted); margin-top: 1px; line-height: 1.3; padding: 0 6px; }
 .pp:not(.on) strong { color: var(--muted); }
 .pp.on .pp-svg { animation: stamp-in .35s cubic-bezier(.2,1.4,.4,1) both; }
@@ -387,8 +387,7 @@ h1 { font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -.02e
 
 /* Rendimiento: no pintar filas/sellos fuera de pantalla */
 .row, .pitem, .place { content-visibility: auto; contain-intrinsic-height: auto 64px; }
-.pp { content-visibility: auto; contain-intrinsic-height: auto 190px; min-width: 0; }
-.pp-svg { width: 132px; height: 132px; }
+.pp { content-visibility: auto; contain-intrinsic-height: auto 120px; min-width: 0; }
 
 /* ================= Pulido visual ================= */
 /* Tipografía */
@@ -471,26 +470,31 @@ button, a, input, .place, .row, .pitem { touch-action: manipulation; }
 .pitem.static { cursor: default; }
 
 /* ---------- Logros: nivel ---------- */
-.lvl-card { background: var(--bg-2); border-radius: 22px; padding: 16px; margin: 2px 0 18px; }
-.lvl-top { display: flex; align-items: center; gap: 12px; }
-.lvl-n { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; flex: none; background: var(--red); color: #fff; font-size: 20px; font-weight: 800; }
-.lvl-top small { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
-.lvl-top h2 { font-size: 24px; line-height: 1.1; }
-.lvl-pts { margin-left: auto; font-size: 22px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.lvl-card { background: var(--bg-2); border-radius: 22px; padding: 16px; margin: 2px 0 18px; display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 0 16px; align-items: center; }
+.lvl-ring { position: relative; width: 112px; height: 112px; }
+.lvl-ring svg, .tp-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); display: block; }
+.rg-bg { fill: none; stroke: var(--line); }
+.rg-red, .rg-gold { fill: none; stroke-linecap: round; transition: stroke-dasharray .4s var(--ease-out); }
+.rg-red { stroke: var(--red); }
+.rg-gold { stroke: var(--gold); }
+.lvl-n { position: absolute; inset: 0; display: grid; place-items: center; font-size: 30px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.lvl-info { min-width: 0; display: flex; flex-direction: column; }
+.lvl-info h2 { font-size: 26px; line-height: 1.1; text-wrap: balance; }
+.lvl-pts { font-size: 18px; font-variant-numeric: tabular-nums; margin: 2px 0 8px; }
 .lvl-pts span { font-size: 13px; color: var(--muted); font-weight: 600; }
-.lvl-card .bar { height: 8px; border-radius: 4px; margin-top: 14px; background: var(--line); }
-.lvl-card .bar i { border-radius: 4px; }
-.lvl-next { font-size: 13px; color: var(--muted); margin-top: 8px; }
+.lvl-next { font-size: 12.5px; color: var(--muted); line-height: 1.35; display: flex; gap: 6px; align-items: baseline; }
+.lvl-next + .lvl-next { margin-top: 3px; }
+.lvl-next .dot { width: 7px; height: 7px; border-radius: 50%; flex: none; transform: translateY(-1px); }
+.dot.red { background: var(--red); } .dot.gold { background: var(--gold); }
+.lvl-card .lvl-rank { grid-column: 1 / -1; margin-top: 14px; }
 
 /* ---------- Logros: progreso por tipo ---------- */
-.tp-list { margin: 0 0 18px; }
-.tp-row { width: 100%; display: grid; grid-template-columns: 22px minmax(0, 1fr) 72px 48px; align-items: center; gap: 10px; padding: 9px 0; text-align: left; border-bottom: 1px solid var(--line); min-height: 44px; }
-.tp-row .ico { color: var(--muted); }
-.tp-row.done .ico { color: var(--red); }
-.tp-name { font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.tp-row .bar { margin: 0; }
-.tp-n { font-size: 13px; font-weight: 600; color: var(--muted); text-align: right; font-variant-numeric: tabular-nums; }
+.tp-list { margin: 4px 0 20px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px 6px; }
+.tp-row { display: flex; flex-direction: column; align-items: center; gap: 5px; min-width: 0; padding: 2px 0; border-radius: 12px; }
+.tp-ring { position: relative; width: 60px; height: 60px; }
+.tp-n { position: absolute; inset: 0; display: grid; place-items: center; font-size: 11.5px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--ink); }
 .tp-row.done .tp-n { color: var(--red); }
+.tp-name { font-size: 11.5px; color: var(--muted); max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .tp-row:active { background: var(--bg-2); }
 
 /* ---------- Diario: tarjeta pasaporte + calendario ---------- */
