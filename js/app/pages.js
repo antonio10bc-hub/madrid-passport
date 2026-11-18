@@ -180,41 +180,39 @@ function typesHTML() {
 const LAST = { 'madrid-entero': 1, 'barrios-gps-all': 2, 'todo-gps': 3 };
 const GOLD_BADGES = new Set(['gps-1', 'gps-10', 'barrios-gps-all', 'todo-gps']);   // el dorado significa siempre «verificado por GPS»
 const inkIcon = (name, col, size, sw) => MP_ICON(name).replace('class="ico"', `width="${size}" height="${size}" fill="none" stroke="${col}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round"`);
+// Sellos «pegatina»: forma plana de color con borde blanco y sombra sólida; icono blanco y fecha en una chapita.
+// Dorado = verificado por GPS. Sin conseguir: contorno discontinuo con el progreso.
+const STICKER_COL = ['#F25C4E', '#8C1D26', '#E8434F', '#FF8F6B'];
+const stickerShape = (kind, inset = 0) => {
+  const r = 58 - inset;
+  if (kind === 'circle') return `<circle cx="70" cy="70" r="${r}"/>`;
+  if (kind === 'rect') return `<rect x="${12 + inset}" y="${26 + inset}" width="${116 - 2 * inset}" height="${88 - 2 * inset}" rx="${18 - inset / 2}"/>`;
+  const a = r / Math.cos(Math.PI / 8);
+  return `<polygon stroke-linejoin="round" points="${Array.from({ length: 8 }, (_, k) => { const t = Math.PI / 8 + (k * Math.PI) / 4; return `${(70 + a * Math.cos(t)).toFixed(1)},${(70 + a * Math.sin(t)).toFixed(1)}`; }).join(' ')}"/>`;
+};
 function stampSVG(b, i, n, goal, date) {
-  const shape = ['circle', 'rect', 'oct'][i % 3];
-  const rot = [-9, 6, -4, 11, -7, 3, 8, -12, 5, -3, 9, -6, 7, -10, 4, -5, 10][i % 17];
-  const OUT = { circle: '<circle cx="70" cy="70" r="58"/>', rect: '<rect x="14" y="28" width="112" height="84" rx="10"/>', oct: '<polygon points="48,12 92,12 128,48 128,92 92,128 48,128 12,92 12,48"/>' }[shape];
-  const IN = { circle: '<circle cx="70" cy="70" r="44"/>', rect: '<rect x="22" y="36" width="96" height="68" rx="6"/>', oct: '<polygon points="52,22 88,22 118,52 118,88 88,118 52,118 22,88 22,52"/>' }[shape];
+  const kind = ['circle', 'rect', 'oct'][i % 3], rect = kind === 'rect';
+  const rot = [-7, 5, -3, 8, -5, 4, -8, 6, -4, 7, -6, 3][i % 12];
   if (!date) {
-    const mu = css('--muted');
-    return `<svg viewBox="0 0 140 140" class="pp-svg"><g fill="none" stroke="${mu}" stroke-width="1.5" stroke-dasharray="4 5" opacity=".45">${OUT}</g>
-      <g transform="translate(58 38)" opacity=".5">${inkIcon(b.icon, mu, 24, 1.6)}</g>
-      <text x="70" y="98" text-anchor="middle" font-size="19" font-weight="700" fill="${mu}" style="font-variant-numeric:tabular-nums">${Math.min(n, goal)}/${goal}</text></svg>`;
+    return `<svg viewBox="0 0 140 140" class="pp-svg" aria-hidden="true"><g fill="none" stroke="var(--handle)" stroke-width="3" stroke-dasharray="6 6">${stickerShape(kind, 4)}</g>
+      <g transform="translate(55 45)" color="var(--muted)">${inkIcon(b.icon, 'currentColor', 30, 1.8)}</g>
+      <text x="70" y="98" text-anchor="middle" class="pp-n">${Math.min(n, goal)}/${goal}</text></svg>`;
   }
-  const col = GOLD_BADGES.has(b.id) ? css('--gold') : css('--red');
-  const top = shape === 'circle'
-    ? `<path id="arc-${b.id}" d="M 70 70 m -51 0 a 51 51 0 1 1 102 0 a 51 51 0 1 1 -102 0" fill="none"/><text font-size="9.5" font-weight="800" letter-spacing="2.6" fill="${col}"><textPath href="#arc-${b.id}">${esc(MP_CITY.app.toUpperCase())} · ${esc(MP_CITY.app.toUpperCase())} ·</textPath></text>`
-    : `<text x="70" y="${shape === 'rect' ? 50 : 40}" text-anchor="middle" font-size="9" font-weight="800" letter-spacing="2" fill="${col}">${esc(MP_CITY.name.toUpperCase())}</text>`;
-  // Vector puro, sin filtros: los filtros SVG se rasterizan (en iOS a baja resolución) y pixelaban los bordes
-  return `<svg viewBox="0 0 140 140" class="pp-svg">
-    <g transform="rotate(${rot} 70 70)" opacity=".9">
-      <g fill="none" stroke="${col}"><g stroke-width="3.5">${OUT}</g><g stroke-width="1.5">${IN}</g></g>${top}
-      <g transform="translate(55 ${shape === 'circle' ? 46 : 54})">${inkIcon(b.icon, col, 30, 2.2)}</g>
-      <text x="70" y="${shape === 'circle' ? 92 : 98}" text-anchor="middle" font-size="${shape === 'circle' ? 8.5 : 10}" font-weight="800" letter-spacing="${shape === 'circle' ? 1 : 1.5}" fill="${col}">${stampDate(date)}</text></g></svg>`;
+  const col = GOLD_BADGES.has(b.id) ? '#E9A21B' : STICKER_COL[i % 4];
+  return `<svg viewBox="0 0 140 140" class="pp-svg" aria-hidden="true"><g transform="rotate(${rot} 70 70)">
+    <g fill="rgba(140,29,38,.22)" transform="translate(4 5)">${stickerShape(kind)}</g>
+    <g fill="${col}" stroke="#fff" stroke-width="7">${stickerShape(kind, 3)}</g>
+    <text x="70" y="${rect ? 46 : 40}" text-anchor="middle" class="pp-city">${esc(MP_CITY.name.toUpperCase())}</text>
+    <g transform="translate(53 49)">${inkIcon(b.icon, '#fff', 34, 2.2)}</g>
+    <rect x="38" y="${rect ? 84 : 86}" width="64" height="20" rx="10" fill="#fff"/>
+    <text x="70" y="${rect ? 98 : 100}" text-anchor="middle" class="pp-date" fill="${col}">${esc(stampDate(date).replace(/\s*\d{4}$/, ''))}</text></g></svg>`;
 }
-// Cada sello se convierte en <img> (data URI) y se cachea por estado + tema + idioma
+// SVG en línea (no <img>): así los textos usan las fuentes de la app. Se cachea por estado + idioma.
 const stampCache = new Map();
 function stampImg(b, i, n, goal, date) {
-  const k = `${b.id}|${date ? date : n + '/' + goal}|${isDark()}|${lang}`;
+  const k = `${b.id}|${date ? date : n + '/' + goal}|${lang}`;
   let html = stampCache.get(k);
-  if (!html) {
-    const svg = stampSVG(b, i, n, goal, date).replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="560" height="560" ')
-      .replace(/var\(--[a-z-]+\)/g, (v) => css(v.slice(4, -1)))
-      .replace(/<text /g, '<text font-family="-apple-system,system-ui,sans-serif" ')
-      .replace(/href="#/g, 'xlink:href="#');
-    html = `<img class="pp-svg" alt="" src="data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}">`;
-    stampCache.set(k, html);
-  }
+  if (!html) { html = stampSVG(b, i, n, goal, date); stampCache.set(k, html); }
   return html;
 }
 function renderBadges() {
