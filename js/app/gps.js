@@ -162,7 +162,7 @@ export function initGps() {
     try {
       const p = await getPos();
       onPosition(p); startWatch(); setFollow(!S.debug);
-      track('locate', { accuracy: Math.round(p.acc || 0) });
+      track('location_requested', { accuracy: Math.round(p.acc || 0) });
       map.flyTo({ center: [p.coords[1], p.coords[0]], zoom: Math.max(map.getZoom(), 15.5), offset: centerOffset(), duration: 800 });
     } catch (e) { track('gps_error', { code: e?.code ?? null, where: 'locate' }); toast(t('gps.fail'), true); }
   };

@@ -53,7 +53,7 @@ function homeListHTML() {
   if (searching) {
     const q = S.query.trim();
     const res = homeResults();
-    if (q) { clearTimeout(searchT); searchT = setTimeout(() => track('search', { q_len: q.length, results: res.length, type: S.typeFilter }), 1500); }
+    if (q) { clearTimeout(searchT); searchT = setTimeout(() => track('search_performed', { q_len: q.length, results: res.length, type: S.typeFilter }), 1500); }
     return `<div class="sec-sub">${t(res.length === 1 ? 'results_1' : 'results_n', { n: res.length })}</div>
       ${res.map((p) => placeItem(p)).join('') || `<div class="empty-state">${t(S.typeFilter?.startsWith('__') && !q ? 'list.empty' : 'noresults')}</div>`}`;
   }
@@ -93,7 +93,7 @@ function gemsHTML() {
 function bindHomeList() {
   $('#near-locate')?.addEventListener('click', async (e) => {
     e.currentTarget.classList.add('loading');
-    try { const pos = await getPos(); onPosition(pos); track('nearby_located'); render({ keepScroll: true }); }
+    try { const pos = await getPos(); onPosition(pos); track('nearby_location_requested'); render({ keepScroll: true }); }
     catch { toast(t('gps.fail'), true); e.currentTarget?.classList.remove('loading'); }
   });
   body.querySelectorAll('.row').forEach((el) => (el.onclick = () => openDistrict(el.dataset.id, { via: 'list' })));
@@ -124,7 +124,7 @@ function renderHome() {
   $('#q-clear')?.addEventListener('click', () => { S.query = ''; S.typeFilter = null; render(); });
   body.querySelectorAll('[data-t]').forEach((el) => (el.onclick = () => {
     S.typeFilter = S.typeFilter === el.dataset.t ? null : el.dataset.t;
-    if (S.typeFilter) track('type_filter', { type: S.typeFilter });
+    if (S.typeFilter) track('filter_applied', { filter_kind: 'type', type: S.typeFilter });
     // Con el panel bajo, al filtrar se abre a la mitad para ver los resultados
     if (S.typeFilter && ['min', 'peek'].includes(sheet.dataset.state)) setSheet('half');
     render();
@@ -182,11 +182,11 @@ function renderDistrict() {
     ${list || `<div class="empty-state">${t('empty.filter')}</div>`}
     ${d.barrios.length ? barriosHTML(d) : ''}`;
   $('#back').onclick = goHome;
-  body.querySelectorAll('[data-f]').forEach((el) => (el.onclick = () => { S.statusFilter = el.dataset.f; track('status_filter', { filter: S.statusFilter }); render({ keepScroll: true }); }));
+  body.querySelectorAll('[data-f]').forEach((el) => (el.onclick = () => { S.statusFilter = el.dataset.f; track('filter_applied', { filter_kind: 'status', filter: S.statusFilter }); render({ keepScroll: true }); }));
   body.querySelectorAll('[data-sort]').forEach((el) => (el.onclick = async () => {
     S.sort = el.dataset.sort;
     try { localStorage.setItem('mp.sort', S.sort); } catch {}
-    track('district_sort', { sort: S.sort });
+    track('district_sorted', { sort: S.sort });
     if (S.sort !== 'zone' && !S.myPos) { try { onPosition(await getPos()); } catch { if (S.sort === 'near') toast(t('gps.fail'), true); } }
     render({ keepScroll: true });
   }));
@@ -410,14 +410,14 @@ function snapshot(key) {
   return { label: t('undo'), fn: () => {
     if (prev) S.visits[key] = prev; else delete S.visits[key];
     S.badges = badges;
-    track('undo', { key });
+    track('action_undone', { key });
     commit();
   } };
 }
 
 async function onCheck(el) {
   const id = el.dataset.id, a = +el.dataset.a, l = lvl(id), place = BYID[id];
-  const props = { place: id, type: place.type, district: districtOf[id]?.id };
+  const props = { place: id, type: place.type, district: districtOf[id]?.id, method: a === 1 ? 'manual' : 'gps' };
   if (a === 1) {
     if (l === 2) return toast(t('chk.locked'));
     const undo = snapshot(id);

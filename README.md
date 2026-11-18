@@ -44,13 +44,20 @@ Vercel Web Analytics (`/_vercel/insights/script.js`, cargado desde `analytics.js
 
 `js/app/analytics.js` envía eventos a PostHog a través del proxy `/ingest` (`vercel.json`). Desactivada en localhost, en tests
 y con `?notrack` (o `localStorage['mp.noTrack']='1'`). Sin emails ni nombres: al iniciar sesión solo se usa el id de Supabase.
-Todos los eventos llevan `app=madrid-passport` (el proyecto de PostHog se comparte con otra app). Eventos propios:
-`app_opened`, `district_opened`, `place_opened`, `pin_tapped`, `place_checked`, `place_unchecked`, `gps_check_attempt`,
-`gps_confirmed`, `gps_too_far`, `gps_error`, `suggestion_shown`, `suggestion_dismissed`, `barrio_discovered`,
-`badge_unlocked`, `badge_notif_tapped`, `level_up`, `search`, `type_filter`, `status_filter`, `tab_viewed`, `type_progress_tapped`, `barrio_unmarked`,
-`share_opened`, `share_done`, `share_error`, `nearby_located`, `district_sort`, `next_nearby_opened`, `list_added`, `list_removed`, `undo`, `cluster_tapped`, `place_link_opened`, `deeplink_opened`, `place_rated`, `place_shared`, `place_reported`, `onboarding_quickmark`, `barrio_notif_tapped`, `directions_clicked`, `locate`, `language_changed`, `login_clicked`, `logout`,
-`sync_error`, `app_installed`, `onboarding_shown`, `onboarding_step`, `onboarding_done`, `js_error`; además páginas vistas, autocaptura de clics, web vitals y grabación de sesiones
-(si está activada en el proyecto). Dashboard: «Madrid Passport · Uso».
+Esquema de eventos v2 (`event_schema=2`). El proyecto de PostHog se comparte con otras apps: filtrar siempre por `app=madrid-passport`.
+- **Superpropiedades** (en todos los eventos): `app`, `city`, `app_version`, `event_schema`, `lang`, `standalone`, `dark`, `catalog_size`,
+  `logged_in` y el progreso del usuario en ese momento (`u_places_visited`, `u_places_gps`, `u_barrios`, `u_districts_done`, `u_points`, `u_level`).
+- **Propiedades normalizadas** (`track()` las renombra y completa): `place_id` (+ `place_type`, `place_name`, `district_id`, `barrio_id` automáticos),
+  `district_id`, `barrio_id`, `badge_id`, `from_place_id`/`to_place_id`.
+- **Persona**: progreso actual (mismos campos sin `u_`) y, una sola vez, `first_seen_at`, `first_version`, `first_lang`, `first_standalone`.
+- **Eventos**: `app_opened`, `district_opened`, `place_opened`, `pin_tapped`, `place_checked`/`place_unchecked` (`method`), `gps_check_attempt`,
+  `gps_confirmed`, `gps_too_far`, `gps_error`, `suggestion_shown`, `suggestion_dismissed`, `barrio_discovered`, `barrio_unmarked`,
+  `badge_unlocked`, `badge_notif_tapped`, `level_up`, `search_performed`, `filter_applied` (`filter_kind`), `tab_viewed`, `type_progress_tapped`,
+  `share_opened`, `share_done`, `share_error`, `nearby_location_requested`, `district_sorted`, `next_nearby_opened`, `list_added`, `list_removed`,
+  `action_undone`, `cluster_tapped`, `place_link_opened`, `deeplink_opened`, `place_rated`, `place_shared`, `place_reported`, `onboarding_quickmark`,
+  `barrio_notif_tapped`, `directions_clicked`, `location_requested`, `language_changed`, `login_clicked`, `logout`, `sync_error`, `app_installed`,
+  `onboarding_shown`, `onboarding_step`, `onboarding_done`, `diary_*`, `may_tapped`, `settings_opened`, `tab_scroll_top`, `js_error`;
+  además `$pageview`/`$pageleave` y web vitals (sin autocaptura de clics). Dashboard: «Madrid Passport · Uso» (PostHog, filtrado por `app`).
 
 ## SEO
 `python3 tools/build_seo.py` (tras `build_data.py`) genera páginas estáticas indexables en español y en inglés
