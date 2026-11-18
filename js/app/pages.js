@@ -127,7 +127,7 @@ function bindCal() {
 function renderDiary() {
   const pr = progress(PLACES), bp = bprogress(BARRIOS), items = diaryItems();
   const dComplete = DISTRICTS.filter(districtDone).length, undated = items.filter((x) => !x.t);
-  return `<section class="pass-card"><span class="pass-kick">MADRID PASSPORT</span><div id="acct-slot"></div>
+  return `<section class="pass-card"><span class="pass-kick">${esc(MP_CITY.app.toUpperCase())}</span><div id="acct-slot"></div>
       <div class="pass-k">
         <div><b>${pr.done}</b><small>${t('k.visited')}</small></div>
         <div class="gold"><b>${pr.gps + bp.gps}</b><small>GPS</small></div>
@@ -180,8 +180,8 @@ function stampSVG(b, i, n, goal, date) {
   }
   const col = GOLD_BADGES.has(b.id) ? css('--gold') : css('--red');
   const top = shape === 'circle'
-    ? `<path id="arc-${b.id}" d="M 70 70 m -51 0 a 51 51 0 1 1 102 0 a 51 51 0 1 1 -102 0" fill="none"/><text font-size="9.5" font-weight="800" letter-spacing="2.6" fill="${col}"><textPath href="#arc-${b.id}">MADRID PASSPORT · MADRID PASSPORT ·</textPath></text>`
-    : `<text x="70" y="${shape === 'rect' ? 50 : 40}" text-anchor="middle" font-size="9" font-weight="800" letter-spacing="2" fill="${col}">MADRID</text>`;
+    ? `<path id="arc-${b.id}" d="M 70 70 m -51 0 a 51 51 0 1 1 102 0 a 51 51 0 1 1 -102 0" fill="none"/><text font-size="9.5" font-weight="800" letter-spacing="2.6" fill="${col}"><textPath href="#arc-${b.id}">${esc(MP_CITY.app.toUpperCase())} · ${esc(MP_CITY.app.toUpperCase())} ·</textPath></text>`
+    : `<text x="70" y="${shape === 'rect' ? 50 : 40}" text-anchor="middle" font-size="9" font-weight="800" letter-spacing="2" fill="${col}">${esc(MP_CITY.name.toUpperCase())}</text>`;
   // Vector puro, sin filtros: los filtros SVG se rasterizan (en iOS a baja resolución) y pixelaban los bordes
   return `<svg viewBox="0 0 140 140" class="pp-svg">
     <g transform="rotate(${rot} 70 70)" opacity=".9">
@@ -231,7 +231,7 @@ function renderSettings() {
     <div class="settings-h"><strong>${t('settings')}</strong><button class="settings-x" id="settings-x" aria-label="${t('close')}"><svg class="icon-x" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     <div class="lang-row">${MP_ICON('globe')}<span>${t('language')}</span><div class="lang-seg">${LANGS.map(([k, n]) => `<button class="chip ${lang === k ? 'on' : ''}" data-lang="${k}">${n}</button>`).join('')}</div></div>
     <button class="ob-again" id="ob-again">${MP_ICON('compass', 'ico')}<span>${t('ob.again')}</span></button>
-    <a class="ob-again" href="/lugares/">${MP_ICON('map', 'ico')}<span>${t('seo.all')}</span></a>
+    <a class="ob-again" href="/${lang === 'en' ? 'en/places' : 'lugares'}/">${MP_ICON('map', 'ico')}<span>${t('seo.all')}</span></a>
     <a class="ob-again" href="privacy.html">${MP_ICON('ticket', 'ico')}<span>${t('privacy')}</span></a></div>`;
   settingsEl.querySelector('#settings-x').onclick = () => setSettings(false);
   settingsEl.querySelector('#ob-again').onclick = () => { setSettings(false); showOnboarding('diary'); };

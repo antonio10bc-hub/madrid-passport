@@ -1,0 +1,2 @@
+{ "id": "madrid", "name": "Madrid", "app": "Madrid Passport", "site": "https://www.madridpassport.com",
+  "region": { "es": "Distrito", "en": "District" }, "regions": { "es": "distritos", "en": "districts" } }

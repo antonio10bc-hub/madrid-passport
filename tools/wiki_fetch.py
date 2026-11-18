@@ -7,7 +7,7 @@ import csv, json, os, sys, time, urllib.error, urllib.parse, urllib.request
 UA = 'MadridPassportBot/0.2 (https://www.madridpassport.com; build script de datos)'
 allrows = list(csv.DictReader(open('tools/places.tsv'), delimiter='\t'))
 prev = json.load(open('tools/wiki.json')) if os.path.exists('tools/wiki.json') and '--all' not in sys.argv else {}
-rows = [r for r in allrows if r['id'] not in prev]
+rows = [r for r in allrows if r['id'] not in prev and r['wiki']]   # sin título de Wikipedia: coords en tools/coords.json
 print(len(rows), 'lugares nuevos')
 
 
@@ -98,6 +98,24 @@ for i in range(0, len(need), 50):
     time.sleep(3)
 for v in out.values():
     if v.get('title') in en: v['title_en'] = en[v['title']]
+# 5) Extracto en inglés (desc_en, para las páginas SEO /en/) de los que tengan título en inglés y aún no lo tengan
+need = sorted({v['title_en'] for v in out.values() if v.get('title_en') and 'desc_en' not in v})
+den = {}
+for i in range(0, len(need), 20):
+    d = get('https://en.wikipedia.org/w/api.php', {'action': 'query', 'titles': '|'.join(need[i:i+20]), 'redirects': 1,
+            'prop': 'extracts|info', 'exintro': 1, 'explaintext': 1, 'exsentences': 3, 'exlimit': 20, 'inprop': 'url'})
+    m = {}
+    for k in ('normalized', 'redirects'):
+        for n in d['query'].get(k, []): m[n['to']] = n['from']
+    for pg in d['query']['pages']:
+        e = {'desc': pg.get('extract') or None, 'url': pg.get('fullurl')}
+        den[pg['title']] = e
+        if pg['title'] in m: den[m[pg['title']]] = e
+        if m.get(pg['title']) in m: den[m[m[pg['title']]]] = e
+    time.sleep(3)
+for v in out.values():
+    e = den.get(v.get('title_en'))
+    if e: v['desc_en'], v['url_en'] = e['desc'], e['url']
 json.dump(out, open('tools/wiki.json', 'w'), ensure_ascii=False, indent=1)
 print('total', len(out), '| con inglés:', sum(1 for v in out.values() if v.get('title_en')), '| sin coords:', [k for k, v in out.items() if v['lat'] is None],
       '| sin foto:', [k for k, v in out.items() if not v['img']], '| sin desc:', [k for k, v in out.items() if not v['desc']])

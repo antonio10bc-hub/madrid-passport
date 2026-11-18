@@ -6,6 +6,10 @@ Guía-mapa de Madrid por sus 21 distritos, mobile-first (390×844, iPhone 14). W
 - Mapa de distritos (límites oficiales) → tap abre el distrito con sus lugares; tap de nuevo lo cierra.
 - Ficha de lugar: foto, descripción (Wikipedia), acceso, sellos con fecha y botón «Cómo llegar».
 - Conexiones: lugares dentro de otro (Retiro → Palacio de Cristal, Plaza Mayor → Casa de la Panadería, AZCA → torres…): «Está en» y «Aquí dentro» con progreso.
+- Ficha: compartir el lugar (enlace a su página), valoración personal tras visitarlo (me encantó / bien / normal, se sincroniza)
+  y «Reportar un error» (ubicación, foto, información, cerrado…; tabla `reports` de Supabase).
+- Comunidad (datos agregados y anónimos de Supabase, solo cifras de 3 o más viajeros): «Sellado por N viajeros · a M les encantó»,
+  tu puesto al sellarlo y «Joyas ocultas» (encantan y casi nadie va) en la ficha y en la portada.
 - Cerca de ti (portada): tarjetas con foto de los pendientes a menos de 10 min a pie (o los 3 más cercanos).
 - Enlaces directos: `/?p=<lugar>` abre la ficha y `/?d=<distrito>` el distrito (los usan las páginas SEO).
 - Doble check: ✓ «he estado» (se puede quitar) y ✓✓ GPS (definitivo). Radio 150 m (350 m parques/estadios) + precisión (máx. 50 m); el área se dibuja en el mapa al seleccionar un lugar.
@@ -24,12 +28,15 @@ Guía-mapa de Madrid por sus 21 distritos, mobile-first (390×844, iPhone 14). W
 - Modo oscuro automático. PWA instalable con uso sin conexión (mapa y fotos ya vistos quedan en caché).
 
 ## Código
+Lo propio de la ciudad está en `js/city.js` (nombre, web, mapa, archivos de datos, lugares icónicos y textos locales como los niveles)
+y `tools/city.json` (para los scripts); el resto del código es genérico. Otra ciudad = esos dos archivos + sus datos
+(`tools/places.tsv`, `data/*.geojson`, `data/metro.json`).
 Sin build: `index.html` carga scripts clásicos (`js/data.js`, `config.js`, `auth.js`, `icons.js`, `badges.js`, `share.js`)
 y la app como módulos ES nativos en `js/app/`:
 `main.js` (arranque) · `state.js` (estado y progreso) · `geo.js` (distritos/barrios) · `map.js` (MapLibre, mapa de calor, pines) ·
 `sheet.js` (panel y gestos) · `views.js` (Madrid/distrito/ficha, checks) · `pages.js` (Diario/Logros) · `gps.js` (ubicación,
 sugerencias, barrios por GPS, debug) · `level.js` (puntos y niveles) · `i18n.js` (textos ES/EN) · `wiki.js` · `sync.js` (Supabase) ·
-`analytics.js` (PostHog). Al añadir un módulo, añadirlo también a `SHELL` en `sw.js`.
+`analytics.js` (PostHog) · `community.js` (estadísticas de comunidad y avisos de error). Al añadir un módulo, añadirlo también a `SHELL` en `sw.js`.
 
 ## Analítica (PostHog, UE + Vercel Web Analytics)
 Vercel Web Analytics (`/_vercel/insights/script.js`, cargado desde `analytics.js`) da el panel sencillo de visitantes diarios; se activa en Vercel → proyecto → Analytics.
@@ -41,12 +48,13 @@ Todos los eventos llevan `app=madrid-passport` (el proyecto de PostHog se compar
 `app_opened`, `district_opened`, `place_opened`, `pin_tapped`, `place_checked`, `place_unchecked`, `gps_check_attempt`,
 `gps_confirmed`, `gps_too_far`, `gps_error`, `suggestion_shown`, `suggestion_dismissed`, `barrio_discovered`,
 `badge_unlocked`, `badge_notif_tapped`, `level_up`, `search`, `type_filter`, `status_filter`, `tab_viewed`, `type_progress_tapped`, `barrio_unmarked`,
-`share_opened`, `share_done`, `share_error`, `nearby_located`, `district_sort`, `next_nearby_opened`, `list_added`, `list_removed`, `undo`, `cluster_tapped`, `place_link_opened`, `deeplink_opened`, `onboarding_quickmark`, `barrio_notif_tapped`, `directions_clicked`, `locate`, `language_changed`, `login_clicked`, `logout`,
+`share_opened`, `share_done`, `share_error`, `nearby_located`, `district_sort`, `next_nearby_opened`, `list_added`, `list_removed`, `undo`, `cluster_tapped`, `place_link_opened`, `deeplink_opened`, `place_rated`, `place_shared`, `place_reported`, `onboarding_quickmark`, `barrio_notif_tapped`, `directions_clicked`, `locate`, `language_changed`, `login_clicked`, `logout`,
 `sync_error`, `app_installed`, `onboarding_shown`, `onboarding_step`, `onboarding_done`, `js_error`; además páginas vistas, autocaptura de clics, web vitals y grabación de sesiones
 (si está activada en el proyecto). Dashboard: «Madrid Passport · Uso».
 
 ## SEO
-`python3 tools/build_seo.py` (tras `build_data.py`) genera páginas estáticas indexables: `/lugar/<id>/` (título, descripción,
+`python3 tools/build_seo.py` (tras `build_data.py`) genera páginas estáticas indexables en español y en inglés
+(`/en/place/<id>/`, `/en/district/<id>/`, `/en/places/`, con `hreflang` entre ambas y nombre/descripción de la Wikipedia inglesa): `/lugar/<id>/` (título, descripción,
 foto, JSON-LD `TouristAttraction`, metro, «Aquí dentro», cercanos), `/distrito/<id>/` (`ItemList`), `/lugares/` (índice),
 `sitemap.xml` y `robots.txt`. Cada página enlaza a la app con `?p=` / `?d=`. El service worker no las cachea.
 
@@ -60,7 +68,8 @@ cd tests && npm install && npm test
 ```
 
 ## Cuentas (Google) y sincronización — Supabase
-1. Crear proyecto en supabase.com. En **SQL Editor** ejecutar `supabase/schema.sql` (tabla `progress` con RLS).
+1. Crear proyecto en supabase.com. En **SQL Editor** ejecutar `supabase/schema.sql` (tabla `progress` con RLS, funciones de
+   comunidad `visited_percentile`, `place_stats`, `place_rank` y tabla `reports`). Se puede volver a ejecutar entero tras cambios.
 2. Google Cloud Console → APIs y servicios → Credenciales → **ID de cliente OAuth** (Aplicación web).
    URI de redirección autorizado: `https://<proyecto>.supabase.co/auth/v1/callback`.
 3. Supabase → Authentication → Providers → **Google**: activar y pegar Client ID y Client Secret.

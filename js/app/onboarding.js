@@ -1,7 +1,7 @@
 // Onboarding (primera vez): 5 pantallas (la última: marcar sitios donde ya has estado → primera recompensa en segundos) con swipe (scroll-snap nativo) o «Continuar», puntitos de progreso y,
 // al final, permiso de ubicación. Se puede volver a ver desde el Diario.
 import { $, esc } from './util.js';
-import { S, PLACES, BYID, DISTRICTS, lvl } from './state.js';
+import { S, PLACES, BYID, DISTRICTS, BARRIOS, lvl } from './state.js';
 import { commit } from './views.js';
 import { PTS } from './level.js';
 import { t } from './i18n.js';
@@ -10,13 +10,14 @@ import { getPos, onPosition } from './gps.js';
 import { track } from './analytics.js';
 
 const KEY = 'mp.onboarded';
+const APP = esc(MP_CITY.app.toUpperCase());
 export const onboarded = () => { try { return !!localStorage.getItem(KEY); } catch { return true; } };
 
 // Silueta de Madrid por distritos con tonos de «mapa de calor» (paso 1). Cada distrito entra con un pequeño retraso.
 function mapSVG() {
   let b = [180, 90, -180, -90];
   DISTRICTS.forEach((d) => { b = [Math.min(b[0], d.bbox[0]), Math.min(b[1], d.bbox[1]), Math.max(b[2], d.bbox[2]), Math.max(b[3], d.bbox[3])]; });
-  const k = Math.cos((40.42 * Math.PI) / 180), W = 300, s = W / ((b[2] - b[0]) * k), H = (b[3] - b[1]) * s;
+  const k = Math.cos((MP_CITY.map.center[1] * Math.PI) / 180), W = 300, s = W / ((b[2] - b[0]) * k), H = (b[3] - b[1]) * s;
   const tones = [0.14, 0.24, 0.38, 0.56, 0.78];
   // orden de aparición: del centro hacia fuera
   const cx = (b[0] + b[2]) / 2, cy = (b[1] + b[3]) / 2;
@@ -45,12 +46,12 @@ const GPS = `<svg viewBox="0 0 260 230" class="ob-gps" aria-hidden="true">
 const STAMP = `<div class="ob-stampwrap"><svg viewBox="0 0 160 160" class="ob-stamp" aria-hidden="true"><g transform="rotate(-10 80 80)" fill="none" stroke="var(--red)">
   <circle cx="80" cy="80" r="66" stroke-width="5"/><circle cx="80" cy="80" r="50" stroke-width="2"/>
   <path id="ob-arc" d="M80 80 m-58 0 a58 58 0 1 1 116 0 a58 58 0 1 1 -116 0" stroke="none"/>
-  <text font-size="11" font-weight="800" letter-spacing="3" fill="var(--red)" stroke="none"><textPath href="#ob-arc">MADRID PASSPORT · MADRID PASSPORT ·</textPath></text>
+  <text font-size="11" font-weight="800" letter-spacing="3" fill="var(--red)" stroke="none"><textPath href="#ob-arc">${APP} · ${APP} ·</textPath></text>
   <path d="M58 92V72l-2-12 9 6h30l9-6-2 12v20z M70 76h.1M90 76h.1M74 86h12" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
   <div class="ob-level"><span>8</span><div><small>${t('level')} 8</small><b>${t('lvl.gato')}</b></div><i><em></em></i></div></div>`;
 
 // Paso 5: imprescindibles para marcar de un toque los que ya conoces (se guardan al cerrar)
-const ICONIC = ['puerta-sol', 'plaza-mayor', 'parque-retiro', 'palacio-real', 'gran-via', 'prado', 'debod', 'cibeles', 'bernabeu'];
+const ICONIC = MP_CITY.iconic;
 const quick = () => `<div class="ob-quick" id="ob-quick">${ICONIC.filter((id) => BYID[id]).map((id) => `<button class="ob-q" data-q="${id}" aria-pressed="false">${MP_ICON(BYID[id].type, 'ico')}<span>${esc(BYID[id].name)}</span></button>`).join('')}</div>
   <div class="ob-qn" id="ob-qn" aria-live="polite">&nbsp;</div>`;
 
@@ -65,7 +66,7 @@ export function showOnboarding(source = 'first') {
   el.id = 'onboard'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true'); el.setAttribute('aria-label', t('ob.aria'));
   el.innerHTML = `<button class="ob-skip" id="ob-skip">${t('ob.skip')}</button>
     <div class="ob-track" id="ob-track">${steps.map(([k, ill], i) => `<section class="ob-slide" aria-label="${i + 1} / ${steps.length}">
-      <div class="ob-ill"><span class="ob-blob"></span>${ill}</div><h1>${esc(t(k + '.t'))}</h1><p>${esc(t(k + '.d', { n: Math.floor(PLACES.length / 50) * 50 }))}</p></section>`).join('')}</div>
+      <div class="ob-ill"><span class="ob-blob"></span>${ill}</div><h1>${esc(t(k + '.t'))}</h1><p>${esc(t(k + '.d', { n: Math.floor(PLACES.length / 50) * 50, d: DISTRICTS.length, b: BARRIOS.length }))}</p></section>`).join('')}</div>
     <div class="ob-foot"><div class="ob-dots" id="ob-dots">${steps.map((_, i) => `<i class="${i ? '' : 'on'}"></i>`).join('')}</div>
       <button class="ob-btn" id="ob-next">${t('ob.next')}</button><button class="ob-later" id="ob-later">&nbsp;</button>
       <a class="ob-privacy" href="privacy.html">${t('privacy')}</a></div>`;

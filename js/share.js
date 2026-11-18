@@ -76,7 +76,7 @@ window.MPShare = (() => {
     const pct = pl.length ? Math.round((vis / pl.length) * 100) : 0;
     const ty = format === 'story' ? 200 : 120;
     x.textBaseline = 'alphabetic';
-    x.fillStyle = RED; x.font = `600 30px ${FONT}`; x.fillText('MADRID PASSPORT', 80, ty);
+    x.fillStyle = RED; x.font = `600 30px ${FONT}`; x.fillText(MP_CITY.app.toUpperCase(), 80, ty);
     x.fillStyle = INK; x.font = `700 ${district && district.name.length > 12 ? 60 : 72}px ${FONT}`; x.fillText(district ? district.name : L.title, 80, ty + 82);
     x.textAlign = 'right'; x.font = `700 72px ${FONT}`; x.fillStyle = RED; x.fillText(pct + '%', W - 80, ty + 82); x.textAlign = 'left';
     // Nivel del usuario: píldora roja «NIVEL 3 · VISITANTE» + puntos
@@ -105,7 +105,7 @@ window.MPShare = (() => {
 
   async function share(opts) {
     const blob = await render(opts);
-    const name = `madrid-passport-${opts.district ? opts.district.id : 'madrid'}-${opts.format || 'post'}.png`;
+    const name = `${MP_CITY.id}-passport-${opts.district ? opts.district.id : MP_CITY.id}-${opts.format || 'post'}.png`;
     const file = new File([blob], name, { type: 'image/png' });
     if (navigator.canShare?.({ files: [file] })) {
       try { await navigator.share({ files: [file] }); return 'shared'; }   // sin título: iOS muestra la miniatura de la imagen

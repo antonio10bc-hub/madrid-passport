@@ -434,3 +434,54 @@ test('SEO: quien ya usa la app no ve los botones de abrir/empezar/sellar', async
   await expect(page.locator('header .btn')).toBeHidden();
   await expect(page.locator('.cta')).toHaveCount(1);         // sigue en la página para visitantes nuevos
 });
+
+test('ficha: valoración personal tras visitar (se guarda como r:<id>)', async ({ page }) => {
+  await page.goto('./?p=plaza-mayor');
+  await expect(page.locator('.rate')).toHaveCount(0);          // sin visitar no se valora
+  await page.locator('.pd-head .chk[data-a="1"]').click();
+  await page.locator('.rate [data-rate="3"]').click();
+  await expect(page.locator('.rate [data-rate="3"]')).toHaveClass(/on/);
+  const v = await page.evaluate(() => JSON.parse(localStorage.getItem('mp.visits.v1'))['r:plaza-mayor']);
+  expect(v.v).toBe(3);
+});
+
+test('ficha: comunidad (viajeros, me encantó, puesto y joya oculta) desde Supabase', async ({ page }) => {
+  await page.route(/rpc\/place_stats/, (r) => r.fulfill({ json: { 'puerta-sol': [12, 7], 'plaza-mayor': [40, 5], 'debod': [3, 3], 'gran-via': [30, 4] } }));
+  await page.route(/rpc\/place_rank/, (r) => r.fulfill({ json: 4 }));
+  await page.evaluate(() => localStorage.setItem('mp.visits.v1', JSON.stringify({ 'puerta-sol': { lvl: 1, t: 1700000000000 } })));
+  await page.goto('./?p=puerta-sol');
+  await expect(page.locator('.comm')).toContainText('Sellado por 12 viajeros · a 7 les encantó · fuiste el 4.º en sellarlo');
+  await page.goto('./?p=debod');
+  await expect(page.locator('.comm .gem')).toHaveText('Joya oculta');
+  await page.goto('./');
+  await expect(page.locator('.gems')).toContainText('Templo de Debod');
+});
+
+test('ficha: compartir lugar (copia el enlace sin navigator.share) y reportar un error', async ({ page, context }) => {
+  await context.grantPermissions(['geolocation', 'clipboard-read', 'clipboard-write']);
+  await page.goto('./?p=debod');
+  await page.evaluate(() => { delete Navigator.prototype.share; });
+  await page.locator('#pl-share').click();
+  await expect(page.locator('.toast')).toContainText('Enlace copiado');
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toContain('https://www.madridpassport.com/lugar/debod/');
+  await page.locator('#pl-report').click();
+  const card = page.locator('.rep-card');
+  await expect(card).toContainText('Templo de Debod');
+  await card.locator('text=La foto').click();
+  await card.locator('textarea').fill('La foto es de otro sitio');
+  await card.locator('.rep-send').click();
+  await expect(page.locator('.rep-ov')).toHaveCount(0);
+  await expect(page.locator('.toast')).toContainText('Gracias');
+});
+
+test('SEO en inglés: páginas /en/ con hreflang y enlace a la app en inglés', async ({ request }) => {
+  const h = await (await request.get('en/place/palacio-real/')).text();
+  expect(h).toContain('<html lang="en">');
+  expect(h).toContain('<h1>Royal Palace of Madrid</h1>');
+  expect(h).toContain('hreflang="es" href="https://www.madridpassport.com/lugar/palacio-real/"');
+  expect(h).toContain('href="/?p=palacio-real&lang=en"');
+  const es = await (await request.get('lugar/palacio-real/')).text();
+  expect(es).toContain('hreflang="en" href="https://www.madridpassport.com/en/place/palacio-real/"');
+  expect(await (await request.get('en/places/')).text()).toContain('Things to do in Madrid');
+  expect(await (await request.get('sitemap.xml')).text()).toContain('/en/district/retiro/');
+});
