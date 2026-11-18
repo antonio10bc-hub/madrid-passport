@@ -54,8 +54,12 @@ const ICONIC = ['puerta-sol', 'plaza-mayor', 'parque-retiro', 'palacio-real', 'g
 const quick = () => `<div class="ob-quick" id="ob-quick">${ICONIC.filter((id) => BYID[id]).map((id) => `<button class="ob-q" data-q="${id}" aria-pressed="false">${MP_ICON(BYID[id].type, 'ico')}<span>${esc(BYID[id].name)}</span></button>`).join('')}</div>
   <div class="ob-qn" id="ob-qn" aria-live="polite">&nbsp;</div>`;
 
+// Promesa que se cumple al cerrar la intro (main.js espera a ella para crear el mapa: si no, su carga da tirones en las animaciones)
+let closed = null;
 export function showOnboarding(source = 'first') {
-  if ($('#onboard')) return;
+  if ($('#onboard')) return closed;
+  let done;
+  closed = new Promise((r) => (done = r));
   const steps = [['ob.1', mapSVG()], ['ob.2', PIN], ['ob.3', GPS], ['ob.4', STAMP], ['ob.5', quick()]];
   const el = document.createElement('div');
   el.id = 'onboard'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true'); el.setAttribute('aria-label', t('ob.aria'));
@@ -101,7 +105,7 @@ export function showOnboarding(source = 'first') {
     }
     track('onboarding_done', { action, step: idx + 1, source });
     el.classList.add('out');
-    setTimeout(() => el.remove(), 300);
+    setTimeout(() => { el.remove(); done(); }, 300);
   };
   next.onclick = async () => {
     if (!last()) return go(idx + 1);
@@ -112,10 +116,11 @@ export function showOnboarding(source = 'first') {
   skip.onclick = () => close('skip');
   paint();
   track('onboarding_shown', { source });
+  return closed;
 }
 
 // Primera vez: solo si nunca se ha visto y no hay progreso (usuarios que ya usaban la app no lo ven)
 export function maybeOnboarding() {
-  if (onboarded() || S.debug || PLACES.some((p) => lvl(p.id) > 0)) return;   // solo cuentan lugares (no barrios pisados al arrancar)
-  showOnboarding('first');
+  if (onboarded() || S.debug || PLACES.some((p) => lvl(p.id) > 0)) return Promise.resolve();   // solo cuentan lugares (no barrios pisados al arrancar)
+  return showOnboarding('first');
 }

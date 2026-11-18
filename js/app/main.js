@@ -71,10 +71,11 @@ async function boot() {
     if (!Object.keys(S.badges).length) S.badges = unlockedNow(true);
     initLevel();
     render();
-    maybeOnboarding();
+    const intro = maybeOnboarding();
     const p = PLACES.filter((x) => lvl(x.id) > 0);
     track('app_opened', { visited: p.length, gps: p.filter((x) => lvl(x.id) === 2).length, barrios: BARRIOS.filter((b) => blvl(b) > 0).length, badges: Object.keys(S.badges).length });
     setPerson({ places_visited: p.length, lang });
+    await intro;                     // el mapa se crea al cerrar la intro (su carga bloquea el hilo y daba tirones en las animaciones)
     await initMap();
     render();
     afterMap();
