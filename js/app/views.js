@@ -125,13 +125,16 @@ function renderHome() {
   body.querySelectorAll('[data-t]').forEach((el) => (el.onclick = () => {
     S.typeFilter = S.typeFilter === el.dataset.t ? null : el.dataset.t;
     if (S.typeFilter) track('filter_applied', { filter_kind: 'type', type: S.typeFilter });
-    // Con el panel bajo, al filtrar se abre a la mitad para ver los resultados
-    if (S.typeFilter && ['min', 'peek'].includes(sheet.dataset.state)) setSheet('half');
+    // Igual que al venir desde Logros: panel plegado (peek) para ver el mapa filtrado y el chip centrado en su fila
+    if (S.typeFilter) setSheet('peek');
     render();
-    // Favoritos / quiero ir: encuadrar en el mapa los lugares de la lista
+    const row = $('#type-chips'), chip = row?.querySelector('.chip.on');
+    if (chip) { const c = chip.getBoundingClientRect(), r = row.getBoundingClientRect(); row.scrollTo({ left: row.scrollLeft + c.left + c.width / 2 - (r.left + r.width / 2), behavior: 'smooth' }); }
+    // Favoritos / quiero ir: encuadrar los lugares de la lista; tipos: Madrid entera
     const res = S.typeFilter?.startsWith('__') ? homeResults() : [];
     if (res.length) requestAnimationFrame(() => fit(res.reduce((b, p) => [Math.min(b[0], p.coords[1]), Math.min(b[1], p.coords[0]), Math.max(b[2], p.coords[1]), Math.max(b[3], p.coords[0])], [180, 90, -180, -90]),
-      { padding: pad('half'), maxZoom: 15, duration: 700 }));
+      { padding: pad('peek'), maxZoom: 15, duration: 700 }));
+    else if (S.typeFilter) requestAnimationFrame(() => fitCity(true));
   }));
   bindHomeList();
 }

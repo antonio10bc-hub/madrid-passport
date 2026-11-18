@@ -307,7 +307,7 @@ test('pines agrupados: al alejar se juntan y al tocar el grupo se acerca', async
   expect(await page.evaluate(() => window.__minZ)).toBeGreaterThanOrEqual(z0 - 0.01);   // sin alejarse antes de acercar
 });
 
-test('al pulsar un filtro, la fila de filtros no vuelve al principio', async ({ page }) => {
+test('al pulsar un filtro: la fila no vuelve al principio, centra el chip y pliega el panel', async ({ page }) => {
   await page.waitForTimeout(1500);                          // que termine de arrancar (mapa y primera posición)
   const row = page.locator('#type-chips');
   await row.evaluate((el) => (el.scrollLeft = 300));
@@ -315,13 +315,15 @@ test('al pulsar un filtro, la fila de filtros no vuelve al principio', async ({ 
   const x = await row.evaluate((el) => el.scrollLeft);
   expect(x).toBeGreaterThan(0);
   await row.evaluate((el) => el.querySelectorAll('.chip')[5].click());   // clic sin que el test desplace la fila
-  await expect.poll(() => page.locator('#type-chips').evaluate((el) => el.scrollLeft)).toBe(x);
+  await expect.poll(() => row.evaluate((el) => { const c = el.querySelector('.chip.on').getBoundingClientRect(), r = el.getBoundingClientRect(); return Math.abs((c.left + c.width / 2) - (r.left + r.width / 2)); })).toBeLessThan(4);
+  expect(await row.evaluate((el) => el.scrollLeft)).toBeGreaterThan(0);
+  await expect(page.locator('#sheet')).toHaveAttribute('data-state', 'peek');
 });
 
 test('buscador y filtro por tipo', async ({ page }) => {
   await expect(page.locator('#sheet')).toHaveAttribute('data-state', 'peek');
   await page.locator('.chip[data-t="Museo"]').click();
-  await expect(page.locator('#sheet')).toHaveAttribute('data-state', 'half');   // con el panel bajo, se abre a la mitad
+  await expect(page.locator('#sheet')).toHaveAttribute('data-state', 'peek');   // panel plegado: se ve el mapa filtrado
   await expect(page.locator('.sec-sub')).toContainText('resultados');
   await expect(page.locator('.pitem').first()).toContainText(/Museo/);
   await page.locator('#q-clear').click();
@@ -494,4 +496,16 @@ test('tocar Mapa estando en el mapa quita el filtro por tipo y la búsqueda', as
   await page.locator('.tabbar [data-tab="map"]').click();
   await expect(page.locator('#type-chips .chip.on')).toHaveCount(0);
   await expect(page.locator('.row')).toHaveCount(21);
+});
+
+test('el gesto atrás no sale de la app: vuelve al mapa desde Diario y cierra el distrito', async ({ page }) => {
+  await page.locator('.tabbar [data-tab="diary"]').click();
+  await expect(page.locator('#page')).toBeVisible();
+  await page.goBack();
+  await expect(page.locator('#page')).toBeHidden();
+  await page.locator('.row[data-id="centro"]').click();
+  await expect(page.locator('#back')).toBeVisible();
+  await page.goBack();
+  await expect(page.locator('.row')).toHaveCount(21);
+  expect(page.url()).toContain('localhost');
 });

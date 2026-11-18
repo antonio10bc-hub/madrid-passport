@@ -7,7 +7,7 @@ import { initSheet } from './sheet.js';
 import { map, initMap, prefetchStyle } from './map.js';
 import { initGps, afterMap } from './gps.js';
 import { render, initLevel, openPlace, openDistrict } from './views.js';
-import { initPages, unlockedNow, levelState } from './pages.js';
+import { initPages, unlockedNow, levelState, setTab } from './pages.js';
 import { initSync } from './sync.js';
 import { initAnalytics, track, setPerson } from './analytics.js';
 import { maybeOnboarding } from './onboarding.js';
@@ -57,6 +57,18 @@ function deepLink() {
   } catch (e) { console.error(e); }
 }
 
+// Gesto de «atrás» (deslizar desde el borde en iOS, botón atrás en Android): no sale de la app, navega dentro de ella
+function trapBack() {
+  history.pushState({ mp: 1 }, '', location.href);
+  addEventListener('popstate', () => {
+    history.pushState({ mp: 1 }, '', location.href);
+    const from = S.tab !== 'map' ? S.tab : S.view.type;
+    if (S.tab !== 'map') setTab('map');
+    else if (S.view.type !== 'home') $('#back')?.click();
+    track('back_gesture', { from });
+  });
+}
+
 async function boot() {
   applyStatic();
   initAnalytics({ lang });
@@ -80,6 +92,7 @@ async function boot() {
     render();
     afterMap();
     deepLink();
+    trapBack();
   } catch (e) { console.error(e); toast(t('map.error'), true); }
   if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost'))
     navigator.serviceWorker.register('sw.js').catch(() => {});
