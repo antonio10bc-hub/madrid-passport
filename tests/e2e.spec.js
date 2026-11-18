@@ -133,6 +133,10 @@ test('logros: nivel arriba, puntos y progreso por tipo', async ({ page }) => {
   await page.locator('.tp-row[data-type="Museo"]').click();
   await expect(page.locator('#page')).toBeHidden();
   await expect(page.locator('.chip.on[data-t="Museo"]')).toBeVisible();
+  await expect(page.locator('#sheet')).toHaveAttribute('data-state', 'peek');
+  // el chip elegido queda centrado en su fila
+  const off = await page.locator('#type-chips').evaluate((row) => { const c = row.querySelector('.chip.on').getBoundingClientRect(), r = row.getBoundingClientRect(); return Math.abs((c.left + c.width / 2) - (r.left + r.width / 2)); });
+  expect(off).toBeLessThan(4);
 });
 
 test('logros: los tres más difíciles van al final, los de GPS en dorado', async ({ page }) => {

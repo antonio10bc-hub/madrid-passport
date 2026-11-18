@@ -8,7 +8,6 @@ import { renderAccount } from './sync.js';
 import { track } from './analytics.js';
 import { notify } from './notify.js';
 import { showOnboarding } from './onboarding.js';
-import { setSheet } from './sheet.js';
 
 const page = $('#page'), pageBody = $('#page-body');
 
@@ -257,7 +256,10 @@ export function renderPage() {
   bindCal();
   pageBody.querySelectorAll('[data-type]').forEach((el) => (el.onclick = () => {
     track('type_progress_tapped', { type: el.dataset.type });
-    S.typeFilter = el.dataset.type; S.query = ''; setTab('map'); goHome(); setSheet('half');
+    S.typeFilter = el.dataset.type; S.query = ''; setTab('map'); goHome();   // panel plegado (peek): se ve el mapa filtrado
+    // chips: centra el del tipo elegido en su fila horizontal
+    const row = $('#type-chips'), chip = row?.querySelector('.chip.on');
+    if (chip) { const c = chip.getBoundingClientRect(), r = row.getBoundingClientRect(); row.scrollLeft += c.left + c.width / 2 - (r.left + r.width / 2); }
   }));
   pageBody.querySelector('[data-barrios]')?.addEventListener('click', () => toast(t('barrio.hint')));
   bindPlaceItems(pageBody);
