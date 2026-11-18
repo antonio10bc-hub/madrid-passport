@@ -29,8 +29,7 @@ function mapSVG() {
 const PIN = `<div class="ob-pinwrap"><svg viewBox="0 0 120 150" class="ob-pin" aria-hidden="true">
   <ellipse class="ob-shadow" cx="60" cy="142" rx="22" ry="5" fill="#000" fill-opacity=".12"/>
   <g class="ob-drop"><path d="M60 132s-46-40-46-76a46 46 0 0192 0c0 36-46 76-46 76z" fill="var(--red)"/>
-  <path class="ob-draw" pathLength="1" d="M39 57l14 14 28-29" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
-  <span class="ob-chip">${MP_ICON('ticket', 'ico')}<b>+10</b></span></div>`;
+  <path class="ob-draw" pathLength="1" d="M39 57l14 14 28-29" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></g></svg></div>`;
 // GPS (paso 3): tu punto azul entra en el área, el pin dorado salta y se dibuja el doble check
 const GPS = `<svg viewBox="0 0 260 230" class="ob-gps" aria-hidden="true">
   <circle cx="130" cy="122" r="92" fill="var(--gold)" fill-opacity=".1"/>
