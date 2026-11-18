@@ -495,7 +495,7 @@ button, a, input, .place, .row, .pitem { touch-action: manipulation; }
 .tp-ring { position: relative; width: 60px; height: 60px; }
 .tp-n { position: absolute; inset: 0; display: grid; place-items: center; font-size: 11.5px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--ink); }
 .tp-row.done .tp-n { color: var(--red); }
-.tp-name { font-size: 11.5px; color: var(--muted); max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tp-name { font-size: 11px; letter-spacing: -.01em; color: var(--muted); max-width: calc(100% + 6px);  /* puede invadir el gap: cabe «Neighbourhoods» */ white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .tp-row:active { background: var(--bg-2); }
 
 /* ---------- Diario: tarjeta pasaporte + calendario ---------- */

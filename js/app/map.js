@@ -18,6 +18,8 @@ async function loadStyle() {
       const st = await r.json();
       // Quita la etiqueta «Madrid» del mapa base: se solapaba con las de los distritos (Centro)
       st.layers.forEach((l) => {
+        // Mismo estilo de texto en claro y oscuro (el tema oscuro pone todo en mayúsculas)
+        if (l.layout?.['text-transform']) delete l.layout['text-transform'];
         if (l['source-layer'] === 'place' && l.type === 'symbol') l.filter = ['all', l.filter ?? true, ['!=', ['get', 'name'], 'Madrid']];
       });
       // Capas que no aportan nada aquí (aeropuertos, nombres de ríos pequeños): menos trabajo de dibujo y de etiquetas
