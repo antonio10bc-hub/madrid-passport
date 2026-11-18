@@ -105,17 +105,19 @@ export function checkNearby(pos = S.myPos) {
 // ---------- Sello de confirmación GPS (momento firma de la app) ----------
 export function gpsStamp(place) {
   const gold = css('--gold'), d = new Date();
-  const ico = MP_ICON('pin').replace('class="ico"', `width="56" height="56" fill="none" stroke="${gold}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"`);
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 240 240" width="720" height="720">
-    <defs>
-      <path id="arc" d="M120 120 m-88 0 a88 88 0 1 1 176 0 a88 88 0 1 1 -176 0"/></defs>
-    <g opacity=".92"><circle cx="120" cy="120" r="104" fill="none" stroke="${gold}" stroke-width="7"/><circle cx="120" cy="120" r="74" fill="none" stroke="${gold}" stroke-width="2.5"/>
-      <text font-family="-apple-system,system-ui,sans-serif" font-size="15" font-weight="800" letter-spacing="3.2" fill="${gold}"><textPath xlink:href="#arc">${esc(t('stamp.gps'))}</textPath></text>
-      <g transform="translate(92 74)">${ico}</g>
-      <text x="120" y="160" text-anchor="middle" font-family="-apple-system,system-ui,sans-serif" font-size="14" font-weight="800" letter-spacing="2" fill="${gold}">${stampDate(d)}</text></g></svg>`;
+  // Pegatina dorada (mismo estilo que los sellos de Logros): borde blanco, sombra sólida, texto en arco y fecha en chapita
+  const ico = MP_ICON('pin').replace('class="ico"', 'width="56" height="56" x="92" y="70" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"');
+  const svg = `<svg viewBox="0 0 240 240" class="gps-svg" aria-hidden="true">
+    <circle cx="127" cy="128" r="106" fill="rgba(140,29,38,.22)"/>
+    <circle cx="120" cy="120" r="104" fill="${gold}" stroke="#fff" stroke-width="10"/>
+    <circle cx="120" cy="120" r="76" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="2.5" stroke-dasharray="3 6"/>
+    <path id="gps-arc" d="M120 120 m-88 0 a88 88 0 1 1 176 0 a88 88 0 1 1 -176 0" fill="none"/>
+    <text class="gps-arc"><textPath href="#gps-arc">${esc(t('stamp.gps'))}</textPath></text>
+    ${ico}<rect x="58" y="140" width="124" height="28" rx="14" fill="#fff"/>
+    <text x="120" y="160" text-anchor="middle" class="gps-date" fill="${gold}">${stampDate(d)}</text></svg>`;
   const el = document.createElement('div');
   el.className = 'gps-stamp';
-  el.innerHTML = `<img alt="" src="data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}"><p>${esc(place.name)}</p>`;
+  el.innerHTML = `${svg}<p>${esc(place.name)}</p>`;
   el.style.setProperty('--rot', `${(Math.random() * 16 - 8).toFixed(1)}deg`);
   $('#app').appendChild(el);
   navigator.vibrate?.([12, 40, 24]);

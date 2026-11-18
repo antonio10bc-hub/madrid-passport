@@ -1017,3 +1017,12 @@ h2, h3 { font-weight: 600; }
 /* Nivel: May cabe dentro del anillo dorado (GPS), que ya no queda tapado */
 .lvl-ring { width: 150px; height: 150px; }
 .lvl-face { inset: 37px; padding: 3px; }
+/* Sellos «pegatina» (Logros y confirmación GPS) */
+.pp-svg { overflow: visible; }
+.pp-city { font: 700 10.5px var(--f-display); letter-spacing: 2.4px; fill: #fff; opacity: .9; }
+.pp-date { font: 700 11.5px var(--f-display); }
+.pp-n { font: 600 16px var(--f-display); fill: var(--muted); font-variant-numeric: tabular-nums; }
+.pp strong { font-family: var(--f-display); font-size: 12px; }
+.gps-stamp .gps-svg { position: relative; width: 220px; height: 220px; overflow: visible; transform: rotate(var(--rot)); animation: stamp-hit .42s cubic-bezier(.2, 1.4, .4, 1) both; }
+.gps-arc { font: 700 15px var(--f-display); letter-spacing: 3px; fill: #fff; }
+.gps-date { font: 700 15px var(--f-display); letter-spacing: 1px; }
