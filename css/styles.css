@@ -771,7 +771,10 @@ button, a, input, .place, .row, .pitem { touch-action: manipulation; }
 .ob-again { width: 100%; display: flex; align-items: center; gap: 8px; margin-top: 22px; min-height: 44px; font-size: 14px; color: var(--muted); }
 .ob-again .ico { width: 18px; height: 18px; }
 @media (prefers-reduced-motion: reduce) { #onboard { animation: none; } }
-.gbtn-gis { width: 100%; min-height: 44px; display: flex; justify-content: center; }
+.gbtn-gis { position: relative; width: 100%; height: 44px; color-scheme: light; }   /* light: el iframe de Google no pinta fondo opaco en modo oscuro */
+.gbtn-gis .gph { position: absolute; inset: 2px 0; height: 40px; border-radius: 999px; font-weight: 500; font-size: 14px; pointer-events: none; transition: opacity .25s; }
+#login-gis { position: relative; width: 100%; height: 44px; display: flex; justify-content: center; align-items: center; opacity: 0; transition: opacity .25s; }
+.gbtn-gis.ready #login-gis { opacity: 1; } .gbtn-gis.ready .gph { opacity: 0; }
 .ob-privacy { display: block; text-align: center; font-size: 12px; color: var(--muted); margin-top: 2px; }
 
 /* Onboarding paso 5: marcar imprescindibles ya visitados */
