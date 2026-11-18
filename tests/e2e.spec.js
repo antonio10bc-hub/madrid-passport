@@ -487,3 +487,11 @@ test('SEO en inglés: páginas /en/ con hreflang y enlace a la app en inglés', 
   expect(await (await request.get('en/places/')).text()).toContain('Things to do in Madrid');
   expect(await (await request.get('sitemap.xml')).text()).toContain('/en/district/retiro/');
 });
+
+test('tocar Mapa estando en el mapa quita el filtro por tipo y la búsqueda', async ({ page }) => {
+  await page.locator('#type-chips [data-t="Barrio"]').click();
+  await expect(page.locator('.chip.on[data-t="Barrio"]')).toBeVisible();
+  await page.locator('.tabbar [data-tab="map"]').click();
+  await expect(page.locator('#type-chips .chip.on')).toHaveCount(0);
+  await expect(page.locator('.row')).toHaveCount(21);
+});
