@@ -267,6 +267,9 @@ export function renderPage() {
 }
 export function setTab(tb) {
   if (S.tab !== tb) track('tab_viewed', { tab: tb });
+  // Diario ↔ Logros: la página no se oculta, así que se repite la entrada solo en su contenido (el fondo no parpadea)
+  if (S.tab !== tb && S.tab !== 'map' && tb !== 'map') { page.classList.remove('swap'); void page.offsetWidth; page.classList.add('swap'); }
+  if (tb === 'map') page.classList.remove('swap');   // desde el mapa anima la página entera; no duplicar
   S.tab = tb;
   if (tb !== 'diary') settingsOpen = false;
   document.querySelectorAll('.tabbar button').forEach((b) => b.classList.toggle('on', b.dataset.tab === tb));
