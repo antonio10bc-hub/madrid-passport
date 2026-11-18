@@ -301,7 +301,8 @@ export function clusterPins() {
       // Acercar en línea recta (easeTo) hasta que el grupo quepa; nunca alejar, y como mínimo hasta el zoom del abanico
       const z0 = map.getZoom(), cur = map.getPadding();
       if (cur.top || cur.bottom || cur.left || cur.right) map.setPadding({ top: 0, bottom: 0, left: 0, right: 0 });
-      const cam = map.cameraForBounds(b, { padding: pad(sheet.dataset.state) });
+      const P = pad(sheet.dataset.state), AIR = 48;   // aire extra: los pines no quedan pegados a los bordes visibles
+      const cam = map.cameraForBounds(b, { padding: { top: P.top + AIR, bottom: P.bottom + AIR, left: P.left + AIR, right: P.right + AIR } });
       const zoom = Math.max(Math.min(cam?.zoom ?? z0 + 2, FAN_ZOOM + 1), z0 + 1);
       map.easeTo({ center: [(b[0] + b[2]) / 2, (b[1] + b[3]) / 2], zoom, offset: centerOffset(sheet.dataset.state), duration: 600 });
     };
