@@ -426,3 +426,11 @@ test('SEO: páginas estáticas de lugar, distrito, índice y sitemap', async ({ 
   const sm = await (await request.get('sitemap.xml')).text();
   expect(sm).toContain('https://www.madridpassport.com/lugar/plaza-mayor/');
 });
+
+test('SEO: quien ya usa la app no ve los botones de abrir/empezar/sellar', async ({ page }) => {
+  await page.goto('lugar/puerta-sol/');                       // beforeEach ya dejó mp.onboarded en este origen
+  await expect(page.locator('h1')).toHaveText('Puerta del Sol');
+  await expect(page.locator('.cta')).toBeHidden();
+  await expect(page.locator('header .btn')).toBeHidden();
+  await expect(page.locator('.cta')).toHaveCount(1);         // sigue en la página para visitantes nuevos
+});

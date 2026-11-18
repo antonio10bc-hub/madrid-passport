@@ -50,6 +50,7 @@ figure{{margin:0 -16px 6px}}figure img{{display:block;width:100%;height:auto;asp
 .cta{{margin:22px 0;padding:18px;border-radius:18px;background:rgba(214,32,44,.07);text-align:center}}.cta p{{margin:0 0 12px;font-weight:600}}
 ul.list{{list-style:none;margin:0;padding:0}}ul.list li{{border-bottom:1px solid var(--line)}}ul.list a{{display:flex;justify-content:space-between;gap:12px;padding:11px 0;text-decoration:none}}
 ul.list small{{color:var(--muted);white-space:nowrap}}.cols{{columns:2;column-gap:24px}}.cols li{{break-inside:avoid}}
+.mp-user .cta,.mp-user header .btn{{display:none}}
 footer{{max-width:680px;margin:0 auto;padding:24px 16px 40px;font-size:13px;color:var(--muted);border-top:1px solid var(--line)}}footer a{{margin-right:14px}}"""
 
 def page(path, title, desc, body, ld, img=None):
@@ -70,6 +71,7 @@ def page(path, title, desc, body, ld, img=None):
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#0F0F12" media="(prefers-color-scheme: dark)">
 <link rel="icon" type="image/svg+xml" href="/icons/icon.svg"><link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<script>try{{if(localStorage.getItem('mp.onboarded')||localStorage.getItem('mp.visits.v1'))document.documentElement.classList.add('mp-user')}}catch(e){{}}</script>
 <style>{CSS}</style>
 {lds}
 </head>
