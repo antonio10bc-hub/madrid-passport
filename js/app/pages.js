@@ -94,7 +94,7 @@ function calendarHTML(items) {
   const month = first.toLocaleDateString(locale(), { month: 'long', year: 'numeric' });
   const isNow = cal.y === now.getFullYear() && cal.m === now.getMonth();
   const sel = byDay[cal.sel] || [];
-  return `<section class="cal">
+  return `<section class="cal ${sel.length ? 'focus' : ''}">
       <div class="cal-h"><strong>${esc(month[0].toUpperCase() + month.slice(1))}</strong>
         <span><button class="cal-nav prev" data-cal-move="-1" aria-label="${t('cal.prev')}"></button><button class="cal-nav next" data-cal-move="1" aria-label="${t('cal.next')}" ${isNow ? 'disabled' : ''}></button></span></div>
       <div class="cal-wd">${wd.map((w) => `<span>${esc(w)}</span>`).join('')}</div>
@@ -103,6 +103,26 @@ function calendarHTML(items) {
     </section>
     ${sel.length ? `<div class="cal-sel"><strong>${esc(dayLabel(sel[0].t))}</strong><small>${countLabel(sel)}</small></div><div class="cal-list">${sel.map(rowHTML).join('')}</div>`
       : `<p class="cal-none">${t('cal.pick')}</p>`}`;
+}
+// Solo se repinta el calendario (no toda la página): el scroll no se mueve al cambiar de día o de mes
+function updateCal() {
+  const wrap = $('#cal-wrap');
+  if (!wrap) return renderPage();
+  const st = pageBody.scrollTop;
+  wrap.innerHTML = calendarHTML(diaryItems());
+  pageBody.scrollTop = st;
+  bindCal(); bindPlaceItems(wrap);
+}
+function bindCal() {
+  pageBody.querySelectorAll('[data-cal-day]').forEach((el) => (el.onclick = () => {
+    const k = el.dataset.calDay;
+    cal.sel = cal.sel === k ? '' : k;                  // tocar el día ya elegido lo deselecciona
+    track(cal.sel ? 'diary_day_selected' : 'diary_day_deselected'); updateCal();
+  }));
+  pageBody.querySelectorAll('[data-cal-move]').forEach((el) => (el.onclick = () => {
+    const d = new Date(cal.y, cal.m + Number(el.dataset.calMove), 1);
+    cal.y = d.getFullYear(); cal.m = d.getMonth(); track('diary_month_changed'); updateCal();
+  }));
 }
 function renderDiary() {
   const pr = progress(PLACES), bp = bprogress(BARRIOS), items = diaryItems();
@@ -113,7 +133,7 @@ function renderDiary() {
         <div class="gold"><b>${pr.gps + bp.gps}</b><small>GPS</small></div>
         <div><b>${bp.done}<span>/${bp.total}</span></b><small>${t('k.barrios')}</small></div>
         <div><b>${dComplete}<span>/${DISTRICTS.length}</span></b><small>${t('districts')}</small></div></div></section>
-    ${items.length ? calendarHTML(items) : `<div class="empty-state">${t('diary.empty')}</div>`}
+    ${items.length ? `<div id="cal-wrap">${calendarHTML(items)}</div>` : `<div class="empty-state">${t('diary.empty')}</div>`}
     ${undated.length ? `<div class="cal-sel"><strong>${t('nodate')}</strong><small>${countLabel(undated)}</small></div><div class="cal-list">${undated.map(rowHTML).join('')}</div>` : ''}`;
 }
 
@@ -228,13 +248,7 @@ export function renderPage() {
   const st = pageBody.scrollTop;
   pageBody.innerHTML = S.tab === 'diary' ? renderDiary() : renderBadges();
   pageBody.scrollTop = st;
-  pageBody.querySelectorAll('[data-cal-day]').forEach((el) => (el.onclick = () => {
-    cal.sel = el.dataset.calDay; track('diary_day_selected'); renderPage();
-  }));
-  pageBody.querySelectorAll('[data-cal-move]').forEach((el) => (el.onclick = () => {
-    const d = new Date(cal.y, cal.m + Number(el.dataset.calMove), 1);
-    cal.y = d.getFullYear(); cal.m = d.getMonth(); track('diary_month_changed'); renderPage();
-  }));
+  bindCal();
   pageBody.querySelectorAll('[data-type]').forEach((el) => (el.onclick = () => {
     track('type_progress_tapped', { type: el.dataset.type });
     S.typeFilter = el.dataset.type; S.query = ''; setTab('map'); goHome(); setSheet('half');
