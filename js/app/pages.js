@@ -1,7 +1,7 @@
 // Páginas del menú inferior: Diario y Logros (nivel, progreso por tipo, barrios y sellos).
 import { $, esc, css, isDark, dayLabel, fmtTime, toast, stampDate } from './util.js';
 import { S, PLACES, BYID, DISTRICTS, BARRIOS, lvl, blvl, progress, bprogress, districtDone } from './state.js';
-import { t, typePlural, lang, setLang, LANGS } from './i18n.js';
+import { t, typePlural, lang, setLang, LANGS, locale } from './i18n.js';
 import { points, levelOf, LEVELS } from './level.js';
 import { placeItem, bindPlaceItems, render, goHome, TYPES } from './views.js';
 import { renderAccount } from './sync.js';
@@ -60,34 +60,61 @@ const percentileHTML = (n) => {
   return `<p class="lvl-rank">${MP_ICON('route', 'ico')}<span>${t('rank', { pct: pctCache.pct })}</span></p>`;
 };
 
-// ---------- Diario ----------
-const dayOpen = {};                                   // estado de plegado por día (sesión)
+// ---------- Diario: tarjeta pasaporte (cuenta + cifras) y calendario de visitas ----------
 const dayKey = (ts) => { const d = new Date(ts); return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`; };
 const BARRIO_BY_KEY = () => Object.fromEntries(BARRIOS.map((b) => ['b:' + b.id, b]));
-function renderDiary() {
-  const pr = progress(PLACES), bp = bprogress(BARRIOS), bb = BARRIO_BY_KEY();
-  const items = Object.entries(S.visits).filter(([id]) => BYID[id] || bb[id])
+const cal = { y: null, m: null, sel: null };          // mes visible y día elegido (sesión)
+function diaryItems() {
+  const bb = BARRIO_BY_KEY();
+  return Object.entries(S.visits).filter(([id]) => BYID[id] || bb[id])
     .map(([id, v]) => ({ p: BYID[id], b: bb[id], v, t: v.gpsAt || v.t || 0 })).sort((a, b) => b.t - a.t);
-  const dComplete = DISTRICTS.filter(districtDone).length;
-  const days = [];
-  items.forEach((it) => { const k = it.t ? dayKey(it.t) : 'x'; let d = days[days.length - 1]; if (!d || d.k !== k) days.push((d = { k, label: it.t ? dayLabel(it.t) : t('nodate'), items: [] })); d.items.push(it); });
-  const bRow = (b, v, ts) => `<div class="pitem static"><span class="pthumb t-${v.lvl}">${MP_ICON('barrio')}</span>
-    <span class="p-info"><strong>${esc(b.name)}</strong><small>${t('barrio')} · ${esc(b.district?.name || '')}${ts ? ' · ' + fmtTime(ts) : ''}${v.lvl === 2 ? ' · GPS' : ''}</small></span></div>`;
-  const list = days.map((d, i) => {
-    const open = dayOpen[d.k] ?? i < 2;
-    const np = d.items.filter((x) => x.p).length, nb = d.items.length - np;
-    const gps = d.items.filter((x) => x.v.lvl === 2).length;   // lugares y barrios en dorado
-    return `<section class="day ${open ? 'open' : ''}" data-day="${d.k}">
-      <button class="day-h" aria-expanded="${open}"><span>${esc(d.label)}</span>
-        <small>${np ? t(np === 1 ? 'place_1' : 'place_n', { n: np }) : ''}${np && nb ? ' · ' : ''}${nb ? t(nb === 1 ? 'barrio_1' : 'barrio_n', { n: nb }) : ''}${gps ? ` · ${gps} GPS` : ''}</small><span class="chev"></span></button>
-      <div class="day-b">${open ? d.items.map(({ p, b, v, t: ts }) => (p ? placeItem(p, ts ? ` · ${fmtTime(ts)}${v.lvl === 2 ? ' · GPS' : ''}` : '') : bRow(b, v, ts))).join('') : ''}</div></section>`;
-  }).join('');
-  return `<div id="acct-slot"></div><div class="kpis">
-      <div class="stat"><b>${pr.done}</b><small>${t('k.visited')}</small></div>
-      <div class="stat gold"><b>${pr.gps + bp.gps}</b><small>GPS</small></div>
-      <div class="stat"><b>${bp.done}<span>/${bp.total}</span></b><small>${t('k.barrios')}</small></div>
-      <div class="stat"><b>${dComplete}<span>/${DISTRICTS.length}</span></b><small>${t('districts')}</small></div></div>
-    ${list || `<div class="empty-state">${t('diary.empty')}</div>`}
+}
+const bRow = (b, v, ts) => `<div class="pitem static"><span class="pthumb t-${v.lvl}">${MP_ICON('barrio')}</span>
+  <span class="p-info"><strong>${esc(b.name)}</strong><small>${t('barrio')} · ${esc(b.district?.name || '')}${ts ? ' · ' + fmtTime(ts) : ''}${v.lvl === 2 ? ' · GPS' : ''}</small></span></div>`;
+const rowHTML = ({ p, b, v, t: ts }) => (p ? placeItem(p, ts ? ` · ${fmtTime(ts)}${v.lvl === 2 ? ' · GPS' : ''}` : '') : bRow(b, v, ts));
+const countLabel = (list) => {
+  const np = list.filter((x) => x.p).length, nb = list.length - np, gps = list.filter((x) => x.v.lvl === 2).length;
+  return [np && t(np === 1 ? 'place_1' : 'place_n', { n: np }), nb && t(nb === 1 ? 'barrio_1' : 'barrio_n', { n: nb }), gps && `${gps} GPS`].filter(Boolean).join(' · ');
+};
+function calendarHTML(items) {
+  const byDay = {};
+  items.forEach((it) => { if (it.t) (byDay[dayKey(it.t)] ||= []).push(it); });
+  const last = items.find((x) => x.t), ref = new Date(last ? last.t : Date.now());
+  if (cal.y === null) { cal.y = ref.getFullYear(); cal.m = ref.getMonth(); }
+  if (cal.sel === null) cal.sel = last ? dayKey(last.t) : '';
+  const first = new Date(cal.y, cal.m, 1), nDays = new Date(cal.y, cal.m + 1, 0).getDate();
+  const lead = (first.getDay() + 6) % 7, now = new Date(), todayK = dayKey(now);
+  const wd = Array.from({ length: 7 }, (_, i) => new Date(2024, 0, 1 + i).toLocaleDateString(locale(), { weekday: 'narrow' }));
+  const cells = Array.from({ length: lead }, () => '<span></span>');
+  for (let d = 1; d <= nDays; d++) {
+    const k = `${cal.y}-${cal.m}-${d}`, list = byDay[k] || [], n = list.length;
+    const cls = [n ? 'v' + (n >= 4 ? 3 : n >= 2 ? 2 : 1) : '', list.some((x) => x.v.lvl === 2) ? 'gp' : '', k === cal.sel ? 'sel' : '', k === todayK ? 'today' : ''].filter(Boolean).join(' ');
+    cells.push(n ? `<button class="${cls}" data-cal-day="${k}" aria-label="${esc(dayLabel(list[0].t))} · ${esc(countLabel(list))}">${d}</button>` : `<span class="${cls}">${d}</span>`);
+  }
+  const month = first.toLocaleDateString(locale(), { month: 'long', year: 'numeric' });
+  const isNow = cal.y === now.getFullYear() && cal.m === now.getMonth();
+  const sel = byDay[cal.sel] || [];
+  return `<section class="cal">
+      <div class="cal-h"><strong>${esc(month[0].toUpperCase() + month.slice(1))}</strong>
+        <span><button class="cal-nav prev" data-cal-move="-1" aria-label="${t('cal.prev')}"></button><button class="cal-nav next" data-cal-move="1" aria-label="${t('cal.next')}" ${isNow ? 'disabled' : ''}></button></span></div>
+      <div class="cal-wd">${wd.map((w) => `<span>${esc(w)}</span>`).join('')}</div>
+      <div class="cal-days">${cells.join('')}</div>
+      <div class="cal-leg"><span><i class="v1"></i>1</span><span><i class="v2"></i>2–3</span><span><i class="v3"></i>4+</span><span><i class="gp"></i>${t('cal.gps')}</span></div>
+    </section>
+    ${sel.length ? `<div class="cal-sel"><strong>${esc(dayLabel(sel[0].t))}</strong><small>${countLabel(sel)}</small></div><div class="cal-list">${sel.map(rowHTML).join('')}</div>`
+      : `<p class="cal-none">${t('cal.pick')}</p>`}`;
+}
+function renderDiary() {
+  const pr = progress(PLACES), bp = bprogress(BARRIOS), items = diaryItems();
+  const dComplete = DISTRICTS.filter(districtDone).length, undated = items.filter((x) => !x.t);
+  return `<section class="pass-card"><span class="pass-kick">MADRID PASSPORT</span><div id="acct-slot"></div>
+      <div class="pass-k">
+        <div><b>${pr.done}</b><small>${t('k.visited')}</small></div>
+        <div class="gold"><b>${pr.gps + bp.gps}</b><small>GPS</small></div>
+        <div><b>${bp.done}<span>/${bp.total}</span></b><small>${t('k.barrios')}</small></div>
+        <div><b>${dComplete}<span>/${DISTRICTS.length}</span></b><small>${t('districts')}</small></div></div></section>
+    ${items.length ? calendarHTML(items) : `<div class="empty-state">${t('diary.empty')}</div>`}
+    ${undated.length ? `<div class="cal-sel"><strong>${t('nodate')}</strong><small>${countLabel(undated)}</small></div><div class="cal-list">${undated.map(rowHTML).join('')}</div>` : ''}
     <button class="ob-again" id="ob-again">${MP_ICON('compass', 'ico')}<span>${t('ob.again')}</span></button>
     <a class="ob-again" href="privacy.html">${MP_ICON('ticket', 'ico')}<span>${t('privacy')}</span></a>
     <div class="lang-row">${MP_ICON('globe')}<span>${t('language')}</span><div class="lang-seg">${LANGS.map(([k, n]) => `<button class="chip ${lang === k ? 'on' : ''}" data-lang="${k}">${n}</button>`).join('')}</div></div>`;
@@ -174,10 +201,12 @@ export function renderPage() {
   const st = pageBody.scrollTop;
   pageBody.innerHTML = S.tab === 'diary' ? renderDiary() : renderBadges();
   pageBody.scrollTop = st;
-  pageBody.querySelectorAll('.day-h').forEach((h) => (h.onclick = () => {
-    const sec = h.parentElement, k = sec.dataset.day;
-    dayOpen[k] = !sec.classList.contains('open');
-    renderPage();
+  pageBody.querySelectorAll('[data-cal-day]').forEach((el) => (el.onclick = () => {
+    cal.sel = el.dataset.calDay; track('diary_day_selected'); renderPage();
+  }));
+  pageBody.querySelectorAll('[data-cal-move]').forEach((el) => (el.onclick = () => {
+    const d = new Date(cal.y, cal.m + Number(el.dataset.calMove), 1);
+    cal.y = d.getFullYear(); cal.m = d.getMonth(); track('diary_month_changed'); renderPage();
   }));
   $('#ob-again')?.addEventListener('click', () => showOnboarding('diary'));
   pageBody.querySelectorAll('[data-lang]').forEach((el) => (el.onclick = () => {

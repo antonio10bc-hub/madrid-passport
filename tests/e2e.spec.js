@@ -80,6 +80,8 @@ test('confirmar por GPS cerca del lugar: sello dorado y barrio pisado', async ({
   await page.locator('[data-tab="diary"]').click();
   await expect(page.locator('#page-body')).toContainText('Puerta del Sol');
   await expect(page.locator('#page-body .pitem.static')).toContainText('Sol');      // barrio sellado por GPS
+  await expect(page.locator('.pass-k .gold b')).toHaveText('2');                     // lugar + barrio con GPS
+  await expect(page.locator('.cal-days button.sel.gp')).toHaveCount(1);              // hoy marcado en el calendario, con GPS
 });
 
 test('al abrir un lugar se dibuja su área de GPS en el mapa', async ({ page }) => {
