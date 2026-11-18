@@ -522,12 +522,14 @@ button, a, input, .place, .row, .pitem { touch-action: manipulation; }
 .cal-wd span { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; padding-bottom: 2px; }
 .cal-days > * { aspect-ratio: 1; max-width: 100%; border-radius: 10px; display: grid; place-items: center; font-size: 13px; font-variant-numeric: tabular-nums; color: var(--muted); }
 .cal-days .today { color: var(--ink); font-weight: 700; }
-.cal-days .v1, .cal-leg .v1 { background: rgba(var(--red-a),.14); color: var(--red); font-weight: 700; }
-.cal-days .v2, .cal-leg .v2 { background: rgba(var(--red-a),.32); color: var(--red); font-weight: 700; }
-.cal-days .v3, .cal-leg .v3 { background: var(--red); color: #fff; font-weight: 700; }
+.cal-days .v1 { background: rgba(var(--red-a),.14); color: var(--red); font-weight: 700; }
+.cal-days .v2 { background: rgba(var(--red-a),.32); color: var(--red); font-weight: 700; }
+.cal-days .v3 { background: var(--red); color: #fff; font-weight: 700; }
 .cal-days .gp, .cal-leg .gp { box-shadow: inset 0 0 0 2px var(--gold); }
 .cal-days .sel { outline: 2px solid var(--ink); outline-offset: 1px; }
-.cal-leg { display: flex; flex-wrap: wrap; gap: 12px; margin: 10px 2px 0; font-size: 11px; color: var(--muted); }
+.cal-leg { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin: 10px 2px 0; font-size: 11px; color: var(--muted); }
+.cal-grad { display: flex; align-items: center; gap: 6px; }
+.cal-leg .cal-grad i { width: 72px; height: 6px; border-radius: 3px; margin: 0; background: linear-gradient(90deg, rgba(var(--red-a),.14), var(--red)); }
 .cal-leg i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 4px; vertical-align: -1px; }
 .cal-sel { display: flex; align-items: baseline; gap: 8px; margin: 18px 0 2px; }
 .cal-sel strong { font-size: 16px; }

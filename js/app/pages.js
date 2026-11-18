@@ -99,7 +99,7 @@ function calendarHTML(items) {
         <span><button class="cal-nav prev" data-cal-move="-1" aria-label="${t('cal.prev')}"></button><button class="cal-nav next" data-cal-move="1" aria-label="${t('cal.next')}" ${isNow ? 'disabled' : ''}></button></span></div>
       <div class="cal-wd">${wd.map((w) => `<span>${esc(w)}</span>`).join('')}</div>
       <div class="cal-days">${cells.join('')}</div>
-      <div class="cal-leg"><span><i class="v1"></i>1</span><span><i class="v2"></i>2–3</span><span><i class="v3"></i>4+</span><span><i class="gp"></i>${t('cal.gps')}</span></div>
+      <div class="cal-leg"><span class="cal-grad"><small>1</small><i></i><small>4+</small></span><span><i class="gp"></i>${t('cal.gps')}</span></div>
     </section>
     ${sel.length ? `<div class="cal-sel"><strong>${esc(dayLabel(sel[0].t))}</strong><small>${countLabel(sel)}</small></div><div class="cal-list">${sel.map(rowHTML).join('')}</div>`
       : `<p class="cal-none">${t('cal.pick')}</p>`}`;
