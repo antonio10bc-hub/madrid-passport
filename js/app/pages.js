@@ -8,6 +8,7 @@ import { renderAccount } from './sync.js';
 import { track } from './analytics.js';
 import { notify } from './notify.js';
 import { showOnboarding } from './onboarding.js';
+import { madri } from './madri.js';
 
 const page = $('#page'), pageBody = $('#page-body');
 
@@ -128,12 +129,13 @@ function renderDiary() {
   const pr = progress(PLACES), bp = bprogress(BARRIOS), items = diaryItems();
   const dComplete = DISTRICTS.filter(districtDone).length, undated = items.filter((x) => !x.t);
   return `<section class="pass-card"><span class="pass-kick">MADRID PASSPORT</span><div id="acct-slot"></div>
-      <div class="pass-k">
-        <div><b>${pr.done}</b><small>${t('k.visited')}</small></div>
-        <div class="gold"><b>${pr.gps + bp.gps}</b><small>GPS</small></div>
-        <div><b>${bp.done}<span>/${bp.total}</span></b><small>${t('k.barrios')}</small></div>
-        <div><b>${dComplete}<span>/${DISTRICTS.length}</span></b><small>${t('districts')}</small></div></div></section>
-    ${items.length ? `<div id="cal-wrap">${calendarHTML(items)}</div>` : `<div class="empty-state">${t('diary.empty')}</div>`}
+      <p class="pass-k">${t('pass.story', {
+        v: `<span class="pk">${MP_ICON('pin')}<b>${pr.done}</b> ${t('pass.places')}</span>`,
+        g: `<span class="pk gold">${MP_ICON('target')}<b>${pr.gps + bp.gps}</b> ${t('pass.gps')}</span>`,
+        b: `<span class="pk rose">${MP_ICON('barrio')}<b>${bp.done}</b> ${t('pass.barrios')}</span>`,
+        d: `<span class="pk"><b>${dComplete}</b> ${t('pass.districts', { n: DISTRICTS.length })}</span>` })}</p>
+      <span class="pass-madri">${madri('happy')}</span></section>
+    ${items.length ? `<div id="cal-wrap">${calendarHTML(items)}</div>` : `<div class="empty-state">${madri('sleep', 'madri empty-madri')}${t('diary.empty')}</div>`}
     ${undated.length ? `<div class="cal-sel"><strong>${t('nodate')}</strong><small>${countLabel(undated)}</small></div><div class="cal-list">${undated.map(rowHTML).join('')}</div>` : ''}`;
 }
 
@@ -145,6 +147,7 @@ function levelHTML() {
   const { pts, lv } = levelState(), { visit, gps } = pts.parts;
   return `<section class="lvl-card" id="lvl-card">
     <div class="lvl-ring"><svg viewBox="0 0 112 112" aria-hidden="true">${ring(112, 50, 10, lv.pct, 'rg-red')}${ring(112, 35, 8, visit ? gps / visit : 0, 'rg-gold')}</svg>
+      <span class="lvl-face">${madri(lv.i > 0 ? 'party' : 'happy')}</span>
       <span class="lvl-n" aria-label="${t('level')} ${lv.i + 1}/${LEVELS.length}">${lv.i + 1}</span></div>
     <div class="lvl-info"><h2>${t('lvl.' + lv.cur.id)}</h2><b class="lvl-pts">${pts.total}<span> ${t('pts')}</span></b>
       <p class="lvl-next"><i class="dot red"></i>${lv.next ? t('level.next', { n: lv.toNext, name: t('lvl.' + lv.next.id) }) : t('level.max')}</p>
@@ -155,11 +158,11 @@ function levelHTML() {
 function typesHTML() {
   const rows = TYPES.map((ty) => ({ ty, ...progress(PLACES.filter((p) => p.type === ty)) }));
   const bp = bprogress(BARRIOS);
-  const cell = (label, pr, attr) => `<button class="tp-row ${pr.done === pr.total ? 'done' : ''}" ${attr}>
-    <span class="tp-ring"><svg viewBox="0 0 60 60" aria-hidden="true">${ring(60, 25, 6, pr.total ? pr.done / pr.total : 0, 'rg-red')}</svg><span class="tp-n">${pr.done}/${pr.total}</span></span>
-    <span class="tp-name">${esc(label)}</span></button>`;
+  const cell = (label, pr, attr, ico) => `<button class="tp-row ${pr.done === pr.total ? 'done' : ''}" ${attr}>
+    <span class="tp-tile">${MP_ICON(ico)}<span class="tp-name">${esc(label)}</span><i class="tp-bar"><i style="width:${pr.total ? (pr.done / pr.total) * 100 : 0}%"></i></i></span>
+    <span class="tp-n">${pr.done}/${pr.total}</span></button>`;
   return `<div class="pp-head"><span>${t('bytype')}</span><span>${progress(PLACES).done} / ${PLACES.length}</span></div>
-    <div class="tp-list">${rows.map((r) => cell(typePlural(r.ty), r, `data-type="${esc(r.ty)}"`)).join('')}${cell(t('barrios'), bp, 'data-barrios')}</div>`;
+    <div class="tp-list">${rows.map((r) => cell(typePlural(r.ty), r, `data-type="${esc(r.ty)}"`, r.ty)).join('')}${cell(t('barrios'), bp, 'data-barrios', 'barrio')}</div>`;
 }
 
 // Logros como sellos de pasaporte (tinta con textura). Formas y giro fijos por logro.

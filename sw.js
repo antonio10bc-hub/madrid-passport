@@ -1,14 +1,14 @@
 // Service worker: app instalable y uso sin conexión.
 // - App (HTML/CSS/JS/datos): red primero, caché como respaldo → las actualizaciones llegan al momento.
 // - Mapa (tiles OpenFreeMap) e imágenes (Wikimedia): caché primero y se refresca en segundo plano.
-const VERSION = 'mp-v59';
+const VERSION = 'mp-v60';
 const SHELL = [
   './', 'index.html', 'privacy.html', 'manifest.webmanifest', 'css/styles.css',
   'js/config.js', 'js/auth.js', 'vendor/supabase/supabase.js', 'js/data.js', 'js/icons.js', 'js/badges.js', 'js/share.js',
-  ...['main', 'util', 'i18n', 'state', 'geo', 'sheet', 'map', 'gps', 'wiki', 'views', 'pages', 'level', 'sync', 'analytics', 'notify', 'metro', 'onboarding'].map((m) => `js/app/${m}.js`),
+  ...['main', 'util', 'i18n', 'state', 'geo', 'sheet', 'map', 'gps', 'wiki', 'views', 'pages', 'level', 'sync', 'analytics', 'notify', 'metro', 'onboarding', 'madri'].map((m) => `js/app/${m}.js`),
   'data/distritos.geojson', 'data/barrios.geojson', 'data/metro.json',
   'vendor/maplibre/maplibre-gl.js', 'vendor/maplibre/maplibre-gl.css',
-  'icons/icon.svg', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png',
+  'fonts/fredoka.woff2', 'fonts/dm-sans.woff2', 'icons/icon.svg', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png',
 ];
 const LIMITS = { [`${VERSION}-tiles`]: 3000, [`${VERSION}-img`]: 300 };
 
