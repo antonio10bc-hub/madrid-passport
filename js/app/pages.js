@@ -175,8 +175,8 @@ function stampSVG(b, i, n, goal, date) {
   if (!date) {
     const mu = css('--muted');
     return `<svg viewBox="0 0 140 140" class="pp-svg"><g fill="none" stroke="${mu}" stroke-width="1.5" stroke-dasharray="4 5" opacity=".45">${OUT}</g>
-      <g transform="translate(58 50)" opacity=".4">${inkIcon(b.icon, mu, 24, 1.6)}</g>
-      <text x="70" y="96" text-anchor="middle" font-size="11" font-weight="700" fill="${mu}">${Math.min(n, goal)}/${goal}</text></svg>`;
+      <g transform="translate(58 38)" opacity=".5">${inkIcon(b.icon, mu, 24, 1.6)}</g>
+      <text x="70" y="98" text-anchor="middle" font-size="19" font-weight="700" fill="${mu}" style="font-variant-numeric:tabular-nums">${Math.min(n, goal)}/${goal}</text></svg>`;
   }
   const col = GOLD_BADGES.has(b.id) ? css('--gold') : css('--red');
   const top = shape === 'circle'
