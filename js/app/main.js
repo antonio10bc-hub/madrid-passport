@@ -1,12 +1,12 @@
 // Arranque de Madrid Passport (módulos ES nativos, sin build).
 import { $, esc, toast } from './util.js';
-import { S, PLACES, DISTRICTS, BARRIOS, lvl, blvl, currentDistrict } from './state.js';
+import { S, PLACES, BYID, DISTRICTS, BARRIOS, lvl, blvl, currentDistrict } from './state.js';
 import { t, lang, applyStatic } from './i18n.js';
 import { loadGeo } from './geo.js';
 import { initSheet } from './sheet.js';
 import { map, initMap, prefetchStyle } from './map.js';
 import { initGps, afterMap } from './gps.js';
-import { render, initLevel } from './views.js';
+import { render, initLevel, openPlace, openDistrict } from './views.js';
 import { initPages, unlockedNow, levelState } from './pages.js';
 import { initSync } from './sync.js';
 import { initAnalytics, track, setPerson } from './analytics.js';
@@ -44,6 +44,19 @@ function initShare() {
   document.addEventListener('click', (e) => { if (!e.target.closest('.share-menu')) document.querySelector('.share-menu')?.remove(); });
 }
 
+// Enlaces directos desde las páginas SEO (/lugar/<id>/, /distrito/<id>/): ?p=<lugar> o ?d=<distrito>
+function deepLink() {
+  try {
+    const q = new URLSearchParams(location.search), p = q.get('p'), d = q.get('d');
+    if (p && BYID[p]) openPlace(p, 'link');
+    else if (d && DISTRICTS.some((x) => x.id === d)) openDistrict(d, { via: 'link' });
+    else return;
+    track('deeplink_opened', { place: p || null, district: d || null, ref: document.referrer ? new URL(document.referrer).hostname : null });
+    q.delete('p'); q.delete('d');
+    history.replaceState(null, '', location.pathname + (q.toString() ? '?' + q : '') + location.hash);
+  } catch (e) { console.error(e); }
+}
+
 async function boot() {
   applyStatic();
   initAnalytics({ lang });
@@ -65,6 +78,7 @@ async function boot() {
     await initMap();
     render();
     afterMap();
+    deepLink();
   } catch (e) { console.error(e); toast(t('map.error'), true); }
   if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost'))
     navigator.serviceWorker.register('sw.js').catch(() => {});

@@ -1,7 +1,7 @@
 // Service worker: app instalable y uso sin conexión.
 // - App (HTML/CSS/JS/datos): red primero, caché como respaldo → las actualizaciones llegan al momento.
 // - Mapa (tiles OpenFreeMap) e imágenes (Wikimedia): caché primero y se refresca en segundo plano.
-const VERSION = 'mp-v59';
+const VERSION = 'mp-v60';
 const SHELL = [
   './', 'index.html', 'privacy.html', 'manifest.webmanifest', 'css/styles.css',
   'js/config.js', 'js/auth.js', 'vendor/supabase/supabase.js', 'js/data.js', 'js/icons.js', 'js/badges.js', 'js/share.js',
@@ -40,5 +40,6 @@ self.addEventListener('fetch', (e) => {
   if (/(^|\.)wikimedia\.org$/.test(url.hostname)) return e.respondWith(staleWhileRevalidate(req, `${VERSION}-img`));
   if (url.hostname.endsWith('.supabase.co')) return;              // API/auth: siempre red
   if (url.pathname.startsWith('/ingest') || url.pathname.startsWith('/_vercel')) return;   // analítica: sin caché                 // analítica (proxy PostHog): sin caché
+  if (/^\/(lugar|distrito|lugares)\//.test(url.pathname) || /^\/(sitemap\.xml|robots\.txt)$/.test(url.pathname)) return;   // páginas SEO: sin caché de la app
   if (url.origin === location.origin) return e.respondWith(networkFirst(req));
 });

@@ -1,7 +1,9 @@
-// Onboarding (primera vez): 4 pantallas con swipe (scroll-snap nativo) o «Continuar», puntitos de progreso y,
+// Onboarding (primera vez): 5 pantallas (la última: marcar sitios donde ya has estado → primera recompensa en segundos) con swipe (scroll-snap nativo) o «Continuar», puntitos de progreso y,
 // al final, permiso de ubicación. Se puede volver a ver desde el Diario.
 import { $, esc } from './util.js';
-import { S, PLACES, DISTRICTS, lvl } from './state.js';
+import { S, PLACES, BYID, DISTRICTS, lvl } from './state.js';
+import { commit } from './views.js';
+import { PTS } from './level.js';
 import { t } from './i18n.js';
 import { polys } from './util.js';
 import { getPos, onPosition } from './gps.js';
@@ -47,14 +49,19 @@ const STAMP = `<div class="ob-stampwrap"><svg viewBox="0 0 160 160" class="ob-st
   <path d="M58 92V72l-2-12 9 6h30l9-6-2 12v20z M70 76h.1M90 76h.1M74 86h12" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
   <div class="ob-level"><span>8</span><div><small>${t('level')} 8</small><b>${t('lvl.gato')}</b></div><i><em></em></i></div></div>`;
 
+// Paso 5: imprescindibles para marcar de un toque los que ya conoces (se guardan al cerrar)
+const ICONIC = ['puerta-sol', 'plaza-mayor', 'parque-retiro', 'palacio-real', 'gran-via', 'prado', 'debod', 'cibeles', 'bernabeu'];
+const quick = () => `<div class="ob-quick" id="ob-quick">${ICONIC.filter((id) => BYID[id]).map((id) => `<button class="ob-q" data-q="${id}" aria-pressed="false">${MP_ICON(BYID[id].type, 'ico')}<span>${esc(BYID[id].name)}</span></button>`).join('')}</div>
+  <div class="ob-qn" id="ob-qn" aria-live="polite">&nbsp;</div>`;
+
 export function showOnboarding(source = 'first') {
   if ($('#onboard')) return;
-  const steps = [['ob.1', mapSVG()], ['ob.2', PIN], ['ob.3', GPS], ['ob.4', STAMP]];
+  const steps = [['ob.1', mapSVG()], ['ob.2', PIN], ['ob.3', GPS], ['ob.4', STAMP], ['ob.5', quick()]];
   const el = document.createElement('div');
   el.id = 'onboard'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true'); el.setAttribute('aria-label', t('ob.aria'));
   el.innerHTML = `<button class="ob-skip" id="ob-skip">${t('ob.skip')}</button>
     <div class="ob-track" id="ob-track">${steps.map(([k, ill], i) => `<section class="ob-slide" aria-label="${i + 1} / ${steps.length}">
-      <div class="ob-ill"><span class="ob-blob"></span>${ill}</div><h1>${esc(t(k + '.t'))}</h1><p>${esc(t(k + '.d'))}</p></section>`).join('')}</div>
+      <div class="ob-ill"><span class="ob-blob"></span>${ill}</div><h1>${esc(t(k + '.t'))}</h1><p>${esc(t(k + '.d', { n: Math.floor(PLACES.length / 50) * 50 }))}</p></section>`).join('')}</div>
     <div class="ob-foot"><div class="ob-dots" id="ob-dots">${steps.map((_, i) => `<i class="${i ? '' : 'on'}"></i>`).join('')}</div>
       <button class="ob-btn" id="ob-next">${t('ob.next')}</button><button class="ob-later" id="ob-later">&nbsp;</button>
       <a class="ob-privacy" href="privacy.html">${t('privacy')}</a></div>`;
@@ -76,8 +83,22 @@ export function showOnboarding(source = 'first') {
     if (i !== idx) { idx = i; paint(); track('onboarding_step', { step: idx + 1 }); }
   }, { passive: true });
   const go = (i) => track_.scrollTo({ left: i * track_.clientWidth, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  const picked = new Set();
+  el.querySelectorAll('[data-q]').forEach((b) => (b.onclick = () => {
+    const id = b.dataset.q, on = !picked.has(id);
+    on ? picked.add(id) : picked.delete(id);
+    b.classList.toggle('on', on); b.setAttribute('aria-pressed', on);
+    $('#ob-qn').textContent = picked.size ? t('ob.5.n', { n: picked.size, pts: picked.size * PTS.visit }) : '\u00a0';
+  }));
   const close = (action) => {
     try { localStorage.setItem(KEY, String(Date.now())); } catch {}
+    const ids = [...picked].filter((id) => !lvl(id));
+    if (ids.length) {
+      const now = Date.now();
+      ids.forEach((id) => (S.visits[id] = { lvl: 1, t: now }));
+      track('onboarding_quickmark', { n: ids.length, places: ids.join(','), action });
+      setTimeout(commit, 350);                                  // logros y nivel con su aviso, tras cerrar
+    }
     track('onboarding_done', { action, step: idx + 1, source });
     el.classList.add('out');
     setTimeout(() => el.remove(), 300);

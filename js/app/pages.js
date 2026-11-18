@@ -231,6 +231,7 @@ function renderSettings() {
     <div class="settings-h"><strong>${t('settings')}</strong><button class="settings-x" id="settings-x" aria-label="${t('close')}"><svg class="icon-x" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     <div class="lang-row">${MP_ICON('globe')}<span>${t('language')}</span><div class="lang-seg">${LANGS.map(([k, n]) => `<button class="chip ${lang === k ? 'on' : ''}" data-lang="${k}">${n}</button>`).join('')}</div></div>
     <button class="ob-again" id="ob-again">${MP_ICON('compass', 'ico')}<span>${t('ob.again')}</span></button>
+    <a class="ob-again" href="/lugares/">${MP_ICON('map', 'ico')}<span>${t('seo.all')}</span></a>
     <a class="ob-again" href="privacy.html">${MP_ICON('ticket', 'ico')}<span>${t('privacy')}</span></a></div>`;
   settingsEl.querySelector('#settings-x').onclick = () => setSettings(false);
   settingsEl.querySelector('#ob-again').onclick = () => { setSettings(false); showOnboarding('diary'); };

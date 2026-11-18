@@ -10,7 +10,9 @@ const TYPES = {
 const DICT = {
   es: {
     settings: 'Ajustes', close: 'Cerrar', privacy: 'Política de privacidad', 'ob.aria': 'Introducción', 'ob.skip': 'Saltar', 'ob.next': 'Continuar', 'ob.start': 'Activar ubicación y empezar', 'ob.later': 'Ahora no', 'ob.again': 'Ver la introducción',
-    'ob.1.t': 'Explora Madrid', 'ob.1.d': '21 distritos, 128 barrios y más de 200 lugares esperando tu sello.',
+    'ob.1.t': 'Explora Madrid', 'ob.1.d': '21 distritos, 128 barrios y más de {n} lugares esperando tu sello.',
+    'ob.5.t': '¿Ya has estado?', 'ob.5.d': 'Marca los que ya conoces y empieza con tus primeros sellos.', 'ob.5.n': '{n} marcados · +{pts} pts',
+    'in.parent': 'Está en', 'in.children': 'Aquí dentro', 'seo.all': 'Todos los lugares',
     'ob.2.t': 'Marca lo que visitas', 'ob.2.d': 'Toca ✓ cuando pases por un sitio y tu pasaporte se irá llenando.',
     'ob.3.t': 'Confírmalo con GPS', 'ob.3.d': 'Si estás allí, consigue el doble check dorado.',
     'ob.4.t': 'Sube de nivel', 'ob.4.d': 'Gana puntos, desbloquea sellos y pinta tu mapa. De Turista a Gato.',
@@ -53,7 +55,9 @@ const DICT = {
   },
   en: {
     settings: 'Settings', close: 'Close', privacy: 'Privacy policy', 'ob.aria': 'Introduction', 'ob.skip': 'Skip', 'ob.next': 'Continue', 'ob.start': 'Enable location and start', 'ob.later': 'Not now', 'ob.again': 'Watch the intro again',
-    'ob.1.t': 'Explore Madrid', 'ob.1.d': '21 districts, 128 neighbourhoods and 200+ places waiting for your stamp.',
+    'ob.1.t': 'Explore Madrid', 'ob.1.d': '21 districts, 128 neighbourhoods and {n}+ places waiting for your stamp.',
+    'ob.5.t': 'Been there already?', 'ob.5.d': 'Tick the ones you know and start with your first stamps.', 'ob.5.n': '{n} ticked · +{pts} pts',
+    'in.parent': 'Inside', 'in.children': 'Inside here', 'seo.all': 'All places',
     'ob.2.t': 'Mark what you visit', 'ob.2.d': 'Tap ✓ when you pass by a place and your passport fills up.',
     'ob.3.t': 'Confirm it with GPS', 'ob.3.d': "If you're there, get the golden double check.",
     'ob.4.t': 'Level up', 'ob.4.d': 'Earn points, unlock stamps and paint your map. From Tourist to Gato.',

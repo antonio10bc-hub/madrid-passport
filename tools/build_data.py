@@ -26,7 +26,7 @@ for r in rows:
     c = c or coords.get(r['id']) or (w.get('lat') and [round(w['lat'], 5), round(w['lng'], 5)]) or old.get(r['id'], {}).get('coords')
     if not c: print('SIN COORDS:', r['id']); continue
     out.append({'id': r['id'], 'zone': r['zone'], 'name': r['name'], 'type': r['type'], 'coords': c, 'wiki': r['wiki'], 'district': override.get(r['id']),
-                'img': w.get('img'), 'desc': w.get('desc'), 'url': w.get('url'), 'wiki_en': w.get('title_en')})
+                'img': w.get('img'), 'desc': w.get('desc'), 'url': w.get('url'), 'wiki_en': w.get('title_en'), 'parent': r.get('parent') or None})
     seen.add(r['id'])
 for k, v in old.items():                                             # lugares antiguos sin entrada en el TSV
     if k not in seen: out.append({'id': k, **v, 'wiki': None})

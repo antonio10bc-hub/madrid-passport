@@ -1,6 +1,6 @@
 // Vistas del panel (Madrid, distrito, ficha), navegación y checks.
 import { $, esc, dist, fmtDist, walkMin, fmtDate, fmtTime, toast, ICON_CHECK, ICON_GPS, ICON_X } from './util.js';
-import { S, PLACES, BYID, DISTRICTS, districtOf, barrioOf, lvl, blvl, bKey, progress, bprogress, currentDistrict, save, inList, listPlaces } from './state.js';
+import { S, PLACES, BYID, CHILDREN, DISTRICTS, districtOf, barrioOf, lvl, blvl, bKey, progress, bprogress, currentDistrict, save, inList, listPlaces } from './state.js';
 import { t, typeName, typePlural, lang } from './i18n.js';
 import { body, sheet, setSheet, pad } from './sheet.js';
 import { map, ready, fit, fitCity, centerOffset, paintDistricts, drawPins, passStatus } from './map.js';
@@ -44,7 +44,7 @@ export function placeItem(p, extra = '') {
     <span class="p-info"><strong>${esc(p.name)}${marks(p)}</strong><small>${esc(typeName(p.type))} · ${esc(d?.name || '')}${dd}${extra}</small></span>
     <span class="chev"></span></button>`;
 }
-export const bindPlaceItems = (root) => root.querySelectorAll('[data-place]').forEach((el) => (el.onclick = () => { const via = S.tab === 'map' ? 'list' : S.tab; setTab('map'); openPlace(el.dataset.place, via); }));
+export const bindPlaceItems = (root) => root.querySelectorAll('[data-place]').forEach((el) => (el.onclick = () => { const via = el.dataset.via || (S.tab === 'map' ? 'list' : S.tab); setTab('map'); openPlace(el.dataset.place, via); }));
 
 let searchT;
 function homeListHTML() {
@@ -72,11 +72,14 @@ const NEAR_MIN = 10;
 function nearbyHTML() {
   if (!S.myPos) return `<button class="near-cta" id="near-locate">${MP_ICON('pin', 'ico')}<span>${t('near.cta')}</span></button>`;
   const all = PLACES.filter((p) => lvl(p.id) === 0).map((p) => ({ p, d: dist(S.myPos.coords, p.coords) })).sort((a, b) => a.d - b.d);
-  let list = all.filter((x) => walkMin(x.d) <= NEAR_MIN).slice(0, 5), title = t('near.title', { n: NEAR_MIN });
-  if (!list.length) { list = all.slice(0, 2); title = t('near.closest'); }
+  let list = all.filter((x) => walkMin(x.d) <= NEAR_MIN).slice(0, 6), title = t('near.title', { n: NEAR_MIN });
+  if (!list.length) { list = all.slice(0, 3); title = t('near.closest'); }
   if (!list.length) return '';
+  // Tarjetas con foto en carrusel horizontal: lo primero que se ve al abrir la app con ubicación
   return `<section class="near"><div class="b-head"><h3 class="zone">${MP_ICON('pin', 'ico ico-s')}${title}</h3></div>
-    ${list.map(({ p, d }) => placeItem(p, ` · ${t('min_walk', { n: walkMin(d) })}`)).join('')}</section>`;
+    <div class="near-cards">${list.map(({ p, d }) => `<button class="ncard" data-place="${p.id}" data-via="near">
+      <span class="ncard-img">${p.img ? `<img src="${esc(p.img.replace('/960px-', '/330px-'))}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}${TI(p.type)}</span>
+      <span class="ncard-txt"><b>${esc(p.name)}</b><small>${t('min_walk', { n: walkMin(d) })} · ${esc(typeName(p.type))}</small></span></button>`).join('')}</div></section>`;
 }
 function bindHomeList() {
   $('#near-locate')?.addEventListener('click', async (e) => {
@@ -192,6 +195,21 @@ function renderDistrict() {
   }));
 }
 
+// Conexiones dentro de un sitio: «Está en» (lugar contenedor) y «Aquí dentro» (lugares que contiene, con progreso)
+function parentHTML(p) {
+  const par = BYID[p.parent];
+  if (!par) return '';
+  return `<button class="in-parent" data-in="${par.id}" data-rel="parent">${MP_ICON(par.type, 'ico ico-s')}<span>${t('in.parent')} <b>${esc(par.name)}</b></span><span class="chev"></span></button>`;
+}
+function insideHTML(p) {
+  const kids = CHILDREN[p.id];
+  if (!kids?.length) return '';
+  const pr = progress(kids);
+  return `<section class="inside"><div class="b-head"><h3 class="zone">${t('in.children')}</h3><span>${pr.done}/${pr.total}</span></div>
+    ${kids.map((k) => `<button class="pitem" data-in="${k.id}" data-rel="child"><span class="pthumb t-${lvl(k.id)}">${lvl(k.id) === 1 ? ICON_CHECK : lvl(k.id) === 2 ? ICON_GPS : TI(k.type)}</span>
+      <span class="p-info"><strong>${esc(k.name)}</strong><small>${esc(typeName(k.type))}</small></span><span class="chev"></span></button>`).join('')}</section>`;
+}
+
 // Siguiente lugar pendiente más cercano a este (para ir encadenando)
 const nextOf = (p) => PLACES.filter((x) => x.id !== p.id && lvl(x.id) === 0).map((x) => ({ x, d: dist(p.coords, x.coords) })).sort((a, b) => a.d - b.d)[0];
 function nextHTML(p) {
@@ -229,15 +247,18 @@ function renderPlace() {
     </div>
     <div class="lists">${[['f', 'heart'], ['w', 'bookmark']].map(([k, ico]) => `<button class="lst ${k}${inList(k, p.id) ? ' on' : ''}" data-l="${k}" aria-pressed="${inList(k, p.id)}">${MP_ICON(ico, 'ico')}<span>${t('list.' + k + '1')}</span></button>`).join('')}</div>
     ${stamps ? `<div class="stamps">${stamps}</div>` : ''}
+    ${parentHTML(p)}
     <a class="cta" data-nav="walking" href="${nav('walking')}" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24"><path d="M3 11l18-8-8 18-2-8-8-2z"/></svg>${t('directions')}</a>
     ${mt ? `<div class="info-row metro"><span class="m-logo">M</span><p><b>${esc(mt.name)}</b> ${mt.lines.map(lineBadge).join('')}<br><small>${t('metro.at', { d: fmtDist(mt.d), min: mt.min })}</small></p></div>` : ''}
     <div class="info-row">${MP_ICON('clock')}<p>${esc(t('access.' + (ACCESS_KEYS.includes(p.type) ? p.type : 'x')))}</p></div>
     ${desc ? `<p class="desc">${esc(desc)}</p><p class="src">${t(en || lang === 'es' ? 'src' : 'src.es')}</p>` : ''}
+    ${insideHTML(p)}
     ${nextHTML(p)}`;
   const newHero = body.querySelector('.hero');
   if (oldHero && oldHero.dataset.img === newHero.dataset.img) newHero.replaceWith(oldHero);
   $('#back').onclick = () => openDistrict(d.id, { refit: true });   // salir de la ficha deselecciona y re-centra el distrito
+  body.querySelectorAll('[data-in]').forEach((el) => (el.onclick = () => { track('place_link_opened', { from: p.id, to: el.dataset.in, rel: el.dataset.rel }); openPlace(el.dataset.in, el.dataset.rel); }));
   body.querySelectorAll('[data-next]').forEach((el) => (el.onclick = () => { track('next_nearby_opened', { from: p.id, to: el.dataset.next }); openPlace(el.dataset.next, 'next'); }));
   body.querySelectorAll('[data-nav]').forEach((a) => (a.onclick = () => track('directions_clicked', { place: p.id, type: p.type, mode: a.dataset.nav, metro: mt?.name || null })));
   body.querySelectorAll('[data-l]').forEach((el) => (el.onclick = () => {

@@ -18,6 +18,9 @@ try {
 
 export const PLACES = window.PLACES;
 export const BYID = Object.fromEntries(PLACES.map((p) => [p.id, p]));
+// Lugares dentro de otro (parent en tools/places.tsv): Retiro → Palacio de Cristal, Plaza Mayor → Casa de la Panadería…
+export const CHILDREN = {};
+PLACES.forEach((p) => p.parent && BYID[p.parent] && (CHILDREN[p.parent] ||= []).push(p));
 export const DISTRICTS = [];         // { id, name, short, fid, feature, bbox, label, places, barrios, ini }
 export const BARRIOS = [];           // { id, name, district, fid, bbox, places }
 export const districtOf = {};        // placeId -> distrito

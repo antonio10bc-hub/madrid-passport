@@ -629,6 +629,23 @@ button, a, input, .place, .row, .pitem { touch-action: manipulation; }
 .near .pitem { border-bottom-color: var(--line); }
 .near .pitem:last-child { border-bottom: 0; }
 .near .pthumb.t-0 { background: var(--bg); }
+.near { padding-bottom: 14px; }
+.near-cards { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 2px -14px 0; padding: 4px 14px 2px; }
+.near-cards::-webkit-scrollbar { display: none; }
+.ncard { flex: none; width: 148px; scroll-snap-align: start; text-align: left; border-radius: 14px; overflow: hidden; background: var(--bg); box-shadow: 0 0 0 1px var(--line); }
+.ncard:active { transform: scale(.97); }
+.ncard-img { position: relative; display: grid; place-items: center; height: 92px; background: linear-gradient(135deg, rgba(var(--red-a),.16), rgba(var(--red-a),.05)); color: var(--red); }
+.ncard-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ncard-img svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.ncard-txt { display: block; padding: 8px 10px 10px; }
+.ncard-txt b { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 13.5px; line-height: 1.25; min-height: 2.5em; }
+.ncard-txt small { display: block; margin-top: 3px; font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* Conexiones: lugar contenedor y lugares dentro */
+.in-parent { width: 100%; display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 12px; margin: 10px 0 4px; border-radius: 12px; background: var(--bg-2); font-size: 14px; text-align: left; }
+.in-parent .ico { color: var(--red); flex: none; }
+.in-parent span:not(.chev) { flex: 1; }
+.inside { margin: 22px 0 8px; }
+.inside .pitem:last-child { border-bottom: 0; }
 .sec-title { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 0 0 6px; }
 .sec-title h2 { font-size: 22px; letter-spacing: -.01em; }
 .sec-title span { font-size: 13px; font-weight: 600; color: var(--muted); }
@@ -753,3 +770,15 @@ button, a, input, .place, .row, .pitem { touch-action: manipulation; }
 @media (prefers-reduced-motion: reduce) { #onboard { animation: none; } }
 .gbtn-gis { width: 100%; min-height: 44px; display: flex; justify-content: center; }
 .ob-privacy { display: block; text-align: center; font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+/* Onboarding paso 5: marcar imprescindibles ya visitados */
+.ob-quick { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; max-width: 340px; align-self: center; position: relative; z-index: 1; }
+.ob-q { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; min-height: 84px; padding: 10px 6px; border-radius: 16px;
+  background: var(--bg-2); box-shadow: inset 0 0 0 1px var(--line); font-size: 12.5px; font-weight: 600; line-height: 1.2; color: var(--ink);
+  transition: transform .15s var(--ease-out), background .2s, color .2s; }
+.ob-q .ico { width: 22px; height: 22px; color: var(--red); }
+.ob-q:active { transform: scale(.95); }
+.ob-q.on { background: var(--red); color: #fff; box-shadow: none; }
+.ob-q.on .ico { color: #fff; }
+.ob-qn { position: absolute; bottom: -4px; left: 0; right: 0; font-size: 13px; font-weight: 700; color: var(--red); }
+.ob-slide:nth-child(5) .ob-ill { align-content: center; }
