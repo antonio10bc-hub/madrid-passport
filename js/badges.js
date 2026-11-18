@@ -28,5 +28,8 @@
     { id: 'barrios-50', icon: 'route', name: 'Callejero', desc: 'Pisa 50 barrios', en: ['Street map', 'Set foot in 50 neighbourhoods'], test: (s) => [barrios(s), 50] },
     { id: 'barrios-all', icon: 'map', name: 'De punta a punta', desc: 'Pisa todos los barrios de Madrid', en: ['End to end', 'Set foot in every neighbourhood'], test: (s) => [barrios(s), s.barrios.length] },
     { id: 'madrid-entero', icon: 'crown', name: 'Gato de pura cepa', desc: 'Visita todos los lugares de Madrid', en: ['True-born Gato', 'Visit every place in Madrid'], test: (s) => [count(s, () => true), s.places.length] },
+    // Los dos últimos y más difíciles: todo confirmado con GPS (dorados)
+    { id: 'barrios-gps-all', icon: 'target', name: 'Huella dorada', desc: 'Pisa con GPS todos los barrios de Madrid', en: ['Golden footprint', 'Walk every neighbourhood in Madrid with GPS'], test: (s) => [s.barrios.filter((b) => s.blvl(b) === 2).length, s.barrios.length] },
+    { id: 'todo-gps', icon: 'star', name: 'Leyenda de Madrid', desc: 'Confirma con GPS absolutamente todo: lugares y barrios', en: ['Madrid legend', 'Confirm absolutely everything with GPS: places and neighbourhoods'], test: (s) => [s.places.filter((p) => s.lvl(p.id) === 2).length + s.barrios.filter((b) => s.blvl(b) === 2).length, s.places.length + s.barrios.length] },
   ];
 })();

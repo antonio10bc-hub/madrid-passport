@@ -113,7 +113,9 @@ function typesHTML() {
 }
 
 // Logros como sellos de pasaporte (tinta con textura). Formas y giro fijos por logro.
-const GOLD_BADGES = new Set(['gps-1', 'gps-10']);   // el dorado significa siempre «verificado por GPS»
+// Siempre al final, en este orden: «Gato de pura cepa», «Huella dorada» y «Leyenda de Madrid»
+const LAST = { 'madrid-entero': 1, 'barrios-gps-all': 2, 'todo-gps': 3 };
+const GOLD_BADGES = new Set(['gps-1', 'gps-10', 'barrios-gps-all', 'todo-gps']);   // el dorado significa siempre «verificado por GPS»
 const inkIcon = (name, col, size, sw) => MP_ICON(name).replace('class="ico"', `width="${size}" height="${size}" fill="none" stroke="${col}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round"`);
 function stampSVG(b, i, n, goal, date) {
   const shape = ['circle', 'rect', 'oct'][i % 3];
@@ -158,7 +160,7 @@ function renderBadges() {
   // Conseguidos primero (por fecha), luego pendientes por % de avance; «Gato de pura cepa» siempre el último
   const items = MP_BADGES.map((b, i) => { const [n, goal] = b.test(s); return { b, i, n, goal, date: S.badges[b.id] }; })
     .sort((x, y) => (x.date && y.date ? x.date - y.date : x.date ? -1 : y.date ? 1 : y.n / y.goal - x.n / x.goal))
-    .sort((x, y) => (x.b.id === 'madrid-entero') - (y.b.id === 'madrid-entero'));
+    .sort((x, y) => (LAST[x.b.id] || 0) - (LAST[y.b.id] || 0));
   return `${levelHTML()}${typesHTML()}
     <div class="pp-head"><span>${t('stamps')}</span><span>${got} / ${MP_BADGES.length}</span></div>
     <div class="pp-grid">${items.map(({ b, i, n, goal, date }) => `<div class="pp ${date ? 'on' : ''}" title="${esc(badgeDesc(b))}">

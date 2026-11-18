@@ -129,6 +129,12 @@ test('logros: nivel arriba, puntos y progreso por tipo', async ({ page }) => {
   await expect(page.locator('.chip.on[data-t="Museo"]')).toBeVisible();
 });
 
+test('logros: los tres más difíciles van al final, los de GPS en dorado', async ({ page }) => {
+  await page.locator('[data-tab="badges"]').click();
+  const names = await page.locator('.pp strong').allTextContents();
+  expect(names.slice(-3)).toEqual(['Gato de pura cepa', 'Huella dorada', 'Leyenda de Madrid']);
+});
+
 test('logro desbloqueado: aviso desde arriba que lleva a Logros', async ({ page }) => {
   await openCentro(page);
   await markVisited(page, 'plaza-mayor');
