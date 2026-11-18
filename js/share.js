@@ -1,8 +1,10 @@
 // Imagen para compartir: todo Madrid (mapa de calor por distrito) o un distrito (barrios pisados), post (1080×1350) o historia (1080×1920).
 // L = textos traducidos { title, visited, gps, pending, districts, barrios, level, pts }. level = { n, name, pts } del usuario.
 window.MPShare = (() => {
-  const RED = '#D6202C', GOLD = '#C9A227', INK = '#111114', MUTED = '#8A8A93';
-  const FONT = '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, sans-serif';
+  // Identidad «May»: crema con cuadrícula, Fredoka (títulos y cifras) + DM Sans, coral y granate
+  const RED = '#D6202C', CORAL = '#F25C4E', WINE = '#8C1D26', GOLD = '#E9A21B', INK = '#141414', MUTED = '#8A7A70', CREAM = '#FFF5EC';
+  const FONT = '"DM Sans", -apple-system, system-ui, sans-serif', DISPLAY = '"Fredoka", "DM Sans", system-ui, sans-serif';
+  const svgImg = (svg) => new Promise((res) => { const im = new Image(); im.onload = () => res(im); im.onerror = () => res(null); im.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg.replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" ')); });
   const polys = (g) => (g.type === 'Polygon' ? [g.coordinates] : g.coordinates);
   let barriosCache;
 
@@ -12,7 +14,10 @@ window.MPShare = (() => {
     barriosCache ||= await fetch('data/barrios.geojson').then((r) => r.json()).catch(() => null);
     const c = document.createElement('canvas'); c.width = W; c.height = H;
     const x = c.getContext('2d');
-    x.fillStyle = '#fff'; x.fillRect(0, 0, W, H);
+    await Promise.all(['600 30px Fredoka', '700 72px Fredoka', '500 26px "DM Sans"'].map((f) => document.fonts?.load(f).catch(() => {})));
+    x.fillStyle = CREAM; x.fillRect(0, 0, W, H);
+    x.strokeStyle = 'rgba(140,29,38,.06)'; x.lineWidth = 2;   // cuadrícula
+    for (let g = 0; g <= Math.max(W, H); g += 54) { x.beginPath(); x.moveTo(g, 0); x.lineTo(g, H); x.moveTo(0, g); x.lineTo(W, g); x.stroke(); }
 
     const scope = district ? [district] : districts;
     const pl = district ? district.places : places;
@@ -76,28 +81,33 @@ window.MPShare = (() => {
     const pct = pl.length ? Math.round((vis / pl.length) * 100) : 0;
     const ty = format === 'story' ? 200 : 120;
     x.textBaseline = 'alphabetic';
-    x.fillStyle = RED; x.font = `600 30px ${FONT}`; x.fillText(MP_CITY.app.toUpperCase(), 80, ty);
-    x.fillStyle = INK; x.font = `700 ${district && district.name.length > 12 ? 60 : 72}px ${FONT}`; x.fillText(district ? district.name : L.title, 80, ty + 82);
-    x.textAlign = 'right'; x.font = `700 72px ${FONT}`; x.fillStyle = RED; x.fillText(pct + '%', W - 80, ty + 82); x.textAlign = 'left';
+    x.fillStyle = WINE; x.font = `600 32px ${DISPLAY}`; x.fillText(MP_CITY.app, 80, ty);
+    x.fillStyle = INK; x.font = `700 ${district && district.name.length > 12 ? 62 : 76}px ${DISPLAY}`; x.fillText(district ? district.name : L.title, 80, ty + 82);
+    // May en la esquina, celebrando, con el % en una chapa coral
+    const mayIm = window.MPMay ? await svgImg(window.MPMay(pct >= 50 ? 'party' : 'happy')) : null;
+    if (mayIm) { x.save(); x.translate(W - 170, ty + 10); x.rotate(0.14); x.drawImage(mayIm, -95, -110, 190, 190); x.restore(); }
+    const pt = pct + '%'; x.font = `700 40px ${DISPLAY}`; const pw0 = x.measureText(pt).width + 36;
+    x.beginPath(); x.roundRect ? x.roundRect(W - 170 - pw0 / 2, ty + 78, pw0, 60, 30) : x.rect(W - 170 - pw0 / 2, ty + 78, pw0, 60);
+    x.fillStyle = CORAL; x.fill(); x.textAlign = 'center'; x.fillStyle = '#fff'; x.fillText(pt, W - 170, ty + 122); x.textAlign = 'left';
     // Nivel del usuario: píldora roja «NIVEL 3 · VISITANTE» + puntos
     if (level) {
-      const label = `${L.level} ${level.n} · ${level.name}`.toUpperCase(), py = ty + 118, ph = 54;
-      x.font = `700 26px ${FONT}`;
+      const label = `${L.level} ${level.n} · ${level.name}`, py = ty + 118, ph = 54;
+      x.font = `600 28px ${DISPLAY}`;
       const pw = x.measureText(label).width + 48;
       x.beginPath(); x.roundRect ? x.roundRect(80, py, pw, ph, ph / 2) : x.rect(80, py, pw, ph);
-      x.fillStyle = RED; x.fill();
-      x.fillStyle = '#fff'; x.fillText(label, 104, py + 36);
+      x.fillStyle = CORAL; x.fill();
+      x.fillStyle = '#fff'; x.fillText(label, 104, py + 37);
       x.fillStyle = MUTED; x.font = `600 26px ${FONT}`; x.fillText(`${level.pts} ${L.pts}`, 80 + pw + 18, py + 36);
     }
 
     const third = district ? [pl.length - vis, L.pending, MUTED] : [barrios.filter((bb) => blvl(bb) > 0).length, L.barrios, INK];
     const bScope = district ? barrios.filter((bb) => bb.district === district) : barrios;
     const gold = gps + bScope.filter((bb) => blvl(bb) === 2).length;   // lugares y barrios confirmados con GPS, como en el Diario
-    const stats = [[vis, L.visited, RED], [gold, L.gps, GOLD], third];
+    const stats = [[vis, L.visited, CORAL], [gold, L.gps, GOLD], third];
     const cw = (W - 160) / 3, sy = H - (format === 'story' ? 200 : 110);
     stats.forEach(([n, label, col], i) => {
       const sx = 80 + i * cw;
-      x.fillStyle = col; x.font = `700 56px ${FONT}`; x.fillText(String(n), sx, sy);
+      x.fillStyle = col; x.font = `700 60px ${DISPLAY}`; x.fillText(String(n), sx, sy);
       x.fillStyle = MUTED; x.font = `500 26px ${FONT}`; x.fillText(label, sx, sy + 40);
     });
     return new Promise((res) => c.toBlob(res, 'image/png'));

@@ -8,6 +8,7 @@ import { t } from './i18n.js';
 import { polys } from './util.js';
 import { getPos, onPosition } from './gps.js';
 import { track } from './analytics.js';
+import { may } from './may.js';
 
 const KEY = 'mp.onboarded';
 const APP = esc(MP_CITY.app.toUpperCase());
@@ -61,7 +62,8 @@ export function showOnboarding(source = 'first') {
   if ($('#onboard')) return closed;
   let done;
   closed = new Promise((r) => (done = r));
-  const steps = [['ob.1', mapSVG()], ['ob.2', PIN], ['ob.3', GPS], ['ob.4', STAMP], ['ob.5', quick()]];
+  // May acompaña en la bienvenida y celebra la subida de nivel
+  const steps = [['ob.1', mapSVG() + may('happy', 'may ob-may')], ['ob.2', PIN], ['ob.3', GPS], ['ob.4', STAMP + may('party', 'may ob-may l')], ['ob.5', quick()]];
   const el = document.createElement('div');
   el.id = 'onboard'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true'); el.setAttribute('aria-label', t('ob.aria'));
   el.innerHTML = `<button class="ob-skip" id="ob-skip">${t('ob.skip')}</button>

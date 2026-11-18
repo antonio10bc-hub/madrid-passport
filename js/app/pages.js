@@ -8,7 +8,7 @@ import { renderAccount } from './sync.js';
 import { track } from './analytics.js';
 import { notify } from './notify.js';
 import { showOnboarding } from './onboarding.js';
-import { madri } from './madri.js';
+import { may } from './may.js';
 
 const page = $('#page'), pageBody = $('#page-body');
 
@@ -130,13 +130,23 @@ function renderDiary() {
   const dComplete = DISTRICTS.filter(districtDone).length, undated = items.filter((x) => !x.t);
   return `<section class="pass-card"><span class="pass-kick">${esc(MP_CITY.app.toUpperCase())}</span><div id="acct-slot"></div>
       <p class="pass-k">${t('pass.story', {
-        v: `<span class="pk">${MP_ICON('pin')}<b>${pr.done}</b> ${t('pass.places')}</span>`,
-        g: `<span class="pk gold">${MP_ICON('target')}<b>${pr.gps + bp.gps}</b> ${t('pass.gps')}</span>`,
-        b: `<span class="pk rose">${MP_ICON('barrio')}<b>${bp.done}</b> ${t('pass.barrios')}</span>`,
+        v: `<span class="pk"><span class="nw">${MP_ICON('pin')}<b>${pr.done}</b></span> ${t('pass.places')}</span>`,
+        g: `<span class="pk gold"><span class="nw">${MP_ICON('target')}<b>${pr.gps + bp.gps}</b></span> ${t('pass.gps')}</span>`,
+        b: `<span class="pk rose"><span class="nw">${MP_ICON('barrio')}<b>${bp.done}</b></span> ${t('pass.barrios')}</span>`,
         d: `<span class="pk"><b>${dComplete}</b> ${t('pass.districts', { n: DISTRICTS.length })}</span>` })}</p>
-      <span class="pass-madri">${madri('happy')}</span></section>
-    ${items.length ? `<div id="cal-wrap">${calendarHTML(items)}</div>` : `<div class="empty-state">${madri('sleep', 'madri empty-madri')}${t('diary.empty')}</div>`}
+      <button class="may-btn pass-may" data-may="diary" aria-label="May">${may('happy')}</button></section>
+    ${items.length ? `<div id="cal-wrap">${calendarHTML(items)}</div>` : `<div class="empty-state">${may('sleep', 'may empty-may')}${t('diary.empty')}</div>`}
     ${undated.length ? `<div class="cal-sel"><strong>${t('nodate')}</strong><small>${countLabel(undated)}</small></div><div class="cal-list">${undated.map(rowHTML).join('')}</div>` : ''}`;
+}
+
+// ---------- May: al tocarla rebota y pone cara de sorpresa ----------
+function bindMay(root) {
+  root.querySelectorAll('.may-btn').forEach((b) => (b.onclick = () => {
+    track('may_tapped', { where: b.dataset.may });
+    b.classList.remove('boing'); void b.offsetWidth; b.classList.add('boing');
+    b.innerHTML = may('wow');
+    clearTimeout(b._t); b._t = setTimeout(() => { b.innerHTML = may(b.dataset.mood || 'happy'); b.classList.remove('boing'); }, 900);
+  }));
 }
 
 // ---------- Logros: nivel + progreso por tipo + sellos ----------
@@ -147,7 +157,7 @@ function levelHTML() {
   const { pts, lv } = levelState(), { visit, gps } = pts.parts;
   return `<section class="lvl-card" id="lvl-card">
     <div class="lvl-ring"><svg viewBox="0 0 112 112" aria-hidden="true">${ring(112, 50, 10, lv.pct, 'rg-red')}${ring(112, 35, 8, visit ? gps / visit : 0, 'rg-gold')}</svg>
-      <span class="lvl-face">${madri(lv.i > 0 ? 'party' : 'happy')}</span>
+      <button class="may-btn lvl-face" data-may="badges" data-mood="${lv.i > 0 ? 'party' : 'happy'}" aria-label="May">${may(lv.i > 0 ? 'party' : 'happy')}</button>
       <span class="lvl-n" aria-label="${t('level')} ${lv.i + 1}/${LEVELS.length}">${lv.i + 1}</span></div>
     <div class="lvl-info"><h2>${t('lvl.' + lv.cur.id)}</h2><b class="lvl-pts">${pts.total}<span> ${t('pts')}</span></b>
       <p class="lvl-next"><i class="dot red"></i>${lv.next ? t('level.next', { n: lv.toNext, name: t('lvl.' + lv.next.id) }) : t('level.max')}</p>
@@ -266,7 +276,7 @@ export function renderPage() {
     if (chip) { const c = chip.getBoundingClientRect(), r = row.getBoundingClientRect(); row.scrollLeft += c.left + c.width / 2 - (r.left + r.width / 2); }
   }));
   pageBody.querySelector('[data-barrios]')?.addEventListener('click', () => toast(t('barrio.hint')));
-  bindPlaceItems(pageBody);
+  bindPlaceItems(pageBody); bindMay(pageBody);
   renderAccount();
 }
 // Vuelta al mapa: la página sale con un fundido corto antes de ocultarse

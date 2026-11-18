@@ -774,7 +774,6 @@ button, a, input, .place, .row, .pitem { touch-action: manipulation; }
 .gbtn-gis { width: 100%; min-height: 44px; display: flex; justify-content: center; }
 .ob-privacy { display: block; text-align: center; font-size: 12px; color: var(--muted); margin-top: 2px; }
 
-=======
 /* Onboarding paso 5: marcar imprescindibles ya visitados */
 .ob-quick { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; max-width: 340px; align-self: center; position: relative; z-index: 1; }
 .ob-q { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; min-height: 84px; padding: 10px 6px; border-radius: 16px;
@@ -815,7 +814,7 @@ button, a, input, .place, .row, .pitem { touch-action: manipulation; }
 .rep-btns .rep-send:disabled { opacity: .6; }
 
 /* =====================================================================
-   Identidad «Madri» (iteración 3): crema con cuadrícula, Fredoka + DM Sans,
+   Identidad «May» (iteración 3): crema con cuadrícula, Fredoka + DM Sans,
    colores planos en la gama de rojos, sombras sólidas desplazadas y baldosas giradas.
    ===================================================================== */
 @font-face { font-family: 'Fredoka'; src: url(../fonts/fredoka.woff2) format('woff2'); font-weight: 500 700; font-display: swap; }
@@ -858,10 +857,6 @@ h2, h3 { font-weight: 600; }
 /* Menú inferior: píldora flotante; la pestaña activa muestra su nombre */
 .tabbar { background: var(--bg); border-top: 0; justify-content: center; align-items: flex-start; padding-top: 6px; }
 .tb-pill { display: flex; gap: 6px; padding: 6px; border-radius: 999px; background: var(--bg-2); box-shadow: 0 8px 24px rgba(140,29,38,.14); }
-.tabbar button { flex: none; flex-direction: row; gap: 6px; width: 50px; height: 50px; border-radius: 999px; background: var(--bg); color: var(--muted); font: 600 15px var(--f-display); transition: background-color .2s ease, color .2s ease; }
-.tabbar button span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-.tabbar button.on { width: auto; padding: 0 18px; background: var(--coral); color: #fff; }
-.tabbar button.on span { position: static; width: auto; height: auto; overflow: visible; clip-path: none; }
 .tabbar svg { width: 22px; height: 22px; }
 /* Controles: blancos sobre crema, activo en coral */
 .search { background: var(--bg-2); border-radius: 16px; height: 44px; box-shadow: var(--pop-s); }
@@ -898,17 +893,18 @@ h2, h3 { font-weight: 600; }
 .pass-card { background: var(--wine); border-radius: 28px; padding: 16px 18px 18px; box-shadow: var(--pop); overflow: visible; }
 .pass-card::after { display: none; }
 .pass-kick { color: #F3C9C6; opacity: 1; }
-.pass-k { display: block; border-top: 0; padding-top: 0; font: 600 22px/1.5 var(--f-display); color: #F3C9C6; text-wrap: pretty; padding-right: 54px; }
-.pass-k .pk { color: #fff; white-space: nowrap; }
-.pass-k .pk .ico { width: 30px; height: 30px; padding: 6px; border-radius: 10px; background: var(--coral); stroke: #fff; stroke-width: 2.2; vertical-align: -6px; margin-right: 6px; transform: rotate(-7deg); box-shadow: 2px 2px 0 rgba(0,0,0,.25); }
+.pass-k { display: block; border-top: 0; padding-top: 0; font: 600 19px/1.6 var(--f-display); color: #F3C9C6; text-wrap: pretty; }
+.pass-k .pk { color: #fff; }
+.pass-k .nw { white-space: nowrap; }
+.pass-k .pk .ico { width: 26px; height: 26px; padding: 5px; border-radius: 10px; background: var(--coral); stroke: #fff; stroke-width: 2.2; vertical-align: -6px; margin-right: 6px; transform: rotate(-7deg); box-shadow: 2px 2px 0 rgba(0,0,0,.25); }
 .pass-k .pk.gold .ico { background: var(--gold); transform: rotate(6deg); }
 .pass-k .pk.rose .ico { background: var(--rose); }
 .pass-k b { display: inline; font-size: inherit; font-weight: 700; color: #fff; }
 .pass-k .gold b { color: #fff; }
-.pass-madri { position: absolute; right: -6px; top: -26px; width: 72px; height: 72px; transform: rotate(10deg); filter: drop-shadow(2px 3px 0 rgba(0,0,0,.18)); pointer-events: none; }
-.madri { display: block; width: 100%; height: 100%; overflow: visible; }
+.pass-may { position: absolute; right: 12px; top: 10px; width: 62px; height: 62px; transform: rotate(8deg); filter: drop-shadow(2px 3px 0 rgba(0,0,0,.18)); }
+.may { display: block; width: 100%; height: 100%; overflow: visible; }
 .pass-card .acct { margin-top: 2px; }
-.empty-state .empty-madri { width: 110px; height: 110px; margin: 0 auto 10px; }
+.empty-state .empty-may { width: 110px; height: 110px; margin: 0 auto 10px; }
 /* Calendario en baldosas */
 .cal { background: var(--bg-2); border-radius: 24px; padding: 12px; box-shadow: var(--pop-s); }
 .cal-days > * { border-radius: 11px; }
@@ -924,7 +920,7 @@ h2, h3 { font-weight: 600; }
 .cal-days button:active { transform: scale(.95) rotate(var(--r, -4deg)); }
 .cal-leg .cal-grad i { background: linear-gradient(90deg, var(--rose), var(--coral), var(--wine)); }
 .cal-leg .gp { box-shadow: inset 0 0 0 2px var(--gold); border-radius: 3px; }
-/* Logros: Madri dentro del anillo de nivel (Selli) */
+/* Logros: May dentro del anillo de nivel (Selli) */
 .lvl-card { grid-template-columns: minmax(0, 1fr); justify-items: center; text-align: center; background: var(--bg-2); border-radius: 28px; box-shadow: var(--pop); padding: 18px 16px; }
 .lvl-ring { width: 136px; height: 136px; }
 .lvl-face { position: absolute; inset: 24px; border-radius: 50%; background: var(--peel); padding: 6px; }
@@ -955,3 +951,65 @@ h2, h3 { font-weight: 600; }
 .tp-row:nth-child(6n+4) .tp-bar i, .tp-row:nth-child(6n+5) .tp-bar i { background: #3A0E12; }
 @media (prefers-reduced-motion: reduce) { .tp-tile, .row { transition: none; } }
 .lvl-ring .lvl-face svg { transform: none; }
+
+/* ---------- Iteración 4 ---------- */
+/* Menú: la pestaña activa se ensancha y su nombre aparece de forma suave */
+.tabbar button { flex: none; flex-direction: row; gap: 0; height: 50px; padding: 0 14px; border-radius: 999px; background: var(--bg); color: var(--muted); font: 600 15px var(--f-display);
+  transition: background-color .3s var(--ease-out), color .3s var(--ease-out), padding .35s var(--ease-out); }
+.tabbar button span { display: inline-block; max-width: 0; margin-left: 0; opacity: 0; overflow: hidden; white-space: nowrap; vertical-align: middle;
+  transition: max-width .35s var(--ease-out), margin-left .35s var(--ease-out), opacity .2s ease; }
+.tabbar button.on { padding: 0 18px; background: var(--coral); color: #fff; }
+.tabbar button.on span { max-width: 90px; margin-left: 6px; opacity: 1; transition: max-width .35s var(--ease-out), margin-left .35s var(--ease-out), opacity .25s ease .08s; }
+.tabbar button:active { transform: scale(.94); }
+/* Cerca de ti: el carrusel llega a los bordes de la pantalla (sin caja que lo corte) */
+.near { background: none; box-shadow: none; border-radius: 0; padding: 0; margin: 6px 0 26px; }
+.near .b-head .zone { margin: 0 0 8px; }
+.near-cards { margin: 0 -20px; padding: 4px 20px 12px; gap: 12px; scroll-padding: 0 20px; }
+.ncard { background: var(--bg-2); border-radius: 20px; box-shadow: var(--pop-s); }
+.ncard-img { margin: 6px 6px 0; border-radius: 15px; overflow: hidden; background: var(--peel); color: var(--coral); }
+.ncard-txt b { font-family: var(--f-display); font-weight: 600; font-size: 14px; }
+/* May: botón, respiración en reposo y rebote al tocarla */
+.may-btn { display: block; padding: 0; border-radius: 50%; cursor: pointer; }
+.may-btn .may { animation: may-idle 3.6s ease-in-out infinite; transform-origin: 50% 90%; }
+.may-btn.boing .may { animation: may-boing .6s cubic-bezier(.3, 1.6, .5, 1); }
+@keyframes may-idle { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-2px) rotate(-3deg); } }
+@keyframes may-boing { 0% { transform: scale(1); } 25% { transform: scale(1.14, .86); } 55% { transform: scale(.9, 1.12) translateY(-6px); } 100% { transform: scale(1); } }
+.lvl-face { border: 0; }
+.lvl-face:focus-visible, .pass-may:focus-visible { box-shadow: var(--focus); }
+@media (prefers-reduced-motion: reduce) { .may-btn .may, .may-btn.boing .may { animation: none; } }
+/* Intro: la rejilla del último paso ocupa todo el ancho; May acompaña */
+.ob-ill { grid-template-columns: minmax(0, 1fr); }
+.ob-may { width: 92px; height: 92px; justify-self: end; align-self: end; margin: 0 6px 6px 0; position: relative; z-index: 2; transform: rotate(8deg); animation: ob-may-in .5s var(--ease-out) .5s both; }
+.ob-may.l { justify-self: start; margin: 0 0 6px 6px; transform: rotate(-8deg); }
+@keyframes ob-may-in { from { opacity: 0; transform: translateY(16px) scale(.9); } }
+@media (prefers-reduced-motion: reduce) { .ob-may { animation: none; } }
+/* Distrito y ficha de lugar al estilo Selli */
+.back { color: var(--coral); font-family: var(--f-display); }
+.back::before { border-color: var(--coral); }
+.d-head h2, .pd-head h2 { font: 700 30px/1.1 var(--f-display); letter-spacing: -.01em; text-wrap: balance; }
+.place { background: var(--bg-2); border-radius: 18px; margin: 0 0 10px; padding: 11px 12px; box-shadow: var(--pop-s); }
+.place::after { display: none; }
+.place.sel { background: var(--peel); }
+.p-info strong { font: 600 16px var(--f-display); }
+.chk { border-radius: 13px; border: 0; background: var(--bg); box-shadow: inset 0 0 0 2px var(--line); }
+.chk.on { background: var(--coral); box-shadow: 2px 2px 0 rgba(140,29,38,.25); transform: rotate(-5deg); }
+.chk.gps.on { background: var(--gold); transform: rotate(5deg); }
+.chk:active:not(:disabled) { transform: scale(.94); }
+.opt-row button { border-radius: 99px; padding: 6px 12px; }
+.opt-row button.on { color: #fff; background: var(--coral); }
+.barrios { border-top: 0; margin-top: 22px; }
+.bchip { border-radius: 99px; background: var(--bg-2); border: 0; box-shadow: var(--pop-s); padding: 8px 12px; }
+.bchip.l1 { background: var(--coral); border: 0; }
+.bchip.l2 { background: var(--gold); border: 0; }
+.hero { border-radius: 26px; border: 4px solid var(--bg-2); box-shadow: var(--pop); height: 190px; }
+.hero.noimg { background: var(--peel); height: 120px; }
+.hero.noimg .hero-ico { color: var(--coral); }
+.info-row { background: var(--bg-2); border-radius: 16px; box-shadow: var(--pop-s); }
+.ctas .cta.alt { background: var(--bg-2); }
+.lst { border-radius: 99px; background: var(--bg-2); box-shadow: var(--pop-s); }
+.lst.f.on { background: var(--coral); color: #fff; }
+.lst.f.on .ico { color: #fff; fill: #fff; }
+.rate .stars button.on { color: var(--gold); }
+.in-parent { background: var(--bg-2); border-radius: 16px; box-shadow: var(--pop-s); }
+.in-parent .ico { color: var(--coral); }
+.pass-card .acct-txt { padding-right: 64px; }
