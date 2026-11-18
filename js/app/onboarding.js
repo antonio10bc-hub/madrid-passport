@@ -37,8 +37,8 @@ const GPS = `<svg viewBox="0 0 260 230" class="ob-gps" aria-hidden="true">
   <circle class="ob-pulse" cx="130" cy="122" r="92" fill="none" stroke="var(--gold)" stroke-width="2"/>
   <g class="ob-me"><circle cx="0" cy="0" r="22" fill="#2F7BF6" fill-opacity=".18"/><circle cx="0" cy="0" r="11" fill="#2F7BF6" stroke="#fff" stroke-width="4"/></g>
   <g class="ob-gold"><g transform="translate(93 40) scale(.62)"><path d="M60 132s-46-40-46-76a46 46 0 0192 0c0 36-46 76-46 76z" fill="var(--gold)"/>
-    <path class="ob-draw d1" pathLength="1" d="M27 58l12 12 22-24" fill="none" stroke="#fff" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/>
-    <path class="ob-draw d2" pathLength="1" d="M51 66l4 4 30-32" fill="none" stroke="#fff" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/></g></g></svg>`;
+    <path class="ob-draw d1" pathLength="1" d="M31 60l12 12 22-24" fill="none" stroke="#fff" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path class="ob-draw d2" pathLength="1" d="M55 68l4 4 30-32" fill="none" stroke="#fff" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/></g></g></svg>`;
 // Sello (paso 4): golpe de sello + nivel que sube
 const STAMP = `<div class="ob-stampwrap"><svg viewBox="0 0 160 160" class="ob-stamp" aria-hidden="true"><g transform="rotate(-10 80 80)" fill="none" stroke="var(--red)">
   <circle cx="80" cy="80" r="66" stroke-width="5"/><circle cx="80" cy="80" r="50" stroke-width="2"/>
