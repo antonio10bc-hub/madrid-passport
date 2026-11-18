@@ -362,3 +362,12 @@ test('sin errores de JavaScript al navegar', async ({ page }) => {
   for (const tab of ['diary', 'badges', 'map']) await page.locator(`[data-tab="${tab}"]`).click();
   expect(errors).toEqual([]);
 });
+
+test('tocar la pestaña activa (Logros) vuelve arriba con scroll', async ({ page }) => {
+  await page.locator('.tabbar [data-tab="badges"]').click();
+  const body = page.locator('#page-body');
+  await body.evaluate((el) => (el.scrollTop = 600));
+  expect(await body.evaluate((el) => el.scrollTop)).toBeGreaterThan(0);
+  await page.locator('.tabbar [data-tab="badges"]').click();
+  await expect.poll(() => body.evaluate((el) => el.scrollTop)).toBe(0);
+});

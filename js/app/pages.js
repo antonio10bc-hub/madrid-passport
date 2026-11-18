@@ -276,6 +276,13 @@ export function setTab(tb) {
 export function initPages() {
   document.querySelectorAll('.tabbar button').forEach((b) => (b.onclick = () => {
     if (b.dataset.tab === 'map' && S.tab === 'map') return goHome();   // tocar Mapa estando en el mapa: vista de Madrid
+    if (b.dataset.tab === S.tab) {                                       // tocar la pestaña activa (Diario/Logros): volver arriba
+      if (pageBody.scrollTop > 0) {
+        track('tab_scroll_top', { tab: S.tab });
+        pageBody.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      }
+      return;
+    }
     setTab(b.dataset.tab);
   }));
 }
