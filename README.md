@@ -6,9 +6,9 @@ Guía-mapa de Madrid por sus 21 distritos, mobile-first (390×844, iPhone 14). W
 - Mapa de distritos (límites oficiales) → tap abre el distrito con sus lugares; tap de nuevo lo cierra.
 - Ficha de lugar: foto, descripción (Wikipedia), acceso, sellos con fecha y botón «Cómo llegar».
 - Conexiones: lugares dentro de otro (Retiro → Palacio de Cristal, Plaza Mayor → Casa de la Panadería, AZCA → torres…): «Está en» y «Aquí dentro» con progreso.
-- Ficha: compartir el lugar (enlace a su página), valoración personal tras visitarlo (me encantó / bien / normal, se sincroniza)
+- Ficha: compartir el lugar (enlace a su página), valoración personal tras visitarlo (1-3 estrellas, se sincroniza)
   y «Reportar un error» (ubicación, foto, información, cerrado…; tabla `reports` de Supabase).
-- Comunidad (datos agregados y anónimos de Supabase, solo cifras de 3 o más viajeros): «Sellado por N viajeros · a M les encantó»,
+- Comunidad (datos agregados y anónimos de Supabase, solo cifras de 3 o más viajeros): «Sellado por N viajeros · M le dan ★★★»,
   tu puesto al sellarlo y «Joyas ocultas» (encantan y casi nadie va) en la ficha y en la portada.
 - Cerca de ti (portada): tarjetas con foto de los pendientes a menos de 10 min a pie (o los 3 más cercanos).
 - Enlaces directos: `/?p=<lugar>` abre la ficha y `/?d=<distrito>` el distrito (los usan las páginas SEO).

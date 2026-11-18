@@ -439,8 +439,10 @@ test('ficha: valoración personal tras visitar (se guarda como r:<id>)', async (
   await page.goto('./?p=plaza-mayor');
   await expect(page.locator('.rate')).toHaveCount(0);          // sin visitar no se valora
   await page.locator('.pd-head .chk[data-a="1"]').click();
+  await page.locator('.rate [data-rate="2"]').click();
+  await expect(page.locator('.rate button.on')).toHaveCount(2);           // 2 estrellas encendidas
   await page.locator('.rate [data-rate="3"]').click();
-  await expect(page.locator('.rate [data-rate="3"]')).toHaveClass(/on/);
+  await expect(page.locator('.rate button.on')).toHaveCount(3);
   const v = await page.evaluate(() => JSON.parse(localStorage.getItem('mp.visits.v1'))['r:plaza-mayor']);
   expect(v.v).toBe(3);
 });
@@ -450,7 +452,7 @@ test('ficha: comunidad (viajeros, me encantó, puesto y joya oculta) desde Supab
   await page.route(/rpc\/place_rank/, (r) => r.fulfill({ json: 4 }));
   await page.evaluate(() => localStorage.setItem('mp.visits.v1', JSON.stringify({ 'puerta-sol': { lvl: 1, t: 1700000000000 } })));
   await page.goto('./?p=puerta-sol');
-  await expect(page.locator('.comm')).toContainText('Sellado por 12 viajeros · a 7 les encantó · fuiste el 4.º en sellarlo');
+  await expect(page.locator('.comm')).toContainText('Sellado por 12 viajeros · 7 le dan ★★★ · fuiste el 4.º en sellarlo');
   await page.goto('./?p=debod');
   await expect(page.locator('.comm .gem')).toHaveText('Joya oculta');
   await page.goto('./');

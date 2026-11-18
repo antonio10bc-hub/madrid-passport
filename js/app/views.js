@@ -211,8 +211,9 @@ const rerenderIf = (id) => () => { if (S.view.type === 'place' && S.view.id === 
 function rateHTML(p) {
   if (!lvl(p.id)) return '';
   const cur = S.visits['r:' + p.id]?.v || 0;
-  return `<div class="rate"><span>${t('rate.q')}</span><div>${[[3, 'rate.3'], [2, 'rate.2'], [1, 'rate.1']].map(([v, k]) =>
-    `<button class="${cur === v ? 'on' : ''}" data-rate="${v}" aria-pressed="${cur === v}">${t(k)}</button>`).join('')}</div></div>`;
+  // 1-3 estrellas: tocar la n.ª marca n; tocar la valoración actual la quita
+  return `<div class="rate"><span>${t('rate.q')}</span><div class="stars" role="group" aria-label="${esc(t('rate.q'))}">${[1, 2, 3].map((v) =>
+    `<button class="${v <= cur ? 'on' : ''}" data-rate="${v}" aria-pressed="${cur === v}" aria-label="${esc(t(v === 1 ? 'rate.star1' : 'rate.starN', { n: v }))}">${MP_ICON('star', 'ico')}</button>`).join('')}</div></div>`;
 }
 // «Sellado por N viajeros · a M les encantó», joya oculta y tu puesto (datos agregados de Supabase)
 function commHTML(p) {

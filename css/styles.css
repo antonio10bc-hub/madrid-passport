@@ -789,9 +789,12 @@ button, a, input, .place, .row, .pitem { touch-action: manipulation; }
 /* Ficha: compartir, valoración, comunidad y avisos de error */
 .lst.sh .ico { color: var(--muted); }
 .rate { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 12px 0 2px; font-size: 13px; color: var(--muted); }
-.rate div { display: flex; gap: 6px; }
-.rate button { padding: 6px 11px; border-radius: 999px; background: var(--bg-2); font-size: 13px; font-weight: 600; color: var(--ink); }
-.rate button.on { background: var(--red); color: #fff; }
+.rate .stars { display: flex; gap: 2px; }
+.rate .stars button { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; color: var(--muted); }
+.rate .stars .ico { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linejoin: round; transition: transform .15s var(--ease-out); }
+.rate .stars button.on { color: var(--red); }
+.rate .stars button.on .ico { fill: currentColor; }
+.rate .stars button:active .ico { transform: scale(.85); }
 .comm { margin: 10px 0 0; font-size: 13px; color: var(--muted); display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }
 .gem { display: inline-flex; align-items: center; padding: 3px 9px; border-radius: 999px; background: rgba(var(--red-a),.1); color: var(--red); font-weight: 700; }
 .rep-link { display: inline-flex; align-items: center; margin: 18px 0 6px; font-size: 13px; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }

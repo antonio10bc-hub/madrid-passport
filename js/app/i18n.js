@@ -10,8 +10,8 @@ const TYPES = {
 const DICT = {
   es: {
     'pl.share': 'Compartir', 'pl.share.done': 'He sellado {name} en {app}', 'pl.share.todo': 'Mira {name} en {app}', 'pl.copied': 'Enlace copiado', 'pl.copied.fail': 'No se pudo compartir',
-    'rate.q': '¿Qué te pareció?', 'rate.3': 'Me encantó', 'rate.2': 'Bien', 'rate.1': 'Normal',
-    'comm.n': 'Sellado por {n} viajeros', 'comm.love': 'a {n} les encantó', 'comm.rank': 'fuiste el {n}.º en sellarlo', 'comm.gem': 'Joya oculta', 'comm.gems': 'Joyas ocultas · encantan y casi nadie va',
+    'rate.q': '¿Qué te pareció?', 'rate.star1': '1 estrella', 'rate.starN': '{n} estrellas',
+    'comm.n': 'Sellado por {n} viajeros', 'comm.love': '{n} le dan ★★★', 'comm.rank': 'fuiste el {n}.º en sellarlo', 'comm.gem': 'Joya oculta', 'comm.gems': 'Joyas ocultas · encantan y casi nadie va',
     'rep.link': 'Reportar un error', 'rep.title': '¿Qué está mal?', 'rep.coords': 'La ubicación', 'rep.photo': 'La foto', 'rep.info': 'La información', 'rep.closed': 'Ya no existe o cerró', 'rep.other': 'Otra cosa',
     'rep.ph': 'Detalles (opcional)', 'rep.cancel': 'Cancelar', 'rep.send': 'Enviar', 'rep.thanks': 'Gracias, lo revisaremos',
     settings: 'Ajustes', close: 'Cerrar', privacy: 'Política de privacidad', 'ob.aria': 'Introducción', 'ob.skip': 'Saltar', 'ob.next': 'Continuar', 'ob.start': 'Activar ubicación y empezar', 'ob.later': 'Ahora no', 'ob.again': 'Ver la introducción',
@@ -54,8 +54,8 @@ const DICT = {
   },
   en: {
     'pl.share': 'Share', 'pl.share.done': 'I stamped {name} on {app}', 'pl.share.todo': 'Check out {name} on {app}', 'pl.copied': 'Link copied', 'pl.copied.fail': "Couldn't share",
-    'rate.q': 'How was it?', 'rate.3': 'Loved it', 'rate.2': 'Good', 'rate.1': 'Meh',
-    'comm.n': 'Stamped by {n} travellers', 'comm.love': '{n} loved it', 'comm.rank': 'you were #{n} to stamp it', 'comm.gem': 'Hidden gem', 'comm.gems': 'Hidden gems · loved, rarely visited',
+    'rate.q': 'How was it?', 'rate.star1': '1 star', 'rate.starN': '{n} stars',
+    'comm.n': 'Stamped by {n} travellers', 'comm.love': '{n} gave it ★★★', 'comm.rank': 'you were #{n} to stamp it', 'comm.gem': 'Hidden gem', 'comm.gems': 'Hidden gems · loved, rarely visited',
     'rep.link': 'Report a problem', 'rep.title': "What's wrong?", 'rep.coords': 'Location', 'rep.photo': 'Photo', 'rep.info': 'Information', 'rep.closed': 'Gone or closed', 'rep.other': 'Something else',
     'rep.ph': 'Details (optional)', 'rep.cancel': 'Cancel', 'rep.send': 'Send', 'rep.thanks': "Thanks, we'll look into it",
     settings: 'Settings', close: 'Close', privacy: 'Privacy policy', 'ob.aria': 'Introduction', 'ob.skip': 'Skip', 'ob.next': 'Continue', 'ob.start': 'Enable location and start', 'ob.later': 'Not now', 'ob.again': 'Watch the intro again',
