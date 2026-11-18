@@ -89,6 +89,7 @@ function renderDiary() {
       <div class="stat"><b>${dComplete}<span>/${DISTRICTS.length}</span></b><small>${t('districts')}</small></div></div>
     ${list || `<div class="empty-state">${t('diary.empty')}</div>`}
     <button class="ob-again" id="ob-again">${MP_ICON('compass', 'ico')}<span>${t('ob.again')}</span></button>
+    <a class="ob-again" href="privacy.html">${MP_ICON('ticket', 'ico')}<span>${t('privacy')}</span></a>
     <div class="lang-row">${MP_ICON('globe')}<span>${t('language')}</span><div class="lang-seg">${LANGS.map(([k, n]) => `<button class="chip ${lang === k ? 'on' : ''}" data-lang="${k}">${n}</button>`).join('')}</div></div>`;
 }
 

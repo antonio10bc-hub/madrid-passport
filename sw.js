@@ -1,9 +1,9 @@
 // Service worker: app instalable y uso sin conexión.
 // - App (HTML/CSS/JS/datos): red primero, caché como respaldo → las actualizaciones llegan al momento.
 // - Mapa (tiles OpenFreeMap) e imágenes (Wikimedia): caché primero y se refresca en segundo plano.
-const VERSION = 'mp-v49';
+const VERSION = 'mp-v50';
 const SHELL = [
-  './', 'index.html', 'manifest.webmanifest', 'css/styles.css',
+  './', 'index.html', 'privacy.html', 'manifest.webmanifest', 'css/styles.css',
   'js/config.js', 'js/auth.js', 'vendor/supabase/supabase.js', 'js/data.js', 'js/icons.js', 'js/badges.js', 'js/share.js',
   ...['main', 'util', 'i18n', 'state', 'geo', 'sheet', 'map', 'gps', 'wiki', 'views', 'pages', 'level', 'sync', 'analytics', 'notify', 'metro', 'onboarding'].map((m) => `js/app/${m}.js`),
   'data/distritos.geojson', 'data/barrios.geojson', 'data/metro.json',

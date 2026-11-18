@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Privacidad · Madrid Passport</title>
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+  <style>
+    :root { --red: #D6202C; --ink: #111114; --muted: #6B6B74; --bg: #fff; --line: #EDEDF0; }
+    @media (prefers-color-scheme: dark) { :root { --red: #E8323E; --ink: #F2F2F5; --muted: #9A9AA3; --bg: #0F0F12; --line: #26262D; } }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Inter", system-ui, sans-serif; }
+    main { max-width: 680px; margin: 0 auto; padding: 32px 20px 64px; }
+    header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+    header img { width: 40px; height: 40px; border-radius: 10px; }
+    h1 { font-size: 28px; line-height: 1.2; margin: 0; letter-spacing: -.02em; }
+    h2 { font-size: 18px; margin: 28px 0 6px; }
+    p, li { color: var(--ink); } small, .meta { color: var(--muted); }
+    a { color: var(--red); }
+    ul { padding-left: 20px; }
+    nav { display: flex; gap: 14px; margin: 14px 0 24px; padding-bottom: 14px; border-bottom: 1px solid var(--line); font-size: 15px; }
+    section[lang="en"] { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--line); }
+  </style>
+</head>
+<body>
+<main>
+  <header><img src="icons/apple-touch-icon.png" alt=""><h1>Política de privacidad</h1></header>
+  <p class="meta">Madrid Passport · Última actualización: 18 de noviembre de 2026</p>
+  <nav><a href="./">← Volver a la app</a><a href="#en">English</a></nav>
+
+  <section lang="es">
+    <p>Madrid Passport es una guía-mapa para explorar Madrid y sellar los lugares que visitas. Esta página explica qué datos usa la app y para qué.</p>
+
+    <h2>Sin cuenta</h2>
+    <p>Puedes usar la app sin iniciar sesión. Tu progreso (lugares visitados, barrios, favoritos y logros) se guarda solo en tu dispositivo.</p>
+
+    <h2>Si inicias sesión con Google</h2>
+    <ul>
+      <li>Recibimos de Google tu nombre, tu correo y tu foto de perfil, únicamente para identificarte y mostrar tu cuenta en la app.</li>
+      <li>Tu progreso se guarda en nuestra base de datos (Supabase) para sincronizarlo entre tus dispositivos. Solo tú puedes leerlo o modificarlo.</li>
+      <li>La comparativa «Has visitado más lugares que el X % de los viajeros» se calcula con recuentos agregados; nunca se muestran datos de otras personas.</li>
+    </ul>
+
+    <h2>Ubicación</h2>
+    <p>La app usa tu ubicación, si das permiso, para mostrarte en el mapa, sugerirte lugares cercanos y confirmar visitas por GPS. Tu posición no se envía a ningún servidor de forma continua. Cuando confirmas un lugar por GPS, se guardan las coordenadas de esa confirmación junto a tu progreso.</p>
+
+    <h2>Analítica de uso</h2>
+    <p>Usamos PostHog (servidores en la UE) para entender cómo se usa la app y mejorarla: pantallas vistas, acciones como marcar un lugar o compartir, errores y rendimiento. Las direcciones IP se anonimizan, los campos de texto se ocultan y no se envían nombres ni correos. Puedes desactivarla abriendo la app con <code>?notrack</code> en la dirección.</p>
+
+    <h2>Contenido de terceros</h2>
+    <p>El mapa usa OpenFreeMap / OpenStreetMap y las fotos y descripciones vienen de Wikipedia / Wikimedia; tu navegador los descarga directamente de esos servicios.</p>
+
+    <h2>Lo que no hacemos</h2>
+    <p>No vendemos tus datos, no mostramos publicidad y no los compartimos con terceros salvo los proveedores técnicos citados.</p>
+
+    <h2>Tus derechos y contacto</h2>
+    <p>Puedes pedir acceso, rectificación o borrado de tus datos, o cerrar tu cuenta, escribiendo a <a href="mailto:antonioasis10bc@gmail.com">antonioasis10bc@gmail.com</a>. Al cerrar sesión, tu progreso sigue en tu dispositivo; puedes borrarlo eliminando los datos del sitio en tu navegador.</p>
+  </section>
+
+  <section lang="en" id="en">
+    <h1>Privacy policy</h1>
+    <p class="meta">Last updated: 18 November 2026</p>
+    <p>Madrid Passport is a map-guide to explore Madrid and stamp the places you visit. This page explains what data the app uses and why.</p>
+    <h2>Without an account</h2>
+    <p>You can use the app without signing in. Your progress (places, neighbourhoods, favourites and badges) is stored only on your device.</p>
+    <h2>If you sign in with Google</h2>
+    <ul>
+      <li>We receive your name, email and profile picture from Google, only to identify you and show your account in the app.</li>
+      <li>Your progress is stored in our database (Supabase) to sync it across your devices. Only you can read or change it.</li>
+      <li>The comparison “You've visited more places than X% of travellers” uses aggregated counts; nobody else's data is ever shown.</li>
+    </ul>
+    <h2>Location</h2>
+    <p>If you allow it, the app uses your location to show you on the map, suggest nearby places and confirm visits by GPS. Your position is not continuously sent to any server. When you confirm a place by GPS, the coordinates of that confirmation are saved with your progress.</p>
+    <h2>Usage analytics</h2>
+    <p>We use PostHog (EU servers) to understand how the app is used and improve it: screens viewed, actions such as marking a place or sharing, errors and performance. IP addresses are anonymised, text fields are masked and no names or emails are sent. You can turn it off by opening the app with <code>?notrack</code> in the address.</p>
+    <h2>Third-party content</h2>
+    <p>The map uses OpenFreeMap / OpenStreetMap, and photos and descriptions come from Wikipedia / Wikimedia; your browser loads them directly from those services.</p>
+    <h2>What we don't do</h2>
+    <p>We don't sell your data, show ads or share it with third parties other than the technical providers listed above.</p>
+    <h2>Your rights and contact</h2>
+    <p>You can request access to, correction or deletion of your data, or close your account, by writing to <a href="mailto:antonioasis10bc@gmail.com">antonioasis10bc@gmail.com</a>. After signing out, your progress stays on your device; you can delete it by clearing this site's data in your browser.</p>
+  </section>
+</main>
+</body>
+</html>

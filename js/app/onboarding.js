@@ -57,7 +57,8 @@ export function showOnboarding(source = 'first') {
     <div class="ob-track" id="ob-track">${steps.map(([k, ill], i) => `<section class="ob-slide" aria-label="${i + 1} / ${steps.length}">
       <div class="ob-ill"><span class="ob-blob"></span>${ill}</div><h1>${esc(t(k + '.t'))}</h1><p>${esc(t(k + '.d'))}</p></section>`).join('')}</div>
     <div class="ob-foot"><div class="ob-dots" id="ob-dots">${steps.map((_, i) => `<i class="${i ? '' : 'on'}"></i>`).join('')}</div>
-      <button class="ob-btn" id="ob-next">${t('ob.next')}</button><button class="ob-later" id="ob-later">&nbsp;</button></div>`;
+      <button class="ob-btn" id="ob-next">${t('ob.next')}</button><button class="ob-later" id="ob-later">&nbsp;</button>
+      <a class="ob-privacy" href="privacy.html">${t('privacy')}</a></div>`;
   $('#app').appendChild(el);
   const track_ = $('#ob-track'), dots = [...el.querySelectorAll('#ob-dots i')], next = $('#ob-next'), later = $('#ob-later'), skip = $('#ob-skip');
   let idx = 0;

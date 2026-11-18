@@ -700,3 +700,4 @@ button, a, input, .place, .row, .pitem { touch-action: manipulation; }
 .ob-again .ico { width: 18px; height: 18px; }
 @media (prefers-reduced-motion: reduce) { #onboard { animation: none; } }
 .gbtn-gis { width: 100%; min-height: 44px; display: flex; justify-content: center; }
+.ob-privacy { display: block; text-align: center; font-size: 12px; color: var(--muted); margin-top: 2px; }
