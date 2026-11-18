@@ -4,7 +4,7 @@ Incremental: solo pide los lugares que faltan en wiki.json (--all = todos). Aña
 para mostrar la descripción en inglés. Si un título no existe se busca el mejor resultado (revisar 'title')."""
 import csv, json, os, sys, time, urllib.error, urllib.parse, urllib.request
 
-UA = 'MadridPassportBot/0.2 (https://madrid-passport.vercel.app; build script de datos)'
+UA = 'MadridPassportBot/0.2 (https://www.madridpassport.com; build script de datos)'
 allrows = list(csv.DictReader(open('tools/places.tsv'), delimiter='\t'))
 prev = json.load(open('tools/wiki.json')) if os.path.exists('tools/wiki.json') and '--all' not in sys.argv else {}
 rows = [r for r in allrows if r['id'] not in prev]

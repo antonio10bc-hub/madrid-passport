@@ -3,7 +3,7 @@ Líneas: de las categorías de cada estación. Salida: data/metro.json
 [[nombre, lat, lng, "1 2"], …]. Uso: python3 tools/metro_fetch.py"""
 import json, re, time, urllib.error, urllib.parse, urllib.request
 
-UA = 'MadridPassportBot/0.2 (https://madrid-passport.vercel.app; build script de datos)'
+UA = 'MadridPassportBot/0.2 (https://www.madridpassport.com; build script de datos)'
 WP = 'https://es.wikipedia.org/w/api.php'
 
 

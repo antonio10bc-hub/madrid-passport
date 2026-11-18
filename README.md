@@ -1,6 +1,6 @@
 # Madrid Passport
 
-Guía-mapa de Madrid por sus 21 distritos, mobile-first (390×844, iPhone 14). Demo: https://madrid-passport.vercel.app
+Guía-mapa de Madrid por sus 21 distritos, mobile-first (390×844, iPhone 14). Web: https://www.madridpassport.com (también https://madrid-passport.vercel.app)
 
 ## Funciones
 - Mapa de distritos (límites oficiales) → tap abre el distrito con sus lugares; tap de nuevo lo cierra.
@@ -52,8 +52,8 @@ cd tests && npm install && npm test
 2. Google Cloud Console → APIs y servicios → Credenciales → **ID de cliente OAuth** (Aplicación web).
    URI de redirección autorizado: `https://<proyecto>.supabase.co/auth/v1/callback`.
 3. Supabase → Authentication → Providers → **Google**: activar y pegar Client ID y Client Secret.
-4. Supabase → Authentication → URL Configuration: Site URL `https://madrid-passport.vercel.app`;
-   Redirect URLs: `https://madrid-passport.vercel.app/**` y `http://localhost:8765/**`.
+4. Supabase → Authentication → URL Configuration: Site URL `https://www.madridpassport.com`;
+   Redirect URLs: `https://www.madridpassport.com/**`, `https://madrid-passport.vercel.app/**` y `http://localhost:8765/**`.
 5. Rellenar `js/config.js` con la URL del proyecto y la *anon public key* (Project Settings → API).
 
 Al iniciar sesión se fusiona el progreso local con el de la nube (nivel más alto y fechas más antiguas por lugar;
