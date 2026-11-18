@@ -107,10 +107,9 @@ export function gpsStamp(place) {
   const gold = css('--gold'), d = new Date();
   const ico = MP_ICON('pin').replace('class="ico"', `width="56" height="56" fill="none" stroke="${gold}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"`);
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 240 240" width="720" height="720">
-    <defs><filter id="ink" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed="${d.getSeconds()}" result="n"/>
-      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -0.7 1.3" result="m"/><feComposite in="SourceGraphic" in2="m" operator="in"/></filter>
+    <defs>
       <path id="arc" d="M120 120 m-88 0 a88 88 0 1 1 176 0 a88 88 0 1 1 -176 0"/></defs>
-    <g filter="url(#ink)"><circle cx="120" cy="120" r="104" fill="none" stroke="${gold}" stroke-width="7"/><circle cx="120" cy="120" r="74" fill="none" stroke="${gold}" stroke-width="2.5"/>
+    <g opacity=".92"><circle cx="120" cy="120" r="104" fill="none" stroke="${gold}" stroke-width="7"/><circle cx="120" cy="120" r="74" fill="none" stroke="${gold}" stroke-width="2.5"/>
       <text font-family="-apple-system,system-ui,sans-serif" font-size="15" font-weight="800" letter-spacing="3.2" fill="${gold}"><textPath xlink:href="#arc">${esc(t('stamp.gps'))}</textPath></text>
       <g transform="translate(92 74)">${ico}</g>
       <text x="120" y="160" text-anchor="middle" font-family="-apple-system,system-ui,sans-serif" font-size="14" font-weight="800" letter-spacing="2" fill="${gold}">${stampDate(d)}</text></g></svg>`;

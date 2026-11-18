@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /ingest/
+Disallow: /mockups/
+Disallow: /tests/
+Disallow: /tools/
+
+Sitemap: https://www.madridpassport.com/sitemap.xml

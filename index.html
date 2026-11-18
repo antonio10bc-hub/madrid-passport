@@ -16,7 +16,18 @@
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <meta name="google-site-verification" content="yUqtXEdSTNVowx5pWm_lyVsMBaPMukZmaAuXK8F7zy4">
   <meta name="application-name" content="Madrid Passport">
-  <title>Madrid Passport</title>
+  <title>Madrid Passport · Tu pasaporte para explorar Madrid</title>
+  <meta name="description" content="Mapa-guía de Madrid por sus 21 distritos y 128 barrios: marca los lugares que visitas, confírmalos con GPS, gana sellos y sube de nivel. Gratis y sin descargas.">
+  <link rel="canonical" href="https://www.madridpassport.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Madrid Passport">
+  <meta property="og:title" content="Madrid Passport · Tu pasaporte para explorar Madrid">
+  <meta property="og:description" content="Marca los lugares de Madrid que visitas, confírmalos con GPS y pinta tu mapa de la ciudad.">
+  <meta property="og:url" content="https://www.madridpassport.com/">
+  <meta property="og:image" content="https://www.madridpassport.com/icons/icon-512.png">
+  <meta property="og:locale" content="es_ES">
+  <meta name="twitter:card" content="summary">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Madrid Passport","url":"https://www.madridpassport.com/","applicationCategory":"TravelApplication","operatingSystem":"Web, iOS, Android","inLanguage":["es","en"],"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"description":"Mapa-guía de Madrid por distritos y barrios para marcar los lugares visitados, confirmarlos con GPS y ganar sellos."}</script>
   <link rel="privacy-policy" href="privacy.html">
   <!-- Conexión anticipada al servidor del mapa y precarga de todos los módulos (evita la cascada de imports) -->
   <link rel="preconnect" href="https://tiles.openfreemap.org" crossorigin>
@@ -37,6 +48,7 @@
   <link rel="modulepreload" href="js/app/notify.js">
   <link rel="modulepreload" href="js/app/metro.js">
   <link rel="modulepreload" href="js/app/onboarding.js">
+  <link rel="modulepreload" href="js/app/community.js">
   <link rel="preload" href="data/distritos.geojson" as="fetch" crossorigin>
   <link rel="preload" href="data/barrios.geojson" as="fetch" crossorigin>
   <link rel="stylesheet" href="vendor/maplibre/maplibre-gl.css">
@@ -87,9 +99,10 @@
       <button class="sg-ok" id="suggest-ok" data-i18n="suggest.ok">Confirmar</button><button class="sg-no" id="suggest-no" data-i18n-aria="aria.dismiss" aria-label="Descartar"><svg class="icon-x" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
     </div>
     <div class="toast" id="toast"></div>
-    <noscript><a href="privacy.html">Política de privacidad</a></noscript>
+    <noscript><a href="/lugares/">Qué ver en Madrid: todos los lugares</a> · <a href="privacy.html">Política de privacidad</a></noscript>
   </div>
   <script defer src="vendor/maplibre/maplibre-gl.js"></script>
+  <script defer src="js/city.js"></script>
   <script defer src="js/data.js"></script>
   <script defer src="js/config.js"></script>
   <script defer src="js/auth.js"></script>

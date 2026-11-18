@@ -20,7 +20,7 @@ async function loadStyle() {
       st.layers.forEach((l) => {
         // Mismo estilo de texto en claro y oscuro (el tema oscuro pone todo en mayúsculas)
         if (l.layout?.['text-transform']) delete l.layout['text-transform'];
-        if (l['source-layer'] === 'place' && l.type === 'symbol') l.filter = ['all', l.filter ?? true, ['!=', ['get', 'name'], 'Madrid']];
+        if (l['source-layer'] === 'place' && l.type === 'symbol') l.filter = ['all', l.filter ?? true, ['!=', ['get', 'name'], MP_CITY.map.hideBaseLabel]];
       });
       // Capas que no aportan nada aquí (aeropuertos, nombres de ríos pequeños): menos trabajo de dibujo y de etiquetas
       st.layers = st.layers.filter((l) => !['aeroway', 'aerodrome_label'].includes(l['source-layer']) && !(l['source-layer'] === 'waterway' && l.type === 'symbol'));
@@ -95,7 +95,7 @@ export async function initMap() {
     container: 'map', style: await prefetchStyle(), maxTileCacheZoomLevels: 3, refreshExpiredTiles: false,
     // Madrid y alrededores: no se puede ir al resto del mundo, pero en el zoom mínimo queda margen
     // para moverse en horizontal y en vertical (pantalla de móvil, más alta que ancha)
-    maxBounds: [[-4.55, 39.85], [-2.85, 41.0]], minZoom: 9.3, center: [-3.70, 40.42], zoom: 10.5,
+    maxBounds: MP_CITY.map.maxBounds, minZoom: MP_CITY.map.minZoom, center: MP_CITY.map.center, zoom: MP_CITY.map.zoom,
     pixelRatio: Math.min(devicePixelRatio || 1, 2), fadeDuration: 0, renderWorldCopies: false, maxPitch: 0,
     attributionControl: false, dragRotate: false, pitchWithRotate: false, touchPitch: false,
   });
@@ -104,7 +104,7 @@ export async function initMap() {
   // Doble toque = zoom de MapLibre pisaba el re-centrado al volver a tocar un pin o el distrito abierto.
   map.doubleClickZoom.disable();
   map.addControl(new maplibregl.AttributionControl({ compact: true,
-    customAttribution: '© OpenStreetMap · OpenFreeMap · Ayto. Madrid · Wikipedia' }), 'top-left');
+    customAttribution: `© OpenStreetMap · OpenFreeMap · ${MP_CITY.map.attribution} · Wikipedia` }), 'top-left');
 
   await new Promise((r) => (map.loaded() ? r() : map.on('load', r)));
   addLayers();

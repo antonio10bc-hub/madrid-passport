@@ -23,6 +23,7 @@ export function mergeVisits(a, b) {
   for (const [id, v] of Object.entries(b || {})) {
     const o = out[id];
     if (!o) { out[id] = v; continue; }
+    if (id.startsWith('r:')) { if ((v.t || 0) > (o.t || 0)) out[id] = v; continue; }   // valoración: la más reciente
     const min = (x, y) => (x && y ? Math.min(x, y) : x || y);
     out[id] = { lvl: Math.max(o.lvl || 0, v.lvl || 0), t: min(o.t, v.t), gpsAt: min(o.gpsAt, v.gpsAt), gps: o.gps || v.gps };
     if (!out[id].gpsAt) delete out[id].gpsAt;

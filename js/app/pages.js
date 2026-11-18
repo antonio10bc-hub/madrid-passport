@@ -128,7 +128,7 @@ function bindCal() {
 function renderDiary() {
   const pr = progress(PLACES), bp = bprogress(BARRIOS), items = diaryItems();
   const dComplete = DISTRICTS.filter(districtDone).length, undated = items.filter((x) => !x.t);
-  return `<section class="pass-card"><span class="pass-kick">MADRID PASSPORT</span><div id="acct-slot"></div>
+  return `<section class="pass-card"><span class="pass-kick">${esc(MP_CITY.app.toUpperCase())}</span><div id="acct-slot"></div>
       <p class="pass-k">${t('pass.story', {
         v: `<span class="pk">${MP_ICON('pin')}<b>${pr.done}</b> ${t('pass.places')}</span>`,
         g: `<span class="pk gold">${MP_ICON('target')}<b>${pr.gps + bp.gps}</b> ${t('pass.gps')}</span>`,
@@ -165,7 +165,7 @@ function typesHTML() {
     <div class="tp-list">${rows.map((r) => cell(typePlural(r.ty), r, `data-type="${esc(r.ty)}"`, r.ty)).join('')}${cell(t('barrios'), bp, 'data-barrios', 'barrio')}</div>`;
 }
 
-// Logros como sellos de pasaporte (tinta con textura). Formas y giro fijos por logro.
+// Logros como sellos de pasaporte (tinta). Formas y giro fijos por logro.
 // Siempre al final, en este orden: «Gato de pura cepa», «Huella dorada» y «Leyenda de Madrid»
 const LAST = { 'madrid-entero': 1, 'barrios-gps-all': 2, 'todo-gps': 3 };
 const GOLD_BADGES = new Set(['gps-1', 'gps-10', 'barrios-gps-all', 'todo-gps']);   // el dorado significa siempre «verificado por GPS»
@@ -183,11 +183,11 @@ function stampSVG(b, i, n, goal, date) {
   }
   const col = GOLD_BADGES.has(b.id) ? css('--gold') : css('--red');
   const top = shape === 'circle'
-    ? `<path id="arc-${b.id}" d="M 70 70 m -51 0 a 51 51 0 1 1 102 0 a 51 51 0 1 1 -102 0" fill="none"/><text font-size="9.5" font-weight="800" letter-spacing="2.6" fill="${col}"><textPath href="#arc-${b.id}">MADRID PASSPORT · MADRID PASSPORT ·</textPath></text>`
-    : `<text x="70" y="${shape === 'rect' ? 50 : 40}" text-anchor="middle" font-size="9" font-weight="800" letter-spacing="2" fill="${col}">MADRID</text>`;
-  return `<svg viewBox="0 0 140 140" class="pp-svg"><defs><filter id="ink-${b.id}" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="${i + 2}" result="n"/>
-      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -0.7 1.3" result="m"/><feComposite in="SourceGraphic" in2="m" operator="in"/></filter></defs>
-    <g transform="rotate(${rot} 70 70)" filter="url(#ink-${b.id})" opacity=".92">
+    ? `<path id="arc-${b.id}" d="M 70 70 m -51 0 a 51 51 0 1 1 102 0 a 51 51 0 1 1 -102 0" fill="none"/><text font-size="9.5" font-weight="800" letter-spacing="2.6" fill="${col}"><textPath href="#arc-${b.id}">${esc(MP_CITY.app.toUpperCase())} · ${esc(MP_CITY.app.toUpperCase())} ·</textPath></text>`
+    : `<text x="70" y="${shape === 'rect' ? 50 : 40}" text-anchor="middle" font-size="9" font-weight="800" letter-spacing="2" fill="${col}">${esc(MP_CITY.name.toUpperCase())}</text>`;
+  // Vector puro, sin filtros: los filtros SVG se rasterizan (en iOS a baja resolución) y pixelaban los bordes
+  return `<svg viewBox="0 0 140 140" class="pp-svg">
+    <g transform="rotate(${rot} 70 70)" opacity=".9">
       <g fill="none" stroke="${col}"><g stroke-width="3.5">${OUT}</g><g stroke-width="1.5">${IN}</g></g>${top}
       <g transform="translate(55 ${shape === 'circle' ? 46 : 54})">${inkIcon(b.icon, col, 30, 2.2)}</g>
       <text x="70" y="${shape === 'circle' ? 92 : 98}" text-anchor="middle" font-size="${shape === 'circle' ? 8.5 : 10}" font-weight="800" letter-spacing="${shape === 'circle' ? 1 : 1.5}" fill="${col}">${stampDate(date)}</text></g></svg>`;
@@ -234,6 +234,7 @@ function renderSettings() {
     <div class="settings-h"><strong>${t('settings')}</strong><button class="settings-x" id="settings-x" aria-label="${t('close')}"><svg class="icon-x" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     <div class="lang-row">${MP_ICON('globe')}<span>${t('language')}</span><div class="lang-seg">${LANGS.map(([k, n]) => `<button class="chip ${lang === k ? 'on' : ''}" data-lang="${k}">${n}</button>`).join('')}</div></div>
     <button class="ob-again" id="ob-again">${MP_ICON('compass', 'ico')}<span>${t('ob.again')}</span></button>
+    <a class="ob-again" href="/${lang === 'en' ? 'en/places' : 'lugares'}/">${MP_ICON('map', 'ico')}<span>${t('seo.all')}</span></a>
     <a class="ob-again" href="privacy.html">${MP_ICON('ticket', 'ico')}<span>${t('privacy')}</span></a></div>`;
   settingsEl.querySelector('#settings-x').onclick = () => setSettings(false);
   settingsEl.querySelector('#ob-again').onclick = () => { setSettings(false); showOnboarding('diary'); };

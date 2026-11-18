@@ -1,6 +1,6 @@
 // Vistas del panel (Madrid, distrito, ficha), navegación y checks.
 import { $, esc, dist, fmtDist, walkMin, fmtDate, fmtTime, toast, ICON_CHECK, ICON_GPS, ICON_X } from './util.js';
-import { S, PLACES, BYID, DISTRICTS, districtOf, barrioOf, lvl, blvl, bKey, progress, bprogress, currentDistrict, save, inList, listPlaces } from './state.js';
+import { S, PLACES, BYID, CHILDREN, DISTRICTS, districtOf, barrioOf, lvl, blvl, bKey, progress, bprogress, currentDistrict, save, inList, listPlaces } from './state.js';
 import { t, typeName, typePlural, lang } from './i18n.js';
 import { body, sheet, setSheet, pad } from './sheet.js';
 import { map, ready, fit, fitCity, centerOffset, paintDistricts, drawPins, passStatus } from './map.js';
@@ -10,6 +10,7 @@ import { loadMetro, nearestMetro, lineBadge } from './metro.js';
 import { renderPage, setTab, checkBadges, levelState } from './pages.js';
 import { track, setPerson } from './analytics.js';
 import { notify } from './notify.js';
+import { loadStats, statsFor, isGem, rankFor, sendReport } from './community.js';
 
 const TI = (ty) => MP_ICON(ty);
 const TYPE_COUNT = PLACES.reduce((m, p) => ((m[p.type] = (m[p.type] || 0) + 1), m), {});
@@ -44,7 +45,7 @@ export function placeItem(p, extra = '') {
     <span class="p-info"><strong>${esc(p.name)}${marks(p)}</strong><small>${esc(typeName(p.type))} · ${esc(d?.name || '')}${dd}${extra}</small></span>
     <span class="chev"></span></button>`;
 }
-export const bindPlaceItems = (root) => root.querySelectorAll('[data-place]').forEach((el) => (el.onclick = () => { const via = S.tab === 'map' ? 'list' : S.tab; setTab('map'); openPlace(el.dataset.place, via); }));
+export const bindPlaceItems = (root) => root.querySelectorAll('[data-place]').forEach((el) => (el.onclick = () => { const via = el.dataset.via || (S.tab === 'map' ? 'list' : S.tab); setTab('map'); openPlace(el.dataset.place, via); }));
 
 let searchT;
 function homeListHTML() {
@@ -57,7 +58,7 @@ function homeListHTML() {
       ${res.map((p) => placeItem(p)).join('') || `<div class="empty-state">${t(S.typeFilter?.startsWith('__') && !q ? 'list.empty' : 'noresults')}</div>`}`;
   }
   const pr = progress(PLACES);
-  return nearbyHTML() + `<div class="sec-title"><h2>${t('districts')}</h2><span>${t('places_of', { done: pr.done, total: pr.total })}</span></div>` + labelOrder().map((d) => {
+  return nearbyHTML() + gemsHTML() + `<div class="sec-title"><h2>${t('districts')}</h2><span>${t('places_of', { done: pr.done, total: pr.total })}</span></div>` + labelOrder().map((d) => {
     const p = progress(d.places);
     return `<button class="row ${p.total && p.done === p.total ? 'done' : ''}" data-id="${d.id}">
       <div class="badge">${d.ini}</div>
@@ -72,11 +73,22 @@ const NEAR_MIN = 10;
 function nearbyHTML() {
   if (!S.myPos) return `<button class="near-cta" id="near-locate">${MP_ICON('pin', 'ico')}<span>${t('near.cta')}</span></button>`;
   const all = PLACES.filter((p) => lvl(p.id) === 0).map((p) => ({ p, d: dist(S.myPos.coords, p.coords) })).sort((a, b) => a.d - b.d);
-  let list = all.filter((x) => walkMin(x.d) <= NEAR_MIN).slice(0, 5), title = t('near.title', { n: NEAR_MIN });
-  if (!list.length) { list = all.slice(0, 2); title = t('near.closest'); }
+  let list = all.filter((x) => walkMin(x.d) <= NEAR_MIN).slice(0, 6), title = t('near.title', { n: NEAR_MIN });
+  if (!list.length) { list = all.slice(0, 3); title = t('near.closest'); }
   if (!list.length) return '';
+  // Tarjetas con foto en carrusel horizontal: lo primero que se ve al abrir la app con ubicación
   return `<section class="near"><div class="b-head"><h3 class="zone">${MP_ICON('pin', 'ico ico-s')}${title}</h3></div>
-    ${list.map(({ p, d }) => placeItem(p, ` · ${t('min_walk', { n: walkMin(d) })}`)).join('')}</section>`;
+    <div class="near-cards">${list.map(({ p, d }) => `<button class="ncard" data-place="${p.id}" data-via="near">
+      <span class="ncard-img">${p.img ? `<img src="${esc(p.img.replace('/960px-', '/330px-'))}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}${TI(p.type)}</span>
+      <span class="ncard-txt"><b>${esc(p.name)}</b><small>${t('min_walk', { n: walkMin(d) })} · ${esc(typeName(p.type))}</small></span></button>`).join('')}</div></section>`;
+}
+// Joyas ocultas: lugares que encantan a quien los visita pero que casi nadie ha sellado (pendientes para ti)
+function gemsHTML() {
+  loadStats(() => { if (S.view.type === 'home' && !S.query.trim() && !S.typeFilter) render({ keepScroll: true }); });
+  const gems = PLACES.filter((p) => !lvl(p.id) && isGem(p.id)).slice(0, 5);
+  if (!gems.length) return '';
+  return `<section class="near gems"><div class="b-head"><h3 class="zone">${MP_ICON('star', 'ico ico-s')}${t('comm.gems')}</h3></div>
+    ${gems.map((p) => placeItem(p).replace('data-place=', 'data-via="gem" data-place=')).join('')}</section>`;
 }
 function bindHomeList() {
   $('#near-locate')?.addEventListener('click', async (e) => {
@@ -192,6 +204,77 @@ function renderDistrict() {
   }));
 }
 
+// ---------- Comunidad, valoración, compartir y avisos de error ----------
+const SHARE_ICO = '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 002 2h10a2 2 0 002-2v-6"/></svg>';
+const rerenderIf = (id) => () => { if (S.view.type === 'place' && S.view.id === id) render({ keepScroll: true }); };
+// Valoración personal (solo si lo has visitado): se guarda como 'r:<id>' junto a las visitas y se sincroniza
+function rateHTML(p) {
+  if (!lvl(p.id)) return '';
+  const cur = S.visits['r:' + p.id]?.v || 0;
+  // 1-3 estrellas: tocar la n.ª marca n; tocar la valoración actual la quita
+  return `<div class="rate"><span>${t('rate.q')}</span><div class="stars" role="group" aria-label="${esc(t('rate.q'))}">${[1, 2, 3].map((v) =>
+    `<button class="${v <= cur ? 'on' : ''}" data-rate="${v}" aria-pressed="${cur === v}" aria-label="${esc(t(v === 1 ? 'rate.star1' : 'rate.starN', { n: v }))}">${MP_ICON('star', 'ico')}</button>`).join('')}</div></div>`;
+}
+// «Sellado por N viajeros · a M les encantó», joya oculta y tu puesto (datos agregados de Supabase)
+function commHTML(p) {
+  loadStats(rerenderIf(p.id));
+  const st = statsFor(p.id), v = S.visits[p.id];
+  const rank = v?.t ? rankFor(p.id, v.t, rerenderIf(p.id)) : null;
+  const bits = [st && t('comm.n', { n: st.n }), st?.love && t('comm.love', { n: st.love }), rank && rank <= 100 && t('comm.rank', { n: rank })].filter(Boolean);
+  if (!bits.length && !isGem(p.id)) return '';
+  return `<p class="comm">${isGem(p.id) ? `<span class="gem">${MP_ICON('star', 'ico ico-s')}${t('comm.gem')}</span>` : ''}${bits.map(esc).join(' · ')}</p>`;
+}
+async function sharePlace(p) {
+  const url = `${MP_CITY.site}/${lang === 'en' ? 'en/place' : 'lugar'}/${p.id}/`;
+  const text = t(lvl(p.id) ? 'pl.share.done' : 'pl.share.todo', { name: p.name, app: MP_CITY.app });
+  try {
+    if (navigator.share) { await navigator.share({ text, url }); track('place_shared', { place: p.id, method: 'native', visited: lvl(p.id) > 0 }); return; }
+    await navigator.clipboard.writeText(`${text} ${url}`); toast(t('pl.copied'));
+    track('place_shared', { place: p.id, method: 'copy', visited: lvl(p.id) > 0 });
+  } catch (e) { if (e?.name !== 'AbortError') toast(t('pl.copied.fail'), true); }
+}
+const REASONS = ['coords', 'photo', 'info', 'closed', 'other'];
+function openReport(p) {
+  document.querySelector('.rep-ov')?.remove();
+  const ov = document.createElement('div');
+  ov.className = 'rep-ov';
+  ov.innerHTML = `<form class="rep-card" role="dialog" aria-modal="true" aria-label="${esc(t('rep.title'))}">
+    <strong>${t('rep.title')}</strong><small>${esc(p.name)}</small>
+    <div class="rep-opts">${REASONS.map((r, i) => `<label><input type="radio" name="r" value="${r}" ${i ? '' : 'checked'}><span>${t('rep.' + r)}</span></label>`).join('')}</div>
+    <textarea name="note" maxlength="1000" rows="3" placeholder="${esc(t('rep.ph'))}"></textarea>
+    <div class="rep-btns"><button type="button" class="rep-cancel">${t('rep.cancel')}</button><button type="submit" class="rep-send">${t('rep.send')}</button></div></form>`;
+  $('#app').appendChild(ov);
+  const f = ov.querySelector('form'), close = () => ov.remove();
+  ov.onclick = (e) => { if (e.target === ov) close(); };
+  ov.querySelector('.rep-cancel').onclick = close;
+  f.onsubmit = async (e) => {
+    e.preventDefault();
+    const reason = f.r.value, note = f.note.value.trim().slice(0, 1000);
+    f.querySelector('.rep-send').disabled = true;
+    track('place_reported', { place: p.id, type: p.type, reason, note });
+    let ok = false;
+    try { ok = await sendReport(p.id, reason, note, lang); } catch {}
+    close();
+    toast(t('rep.thanks'));
+    if (!ok) console.warn('aviso solo en analítica');
+  };
+}
+
+// Conexiones dentro de un sitio: «Está en» (lugar contenedor) y «Aquí dentro» (lugares que contiene, con progreso)
+function parentHTML(p) {
+  const par = BYID[p.parent];
+  if (!par) return '';
+  return `<button class="in-parent" data-in="${par.id}" data-rel="parent">${MP_ICON(par.type, 'ico ico-s')}<span>${t('in.parent')} <b>${esc(par.name)}</b></span><span class="chev"></span></button>`;
+}
+function insideHTML(p) {
+  const kids = CHILDREN[p.id];
+  if (!kids?.length) return '';
+  const pr = progress(kids);
+  return `<section class="inside"><div class="b-head"><h3 class="zone">${t('in.children')}</h3><span>${pr.done}/${pr.total}</span></div>
+    ${kids.map((k) => `<button class="pitem" data-in="${k.id}" data-rel="child"><span class="pthumb t-${lvl(k.id)}">${lvl(k.id) === 1 ? ICON_CHECK : lvl(k.id) === 2 ? ICON_GPS : TI(k.type)}</span>
+      <span class="p-info"><strong>${esc(k.name)}</strong><small>${esc(typeName(k.type))}</small></span><span class="chev"></span></button>`).join('')}</section>`;
+}
+
 // Siguiente lugar pendiente más cercano a este (para ir encadenando)
 const nextOf = (p) => PLACES.filter((x) => x.id !== p.id && lvl(x.id) === 0).map((x) => ({ x, d: dist(p.coords, x.coords) })).sort((a, b) => a.d - b.d)[0];
 function nextHTML(p) {
@@ -208,7 +291,7 @@ const srcset = (u) => (/\/960px-/.test(u) ? ` srcset="${esc(u.replace('/960px-',
 const ACCESS_KEYS = ['Plaza', 'Calle', 'Barrio', 'Parque', 'Gastronomía', 'Mercado', 'Museo', 'Monumento', 'Iglesia', 'Cultura', 'Estadio', 'Mirador', 'Teatro'];
 function renderPlace() {
   const p = BYID[S.view.id], d = districtOf[p.id], l = lvl(p.id), v = S.visits[p.id], b = barrioOf[p.id];
-  $('#title').textContent = d?.name || 'Madrid';
+  $('#title').textContent = d?.name || MP_CITY.name;
   const dd = S.myPos ? fmtDist(dist(S.myPos.coords, p.coords)) : null;
   const nav = (mode) => `https://www.google.com/maps/dir/?api=1&destination=${p.coords[0]},${p.coords[1]}&travelmode=${mode}`;
   const mt = nearestMetro(p);
@@ -227,19 +310,33 @@ function renderPlace() {
       <div><h2>${esc(p.name)}</h2><p>${esc(typeName(p.type))}${p.zone ? ' · ' + esc(p.zone) : b ? ' · ' + esc(b.name) : ''}${dd ? ' · ' + t('at', { d: dd }) : ''}</p></div>
       ${checks(p)}
     </div>
-    <div class="lists">${[['f', 'heart'], ['w', 'bookmark']].map(([k, ico]) => `<button class="lst ${k}${inList(k, p.id) ? ' on' : ''}" data-l="${k}" aria-pressed="${inList(k, p.id)}">${MP_ICON(ico, 'ico')}<span>${t('list.' + k + '1')}</span></button>`).join('')}</div>
+    <div class="lists">${[['f', 'heart'], ['w', 'bookmark']].map(([k, ico]) => `<button class="lst ${k}${inList(k, p.id) ? ' on' : ''}" data-l="${k}" aria-pressed="${inList(k, p.id)}">${MP_ICON(ico, 'ico')}<span>${t('list.' + k + '1')}</span></button>`).join('')}
+      <button class="lst sh" id="pl-share" aria-label="${esc(t('pl.share'))}">${SHARE_ICO}<span>${t('pl.share')}</span></button></div>
+    ${rateHTML(p)}${commHTML(p)}
     ${stamps ? `<div class="stamps">${stamps}</div>` : ''}
+    ${parentHTML(p)}
     <a class="cta" data-nav="walking" href="${nav('walking')}" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24"><path d="M3 11l18-8-8 18-2-8-8-2z"/></svg>${t('directions')}</a>
     ${mt ? `<div class="info-row metro"><span class="m-logo">M</span><p><b>${esc(mt.name)}</b> ${mt.lines.map(lineBadge).join('')}<br><small>${t('metro.at', { d: fmtDist(mt.d), min: mt.min })}</small></p></div>` : ''}
     <div class="info-row">${MP_ICON('clock')}<p>${esc(t('access.' + (ACCESS_KEYS.includes(p.type) ? p.type : 'x')))}</p></div>
     ${desc ? `<p class="desc">${esc(desc)}</p><p class="src">${t(en || lang === 'es' ? 'src' : 'src.es')}</p>` : ''}
+    <button class="rep-link" id="pl-report">${MP_ICON('flag', 'ico ico-s')}${t('rep.link')}</button>
+    ${insideHTML(p)}
     ${nextHTML(p)}`;
   const newHero = body.querySelector('.hero');
   if (oldHero && oldHero.dataset.img === newHero.dataset.img) newHero.replaceWith(oldHero);
   $('#back').onclick = () => openDistrict(d.id, { refit: true });   // salir de la ficha deselecciona y re-centra el distrito
+  body.querySelectorAll('[data-in]').forEach((el) => (el.onclick = () => { track('place_link_opened', { from: p.id, to: el.dataset.in, rel: el.dataset.rel }); openPlace(el.dataset.in, el.dataset.rel); }));
   body.querySelectorAll('[data-next]').forEach((el) => (el.onclick = () => { track('next_nearby_opened', { from: p.id, to: el.dataset.next }); openPlace(el.dataset.next, 'next'); }));
   body.querySelectorAll('[data-nav]').forEach((a) => (a.onclick = () => track('directions_clicked', { place: p.id, type: p.type, mode: a.dataset.nav, metro: mt?.name || null })));
+  $('#pl-share').onclick = () => sharePlace(p);
+  $('#pl-report').onclick = () => openReport(p);
+  body.querySelectorAll('[data-rate]').forEach((el) => (el.onclick = () => {
+    const k = 'r:' + p.id, v = +el.dataset.rate, off = S.visits[k]?.v === v;
+    if (off) delete S.visits[k]; else S.visits[k] = { v, t: Date.now() };
+    track('place_rated', { place: p.id, type: p.type, rating: off ? 0 : v });
+    save(); render({ keepScroll: true });
+  }));
   body.querySelectorAll('[data-l]').forEach((el) => (el.onclick = () => {
     const k = el.dataset.l, key = `${k}:${p.id}`, on = !S.visits[key];
     if (on) S.visits[key] = { t: Date.now() }; else delete S.visits[key];

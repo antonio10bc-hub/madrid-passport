@@ -18,17 +18,25 @@ const openCentro = async (page) => {
 };
 const markVisited = (page, id) => page.locator(`#pl-${id} .chk[data-a="1"]`).click();
 
-test('onboarding: 4 pasos con continuar, puntitos y fin con ubicación; no vuelve a salir', async ({ page }) => {
+test('onboarding: 5 pasos con continuar, puntitos, marcar imprescindibles y fin con ubicación; no vuelve a salir', async ({ page }) => {
   await page.goto('./?ob=1');
   const ob = page.locator('#onboard');
   await expect(ob).toBeVisible();
   await expect(ob.locator('.ob-dots i.on')).toHaveCount(1);
-  for (let i = 0; i < 3; i++) { await page.locator('#ob-next').click(); await page.waitForTimeout(500); }
-  await expect(page.locator('#ob-dots i').nth(3)).toHaveClass(/on/);
+  for (let i = 0; i < 4; i++) { await page.locator('#ob-next').click(); await page.waitForTimeout(500); }
+  await expect(page.locator('#ob-dots i').nth(4)).toHaveClass(/on/);
   await expect(ob).toContainText('consigue el doble check dorado');
+  await expect(ob).toContainText('¿Ya has estado?');
   await expect(page.locator('#ob-next')).toHaveText('Activar ubicación y empezar');
+  await ob.locator('[data-q="plaza-mayor"]').click();
+  await ob.locator('[data-q="parque-retiro"]').click();
+  await expect(page.locator('#ob-qn')).toHaveText('2 marcados · +20 pts');
   await page.locator('#ob-next').click();
   await expect(ob).toHaveCount(0);
+  await expect(page.locator('.notif')).toContainText('Primer sello');
+  const v = await page.evaluate(() => JSON.parse(localStorage.getItem('mp.visits.v1')));
+  expect(v['plaza-mayor'].lvl).toBe(1);
+  expect(v['parque-retiro'].lvl).toBe(1);
   await page.reload();
   await page.waitForTimeout(800);
   await expect(page.locator('#onboard')).toHaveCount(0);
@@ -227,9 +235,9 @@ test('ficha: metro más cercano con sus líneas y un solo «Cómo llegar»', asy
 });
 
 test('portada: lugares pendientes cerca de ti', async ({ page }) => {
-  await expect(page.locator('.near .pitem').first()).toBeVisible();          // geolocalización en Sol
-  await expect(page.locator('.near .pitem').first()).toContainText('min a pie');
-  await expect(page.locator('.near .pitem')).toHaveCount(5);
+  await expect(page.locator('.near .ncard').first()).toBeVisible();          // geolocalización en Sol
+  await expect(page.locator('.near .ncard').first()).toContainText('min a pie');
+  await expect(page.locator('.near .ncard')).toHaveCount(6);
 });
 
 test('distrito: ordenar por cercanía y pendientes primero', async ({ page }) => {
@@ -374,4 +382,108 @@ test('tocar la pestaña activa (Logros) vuelve arriba con scroll', async ({ page
   expect(await body.evaluate((el) => el.scrollTop)).toBeGreaterThan(0);
   await page.locator('.tabbar [data-tab="badges"]').click();
   await expect.poll(() => body.evaluate((el) => el.scrollTop)).toBe(0);
+});
+
+test('enlace directo ?p= abre la ficha; conexiones «Está en» y «Aquí dentro»', async ({ page }) => {
+  await page.goto('./?p=cristal');
+  await expect(page.locator('.pd-head h2')).toHaveText('Palacio de Cristal');
+  await expect(page).toHaveURL(/\/$/);                       // limpia el parámetro
+  await page.locator('.in-parent').click();
+  await expect(page.locator('.pd-head h2')).toHaveText('Parque del Retiro');
+  const inside = page.locator('.inside');
+  await expect(inside).toContainText('Aquí dentro');
+  await expect(inside).toContainText('Palacio de Cristal');
+  await inside.locator('[data-in="estanque"]').click();
+  await expect(page.locator('.pd-head h2')).toHaveText('Estanque Grande del Retiro');
+});
+
+test('enlace directo ?d= abre el distrito', async ({ page }) => {
+  await page.goto('./?d=retiro');
+  await expect(page.locator('#title')).toHaveText('Retiro');
+});
+
+test('cerca de ti: tarjetas con los pendientes más cercanos y abren la ficha', async ({ page }) => {
+  const cards = page.locator('.near .ncard');
+  await expect(cards.first()).toBeVisible();
+  expect(await cards.count()).toBeGreaterThan(2);
+  const name = await cards.first().locator('b').textContent();
+  await cards.first().click();
+  await expect(page.locator('.pd-head h2')).toHaveText(name);
+});
+
+test('SEO: páginas estáticas de lugar, distrito, índice y sitemap', async ({ request }) => {
+  const r = await request.get('lugar/puerta-sol/');
+  expect(r.ok()).toBeTruthy();
+  const h = await r.text();
+  expect(h).toContain('<h1>Puerta del Sol</h1>');
+  expect(h).toContain('"@type": "TouristAttraction"');
+  expect(h).toContain('href="/?p=puerta-sol"');
+  expect(h).toContain('href="/lugar/km-cero/"');              // Aquí dentro
+  const d = await (await request.get('distrito/centro/')).text();
+  expect(d).toContain('Qué ver en Centro');
+  const i = await (await request.get('lugares/')).text();
+  expect(i).toContain('href="/distrito/barajas/"');
+  const sm = await (await request.get('sitemap.xml')).text();
+  expect(sm).toContain('https://www.madridpassport.com/lugar/plaza-mayor/');
+});
+
+test('SEO: quien ya usa la app no ve los botones de abrir/empezar/sellar', async ({ page }) => {
+  await page.goto('lugar/puerta-sol/');                       // beforeEach ya dejó mp.onboarded en este origen
+  await expect(page.locator('h1')).toHaveText('Puerta del Sol');
+  await expect(page.locator('.cta')).toBeHidden();
+  await expect(page.locator('header .btn')).toBeHidden();
+  await expect(page.locator('.cta')).toHaveCount(1);         // sigue en la página para visitantes nuevos
+});
+
+test('ficha: valoración personal tras visitar (se guarda como r:<id>)', async ({ page }) => {
+  await page.goto('./?p=plaza-mayor');
+  await expect(page.locator('.rate')).toHaveCount(0);          // sin visitar no se valora
+  await page.locator('.pd-head .chk[data-a="1"]').click();
+  await page.locator('.rate [data-rate="2"]').click();
+  await expect(page.locator('.rate button.on')).toHaveCount(2);           // 2 estrellas encendidas
+  await page.locator('.rate [data-rate="3"]').click();
+  await expect(page.locator('.rate button.on')).toHaveCount(3);
+  const v = await page.evaluate(() => JSON.parse(localStorage.getItem('mp.visits.v1'))['r:plaza-mayor']);
+  expect(v.v).toBe(3);
+});
+
+test('ficha: comunidad (viajeros, me encantó, puesto y joya oculta) desde Supabase', async ({ page }) => {
+  await page.route(/rpc\/place_stats/, (r) => r.fulfill({ json: { 'puerta-sol': [12, 7], 'plaza-mayor': [40, 5], 'debod': [3, 3], 'gran-via': [30, 4] } }));
+  await page.route(/rpc\/place_rank/, (r) => r.fulfill({ json: 4 }));
+  await page.evaluate(() => localStorage.setItem('mp.visits.v1', JSON.stringify({ 'puerta-sol': { lvl: 1, t: 1700000000000 } })));
+  await page.goto('./?p=puerta-sol');
+  await expect(page.locator('.comm')).toContainText('Sellado por 12 viajeros · 7 le dan ★★★ · fuiste el 4.º en sellarlo');
+  await page.goto('./?p=debod');
+  await expect(page.locator('.comm .gem')).toHaveText('Joya oculta');
+  await page.goto('./');
+  await expect(page.locator('.gems')).toContainText('Templo de Debod');
+});
+
+test('ficha: compartir lugar (copia el enlace sin navigator.share) y reportar un error', async ({ page, context }) => {
+  await context.grantPermissions(['geolocation', 'clipboard-read', 'clipboard-write']);
+  await page.goto('./?p=debod');
+  await page.evaluate(() => { delete Navigator.prototype.share; });
+  await page.locator('#pl-share').click();
+  await expect(page.locator('.toast')).toContainText('Enlace copiado');
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toContain('https://www.madridpassport.com/lugar/debod/');
+  await page.locator('#pl-report').click();
+  const card = page.locator('.rep-card');
+  await expect(card).toContainText('Templo de Debod');
+  await card.locator('text=La foto').click();
+  await card.locator('textarea').fill('La foto es de otro sitio');
+  await card.locator('.rep-send').click();
+  await expect(page.locator('.rep-ov')).toHaveCount(0);
+  await expect(page.locator('.toast')).toContainText('Gracias');
+});
+
+test('SEO en inglés: páginas /en/ con hreflang y enlace a la app en inglés', async ({ request }) => {
+  const h = await (await request.get('en/place/palacio-real/')).text();
+  expect(h).toContain('<html lang="en">');
+  expect(h).toContain('<h1>Royal Palace of Madrid</h1>');
+  expect(h).toContain('hreflang="es" href="https://www.madridpassport.com/lugar/palacio-real/"');
+  expect(h).toContain('href="/?p=palacio-real&lang=en"');
+  const es = await (await request.get('lugar/palacio-real/')).text();
+  expect(es).toContain('hreflang="en" href="https://www.madridpassport.com/en/place/palacio-real/"');
+  expect(await (await request.get('en/places/')).text()).toContain('Things to do in Madrid');
+  expect(await (await request.get('sitemap.xml')).text()).toContain('/en/district/retiro/');
 });

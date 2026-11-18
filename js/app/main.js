@@ -1,12 +1,12 @@
 // Arranque de Madrid Passport (módulos ES nativos, sin build).
 import { $, esc, toast } from './util.js';
-import { S, PLACES, DISTRICTS, BARRIOS, lvl, blvl, currentDistrict } from './state.js';
+import { S, PLACES, BYID, DISTRICTS, BARRIOS, lvl, blvl, currentDistrict } from './state.js';
 import { t, lang, applyStatic } from './i18n.js';
 import { loadGeo } from './geo.js';
 import { initSheet } from './sheet.js';
 import { map, initMap, prefetchStyle } from './map.js';
 import { initGps, afterMap } from './gps.js';
-import { render, initLevel } from './views.js';
+import { render, initLevel, openPlace, openDistrict } from './views.js';
 import { initPages, unlockedNow, levelState } from './pages.js';
 import { initSync } from './sync.js';
 import { initAnalytics, track, setPerson } from './analytics.js';
@@ -44,6 +44,19 @@ function initShare() {
   document.addEventListener('click', (e) => { if (!e.target.closest('.share-menu')) document.querySelector('.share-menu')?.remove(); });
 }
 
+// Enlaces directos desde las páginas SEO (/lugar/<id>/, /distrito/<id>/): ?p=<lugar> o ?d=<distrito>
+function deepLink() {
+  try {
+    const q = new URLSearchParams(location.search), p = q.get('p'), d = q.get('d');
+    if (p && BYID[p]) openPlace(p, 'link');
+    else if (d && DISTRICTS.some((x) => x.id === d)) openDistrict(d, { via: 'link' });
+    else return;
+    track('deeplink_opened', { place: p || null, district: d || null, ref: document.referrer ? new URL(document.referrer).hostname : null });
+    q.delete('p'); q.delete('d');
+    history.replaceState(null, '', location.pathname + (q.toString() ? '?' + q : '') + location.hash);
+  } catch (e) { console.error(e); }
+}
+
 async function boot() {
   applyStatic();
   initAnalytics({ lang });
@@ -58,13 +71,15 @@ async function boot() {
     if (!Object.keys(S.badges).length) S.badges = unlockedNow(true);
     initLevel();
     render();
-    maybeOnboarding();
+    const intro = maybeOnboarding();
     const p = PLACES.filter((x) => lvl(x.id) > 0);
     track('app_opened', { visited: p.length, gps: p.filter((x) => lvl(x.id) === 2).length, barrios: BARRIOS.filter((b) => blvl(b) > 0).length, badges: Object.keys(S.badges).length });
     setPerson({ places_visited: p.length, lang });
+    await intro;                     // el mapa se crea al cerrar la intro (su carga bloquea el hilo y daba tirones en las animaciones)
     await initMap();
     render();
     afterMap();
+    deepLink();
   } catch (e) { console.error(e); toast(t('map.error'), true); }
   if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost'))
     navigator.serviceWorker.register('sw.js').catch(() => {});

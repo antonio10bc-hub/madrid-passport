@@ -20,7 +20,7 @@ export function initAnalytics({ lang }) {
     capture_performance: true, enable_heatmaps: true,
     session_recording: { maskAllInputs: true },
   });
-  posthog.register({ app: 'madrid-passport', app_version: VERSION, lang, standalone: standalone(), dark: matchMedia('(prefers-color-scheme: dark)').matches });
+  posthog.register({ app: MP_CITY.id + '-passport', app_version: VERSION, lang, standalone: standalone(), dark: matchMedia('(prefers-color-scheme: dark)').matches });
   // Vercel Web Analytics (visitas y usuarios diarios en el panel de Vercel; sin cookies). Se activa en Vercel → Analytics.
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   const va = document.createElement('script'); va.defer = true; va.src = '/_vercel/insights/script.js';

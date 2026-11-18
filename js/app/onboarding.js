@@ -1,20 +1,23 @@
-// Onboarding (primera vez): 4 pantallas con swipe (scroll-snap nativo) o «Continuar», puntitos de progreso y,
+// Onboarding (primera vez): 5 pantallas (la última: marcar sitios donde ya has estado → primera recompensa en segundos) con swipe (scroll-snap nativo) o «Continuar», puntitos de progreso y,
 // al final, permiso de ubicación. Se puede volver a ver desde el Diario.
 import { $, esc } from './util.js';
-import { S, PLACES, DISTRICTS, lvl } from './state.js';
+import { S, PLACES, BYID, DISTRICTS, BARRIOS, lvl } from './state.js';
+import { commit } from './views.js';
+import { PTS } from './level.js';
 import { t } from './i18n.js';
 import { polys } from './util.js';
 import { getPos, onPosition } from './gps.js';
 import { track } from './analytics.js';
 
 const KEY = 'mp.onboarded';
+const APP = esc(MP_CITY.app.toUpperCase());
 export const onboarded = () => { try { return !!localStorage.getItem(KEY); } catch { return true; } };
 
 // Silueta de Madrid por distritos con tonos de «mapa de calor» (paso 1). Cada distrito entra con un pequeño retraso.
 function mapSVG() {
   let b = [180, 90, -180, -90];
   DISTRICTS.forEach((d) => { b = [Math.min(b[0], d.bbox[0]), Math.min(b[1], d.bbox[1]), Math.max(b[2], d.bbox[2]), Math.max(b[3], d.bbox[3])]; });
-  const k = Math.cos((40.42 * Math.PI) / 180), W = 300, s = W / ((b[2] - b[0]) * k), H = (b[3] - b[1]) * s;
+  const k = Math.cos((MP_CITY.map.center[1] * Math.PI) / 180), W = 300, s = W / ((b[2] - b[0]) * k), H = (b[3] - b[1]) * s;
   const tones = [0.14, 0.24, 0.38, 0.56, 0.78];
   // orden de aparición: del centro hacia fuera
   const cx = (b[0] + b[2]) / 2, cy = (b[1] + b[3]) / 2;
@@ -26,10 +29,10 @@ function mapSVG() {
   return `<svg viewBox="0 0 ${W} ${H.toFixed(0)}" class="ob-map" aria-hidden="true">${paths}</svg>`;
 }
 // Pin rojo con ✓ (paso 2): cae con rebote y el check se dibuja
-const PIN = `<div class="ob-pinwrap"><svg viewBox="0 0 120 150" class="ob-pin" aria-hidden="true">
-  <ellipse class="ob-shadow" cx="60" cy="142" rx="22" ry="5" fill="#000" fill-opacity=".12"/>
-  <g class="ob-drop"><path d="M60 132s-46-40-46-76a46 46 0 0192 0c0 36-46 76-46 76z" fill="var(--red)"/>
-  <path class="ob-draw" pathLength="1" d="M39 57l14 14 28-29" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></g></svg></div>`;
+// La caída anima el <svg> entero (capa propia en la GPU, sin tirones durante el deslizamiento); la sombra va aparte
+const PIN = `<div class="ob-pinwrap"><svg viewBox="0 0 120 12" class="ob-shadow" aria-hidden="true"><ellipse cx="60" cy="6" rx="22" ry="5" fill="#000" fill-opacity=".12"/></svg>
+  <svg viewBox="0 0 120 136" class="ob-pin ob-drop" aria-hidden="true"><path d="M60 132s-46-40-46-76a46 46 0 0192 0c0 36-46 76-46 76z" fill="var(--red)"/>
+  <path class="ob-draw" pathLength="1" d="M39 57l14 14 28-29" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg></div>`;
 // GPS (paso 3): tu punto azul entra en el área, el pin dorado salta y se dibuja el doble check
 const GPS = `<svg viewBox="0 0 260 230" class="ob-gps" aria-hidden="true">
   <circle cx="130" cy="122" r="92" fill="var(--gold)" fill-opacity=".1"/>
@@ -43,18 +46,27 @@ const GPS = `<svg viewBox="0 0 260 230" class="ob-gps" aria-hidden="true">
 const STAMP = `<div class="ob-stampwrap"><svg viewBox="0 0 160 160" class="ob-stamp" aria-hidden="true"><g transform="rotate(-10 80 80)" fill="none" stroke="var(--red)">
   <circle cx="80" cy="80" r="66" stroke-width="5"/><circle cx="80" cy="80" r="50" stroke-width="2"/>
   <path id="ob-arc" d="M80 80 m-58 0 a58 58 0 1 1 116 0 a58 58 0 1 1 -116 0" stroke="none"/>
-  <text font-size="11" font-weight="800" letter-spacing="3" fill="var(--red)" stroke="none"><textPath href="#ob-arc">MADRID PASSPORT · MADRID PASSPORT ·</textPath></text>
+  <text font-size="11" font-weight="800" letter-spacing="3" fill="var(--red)" stroke="none"><textPath href="#ob-arc">${APP} · ${APP} ·</textPath></text>
   <path d="M58 92V72l-2-12 9 6h30l9-6-2 12v20z M70 76h.1M90 76h.1M74 86h12" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
   <div class="ob-level"><span>8</span><div><small>${t('level')} 8</small><b>${t('lvl.gato')}</b></div><i><em></em></i></div></div>`;
 
+// Paso 5: imprescindibles para marcar de un toque los que ya conoces (se guardan al cerrar)
+const ICONIC = MP_CITY.iconic;
+const quick = () => `<div class="ob-quick" id="ob-quick">${ICONIC.filter((id) => BYID[id]).map((id) => `<button class="ob-q" data-q="${id}" aria-pressed="false">${MP_ICON(BYID[id].type, 'ico')}<span>${esc(BYID[id].name)}</span></button>`).join('')}</div>
+  <div class="ob-qn" id="ob-qn" aria-live="polite">&nbsp;</div>`;
+
+// Promesa que se cumple al cerrar la intro (main.js espera a ella para crear el mapa: si no, su carga da tirones en las animaciones)
+let closed = null;
 export function showOnboarding(source = 'first') {
-  if ($('#onboard')) return;
-  const steps = [['ob.1', mapSVG()], ['ob.2', PIN], ['ob.3', GPS], ['ob.4', STAMP]];
+  if ($('#onboard')) return closed;
+  let done;
+  closed = new Promise((r) => (done = r));
+  const steps = [['ob.1', mapSVG()], ['ob.2', PIN], ['ob.3', GPS], ['ob.4', STAMP], ['ob.5', quick()]];
   const el = document.createElement('div');
   el.id = 'onboard'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true'); el.setAttribute('aria-label', t('ob.aria'));
   el.innerHTML = `<button class="ob-skip" id="ob-skip">${t('ob.skip')}</button>
     <div class="ob-track" id="ob-track">${steps.map(([k, ill], i) => `<section class="ob-slide" aria-label="${i + 1} / ${steps.length}">
-      <div class="ob-ill"><span class="ob-blob"></span>${ill}</div><h1>${esc(t(k + '.t'))}</h1><p>${esc(t(k + '.d'))}</p></section>`).join('')}</div>
+      <div class="ob-ill"><span class="ob-blob"></span>${ill}</div><h1>${esc(t(k + '.t'))}</h1><p>${esc(t(k + '.d', { n: Math.floor(PLACES.length / 50) * 50, d: DISTRICTS.length, b: BARRIOS.length }))}</p></section>`).join('')}</div>
     <div class="ob-foot"><div class="ob-dots" id="ob-dots">${steps.map((_, i) => `<i class="${i ? '' : 'on'}"></i>`).join('')}</div>
       <button class="ob-btn" id="ob-next">${t('ob.next')}</button><button class="ob-later" id="ob-later">&nbsp;</button>
       <a class="ob-privacy" href="privacy.html">${t('privacy')}</a></div>`;
@@ -76,11 +88,25 @@ export function showOnboarding(source = 'first') {
     if (i !== idx) { idx = i; paint(); track('onboarding_step', { step: idx + 1 }); }
   }, { passive: true });
   const go = (i) => track_.scrollTo({ left: i * track_.clientWidth, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  const picked = new Set();
+  el.querySelectorAll('[data-q]').forEach((b) => (b.onclick = () => {
+    const id = b.dataset.q, on = !picked.has(id);
+    on ? picked.add(id) : picked.delete(id);
+    b.classList.toggle('on', on); b.setAttribute('aria-pressed', on);
+    $('#ob-qn').textContent = picked.size ? t('ob.5.n', { n: picked.size, pts: picked.size * PTS.visit }) : '\u00a0';
+  }));
   const close = (action) => {
     try { localStorage.setItem(KEY, String(Date.now())); } catch {}
+    const ids = [...picked].filter((id) => !lvl(id));
+    if (ids.length) {
+      const now = Date.now();
+      ids.forEach((id) => (S.visits[id] = { lvl: 1, t: now }));
+      track('onboarding_quickmark', { n: ids.length, places: ids.join(','), action });
+      setTimeout(commit, 350);                                  // logros y nivel con su aviso, tras cerrar
+    }
     track('onboarding_done', { action, step: idx + 1, source });
     el.classList.add('out');
-    setTimeout(() => el.remove(), 300);
+    setTimeout(() => { el.remove(); done(); }, 300);
   };
   next.onclick = async () => {
     if (!last()) return go(idx + 1);
@@ -91,10 +117,11 @@ export function showOnboarding(source = 'first') {
   skip.onclick = () => close('skip');
   paint();
   track('onboarding_shown', { source });
+  return closed;
 }
 
 // Primera vez: solo si nunca se ha visto y no hay progreso (usuarios que ya usaban la app no lo ven)
 export function maybeOnboarding() {
-  if (onboarded() || S.debug || PLACES.some((p) => lvl(p.id) > 0)) return;   // solo cuentan lugares (no barrios pisados al arrancar)
-  showOnboarding('first');
+  if (onboarded() || S.debug || PLACES.some((p) => lvl(p.id) > 0)) return Promise.resolve();   // solo cuentan lugares (no barrios pisados al arrancar)
+  return showOnboarding('first');
 }

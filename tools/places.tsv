@@ -1,206 +1,437 @@
-id	name	type	zone	wiki
-puerta-sol	Puerta del Sol	Plaza	Sol	Puerta del Sol
-plaza-mayor	Plaza Mayor	Plaza	Sol	Plaza Mayor (Madrid)
-san-miguel	Mercado de San Miguel	Mercado	Sol	Mercado de San Miguel
-san-gines	Chocolatería San Ginés	Gastronomía	Sol	Chocolatería San Ginés
-descalzas	Descalzas Reales	Monumento	Sol	Monasterio de las Descalzas Reales
-gran-via	Gran Vía	Calle	Gran Vía	Gran Vía (Madrid)
-metropolis	Edificio Metrópolis	Monumento	Gran Vía	Edificio Metrópolis
-circulo-bellas-artes	Círculo de Bellas Artes	Cultura	Gran Vía	Círculo de Bellas Artes
-academia-bellas-artes	Real Academia de Bellas Artes de San Fernando	Museo	Gran Vía	Real Academia de Bellas Artes de San Fernando
-palacio-real	Palacio Real	Monumento	Palacio	Palacio Real de Madrid
-almudena	Catedral de la Almudena	Iglesia	Palacio	Catedral de Santa María la Real de la Almudena
-plaza-oriente	Plaza de Oriente	Plaza	Palacio	Plaza de Oriente
-sabatini	Jardines de Sabatini	Parque	Palacio	Jardines de Sabatini
-teatro-real	Teatro Real	Cultura	Palacio	Teatro Real (Madrid)
-cava-baja	Cava Baja	Calle	La Latina	Calle de la Cava Baja
-plaza-paja	Plaza de la Paja	Plaza	La Latina	Plaza de la Paja
-san-francisco	San Francisco el Grande	Iglesia	La Latina	Real Basílica de San Francisco el Grande
-rastro	El Rastro	Mercado	La Latina	El Rastro
-plaza-lavapies	Plaza de Lavapiés	Plaza	Lavapiés	Plaza de Lavapiés
-reina-sofia	Museo Reina Sofía	Museo	Lavapiés	Museo Nacional Centro de Arte Reina Sofía
-tabacalera	La Tabacalera	Cultura	Lavapiés	Tabacalera (Madrid)
-san-fernando	Mercado de San Fernando	Mercado	Lavapiés	Mercado de San Fernando
-santa-ana	Plaza de Santa Ana	Plaza	Barrio de las Letras	Plaza de Santa Ana (Madrid)
-lope	Casa Museo Lope de Vega	Museo	Barrio de las Letras	Casa Museo de Lope de Vega
-trinitarias	Convento de las Trinitarias	Monumento	Barrio de las Letras	Convento de las Trinitarias Descalzas de San Ildefonso
-congreso	Congreso de los Diputados	Monumento	Barrio de las Letras	Palacio de las Cortes
-thyssen	Museo Thyssen-Bornemisza	Museo	Barrio de las Letras	Museo Thyssen-Bornemisza
-caixaforum	CaixaForum Madrid	Cultura	Barrio de las Letras	CaixaForum Madrid
-dos-mayo	Plaza del Dos de Mayo	Plaza	Malasaña	Plaza del Dos de Mayo
-san-ildefonso	Mercado de San Ildefonso	Mercado	Malasaña	Mercado de San Ildefonso
-alemanes	San Antonio de los Alemanes	Iglesia	Malasaña	Iglesia de San Antonio de los Alemanes
-conde-duque	Cuartel de Conde Duque	Cultura	Malasaña	Cuartel del Conde-Duque
-plaza-chueca	Plaza de Chueca	Plaza	Chueca	Plaza de Chueca
-san-anton	Mercado de San Antón	Mercado	Chueca	Mercado de San Antón
-longoria	Palacio Longoria	Monumento	Chueca	Palacio Longoria
-romanticismo	Museo del Romanticismo	Museo	Chueca	Museo del Romanticismo
-cibeles	Plaza de Cibeles	Plaza		Plaza de Cibeles
-cristal	Palacio de Cristal	Parque	Parque del Retiro	Palacio de Cristal del Retiro
-estanque	Estanque Grande del Retiro	Parque	Parque del Retiro	Estanque Grande del Retiro
-angel-caido	Fuente del Ángel Caído	Monumento	Parque del Retiro	Fuente del Ángel Caído
-velazquez	Palacio de Velázquez	Cultura	Parque del Retiro	Palacio de Velázquez
-alcala	Puerta de Alcalá	Monumento	Parque del Retiro	Puerta de Alcalá
-prado	Museo del Prado	Museo	Jerónimos	Museo del Prado
-botanico	Real Jardín Botánico	Parque	Jerónimos	Real Jardín Botánico de Madrid
-san-jeronimo	San Jerónimo el Real	Iglesia	Jerónimos	Iglesia de San Jerónimo el Real
-observatorio	Real Observatorio de Madrid	Cultura	Jerónimos	Real Observatorio de Madrid
-atocha	Estación de Atocha	Monumento		Estación de Madrid Puerta de Atocha
-colon	Plaza de Colón	Plaza	Recoletos	Plaza de Colón
-man	Museo Arqueológico Nacional	Museo	Recoletos	Museo Arqueológico Nacional (España)
-biblioteca	Biblioteca Nacional	Cultura	Recoletos	Biblioteca Nacional de España
-linares	Palacio de Linares · Casa de América	Monumento	Recoletos	Palacio de Linares
-serrano	Calle de Serrano	Calle	Castellana	Calle de Serrano
-lazaro	Museo Lázaro Galdiano	Museo	Castellana	Museo Lázaro Galdiano
-mercado-paz	Mercado de la Paz	Mercado	Castellana	Mercado de la Paz
-ventas	Plaza de toros de Las Ventas	Monumento	Guindalera	Plaza de toros de Las Ventas
-fuente-berro	Quinta de la Fuente del Berro	Parque	Guindalera	Quinta de la Fuente del Berro
-anden-0	Andén 0 · Estación Chamberí	Cultura		Estación de Chamberí
-sorolla	Museo Sorolla	Museo		Museo Sorolla
-olavide	Plaza de Olavide	Plaza		Plaza de Olavide
-geominero	Museo Geominero	Museo		Museo Geominero
-debod	Templo de Debod	Monumento		Templo de Debod
-rosaleda	Rosaleda del Parque del Oeste	Parque		Parque del Oeste
-florida	San Antonio de la Florida	Iglesia		Ermita de San Antonio de la Florida
-faro	Faro de Moncloa	Mirador		Faro de Moncloa
-museo-america	Museo de América	Museo		Museo de América (Madrid)
-teleferico	Teleférico de Madrid	Mirador		Teleférico de Madrid
-casa-campo	Lago de la Casa de Campo	Parque		Casa de Campo
-arco-victoria	Arco de la Victoria	Monumento		Arco de la Victoria
-museo-traje	Museo del Traje	Museo		Museo del Traje
-matadero	Matadero Madrid	Cultura		Matadero Madrid
-planetario	Planetario de Madrid	Cultura		Planetario de Madrid
-madrid-rio	Madrid Río	Parque		Madrid Río
-invernadero	Invernadero de Arganzuela	Parque		Palacio de Cristal de la Arganzuela
-tierno-galvan	Parque Enrique Tierno Galván	Parque		Parque Enrique Tierno Galván
-bernabeu	Estadio Santiago Bernabéu	Estadio		Estadio Santiago Bernabéu
-auditorio	Auditorio Nacional	Cultura		Auditorio Nacional de Música
-ciencias-naturales	Museo Nacional de Ciencias Naturales	Museo		Museo Nacional de Ciencias Naturales
-parque-berlin	Parque de Berlín	Parque		Parque de Berlín
-torres-blancas	Torres Blancas	Monumento		Torres Blancas
-maravillas	Mercado de Maravillas	Mercado		Mercado de Maravillas
-torre-picasso	Torre Picasso	Mirador		Torre Picasso
-puerta-europa	Puerta de Europa	Monumento		Puerta de Europa
-pardo	Palacio Real de El Pardo	Monumento		Palacio Real de El Pardo
-cuatro-torres	Cuatro Torres	Mirador		Cuatro Torres Business Area
-vaguada	La Vaguada	Barrio		Barrio del Pilar
-fuencarral-pueblo	Casco antiguo de Fuencarral	Barrio		Fuencarral
-aluche	Aluche	Barrio		Aluche
-puerta-angel	Puerta del Ángel	Barrio		Puerta del Ángel (Madrid)
-lucero	Lucero	Barrio		Lucero (Madrid)
-ermita-isidro	Ermita de San Isidro	Iglesia		Ermita de San Isidro (Madrid)
-parque-isidro	Parque de San Isidro	Parque		Parque de San Isidro
-sacramental-isidro	Sacramental de San Isidro	Monumento		Cementerio de San Isidro
-santa-maria-antigua	Ermita de Santa María la Antigua	Iglesia		Ermita de Santa María la Antigua
-usera-china	Barrio chino de Usera	Gastronomía		Usera
-pradolongo	Parque Pradolongo	Parque		Parque de Pradolongo
-caja-magica	Caja Mágica	Estadio		Caja Mágica
-tio-pio	Cerro del Tío Pío	Mirador		Cerro del Tío Pío
-estadio-vallecas	Estadio de Vallecas	Estadio		Estadio de Vallecas
-asamblea	Asamblea de Madrid	Monumento		Asamblea de Madrid
-palomeras	Palomeras	Barrio		Palomeras Bajas
-cuna-odonnell	Cuña Verde de O'Donnell	Parque		Parque de la Cuña Verde de O'Donnell
-moratalaz	Moratalaz	Barrio		Moratalaz
-fontarron	Fontarrón	Barrio		Fontarrón
-arturo-soria	Calle Arturo Soria	Calle		Calle de Arturo Soria
-pueblo-nuevo	Pueblo Nuevo	Barrio		Pueblo Nuevo (Madrid)
-quintana	Quintana	Barrio		Quintana (Madrid)
-felipe-vi	Parque Felipe VI	Parque		Parque Felipe VI
-juan-pablo-ii	Parque Juan Pablo II	Parque		Parque Juan Pablo II
-hortaleza-pueblo	Casco histórico de Hortaleza	Barrio		Hortaleza
-pinar-rey	Pinar del Rey	Parque		Pinar del Rey
-boetticher	Nave Boetticher	Cultura		Nave Boetticher
-villaverde-alto	Villaverde Alto	Barrio		Villaverde Alto
-colonia-marconi	Colonia Marconi	Barrio		Colonia Marconi
-vallecas-pueblo	Casco histórico de Vallecas	Barrio		Villa de Vallecas
-gavia	Parque de la Gavia	Parque		Parque de La Gavia
-santa-eugenia	Santa Eugenia	Barrio		Santa Eugenia (Madrid)
-ensanche-vallecas	Ensanche de Vallecas	Barrio		Ensanche de Vallecas
-valdebernardo	Parque Forestal de Valdebernardo	Parque		Valdebernardo
-vicalvaro-pueblo	Casco histórico de Vicálvaro	Barrio		Vicálvaro
-cerro-almodovar	Cerro Almodóvar	Mirador		Cerro Almodóvar
-metropolitano	Estadio Metropolitano	Estadio		Estadio Metropolitano
-quinta-molinos	Quinta de los Molinos	Parque		Quinta de los Molinos
-torre-arias	Quinta de Torre Arias	Parque		Quinta de Torre Arias
-canillejas	Canillejas	Barrio		Canillejas
-capricho	Parque El Capricho	Parque		Parque de El Capricho
-juan-carlos-i	Parque Juan Carlos I	Parque		Parque Juan Carlos I
-barajas-pueblo	Casco histórico de Barajas	Barrio		Barajas (Madrid)
-aeropuerto	Aeropuerto Adolfo Suárez Madrid-Barajas	Monumento		Aeropuerto Adolfo Suárez Madrid-Barajas
-alameda-osuna	Alameda de Osuna	Barrio		Alameda de Osuna
-botin	Restaurante Botín	Gastronomía	Sol	Sobrino de Botín
-casa-labra	Casa Labra	Gastronomía	Sol	Casa Labra
-lhardy	Lhardy	Gastronomía	Sol	Lhardy
-museo-chicote	Museo Chicote	Gastronomía	Gran Vía	Museo Chicote
-cafe-gijon	Café Gijón	Gastronomía	Justicia	Café Gijón
-teatro-espanol	Teatro Español	Teatro	Barrio de las Letras	Teatro Español
-teatro-zarzuela	Teatro de la Zarzuela	Teatro	Barrio de las Letras	Teatro de la Zarzuela
-teatro-comedia	Teatro de la Comedia	Teatro	Barrio de las Letras	Teatro de la Comedia (Madrid)
-teatro-maria-guerrero	Teatro María Guerrero	Teatro	Justicia	Teatro María Guerrero
-teatro-lara	Teatro Lara	Teatro	Malasaña	Teatro Lara
-teatro-abadia	Teatro de La Abadía	Teatro		Teatro de La Abadía
-teatro-circo-price	Teatro Circo Price	Teatro		Teatro Circo Price
-cuesta-moyano	Cuesta de Moyano (librerías)	Cultura		Cuesta de Moyano
-fundacion-march	Fundación Juan March	Museo		Fundación Juan March
-museo-ferrocarril	Museo del Ferrocarril	Museo		Museo del Ferrocarril de Madrid
-puente-toledo	Puente de Toledo	Monumento		Puente de Toledo
-pasarela-arganzuela	Pasarela de Arganzuela	Monumento		Pasarela de Arganzuela
-plaza-chamberi	Plaza de Chamberí	Plaza		Plaza de Chamberí
-museo-arte-publico	Museo de Arte Público	Museo		Museo de Arte Público de Madrid
-nuevos-ministerios	Nuevos Ministerios	Monumento		Nuevos Ministerios
-el-viso	Colonia El Viso	Barrio		Colonia El Viso
-estacion-chamartin	Estación de Chamartín	Monumento		Estación de Madrid-Chamartín-Clara Campoamor
-plaza-castilla	Plaza de Castilla	Plaza		Plaza de Castilla
-azca	AZCA	Barrio		AZCA
-bravo-murillo	Calle de Bravo Murillo	Calle		Calle de Bravo Murillo
-tetuan-victorias	Tetuán de las Victorias	Barrio		Tetuán de las Victorias
-monte-pardo	Monte de El Pardo	Parque		Monte de El Pardo
-capuchinos-pardo	Convento de los Capuchinos de El Pardo	Iglesia		Convento de Capuchinos de El Pardo
-quinta-pardo	Quinta de El Pardo	Monumento		Quinta de El Pardo
-parque-vaguada	Parque de La Vaguada	Parque		Parque de La Vaguada
-cerralbo	Museo Cerralbo	Museo		Museo Cerralbo
-ciudad-universitaria	Ciudad Universitaria	Barrio		Ciudad Universitaria de Madrid
-puente-segovia	Puente de Segovia	Monumento		Puente de Segovia
-campamento	Campamento	Barrio		Campamento (Madrid)
-aguilas	Las Águilas	Barrio		Las Águilas (Madrid)
-palacio-vista-alegre	Palacio de Vista Alegre	Monumento		Palacio de Vista Alegre
-plaza-vista-alegre	Palacio Vistalegre	Cultura		Palacio Vistalegre
-colonia-prensa	Colonia de la Prensa	Barrio		Colonia de la Prensa
-parque-lineal	Parque Lineal del Manzanares	Parque		Parque Lineal del Manzanares
-orcasitas	Orcasitas	Barrio		Orcasitas
-moscardo	Moscardó	Barrio		Moscardó (Madrid)
-almendrales	Almendrales	Barrio		Almendrales (Madrid)
-zofio	Zofío	Barrio		Zofío
-entrevias	Entrevías	Barrio		Entrevías
-san-diego	San Diego	Barrio		San Diego (Madrid)
-numancia	Numancia	Barrio		Numancia (Madrid)
-albufera	Avenida de la Albufera	Calle		Avenida de la Albufera
-pavones	Pavones	Barrio		Pavones (Madrid)
-marroquina	Marroquina	Barrio		Marroquina
-media-legua	Media Legua	Barrio		Media Legua
-vinateros	Vinateros	Barrio		Vinateros
-torrespana	Torrespaña (El Pirulí)	Monumento		Torrespaña
-mural-feminista	Mural feminista de Ciudad Lineal	Cultura		Mural feminista de Ciudad Lineal
-concepcion	La Concepción	Barrio		Concepción (Madrid)
-san-pascual	San Pascual	Barrio		San Pascual (Madrid)
-colina	Colina	Barrio		Colina (Madrid)
-costillares	Costillares	Barrio		Costillares
-alfredo-di-stefano	Estadio Alfredo Di Stéfano	Estadio		Estadio Alfredo Di Stéfano
-canillas	Canillas	Barrio		Canillas (Madrid)
-sanchinarro	Sanchinarro	Barrio		Sanchinarro
-valdefuentes	Valdefuentes	Barrio		Valdefuentes (Madrid)
-san-cristobal	San Cristóbal	Barrio		San Cristóbal (Madrid)
-butarque	Butarque	Barrio		Butarque
-los-angeles	Los Ángeles	Barrio		Los Ángeles (Madrid)
-los-rosales	Los Rosales	Barrio		Los Rosales (Madrid)
-san-pedro-vincula	Iglesia de San Pedro ad Víncula	Iglesia		Iglesia de San Pedro ad Víncula (Madrid)
-mercamadrid	Mercamadrid	Mercado		Mercamadrid
-valdecarros	Valdecarros	Barrio		Valdecarros
-ambroz	Ambroz	Barrio		Ambroz (Madrid)
-canaveral	El Cañaveral	Barrio		El Cañaveral (Madrid)
-las-rosas	Las Rosas	Barrio		Las Rosas (Madrid)
-simancas	Simancas	Barrio		Simancas (Madrid)
-arcos	Arcos	Barrio		Arcos (Madrid)
-ciudad-pegaso	Ciudad Pegaso	Barrio		Ciudad Pegaso
-castillo-alameda	Castillo de la Alameda	Monumento		Castillo de la Alameda
-ifema	IFEMA	Cultura		Institución Ferial de Madrid
+id	name	type	zone	wiki	parent
+puerta-sol	Puerta del Sol	Plaza	Sol	Puerta del Sol	
+plaza-mayor	Plaza Mayor	Plaza	Sol	Plaza Mayor (Madrid)	
+san-miguel	Mercado de San Miguel	Mercado	Sol	Mercado de San Miguel	
+san-gines	Chocolatería San Ginés	Gastronomía	Sol	Chocolatería San Ginés	
+descalzas	Descalzas Reales	Monumento	Sol	Monasterio de las Descalzas Reales	
+gran-via	Gran Vía	Calle	Gran Vía	Gran Vía (Madrid)	
+metropolis	Edificio Metrópolis	Monumento	Gran Vía	Edificio Metrópolis	gran-via
+circulo-bellas-artes	Círculo de Bellas Artes	Cultura	Gran Vía	Círculo de Bellas Artes	
+academia-bellas-artes	Real Academia de Bellas Artes de San Fernando	Museo	Gran Vía	Real Academia de Bellas Artes de San Fernando	
+palacio-real	Palacio Real	Monumento	Palacio	Palacio Real de Madrid	
+almudena	Catedral de la Almudena	Iglesia	Palacio	Catedral de Santa María la Real de la Almudena	
+plaza-oriente	Plaza de Oriente	Plaza	Palacio	Plaza de Oriente	
+sabatini	Jardines de Sabatini	Parque	Palacio	Jardines de Sabatini	
+teatro-real	Teatro Real	Cultura	Palacio	Teatro Real (Madrid)	
+cava-baja	Cava Baja	Calle	La Latina	Calle de la Cava Baja	
+plaza-paja	Plaza de la Paja	Plaza	La Latina	Plaza de la Paja	
+san-francisco	San Francisco el Grande	Iglesia	La Latina	Real Basílica de San Francisco el Grande	
+rastro	El Rastro	Mercado	La Latina	El Rastro	
+plaza-lavapies	Plaza de Lavapiés	Plaza	Lavapiés	Plaza de Lavapiés	
+reina-sofia	Museo Reina Sofía	Museo	Lavapiés	Museo Nacional Centro de Arte Reina Sofía	
+tabacalera	La Tabacalera	Cultura	Lavapiés	Tabacalera (Madrid)	
+san-fernando	Mercado de San Fernando	Mercado	Lavapiés	Mercado de San Fernando	
+santa-ana	Plaza de Santa Ana	Plaza	Barrio de las Letras	Plaza de Santa Ana (Madrid)	
+lope	Casa Museo Lope de Vega	Museo	Barrio de las Letras	Casa Museo de Lope de Vega	
+trinitarias	Convento de las Trinitarias	Monumento	Barrio de las Letras	Convento de las Trinitarias Descalzas de San Ildefonso	
+congreso	Congreso de los Diputados	Monumento	Barrio de las Letras	Palacio de las Cortes	
+thyssen	Museo Thyssen-Bornemisza	Museo	Barrio de las Letras	Museo Thyssen-Bornemisza	
+caixaforum	CaixaForum Madrid	Cultura	Barrio de las Letras	CaixaForum Madrid	
+dos-mayo	Plaza del Dos de Mayo	Plaza	Malasaña	Plaza del Dos de Mayo	
+san-ildefonso	Mercado de San Ildefonso	Mercado	Malasaña	Mercado de San Ildefonso	
+alemanes	San Antonio de los Alemanes	Iglesia	Malasaña	Iglesia de San Antonio de los Alemanes	
+conde-duque	Cuartel de Conde Duque	Cultura	Malasaña	Cuartel del Conde-Duque	
+plaza-chueca	Plaza de Chueca	Plaza	Chueca	Plaza de Chueca	
+san-anton	Mercado de San Antón	Mercado	Chueca	Mercado de San Antón	
+longoria	Palacio Longoria	Monumento	Chueca	Palacio Longoria	
+romanticismo	Museo del Romanticismo	Museo	Chueca	Museo del Romanticismo	
+cibeles	Plaza de Cibeles	Plaza		Plaza de Cibeles	
+cristal	Palacio de Cristal	Parque	Parque del Retiro	Palacio de Cristal del Retiro	parque-retiro
+estanque	Estanque Grande del Retiro	Parque	Parque del Retiro	Estanque Grande del Retiro	parque-retiro
+angel-caido	Fuente del Ángel Caído	Monumento	Parque del Retiro	Fuente del Ángel Caído	parque-retiro
+velazquez	Palacio de Velázquez	Cultura	Parque del Retiro	Palacio de Velázquez	parque-retiro
+alcala	Puerta de Alcalá	Monumento	Parque del Retiro	Puerta de Alcalá	
+prado	Museo del Prado	Museo	Jerónimos	Museo del Prado	
+botanico	Real Jardín Botánico	Parque	Jerónimos	Real Jardín Botánico de Madrid	
+san-jeronimo	San Jerónimo el Real	Iglesia	Jerónimos	Iglesia de San Jerónimo el Real	
+observatorio	Real Observatorio de Madrid	Cultura	Jerónimos	Real Observatorio de Madrid	
+atocha	Estación de Atocha	Monumento		Estación de Madrid Puerta de Atocha	
+colon	Plaza de Colón	Plaza	Recoletos	Plaza de Colón	
+man	Museo Arqueológico Nacional	Museo	Recoletos	Museo Arqueológico Nacional (España)	
+biblioteca	Biblioteca Nacional	Cultura	Recoletos	Biblioteca Nacional de España	
+linares	Palacio de Linares · Casa de América	Monumento	Recoletos	Palacio de Linares	cibeles
+serrano	Calle de Serrano	Calle	Castellana	Calle de Serrano	
+lazaro	Museo Lázaro Galdiano	Museo	Castellana	Museo Lázaro Galdiano	
+mercado-paz	Mercado de la Paz	Mercado	Castellana	Mercado de la Paz	
+ventas	Plaza de toros de Las Ventas	Monumento	Guindalera	Plaza de toros de Las Ventas	
+fuente-berro	Quinta de la Fuente del Berro	Parque	Guindalera	Quinta de la Fuente del Berro	
+anden-0	Andén 0 · Estación Chamberí	Cultura		Estación de Chamberí	
+sorolla	Museo Sorolla	Museo		Museo Sorolla	
+olavide	Plaza de Olavide	Plaza		Plaza de Olavide	
+geominero	Museo Geominero	Museo		Museo Geominero	
+debod	Templo de Debod	Monumento		Templo de Debod	
+rosaleda	Rosaleda del Parque del Oeste	Parque		Parque del Oeste	parque-oeste
+florida	San Antonio de la Florida	Iglesia		Ermita de San Antonio de la Florida	
+faro	Faro de Moncloa	Mirador		Faro de Moncloa	
+museo-america	Museo de América	Museo		Museo de América (Madrid)	
+teleferico	Teleférico de Madrid	Mirador		Teleférico de Madrid	parque-oeste
+casa-campo	Lago de la Casa de Campo	Parque		Casa de Campo	casa-de-campo-parque
+arco-victoria	Arco de la Victoria	Monumento		Arco de la Victoria	
+museo-traje	Museo del Traje	Museo		Museo del Traje	
+matadero	Matadero Madrid	Cultura		Matadero Madrid	
+planetario	Planetario de Madrid	Cultura		Planetario de Madrid	tierno-galvan
+madrid-rio	Madrid Río	Parque		Madrid Río	
+invernadero	Invernadero de Arganzuela	Parque		Palacio de Cristal de la Arganzuela	
+tierno-galvan	Parque Enrique Tierno Galván	Parque		Parque Enrique Tierno Galván	
+bernabeu	Estadio Santiago Bernabéu	Estadio		Estadio Santiago Bernabéu	
+auditorio	Auditorio Nacional	Cultura		Auditorio Nacional de Música	
+ciencias-naturales	Museo Nacional de Ciencias Naturales	Museo		Museo Nacional de Ciencias Naturales	
+parque-berlin	Parque de Berlín	Parque		Parque de Berlín	
+torres-blancas	Torres Blancas	Monumento		Torres Blancas	
+maravillas	Mercado de Maravillas	Mercado		Mercado de Maravillas	
+torre-picasso	Torre Picasso	Mirador		Torre Picasso	azca
+puerta-europa	Puerta de Europa	Monumento		Puerta de Europa	
+pardo	Palacio Real de El Pardo	Monumento		Palacio Real de El Pardo	
+cuatro-torres	Cuatro Torres	Mirador		Cuatro Torres Business Area	
+vaguada	La Vaguada	Barrio		Barrio del Pilar	
+fuencarral-pueblo	Casco antiguo de Fuencarral	Barrio		Fuencarral	
+aluche	Aluche	Barrio		Aluche	
+puerta-angel	Puerta del Ángel	Barrio		Puerta del Ángel (Madrid)	
+lucero	Lucero	Barrio		Lucero (Madrid)	
+ermita-isidro	Ermita de San Isidro	Iglesia		Ermita de San Isidro (Madrid)	parque-isidro
+parque-isidro	Parque de San Isidro	Parque		Parque de San Isidro	
+sacramental-isidro	Sacramental de San Isidro	Monumento		Cementerio de San Isidro	
+santa-maria-antigua	Ermita de Santa María la Antigua	Iglesia		Ermita de Santa María la Antigua	
+usera-china	Barrio chino de Usera	Gastronomía		Usera	
+pradolongo	Parque Pradolongo	Parque		Parque de Pradolongo	
+caja-magica	Caja Mágica	Estadio		Caja Mágica	
+tio-pio	Cerro del Tío Pío	Mirador		Cerro del Tío Pío	
+estadio-vallecas	Estadio de Vallecas	Estadio		Estadio de Vallecas	
+asamblea	Asamblea de Madrid	Monumento		Asamblea de Madrid	
+palomeras	Palomeras	Barrio		Palomeras Bajas	
+cuna-odonnell	Cuña Verde de O'Donnell	Parque		Parque de la Cuña Verde de O'Donnell	
+moratalaz	Moratalaz	Barrio		Moratalaz	
+fontarron	Fontarrón	Barrio		Fontarrón	
+arturo-soria	Calle Arturo Soria	Calle		Calle de Arturo Soria	
+pueblo-nuevo	Pueblo Nuevo	Barrio		Pueblo Nuevo (Madrid)	
+quintana	Quintana	Barrio		Quintana (Madrid)	
+felipe-vi	Parque Felipe VI	Parque		Parque Felipe VI	
+juan-pablo-ii	Parque Juan Pablo II	Parque		Parque Juan Pablo II	
+hortaleza-pueblo	Casco histórico de Hortaleza	Barrio		Hortaleza	
+pinar-rey	Pinar del Rey	Parque		Pinar del Rey	
+boetticher	Nave Boetticher	Cultura		Nave Boetticher	
+villaverde-alto	Villaverde Alto	Barrio		Villaverde Alto	
+colonia-marconi	Colonia Marconi	Barrio		Colonia Marconi	
+vallecas-pueblo	Casco histórico de Vallecas	Barrio		Villa de Vallecas	
+gavia	Parque de la Gavia	Parque		Parque de La Gavia	
+santa-eugenia	Santa Eugenia	Barrio		Santa Eugenia (Madrid)	
+ensanche-vallecas	Ensanche de Vallecas	Barrio		Ensanche de Vallecas	
+valdebernardo	Parque Forestal de Valdebernardo	Parque		Valdebernardo	
+vicalvaro-pueblo	Casco histórico de Vicálvaro	Barrio		Vicálvaro	
+cerro-almodovar	Cerro Almodóvar	Mirador		Cerro Almodóvar	
+metropolitano	Estadio Metropolitano	Estadio		Estadio Metropolitano	
+quinta-molinos	Quinta de los Molinos	Parque		Quinta de los Molinos	
+torre-arias	Quinta de Torre Arias	Parque		Quinta de Torre Arias	
+canillejas	Canillejas	Barrio		Canillejas	
+capricho	Parque El Capricho	Parque		Parque de El Capricho	
+juan-carlos-i	Parque Juan Carlos I	Parque		Parque Juan Carlos I	
+barajas-pueblo	Casco histórico de Barajas	Barrio		Barajas (Madrid)	
+aeropuerto	Aeropuerto Adolfo Suárez Madrid-Barajas	Monumento		Aeropuerto Adolfo Suárez Madrid-Barajas	
+alameda-osuna	Alameda de Osuna	Barrio		Alameda de Osuna	
+botin	Restaurante Botín	Gastronomía	Sol	Sobrino de Botín	
+casa-labra	Casa Labra	Gastronomía	Sol	Casa Labra	
+lhardy	Lhardy	Gastronomía	Sol	Lhardy	
+museo-chicote	Museo Chicote	Gastronomía	Gran Vía	Museo Chicote	gran-via
+cafe-gijon	Café Gijón	Gastronomía	Justicia	Café Gijón	
+teatro-espanol	Teatro Español	Teatro	Barrio de las Letras	Teatro Español	
+teatro-zarzuela	Teatro de la Zarzuela	Teatro	Barrio de las Letras	Teatro de la Zarzuela	
+teatro-comedia	Teatro de la Comedia	Teatro	Barrio de las Letras	Teatro de la Comedia (Madrid)	
+teatro-maria-guerrero	Teatro María Guerrero	Teatro	Justicia	Teatro María Guerrero	
+teatro-lara	Teatro Lara	Teatro	Malasaña	Teatro Lara	
+teatro-abadia	Teatro de La Abadía	Teatro		Teatro de La Abadía	
+teatro-circo-price	Teatro Circo Price	Teatro		Teatro Circo Price	
+cuesta-moyano	Cuesta de Moyano (librerías)	Cultura		Cuesta de Moyano	
+fundacion-march	Fundación Juan March	Museo		Fundación Juan March	
+museo-ferrocarril	Museo del Ferrocarril	Museo		Museo del Ferrocarril de Madrid	
+puente-toledo	Puente de Toledo	Monumento		Puente de Toledo	madrid-rio
+pasarela-arganzuela	Pasarela de Arganzuela	Monumento		Pasarela de Arganzuela	madrid-rio
+plaza-chamberi	Plaza de Chamberí	Plaza		Plaza de Chamberí	
+museo-arte-publico	Museo de Arte Público	Museo		Museo de Arte Público de Madrid	
+nuevos-ministerios	Nuevos Ministerios	Monumento		Nuevos Ministerios	
+el-viso	Colonia El Viso	Barrio		Colonia El Viso	
+estacion-chamartin	Estación de Chamartín	Monumento		Estación de Madrid-Chamartín-Clara Campoamor	
+plaza-castilla	Plaza de Castilla	Plaza		Plaza de Castilla	
+azca	AZCA	Barrio		AZCA	
+bravo-murillo	Calle de Bravo Murillo	Calle		Calle de Bravo Murillo	
+tetuan-victorias	Tetuán de las Victorias	Barrio		Tetuán de las Victorias	
+monte-pardo	Monte de El Pardo	Parque		Monte de El Pardo	
+capuchinos-pardo	Convento de los Capuchinos de El Pardo	Iglesia		Convento de Capuchinos de El Pardo	
+quinta-pardo	Quinta de El Pardo	Monumento		Quinta de El Pardo	
+parque-vaguada	Parque de La Vaguada	Parque		Parque de La Vaguada	
+cerralbo	Museo Cerralbo	Museo		Museo Cerralbo	
+ciudad-universitaria	Ciudad Universitaria	Barrio		Ciudad Universitaria de Madrid	
+puente-segovia	Puente de Segovia	Monumento		Puente de Segovia	madrid-rio
+campamento	Campamento	Barrio		Campamento (Madrid)	
+aguilas	Las Águilas	Barrio		Las Águilas (Madrid)	
+palacio-vista-alegre	Palacio de Vista Alegre	Monumento		Palacio de Vista Alegre	
+plaza-vista-alegre	Palacio Vistalegre	Cultura		Palacio Vistalegre	
+colonia-prensa	Colonia de la Prensa	Barrio		Colonia de la Prensa	
+parque-lineal	Parque Lineal del Manzanares	Parque		Parque Lineal del Manzanares	
+orcasitas	Orcasitas	Barrio		Orcasitas	
+moscardo	Moscardó	Barrio		Moscardó (Madrid)	
+almendrales	Almendrales	Barrio		Almendrales (Madrid)	
+zofio	Zofío	Barrio		Zofío	
+entrevias	Entrevías	Barrio		Entrevías	
+san-diego	San Diego	Barrio		San Diego (Madrid)	
+numancia	Numancia	Barrio		Numancia (Madrid)	
+albufera	Avenida de la Albufera	Calle		Avenida de la Albufera	
+pavones	Pavones	Barrio		Pavones (Madrid)	
+marroquina	Marroquina	Barrio		Marroquina	
+media-legua	Media Legua	Barrio		Media Legua	
+vinateros	Vinateros	Barrio		Vinateros	
+torrespana	Torrespaña (El Pirulí)	Monumento		Torrespaña	
+mural-feminista	Mural feminista de Ciudad Lineal	Cultura		Mural feminista de Ciudad Lineal	
+concepcion	La Concepción	Barrio		Concepción (Madrid)	
+san-pascual	San Pascual	Barrio		San Pascual (Madrid)	
+colina	Colina	Barrio		Colina (Madrid)	
+costillares	Costillares	Barrio		Costillares	
+alfredo-di-stefano	Estadio Alfredo Di Stéfano	Estadio		Estadio Alfredo Di Stéfano	ciudad-real-madrid
+canillas	Canillas	Barrio		Canillas (Madrid)	
+sanchinarro	Sanchinarro	Barrio		Sanchinarro	
+valdefuentes	Valdefuentes	Barrio		Valdefuentes (Madrid)	
+san-cristobal	San Cristóbal	Barrio		San Cristóbal (Madrid)	
+butarque	Butarque	Barrio		Butarque	
+los-angeles	Los Ángeles	Barrio		Los Ángeles (Madrid)	
+los-rosales	Los Rosales	Barrio		Los Rosales (Madrid)	
+san-pedro-vincula	Iglesia de San Pedro ad Víncula	Iglesia		Iglesia de San Pedro ad Víncula (Madrid)	vallecas-pueblo
+mercamadrid	Mercamadrid	Mercado		Mercamadrid	
+valdecarros	Valdecarros	Barrio		Valdecarros	
+ambroz	Ambroz	Barrio		Ambroz (Madrid)	
+canaveral	El Cañaveral	Barrio		El Cañaveral (Madrid)	
+las-rosas	Las Rosas	Barrio		Las Rosas (Madrid)	
+simancas	Simancas	Barrio		Simancas (Madrid)	
+arcos	Arcos	Barrio		Arcos (Madrid)	
+ciudad-pegaso	Ciudad Pegaso	Barrio		Ciudad Pegaso	
+castillo-alameda	Castillo de la Alameda	Monumento		Castillo de la Alameda	alameda-osuna
+ifema	IFEMA	Cultura		Institución Ferial de Madrid	
+plaza-villa	Plaza de la Villa	Plaza	Sol	Plaza de la Villa	
+casa-villa	Casa de la Villa	Monumento	Sol	Casa de la Villa (Madrid)	plaza-villa
+casa-cisneros	Casa de Cisneros	Monumento	Sol	Casa de Cisneros	plaza-villa
+torre-lujanes	Torre de los Lujanes	Monumento	Sol	Torre de los Lujanes	plaza-villa
+real-casa-correos	Real Casa de Correos	Monumento	Sol	Real Casa de Correos	puerta-sol
+km-cero	Kilómetro Cero	Monumento	Sol	Kilómetro cero (España)	puerta-sol
+oso-madrono	El Oso y el Madroño	Monumento	Sol	El Oso y el Madroño	puerta-sol
+casa-panaderia	Casa de la Panadería	Monumento	Sol	Casa de la Panadería	plaza-mayor
+felipe-iii	Estatua ecuestre de Felipe III	Monumento	Sol	Estatua ecuestre de Felipe III	plaza-mayor
+arco-cuchilleros	Arco de Cuchilleros	Monumento	Sol	Arco de Cuchilleros	plaza-mayor
+san-gines-iglesia	Iglesia de San Ginés	Iglesia	Sol	Iglesia de San Ginés (Madrid)	
+san-miguel-basilica	Basílica de San Miguel	Iglesia	Sol	Basílica de San Miguel (Madrid)	
+calatravas	Iglesia de las Calatravas	Iglesia	Sol	Iglesia de las Calatravas	
+palacio-santa-cruz	Palacio de Santa Cruz	Monumento	Sol	Palacio de Santa Cruz (Madrid)	
+casa-aduana	Real Casa de la Aduana	Monumento	Sol	Real Casa de la Aduana (Madrid)	
+casino-madrid	Casino de Madrid	Monumento	Sol	Casino de Madrid	
+palacio-gaviria	Palacio de Gaviria	Monumento	Sol	Palacio de Gaviria	
+cariatides	Edificio de las Cariátides · Instituto Cervantes	Cultura	Sol	Edificio de las Cariátides	
+calle-mayor	Calle Mayor	Calle	Sol	Calle Mayor (Madrid)	
+calle-arenal	Calle del Arenal	Calle	Sol	Calle del Arenal	
+calle-preciados	Calle de Preciados	Calle	Sol	Calle de Preciados	
+calle-montera	Calle de la Montera	Calle	Sol	Calle de la Montera	
+calle-alcala	Calle de Alcalá	Calle		Calle de Alcalá	
+plaza-jacinto-benavente	Plaza de Jacinto Benavente	Plaza	Sol	Plaza de Jacinto Benavente	
+plaza-canalejas	Plaza de Canalejas	Plaza	Sol	Plaza de Canalejas	
+teatro-calderon	Teatro Calderón	Teatro	Sol	Teatro Calderón (Madrid)	
+teatro-reina-victoria	Teatro Reina Victoria	Teatro	Sol	Teatro Reina Victoria	
+joy-eslava	Joy Eslava	Cultura	Sol	Joy Eslava	
+pasteleria-pozo	Antigua Pastelería del Pozo	Gastronomía	Sol	Antigua Pastelería del Pozo	
+cerveceria-alemana	Cervecería Alemana	Gastronomía	Barrio de las Letras	Cervecería Alemana	
+los-gabrieles	Los Gabrieles	Gastronomía	Barrio de las Letras	Los Gabrieles	
+casa-alberto	Casa Alberto	Gastronomía	Barrio de las Letras		
+taberna-antonio-sanchez	Taberna Antonio Sánchez	Gastronomía	Lavapiés	Taberna Antonio Sánchez	
+el-riojano	Confitería El Riojano	Gastronomía	Sol		
+casa-lucio	Casa Lucio	Gastronomía	La Latina	Casa Lucio	cava-baja
+taberna-la-bola	Taberna La Bola	Gastronomía	Palacio	Taberna La Bola	
+cafe-central	Café Central	Gastronomía	Barrio de las Letras		
+cafe-comercial	Café Comercial	Gastronomía	Malasaña	Café Comercial	
+corral-moreria	Corral de la Morería	Cultura	La Latina	Corral de la Morería	
+villa-rosa	Villa Rosa	Cultura	Barrio de las Letras	Villa Rosa (Madrid)	
+monasterio-encarnacion	Real Monasterio de la Encarnación	Monumento	Palacio	Real Monasterio de la Encarnación (Madrid)	
+armeria-real	Real Armería	Museo	Palacio	Real Armería de Madrid	palacio-real
+colecciones-reales	Galería de las Colecciones Reales	Museo	Palacio	Galería de las Colecciones Reales	
+campo-moro	Campo del Moro	Parque	Palacio	Campo del Moro	
+parque-atenas	Parque de Atenas	Parque		Parque de Atenas (Madrid)	
+felipe-iv	Estatua ecuestre de Felipe IV	Monumento	Palacio	Estatua ecuestre de Felipe IV	plaza-oriente
+muralla-arabe	Muralla árabe	Monumento	Palacio	Muralla musulmana de Madrid	
+plaza-espana	Plaza de España	Plaza		Plaza de España (Madrid)	
+monumento-cervantes	Monumento a Cervantes	Monumento		Monumento a Cervantes (Madrid)	plaza-espana
+plaza-isabel-ii	Plaza de Isabel II (Ópera)	Plaza	Palacio	Plaza de Isabel II	
+plaza-ramales	Plaza de Ramales	Plaza	Palacio	Plaza de Ramales	
+calle-bailen	Calle de Bailén	Calle	Palacio	Calle de Bailén	
+senado	Palacio del Senado	Monumento	Palacio	Palacio del Senado (España)	
+palacio-consejos	Palacio de los Consejos	Monumento	Palacio	Palacio de los Consejos	
+iglesia-santiago	Iglesia de Santiago y San Juan Bautista	Iglesia	Palacio	Iglesia de Santiago y San Juan Bautista (Madrid)	
+san-nicolas	Iglesia de San Nicolás de los Servitas	Iglesia	Palacio	Iglesia de San Nicolás de los Servitas	
+catedral-castrense	Catedral de las Fuerzas Armadas	Iglesia	Palacio	Catedral de las Fuerzas Armadas	
+casa-gallardo	Casa Gallardo	Monumento		Casa Gallardo	
+colegiata-san-isidro	Colegiata de San Isidro	Iglesia	La Latina	Colegiata de San Isidro (Madrid)	
+san-andres	Iglesia de San Andrés	Iglesia	La Latina	Iglesia de San Andrés (Madrid)	
+capilla-obispo	Capilla del Obispo	Iglesia	La Latina	Capilla del Obispo	
+san-pedro-viejo	Iglesia de San Pedro el Viejo	Iglesia	La Latina	Iglesia de San Pedro el Viejo (Madrid)	
+museo-san-isidro	Museo de San Isidro · Los orígenes de Madrid	Museo	La Latina	Museo de San Isidro	
+jardin-anglona	Jardín del Príncipe de Anglona	Parque	La Latina	Jardín del Príncipe de Anglona	
+mercado-cebada	Mercado de la Cebada	Mercado	La Latina	Mercado de la Cebada	
+plaza-cebada	Plaza de la Cebada	Plaza	La Latina	Plaza de la Cebada	
+plaza-cascorro	Plaza de Cascorro	Plaza	La Latina	Plaza de Cascorro	
+puerta-toledo	Puerta de Toledo	Monumento		Puerta de Toledo (Madrid)	
+viaducto	Viaducto de Segovia	Mirador	La Latina	Viaducto de Segovia	
+vistillas	Las Vistillas	Mirador	La Latina	Las Vistillas	
+calle-toledo	Calle de Toledo	Calle	La Latina	Calle de Toledo (Madrid)	
+calle-segovia	Calle de Segovia	Calle	La Latina	Calle de Segovia	
+puerta-san-vicente	Puerta de San Vicente	Monumento		Puerta de San Vicente	
+casa-encendida	La Casa Encendida	Cultura		La Casa Encendida	
+cine-dore	Cine Doré · Filmoteca Española	Cultura	Lavapiés	Cine Doré	
+mercado-anton-martin	Mercado de Antón Martín	Mercado	Lavapiés	Mercado de Antón Martín	
+plaza-tirso	Plaza de Tirso de Molina	Plaza	Lavapiés	Plaza de Tirso de Molina	
+calle-atocha	Calle de Atocha	Calle	Lavapiés	Calle de Atocha	
+calle-embajadores	Calle de Embajadores	Calle		Calle de Embajadores	
+san-cayetano	Iglesia de San Cayetano	Iglesia	Lavapiés	Iglesia de San Cayetano (Madrid)	
+teatro-pavon	Teatro Pavón	Teatro	Lavapiés	Teatro Pavón	
+teatro-valle-inclan	Teatro Valle-Inclán	Teatro	Lavapiés	Teatro Valle-Inclán	
+teatro-monumental	Teatro Monumental	Teatro	Lavapiés	Teatro Monumental (Madrid)	
+casino-reina	Casino de la Reina	Parque		Casino de la Reina	
+ateneo	Ateneo de Madrid	Cultura	Barrio de las Letras	Ateneo de Madrid	
+iglesia-san-sebastian	Iglesia de San Sebastián	Iglesia	Barrio de las Letras	Iglesia de San Sebastián (Madrid)	
+medinaceli	Basílica de Jesús de Medinaceli	Iglesia	Barrio de las Letras	Basílica de Jesús de Medinaceli	
+calle-huertas	Calle de las Huertas	Calle	Barrio de las Letras	Calle de las Huertas	
+plaza-angel	Plaza del Ángel	Plaza	Barrio de las Letras	Plaza del Ángel (Madrid)	
+plaza-cortes	Plaza de las Cortes	Plaza	Barrio de las Letras	Plaza de las Cortes	
+hotel-palace	Hotel Palace	Monumento	Barrio de las Letras	Hotel Palace (Madrid)	
+edificio-espana	Edificio España	Monumento		Edificio España	plaza-espana
+torre-madrid	Torre de Madrid	Monumento		Torre de Madrid	plaza-espana
+telefonica	Edificio Telefónica	Monumento	Gran Vía	Edificio Telefónica	gran-via
+espacio-telefonica	Espacio Fundación Telefónica	Cultura	Gran Vía		
+edificio-carrion	Edificio Carrión (Capitol)	Monumento	Gran Vía	Edificio Carrión	gran-via
+plaza-callao	Plaza del Callao	Plaza	Gran Vía	Plaza del Callao	
+cine-callao	Cines Callao	Cultura	Gran Vía	Cine Callao	plaza-callao
+teatro-lope-vega	Teatro Lope de Vega	Teatro	Gran Vía	Teatro Lope de Vega (Madrid)	gran-via
+teatro-coliseum	Teatro Coliseum	Teatro	Gran Vía	Teatro Coliseum (Madrid)	gran-via
+teatro-bellas-artes	Teatro Bellas Artes	Teatro	Gran Vía	Teatro de Bellas Artes (Madrid)	
+plaza-santo-domingo	Plaza de Santo Domingo	Plaza	Gran Vía	Plaza de Santo Domingo (Madrid)	
+mercado-mostenses	Mercado de los Mostenses	Mercado	Gran Vía	Mercado de los Mostenses	
+san-jose	Iglesia de San José	Iglesia	Gran Vía	Iglesia de San José (Madrid)	
+caballero-gracia	Oratorio del Caballero de Gracia	Iglesia	Gran Vía	Oratorio del Caballero de Gracia	
+palacio-liria	Palacio de Liria	Monumento		Palacio de Liria	
+museo-historia	Museo de Historia de Madrid	Museo	Malasaña	Museo de Historia de Madrid	
+jardines-ribera	Jardines del Arquitecto Ribera	Parque	Malasaña		museo-historia
+museo-abc	Museo ABC	Museo	Malasaña	Museo ABC	
+museo-arte-contemporaneo	Museo de Arte Contemporáneo	Museo	Malasaña	Museo de Arte Contemporáneo de Madrid	conde-duque
+montserrat	Iglesia de Montserrat	Iglesia	Malasaña	Iglesia de Nuestra Señora de Montserrat (Madrid)	
+comendadoras	Convento de las Comendadoras de Santiago	Iglesia	Malasaña		plaza-comendadoras
+plaza-comendadoras	Plaza de las Comendadoras	Plaza	Malasaña	Plaza de las Comendadoras	
+san-placido	Convento de San Plácido	Iglesia	Malasaña	Convento de San Plácido	
+san-marcos	Iglesia de San Marcos	Iglesia		Iglesia de San Marcos (Madrid)	
+teatro-barcelo	Teatro Barceló	Cultura	Malasaña	Teatro Barceló	
+mercado-barcelo	Mercado de Barceló	Mercado	Malasaña	Mercado de Barceló	
+calle-fuencarral	Calle de Fuencarral	Calle	Malasaña	Calle de Fuencarral	
+calle-san-bernardo	Calle de San Bernardo	Calle	Malasaña	Calle de San Bernardo	
+calle-hortaleza	Calle de Hortaleza	Calle	Chueca	Calle de Hortaleza	
+plaza-pedro-zerolo	Plaza de Pedro Zerolo	Plaza	Chueca	Plaza de Pedro Zerolo	
+siete-chimeneas	Casa de las Siete Chimeneas	Monumento	Chueca	Casa de las Siete Chimeneas	
+salesas-reales	Iglesia de Santa Bárbara (Salesas Reales)	Iglesia	Justicia	Iglesia de Santa Bárbara (Madrid)	
+plaza-salesas	Plaza de las Salesas	Plaza	Justicia	Plaza de las Salesas	
+plaza-villa-paris	Plaza de la Villa de París	Plaza	Justicia	Plaza de la Villa de París	
+teatro-infanta-isabel	Teatro Infanta Isabel	Teatro	Justicia	Teatro Infanta Isabel	
+teatro-marquina	Teatro Marquina	Teatro	Justicia	Teatro Marquina	
+parque-retiro	Parque del Retiro	Parque	Parque del Retiro	Parque del Buen Retiro	
+rosaleda-retiro	Rosaleda del Retiro	Parque	Parque del Retiro		parque-retiro
+bosque-recuerdo	Bosque del Recuerdo	Monumento	Parque del Retiro	Bosque del Recuerdo	parque-retiro
+alfonso-xii	Monumento a Alfonso XII	Monumento	Parque del Retiro	Monumento a Alfonso XII	parque-retiro
+puerta-felipe-iv	Puerta de Felipe IV	Monumento	Parque del Retiro	Puerta de Felipe IV	parque-retiro
+cecilio-rodriguez	Jardines de Cecilio Rodríguez	Parque	Parque del Retiro	Jardines de Cecilio Rodríguez	parque-retiro
+biblioteca-eugenio-trias	Biblioteca Eugenio Trías · Casa de Fieras	Cultura	Parque del Retiro	Biblioteca Eugenio Trías	parque-retiro
+cason	Casón del Buen Retiro	Museo	Jerónimos	Casón del Buen Retiro	prado
+salon-reinos	Salón de Reinos	Monumento	Jerónimos	Salón de Reinos	prado
+museo-naval	Museo Naval	Museo	Jerónimos	Museo Naval de Madrid	
+artes-decorativas	Museo Nacional de Artes Decorativas	Museo	Jerónimos	Museo Nacional de Artes Decorativas	
+antropologia	Museo Nacional de Antropología	Museo	Jerónimos	Museo Nacional de Antropología (España)	
+rae	Real Academia Española	Cultura	Jerónimos	Real Academia Española	
+bolsa	Palacio de la Bolsa	Monumento	Jerónimos	Palacio de la Bolsa de Madrid	
+hotel-ritz	Hotel Ritz	Monumento	Jerónimos	Hotel Ritz (Madrid)	
+neptuno	Fuente de Neptuno	Monumento	Jerónimos	Fuente de Neptuno (Madrid)	
+fuente-apolo	Fuente de Apolo	Monumento	Jerónimos	Fuente de Apolo (Madrid)	
+plaza-lealtad	Plaza de la Lealtad	Plaza	Jerónimos	Plaza de la Lealtad	
+paseo-prado	Paseo del Prado	Calle	Jerónimos	Paseo del Prado	
+plaza-carlos-v	Plaza del Emperador Carlos V	Plaza		Plaza del Emperador Carlos V	
+palacio-fomento	Palacio de Fomento · Ministerio de Agricultura	Monumento		Palacio de Fomento	
+real-fabrica-tapices	Real Fábrica de Tapices	Museo		Real Fábrica de Tapices	
+torre-valencia	Torre de Valencia	Monumento		Torre de Valencia (Madrid)	
+palacio-cibeles	Palacio de Cibeles · CentroCentro	Monumento		Palacio de Cibeles	cibeles
+banco-espana	Edificio del Banco de España	Monumento		Edificio del Banco de España	cibeles
+palacio-buenavista	Palacio de Buenavista	Monumento		Palacio de Buenavista (Madrid)	cibeles
+paseo-recoletos	Paseo de Recoletos	Calle	Recoletos	Paseo de Recoletos	
+jardines-descubrimiento	Jardines del Descubrimiento	Parque	Recoletos	Jardines del Descubrimiento	colon
+monumento-colon	Monumento a Colón	Monumento	Recoletos	Monumento a Colón (Madrid)	colon
+teatro-fernan-gomez	Teatro Fernán Gómez · Centro Cultural de la Villa	Teatro	Recoletos	Teatro Fernán Gómez	colon
+museo-cera	Museo de Cera	Museo	Recoletos	Museo de Cera de Madrid	
+palacio-salamanca	Palacio del Marqués de Salamanca	Monumento	Recoletos	Palacio de Salamanca (Madrid)	
+casa-arabe	Casa Árabe	Cultura		Casa Árabe	
+casa-moneda	Museo Casa de la Moneda	Museo		Museo Casa de la Moneda	
+wizink	WiZink Center	Estadio		Palacio de Deportes de la Comunidad de Madrid	
+plaza-felipe-ii	Plaza de Felipe II	Plaza			
+calle-velazquez	Calle de Velázquez	Calle	Castellana	Calle de Velázquez	
+calle-ortega-gasset	Calle de José Ortega y Gasset	Calle	Castellana	Calle de José Ortega y Gasset	
+calle-goya	Calle de Goya	Calle		Calle de Goya	
+paseo-castellana	Paseo de la Castellana	Calle		Paseo de la Castellana	
+iglesia-concepcion	Parroquia de la Concepción	Iglesia			
+san-manuel-benito	Iglesia de San Manuel y San Benito	Iglesia		Iglesia de San Manuel y San Benito	
+museo-taurino	Museo Taurino	Museo	Guindalera	Museo Taurino de Madrid	ventas
+glorieta-bilbao	Glorieta de Bilbao	Plaza		Glorieta de Bilbao	
+teatros-canal	Teatros del Canal	Teatro		Teatros del Canal	
+sala-canal	Sala Canal de Isabel II	Cultura		Sala Canal de Isabel II	
+instituto-valencia	Instituto Valencia de Don Juan	Museo		Instituto Valencia de Don Juan	
+san-fermin-navarros	Iglesia de San Fermín de los Navarros	Iglesia		Iglesia de San Fermín de los Navarros	
+residencia-estudiantes	Residencia de Estudiantes	Cultura		Residencia de Estudiantes	
+estadio-vallehermoso	Estadio Vallehermoso	Estadio		Estadio Vallehermoso	
+mercado-vallehermoso	Mercado de Vallehermoso	Mercado		Mercado de Vallehermoso	
+casa-flores	Casa de las Flores	Monumento		Casa de las Flores (Madrid)	
+parque-oeste	Parque del Oeste	Parque		Parque del Oeste	
+paseo-rosales	Paseo del Pintor Rosales	Calle		Paseo del Pintor Rosales	
+calle-princesa	Calle de la Princesa	Calle		Calle de la Princesa	
+casa-de-campo-parque	Casa de Campo	Parque		Casa de Campo	
+zoo	Zoo Aquarium de Madrid	Cultura		Zoo Aquarium de Madrid	casa-de-campo-parque
+parque-atracciones	Parque de Atracciones	Cultura		Parque de Atracciones de Madrid	casa-de-campo-parque
+madrid-arena	Madrid Arena	Estadio		Madrid Arena	casa-de-campo-parque
+cerro-garabitas	Cerro Garabitas	Mirador		Cerro Garabitas	casa-de-campo-parque
+palacio-moncloa	Palacio de la Moncloa	Monumento		Palacio de la Moncloa	
+ejercito-aire	Cuartel General del Ejército del Aire	Monumento		Cuartel General del Ejército del Aire	
+dehesa-villa	Dehesa de la Villa	Parque		Dehesa de la Villa	
+puerta-hierro	Puerta de Hierro	Monumento		Puerta de Hierro (Madrid)	
+puente-reina-victoria	Puente de la Reina Victoria	Monumento		Puente de la Reina Victoria	
+puente-rey	Puente del Rey	Monumento		Puente del Rey (Madrid)	madrid-rio
+virgen-puerto	Ermita de la Virgen del Puerto	Iglesia			
+casa-mingo	Casa Mingo	Gastronomía		Casa Mingo	
+hipodromo	Hipódromo de La Zarzuela	Estadio		Hipódromo de La Zarzuela	
+club-campo	Club de Campo Villa de Madrid	Estadio		Club de Campo Villa de Madrid	
+cineteca	Cineteca Madrid	Cultura			matadero
+naves-espanol	Naves del Español	Teatro			matadero
+plaza-legazpi	Plaza de Legazpi	Plaza		Plaza de Legazpi	
+torre-europa	Torre Europa	Monumento		Torre Europa (Madrid)	azca
+torre-bbva	Torre BBVA	Monumento		Torre BBVA	azca
+mercado-chamartin	Mercado de Chamartín	Mercado			
+torre-cristal	Torre de Cristal	Monumento		Torre de Cristal	cuatro-torres
+torre-emperador	Torre Emperador Castellana	Monumento		Torre Emperador Castellana	cuatro-torres
+torre-pwc	Torre PwC	Monumento		Torre PwC	cuatro-torres
+torre-caleido	Torre Caleido	Monumento		Torre Caleido	cuatro-torres
+cuatro-vientos	Aeródromo de Cuatro Vientos	Monumento		Aeródromo de Cuatro Vientos	
+cementerio-britanico	Cementerio Británico	Monumento		Cementerio Británico de Madrid	
+plaza-eliptica	Plaza Elíptica	Plaza		Plaza Elíptica	
+cementerio-almudena	Cementerio de la Almudena	Monumento		Cementerio de Nuestra Señora de la Almudena	
+mezquita-m30	Mezquita de la M-30	Monumento		Centro Cultural Islámico de Madrid	
+faunia	Faunia	Cultura		Faunia	
+ciudad-real-madrid	Ciudad Real Madrid	Estadio		Ciudad Real Madrid	
+san-matias	Iglesia de San Matías	Iglesia		Iglesia de San Matías (Madrid)	hortaleza-pueblo
+santa-maria-vicalvaro	Iglesia de Santa María la Antigua (Vicálvaro)	Iglesia		Iglesia de Santa María la Antigua (Vicálvaro)	vicalvaro-pueblo
+san-carlos-borromeo	Parroquia de San Carlos Borromeo	Iglesia		Parroquia de San Carlos Borromeo (Madrid)	
+palacio-zarzuela	Palacio de la Zarzuela	Monumento		Palacio de la Zarzuela	monte-pardo
+palacio-congresos	Palacio de Congresos de la Castellana	Monumento		Palacio de Congresos de Madrid	
+torre-titania	Torre Titania	Monumento		Torre Titania	azca
+calvo-sotelo	Monumento a Calvo Sotelo	Monumento		Monumento a Calvo Sotelo	plaza-castilla
+obelisco-caja	Obelisco de la Caja	Monumento		Obelisco de Calatrava	plaza-castilla
+paloma	Iglesia de la Virgen de la Paloma	Iglesia	La Latina	Iglesia de la Virgen de la Paloma	
+palacio-fernan-nunez	Palacio de Fernán Núñez	Monumento	Lavapiés	Palacio de Fernán Núñez	
+corrala	La Corrala de Sombrerete	Monumento	Lavapiés	Corrala de Sombrerete	
+escuelas-pias	Escuelas Pías de San Fernando	Monumento	Lavapiés	Escuelas Pías de San Fernando	
+basilica-atocha	Basílica de Atocha	Iglesia		Basílica de Nuestra Señora de Atocha	
+panteon	Panteón de Hombres Ilustres	Monumento		Panteón de Hombres Ilustres (Madrid)	
+caidos-espana	Monumento a los Caídos por España	Monumento	Jerónimos	Monumento a los Caídos por España (Madrid)	plaza-lealtad
+fuente-alcachofa	Fuente de la Alcachofa	Monumento	Parque del Retiro	Fuente de la Alcachofa	parque-retiro
+casa-ciriaco	Casa Ciriaco	Gastronomía	Sol	Casa Ciriaco	calle-mayor

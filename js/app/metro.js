@@ -2,7 +2,7 @@
 import { dist } from './util.js';
 
 let stations = null, loading = null;
-export const loadMetro = () => (loading ||= fetch('data/metro.json').then((r) => r.json()).then((d) => (stations = d)).catch(() => (stations = [])));
+export const loadMetro = () => (loading ||= fetch(MP_CITY.files.metro).then((r) => r.json()).then((d) => (stations = d)).catch(() => (stations = [])));
 
 // Colores oficiales de las líneas
 const COLORS = { 1: '#38A3DC', 2: '#E0292F', 3: '#FFD000', 4: '#B65518', 5: '#8FD400', 6: '#98989B', 7: '#EE7518', 8: '#EC82B1',

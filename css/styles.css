@@ -494,7 +494,7 @@ button, a, input, .place, .row, .pitem { touch-action: manipulation; }
 .lvl-card .lvl-rank { grid-column: 1 / -1; margin-top: 14px; }
 
 /* ---------- Logros: progreso por tipo ---------- */
-.tp-list { margin: 4px 0 20px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px 6px; }
+.tp-list { margin: 4px 0 40px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px 6px; }
 .tp-row { display: flex; flex-direction: column; align-items: center; gap: 5px; min-width: 0; padding: 2px 0; border-radius: 12px; }
 .tp-ring { position: relative; width: 60px; height: 60px; }
 .tp-n { position: absolute; inset: 0; display: grid; place-items: center; font-size: 11.5px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--ink); }
@@ -629,6 +629,23 @@ button, a, input, .place, .row, .pitem { touch-action: manipulation; }
 .near .pitem { border-bottom-color: var(--line); }
 .near .pitem:last-child { border-bottom: 0; }
 .near .pthumb.t-0 { background: var(--bg); }
+.near { padding-bottom: 14px; }
+.near-cards { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 2px -14px 0; padding: 4px 14px 2px; }
+.near-cards::-webkit-scrollbar { display: none; }
+.ncard { flex: none; width: 148px; scroll-snap-align: start; text-align: left; border-radius: 14px; overflow: hidden; background: var(--bg); box-shadow: 0 0 0 1px var(--line); }
+.ncard:active { transform: scale(.97); }
+.ncard-img { position: relative; display: grid; place-items: center; height: 92px; background: linear-gradient(135deg, rgba(var(--red-a),.16), rgba(var(--red-a),.05)); color: var(--red); }
+.ncard-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ncard-img svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.ncard-txt { display: block; padding: 8px 10px 10px; }
+.ncard-txt b { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 13.5px; line-height: 1.25; min-height: 2.5em; }
+.ncard-txt small { display: block; margin-top: 3px; font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* Conexiones: lugar contenedor y lugares dentro */
+.in-parent { width: 100%; display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 12px; margin: 10px 0 4px; border-radius: 12px; background: var(--bg-2); font-size: 14px; text-align: left; }
+.in-parent .ico { color: var(--red); flex: none; }
+.in-parent span:not(.chev) { flex: 1; }
+.inside { margin: 22px 0 8px; }
+.inside .pitem:last-child { border-bottom: 0; }
 .sec-title { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 0 0 6px; }
 .sec-title h2 { font-size: 22px; letter-spacing: -.01em; }
 .sec-title span { font-size: 13px; font-weight: 600; color: var(--muted); }
@@ -679,6 +696,7 @@ button, a, input, .place, .row, .pitem { touch-action: manipulation; }
 .ob-map { width: min(280px, 72vw); height: auto; max-height: 100%; position: relative; }
 .ob-pinwrap, .ob-stampwrap { position: relative; display: grid; place-items: center; }
 .ob-pin { width: 150px; overflow: visible; }
+.ob-pinwrap .ob-shadow { position: absolute; width: 150px; bottom: -14px; left: 50%; margin-left: -75px; }
 .ob-gps { width: min(300px, 78vw); overflow: visible; }
 .ob-stamp { width: 210px; }
 /* Paso 4: tarjeta de nivel */
@@ -703,14 +721,16 @@ button, a, input, .place, .row, .pitem { touch-action: manipulation; }
 .ob-slide.on .ob-map path { animation: ob-dist .45s var(--ease-out) calc(var(--n) * 45ms + .1s) both; }
 @keyframes ob-dist { from { opacity: 0; transform: scale(.6); } to { opacity: 1; transform: none; } }
 /* 2: el pin cae con rebote y se dibuja el check */
-.ob-drop { transform-box: fill-box; transform-origin: 50% 100%; }
-.ob-slide.on .ob-drop { animation: ob-drop .7s cubic-bezier(.3,1.5,.5,1) .1s both; }
+.ob-drop { transform-origin: 50% 100%; will-change: transform, opacity; }
+/* Ocultos hasta que su paso está activo: si no, se ven en su sitio al deslizar y desaparecen de golpe al empezar la animación */
+.ob-slide:not(.on) :is(.ob-drop, .ob-shadow, .ob-me, .ob-gold, .ob-stamp, .ob-level) { opacity: 0; }
+.ob-slide.on .ob-drop { animation: ob-drop .7s cubic-bezier(.3,1.5,.5,1) .15s both; }
 @keyframes ob-drop { from { transform: translateY(-70px) scale(.9); opacity: 0; } 60% { opacity: 1; } to { transform: none; } }
-.ob-shadow { transform-box: fill-box; transform-origin: center; }
-.ob-slide.on .ob-shadow { animation: ob-shadow .7s ease-out .1s both; }
+.ob-shadow { transform-origin: center; will-change: transform, opacity; }
+.ob-slide.on .ob-shadow { animation: ob-shadow .7s ease-out .15s both; }
 @keyframes ob-shadow { from { transform: scale(.3); opacity: 0; } }
 .ob-draw { stroke-dasharray: 1; stroke-dashoffset: 1; }
-.ob-slide.on .ob-pin .ob-draw { animation: ob-draw .35s ease-out .7s forwards; }
+.ob-slide.on .ob-pin .ob-draw { animation: ob-draw .35s ease-out .75s forwards; }
 @keyframes ob-draw { to { stroke-dashoffset: 0; } }
 /* 3: el punto azul entra en el área, pulso dorado, el pin salta y se dibuja el doble check */
 .ob-ring { transform-box: fill-box; transform-origin: center; }
@@ -753,6 +773,46 @@ button, a, input, .place, .row, .pitem { touch-action: manipulation; }
 @media (prefers-reduced-motion: reduce) { #onboard { animation: none; } }
 .gbtn-gis { width: 100%; min-height: 44px; display: flex; justify-content: center; }
 .ob-privacy { display: block; text-align: center; font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+=======
+/* Onboarding paso 5: marcar imprescindibles ya visitados */
+.ob-quick { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; max-width: 340px; align-self: center; position: relative; z-index: 1; }
+.ob-q { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; min-height: 84px; padding: 10px 6px; border-radius: 16px;
+  background: var(--bg-2); box-shadow: inset 0 0 0 1px var(--line); font-size: 12.5px; font-weight: 600; line-height: 1.2; color: var(--ink);
+  transition: transform .15s var(--ease-out), background .2s, color .2s; }
+.ob-q .ico { width: 22px; height: 22px; color: var(--red); }
+.ob-q:active { transform: scale(.95); }
+.ob-q.on { background: var(--red); color: #fff; box-shadow: none; }
+.ob-q.on .ico { color: #fff; }
+.ob-qn { position: absolute; bottom: -4px; left: 0; right: 0; font-size: 13px; font-weight: 700; color: var(--red); }
+.ob-slide:nth-child(5) .ob-ill { align-content: center; }
+
+/* Ficha: compartir, valoración, comunidad y avisos de error */
+.lst.sh .ico { color: var(--muted); }
+.rate { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 12px 0 2px; font-size: 13px; color: var(--muted); }
+.rate .stars { display: flex; gap: 2px; }
+.rate .stars button { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; color: var(--muted); }
+.rate .stars .ico { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linejoin: round; transition: transform .15s var(--ease-out); }
+.rate .stars button.on { color: var(--red); }
+.rate .stars button.on .ico { fill: currentColor; }
+.rate .stars button:active .ico { transform: scale(.85); }
+.comm { margin: 10px 0 0; font-size: 13px; color: var(--muted); display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }
+.gem { display: inline-flex; align-items: center; padding: 3px 9px; border-radius: 999px; background: rgba(var(--red-a),.1); color: var(--red); font-weight: 700; }
+.rep-link { display: inline-flex; align-items: center; margin: 18px 0 6px; font-size: 13px; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+.rep-ov { position: absolute; inset: 0; z-index: 60; display: grid; place-items: end center; background: rgba(0,0,0,.35); padding: 16px; animation: ob-in .2s both; }
+.rep-card { width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 10px; padding: 18px 18px calc(16px + env(safe-area-inset-bottom)); border-radius: 22px; background: var(--bg); box-shadow: var(--elev-2); }
+.rep-card > strong { font-size: 18px; }
+.rep-card > small { margin-top: -8px; color: var(--muted); font-size: 13px; }
+.rep-opts { display: flex; flex-wrap: wrap; gap: 6px; }
+.rep-opts input { position: absolute; opacity: 0; pointer-events: none; }
+.rep-opts span { display: inline-block; padding: 8px 12px; border-radius: 999px; background: var(--bg-2); font-size: 13.5px; font-weight: 600; }
+.rep-opts input:checked + span { background: var(--red); color: #fff; }
+.rep-opts input:focus-visible + span { outline: 2px solid var(--red); outline-offset: 2px; }
+.rep-card textarea { width: 100%; padding: 10px 12px; border: 0; border-radius: 12px; background: var(--bg-2); color: var(--ink); font: inherit; font-size: 15px; resize: none; }
+.rep-btns { display: flex; gap: 8px; }
+.rep-btns button { flex: 1; min-height: 46px; border-radius: 14px; font-weight: 700; background: var(--bg-2); }
+.rep-btns .rep-send { background: var(--red); color: #fff; }
+.rep-btns .rep-send:disabled { opacity: .6; }
 
 /* =====================================================================
    Identidad «Madri» (iteración 3): crema con cuadrícula, Fredoka + DM Sans,

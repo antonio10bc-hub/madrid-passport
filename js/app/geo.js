@@ -5,7 +5,7 @@ import { bboxOf, labelPoint, inGeom, inBbox, ll, norm, slug } from './util.js';
 export let distGeo = null, barGeo = null;
 
 export async function loadGeo() {
-  [distGeo, barGeo] = await Promise.all(['data/distritos.geojson', 'data/barrios.geojson'].map((u) => fetch(u).then((r) => r.json())));
+  [distGeo, barGeo] = await Promise.all([MP_CITY.files.districts, MP_CITY.files.barrios].map((u) => fetch(u).then((r) => r.json())));
   distGeo.features.forEach((f) => {
     const placesIn = PLACES.filter((p) => (p.district ? p.district === f.properties.id : inGeom(ll(p), f.geometry)));
     DISTRICTS.push({
