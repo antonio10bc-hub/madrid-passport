@@ -57,7 +57,7 @@ Esquema de eventos v2 (`event_schema=2`). El proyecto de PostHog se comparte con
   `action_undone`, `cluster_tapped`, `place_link_opened`, `deeplink_opened`, `place_rated`, `place_shared`, `place_reported`, `onboarding_quickmark`,
   `barrio_notif_tapped`, `directions_clicked`, `location_requested`, `language_changed`, `login_clicked`, `logout`, `sync_error`, `app_installed`,
   `onboarding_shown`, `onboarding_step`, `onboarding_done`, `diary_*`, `may_tapped`, `settings_opened`, `tab_scroll_top`, `js_error`;
-  además `$pageview`/`$pageleave` y web vitals (sin autocaptura de clics). Dashboard: «Madrid Passport · Uso global».
+  además `$pageview`/`$pageleave` y web vitals (sin autocaptura de clics). Dashboard: «Madrid Passport · Uso» (PostHog, filtrado por `app`).
 
 ## SEO
 `python3 tools/build_seo.py` (tras `build_data.py`) genera páginas estáticas indexables en español y en inglés
