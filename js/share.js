@@ -84,11 +84,12 @@ window.MPShare = (() => {
     x.fillStyle = WINE; x.font = `600 32px ${DISPLAY}`; x.fillText(MP_CITY.app, 80, ty);
     x.fillStyle = INK; x.font = `700 ${district && district.name.length > 12 ? 62 : 76}px ${DISPLAY}`; x.fillText(district ? district.name : L.title, 80, ty + 82);
     // May en la esquina, celebrando, con el % en una chapa coral
+    // % en chapa coral arriba a la derecha y May debajo, con aire entre ambos
+    const pt = pct + '%'; x.font = `700 52px ${DISPLAY}`; const pw0 = x.measureText(pt).width + 44;
+    x.beginPath(); x.roundRect ? x.roundRect(W - 80 - pw0, ty + 22, pw0, 76, 38) : x.rect(W - 80 - pw0, ty + 22, pw0, 76);
+    x.fillStyle = CORAL; x.fill(); x.textAlign = 'center'; x.fillStyle = '#fff'; x.fillText(pt, W - 80 - pw0 / 2, ty + 79); x.textAlign = 'left';
     const mayIm = window.MPMay ? await svgImg(window.MPMay(pct >= 50 ? 'party' : 'happy')) : null;
-    if (mayIm) { x.save(); x.translate(W - 170, ty + 10); x.rotate(0.14); x.drawImage(mayIm, -95, -110, 190, 190); x.restore(); }
-    const pt = pct + '%'; x.font = `700 40px ${DISPLAY}`; const pw0 = x.measureText(pt).width + 36;
-    x.beginPath(); x.roundRect ? x.roundRect(W - 170 - pw0 / 2, ty + 78, pw0, 60, 30) : x.rect(W - 170 - pw0 / 2, ty + 78, pw0, 60);
-    x.fillStyle = CORAL; x.fill(); x.textAlign = 'center'; x.fillStyle = '#fff'; x.fillText(pt, W - 170, ty + 122); x.textAlign = 'left';
+    if (mayIm) { x.save(); x.translate(W - 80 - pw0 / 2, ty + 250); x.rotate(0.12); x.drawImage(mayIm, -90, -90, 180, 180); x.restore(); }
     // Nivel del usuario: píldora roja «NIVEL 3 · VISITANTE» + puntos
     if (level) {
       const label = `${L.level} ${level.n} · ${level.name}`, py = ty + 118, ph = 54;
@@ -104,12 +105,20 @@ window.MPShare = (() => {
     const bScope = district ? barrios.filter((bb) => bb.district === district) : barrios;
     const gold = gps + bScope.filter((bb) => blvl(bb) === 2).length;   // lugares y barrios confirmados con GPS, como en el Diario
     const stats = [[vis, L.visited, CORAL], [gold, L.gps, GOLD], third];
-    const cw = (W - 160) / 3, sy = H - (format === 'story' ? 200 : 110);
+    const cw = (W - 160) / 3, sy = H - (format === 'story' ? 260 : 110);
     stats.forEach(([n, label, col], i) => {
       const sx = 80 + i * cw;
       x.fillStyle = col; x.font = `700 60px ${DISPLAY}`; x.fillText(String(n), sx, sy);
       x.fillStyle = MUTED; x.font = `500 26px ${FONT}`; x.fillText(label, sx, sy + 40);
     });
+    // Invitación: texto y enlace para que quien lo vea se una (solo en historia, donde hay sitio)
+    if (format === 'story' && L.join) {
+      const host = MP_CITY.site.replace(/^https?:\/\/(www\.)?/, ''), fy = H - 76;
+      x.textAlign = 'center';
+      x.fillStyle = INK; x.font = `600 34px ${DISPLAY}`; x.fillText(L.join, W / 2, fy - 8);
+      x.fillStyle = CORAL; x.font = `700 32px ${DISPLAY}`; x.fillText(host + '  →', W / 2, fy + 38);
+      x.textAlign = 'left';
+    }
     return new Promise((res) => c.toBlob(res, 'image/png'));
   }
 
@@ -118,7 +127,8 @@ window.MPShare = (() => {
     const name = `${MP_CITY.id}-passport-${opts.district ? opts.district.id : MP_CITY.id}-${opts.format || 'post'}.png`;
     const file = new File([blob], name, { type: 'image/png' });
     if (navigator.canShare?.({ files: [file] })) {
-      try { await navigator.share({ files: [file] }); return 'shared'; }   // sin título: iOS muestra la miniatura de la imagen
+      const text = opts.L?.join ? `${opts.L.join}: ${MP_CITY.site}/?utm_source=share` : undefined;   // texto con enlace para unirse (sin título: iOS muestra la miniatura)
+      try { await navigator.share({ files: [file], text }); return 'shared'; }
       catch (e) { if (e.name === 'AbortError') return 'cancel'; }
     }
     const a = document.createElement('a');

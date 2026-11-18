@@ -16,6 +16,11 @@ async function loadStyle() {
     const r = await fetch(STYLE[isDark() ? 'dark' : 'light']);
     if (r.ok) {
       const st = await r.json();
+      // Paleta cálida para el mapa base (fondo, agua, parques, edificios) acorde con la identidad de la app
+      const WARM = isDark()
+        ? { background: '#1C1517', water: '#2A2023', landuse_residential: '#211A1C', landcover_wood: '#272022', landuse_park: '#272022', park: '#272022', building: '#181214', road_area_pier: '#1C1517' }
+        : { background: '#F6EFE8', water: '#E8DAD5', landuse_residential: '#F1E9E1', landcover_wood: '#E9E2D8', landuse_park: '#EAE4DA', park: '#EAE4DA', building: '#EFE6DE', road_area_pier: '#F6EFE8' };
+      st.layers.forEach((l) => { const c = WARM[l.id]; if (!c || !l.paint) return; if (l.type === 'background') l.paint['background-color'] = c; else if (l.type === 'fill') l.paint['fill-color'] = c; });
       // Quita la etiqueta «Madrid» del mapa base: se solapaba con las de los distritos (Centro)
       st.layers.forEach((l) => {
         // Mismo estilo de texto en claro y oscuro (el tema oscuro pone todo en mayúsculas)
