@@ -1,7 +1,10 @@
 // Analítica de uso con PostHog (UE). Proxy propio /ingest (vercel.json) para que no lo bloqueen los adblockers.
 // No se envían emails ni nombres: solo el id anónimo de Supabase al iniciar sesión. Desactivado en localhost y en tests.
+import { BYID, districtOf, barrioOf } from './state.js';
+
 const TOKEN = 'phc_xnbbVrZbqhjzk6GfeLxopJHkhtxFFXAxM96symjc2snN';
-const VERSION = '2026.11';
+const VERSION = '2026.11.2';
+const SCHEMA = 2;                 // versión del esquema de eventos (para filtrar en PostHog si vuelve a cambiar)
 let on = false;
 
 const standalone = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
@@ -16,11 +19,15 @@ export function initAnalytics({ lang }) {
   /* eslint-enable */
   posthog.init(TOKEN, {
     api_host: '/ingest', ui_host: 'https://eu.posthog.com',
-    person_profiles: 'always', capture_pageview: true, capture_pageleave: true, autocapture: true,
+    person_profiles: 'always', capture_pageview: true, capture_pageleave: true,
+    autocapture: false,             // solo eventos propios: taxonomía limpia y menos cuota (proyecto compartido)
     capture_performance: true, enable_heatmaps: true,
     session_recording: { maskAllInputs: true },
   });
-  posthog.register({ app: MP_CITY.id + '-passport', app_version: VERSION, lang, standalone: standalone(), dark: matchMedia('(prefers-color-scheme: dark)').matches });
+  // Superpropiedades: van en todos los eventos → análisis global filtrando por app.
+  posthog.register({ app: MP_CITY.id + '-passport', city: MP_CITY.id, app_version: VERSION, event_schema: SCHEMA, lang,
+    standalone: standalone(), dark: matchMedia('(prefers-color-scheme: dark)').matches, catalog_size: Object.keys(BYID).length });
+  posthog.setPersonProperties({ lang }, { first_seen_at: new Date().toISOString(), first_version: VERSION, first_lang: lang, first_standalone: standalone() });
   // Vercel Web Analytics (visitas y usuarios diarios en el panel de Vercel; sin cookies). Se activa en Vercel → Analytics.
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   const va = document.createElement('script'); va.defer = true; va.src = '/_vercel/insights/script.js';
@@ -30,8 +37,23 @@ export function initAnalytics({ lang }) {
   on = true;
 }
 
-export const track = (event, props) => { if (on) window.posthog.capture(event, props); };
+// Nombres de propiedades homogéneos en todos los eventos (place → place_id…) y contexto del lugar añadido solo.
+const ALIAS = { place: 'place_id', district: 'district_id', barrio: 'barrio_id', type: 'place_type', badge: 'badge_id', from: 'from_place_id', to: 'to_place_id' };
+function norm(props = {}) {
+  const o = {};
+  for (const [k, v] of Object.entries(props)) o[ALIAS[k] || k] = v;
+  const p = BYID[o.place_id];
+  if (p) {
+    o.place_type ??= p.type;
+    o.district_id ??= districtOf[p.id]?.id || null;
+    o.barrio_id ??= barrioOf[p.id]?.id || null;
+    o.place_name = p.name;
+  }
+  return o;
+}
+export const track = (event, props) => { if (on) window.posthog.capture(event, norm(props)); };
 export const register = (props) => { if (on) window.posthog.register(props); };
-export const setPerson = (props) => { if (on) window.posthog.setPersonProperties(props); };
+// Progreso del usuario: propiedad de persona y también superpropiedad (cada evento lleva el estado en que ocurrió).
+export const setPerson = (props) => { if (on) { window.posthog.setPersonProperties(props); window.posthog.register(Object.fromEntries(Object.entries(props).map(([k, v]) => ['u_' + k, v]))); } };
 export const identify = (id) => { if (on) window.posthog.identify(id); };
 export const resetUser = () => { if (on) window.posthog.reset(); };
