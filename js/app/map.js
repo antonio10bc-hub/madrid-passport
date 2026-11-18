@@ -90,7 +90,9 @@ export const prefetchStyle = () => (stylePromise ||= loadStyle());
 
 export async function initMap() {
   map = new maplibregl.Map({
-    container: 'map', style: await prefetchStyle(), maxTileCacheZoomLevels: 3, refreshExpiredTiles: false, center: [-3.70, 40.42], zoom: 10.5,
+    container: 'map', style: await prefetchStyle(), maxTileCacheZoomLevels: 3, refreshExpiredTiles: false,
+    // Solo Madrid y alrededores (~15 km de margen): no se puede arrastrar ni alejar hacia el resto del mundo
+    maxBounds: [[-4.12, 40.18], [-3.28, 40.78]], minZoom: 9, center: [-3.70, 40.42], zoom: 10.5,
     pixelRatio: Math.min(devicePixelRatio || 1, 2), fadeDuration: 0, renderWorldCopies: false, maxPitch: 0,
     attributionControl: false, dragRotate: false, pitchWithRotate: false, touchPitch: false,
   });
