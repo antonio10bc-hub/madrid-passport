@@ -20,6 +20,7 @@ def art(w):  # w: tamaño de May en el lienzo de 1024
             f'<svg x="{x+w*.024:.0f}" y="{y+w*.029:.0f}" width="{w}" height="{w}" viewBox="0 0 100 100">{sil("#8C1D26", 6)}</svg>'
             f'<svg x="{x:.0f}" y="{y:.0f}" width="{w}" height="{w}" viewBox="0 0 100 100">{sil("#fff", 6)}{MAY}</svg></g>')
 head = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">'
-open('icons/icon-full.svg', 'w').write(f'{head}{art(600)}</svg>')  # maskable: May dentro de la zona segura
-open('icons/icon.svg', 'w').write(f'{head}<defs><clipPath id="m"><rect width="1024" height="1024" rx="229"/></clipPath></defs><g clip-path="url(#m)">{art(760)}</g></svg>')
+open('icons/icon-full.svg', 'w').write(f'{head}{art(660)}</svg>')  # maskable: May dentro de la zona segura
+open('icons/icon-apple.svg', 'w').write(f'{head}{art(840)}</svg>')  # iOS recorta las esquinas él mismo
+open('icons/icon.svg', 'w').write(f'{head}<defs><clipPath id="m"><rect width="1024" height="1024" rx="229"/></clipPath></defs><g clip-path="url(#m)">{art(840)}</g></svg>')
 print('svg ok')
