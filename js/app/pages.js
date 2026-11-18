@@ -118,6 +118,7 @@ function bindCal() {
     const k = el.dataset.calDay;
     cal.sel = cal.sel === k ? '' : k;                  // tocar el día ya elegido lo deselecciona
     track(cal.sel ? 'diary_day_selected' : 'diary_day_deselected'); updateCal();
+    pageBody.querySelector(`[data-cal-day="${k}"]`)?.classList.add('pop');   // feedback: el día tocado «rebota»
   }));
   pageBody.querySelectorAll('[data-cal-move]').forEach((el) => (el.onclick = () => {
     const d = new Date(cal.y, cal.m + Number(el.dataset.calMove), 1);

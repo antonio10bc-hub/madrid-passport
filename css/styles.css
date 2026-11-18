@@ -434,9 +434,10 @@ button, a, input, .place, .row, .pitem { touch-action: manipulation; }
 /* ---------- Sello de confirmación GPS ---------- */
 .gps-stamp { position: absolute; z-index: 20; inset: 0; display: grid; place-content: center; justify-items: center; gap: 10px; pointer-events: none;
   animation: stamp-out .4s var(--ease-out) 1.7s forwards; }
-.gps-stamp::before { content: ''; position: absolute; inset: 0; background: rgba(var(--bg-a),.55); animation: veil-in .2s var(--ease-out) both; }
+.gps-stamp::before { content: ''; position: absolute; inset: 0; background: rgba(var(--bg-a),.7); animation: veil-in .2s var(--ease-out) both; }
 .gps-stamp img { position: relative; width: 220px; height: 220px; transform: rotate(var(--rot)); animation: stamp-hit .42s cubic-bezier(.2, 1.4, .4, 1) both; }
-.gps-stamp p { position: relative; font-size: 15px; font-weight: 700; color: var(--ink); max-width: 260px; text-align: center; text-wrap: balance;
+.gps-stamp p { position: relative; font-size: 15px; font-weight: 700; color: var(--ink); max-width: 280px; text-align: center; text-wrap: balance;
+  padding: 8px 16px; border-radius: 18px; background: rgba(var(--bg-a),.94); box-shadow: var(--elev-2); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
   animation: veil-in .3s var(--ease-out) .25s both; }
 @keyframes stamp-hit { 0% { opacity: 0; transform: rotate(var(--rot)) scale(1.6); } 55% { opacity: 1; transform: rotate(var(--rot)) scale(.94); } 100% { opacity: 1; transform: rotate(var(--rot)) scale(1); } }
 @keyframes veil-in { from { opacity: 0; } }
@@ -534,6 +535,10 @@ button, a, input, .place, .row, .pitem { touch-action: manipulation; }
 .cal-days .gp { padding: 14.6%; background: linear-gradient(var(--fill), var(--fill)) content-box, linear-gradient(var(--bg), var(--bg)) content-box, var(--gold); }
 .cal-leg .gp { box-shadow: inset 0 0 0 1.5px var(--gold); border-radius: 50%; }
 .cal-days > * { transition: opacity .18s ease-out; }
+.cal-days button { transition: opacity .18s ease-out, transform .16s var(--ease-out); }
+.cal-days button:active { transform: scale(.95); }
+.cal-days .pop { animation: cal-pop .32s var(--ease-out); }
+@keyframes cal-pop { 0% { transform: scale(.95); } 45% { transform: scale(1.08); } 100% { transform: none; } }
 .cal.focus .cal-days > :not(.sel) { opacity: .4; }   /* foco: el día elegido a pleno color, el resto atenuado */
 .cal-leg { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin: 10px 2px 0; font-size: 11px; color: var(--muted); }
 .cal-grad { display: flex; align-items: center; gap: 6px; }
