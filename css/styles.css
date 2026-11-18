@@ -324,7 +324,23 @@ h1 { font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -.02e
 .page[hidden] { display: none; }
 @keyframes page-in { from { opacity: 0; transform: translateY(8px); } }
 .page-head { padding: calc(var(--top) + 8px) 20px 10px; flex: none; }
+.page-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .page-head h1 { font-size: 32px; }
+.gear-btn { width: 40px; height: 40px; border-radius: 50%; background: var(--bg-2); display: grid; place-items: center; color: var(--ink); flex: none; }
+.gear-btn[hidden] { display: none; }
+.gear-btn .ico { width: 20px; height: 20px; }
+.settings { position: absolute; inset: 0; z-index: 3; background: rgba(0,0,0,.38); display: flex; align-items: flex-end; animation: fade-in .18s ease-out; }
+.settings[hidden] { display: none; }
+.settings-card { width: 100%; background: var(--bg); border-radius: 22px 22px 0 0; padding: 16px 20px 20px; animation: sheet-up .22s var(--ease-out); }
+.settings-h { display: flex; align-items: center; justify-content: space-between; }
+.settings-h strong { font-size: 18px; }
+.settings-x { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 50%; background: var(--bg-2); }
+.settings-x .icon-x { width: 16px; height: 16px; stroke: var(--ink); stroke-width: 2.2; fill: none; stroke-linecap: round; }
+.settings .lang-row { margin-top: 14px; }
+.settings .ob-again { margin-top: 6px; }
+@keyframes fade-in { from { opacity: 0; } }
+@keyframes sheet-up { from { transform: translateY(24px); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .settings, .settings-card { animation: none; } }
 #page-body { flex: 1; overflow-y: auto; overflow-x: clip; padding: 4px 20px 28px; overscroll-behavior: contain; }
 
 /* Iconos vectoriales */

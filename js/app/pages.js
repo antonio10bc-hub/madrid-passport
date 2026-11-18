@@ -114,10 +114,7 @@ function renderDiary() {
         <div><b>${bp.done}<span>/${bp.total}</span></b><small>${t('k.barrios')}</small></div>
         <div><b>${dComplete}<span>/${DISTRICTS.length}</span></b><small>${t('districts')}</small></div></div></section>
     ${items.length ? calendarHTML(items) : `<div class="empty-state">${t('diary.empty')}</div>`}
-    ${undated.length ? `<div class="cal-sel"><strong>${t('nodate')}</strong><small>${countLabel(undated)}</small></div><div class="cal-list">${undated.map(rowHTML).join('')}</div>` : ''}
-    <button class="ob-again" id="ob-again">${MP_ICON('compass', 'ico')}<span>${t('ob.again')}</span></button>
-    <a class="ob-again" href="privacy.html">${MP_ICON('ticket', 'ico')}<span>${t('privacy')}</span></a>
-    <div class="lang-row">${MP_ICON('globe')}<span>${t('language')}</span><div class="lang-seg">${LANGS.map(([k, n]) => `<button class="chip ${lang === k ? 'on' : ''}" data-lang="${k}">${n}</button>`).join('')}</div></div>`;
+    ${undated.length ? `<div class="cal-sel"><strong>${t('nodate')}</strong><small>${countLabel(undated)}</small></div><div class="cal-list">${undated.map(rowHTML).join('')}</div>` : ''}`;
 }
 
 // ---------- Logros: nivel + progreso por tipo + sellos ----------
@@ -195,9 +192,39 @@ function renderBadges() {
       ${stampImg(b, i, n, goal, date)}<strong>${esc(badgeName(b))}</strong><small>${esc(badgeDesc(b))}</small></div>`).join('')}</div>`;
 }
 
+// ---------- Ajustes (engranaje del Diario): idioma, introducción y privacidad ----------
+const settingsEl = $('#settings'), gearBtn = $('#settings-btn');
+let settingsOpen = false;
+function setSettings(open) {
+  if (open && !settingsOpen) track('settings_opened');
+  settingsOpen = open; renderSettings();
+}
+function renderSettings() {
+  settingsEl.hidden = !settingsOpen;
+  if (!settingsOpen) return;
+  settingsEl.innerHTML = `<div class="settings-card" role="dialog" aria-modal="true" aria-label="${t('settings')}">
+    <div class="settings-h"><strong>${t('settings')}</strong><button class="settings-x" id="settings-x" aria-label="${t('close')}"><svg class="icon-x" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="lang-row">${MP_ICON('globe')}<span>${t('language')}</span><div class="lang-seg">${LANGS.map(([k, n]) => `<button class="chip ${lang === k ? 'on' : ''}" data-lang="${k}">${n}</button>`).join('')}</div></div>
+    <button class="ob-again" id="ob-again">${MP_ICON('compass', 'ico')}<span>${t('ob.again')}</span></button>
+    <a class="ob-again" href="privacy.html">${MP_ICON('ticket', 'ico')}<span>${t('privacy')}</span></a></div>`;
+  settingsEl.querySelector('#settings-x').onclick = () => setSettings(false);
+  settingsEl.querySelector('#ob-again').onclick = () => { setSettings(false); showOnboarding('diary'); };
+  settingsEl.querySelectorAll('[data-lang]').forEach((el) => (el.onclick = () => {
+    if (el.dataset.lang === lang) return;
+    setLang(el.dataset.lang); track('language_changed', { lang });
+    render({ keepScroll: true });
+  }));
+}
+settingsEl.addEventListener('click', (e) => { if (e.target === settingsEl) setSettings(false); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && settingsOpen) setSettings(false); });
+gearBtn.innerHTML = MP_ICON('gear', 'ico');
+gearBtn.onclick = () => setSettings(true);
+
 export function renderPage() {
   if (S.tab === 'map') return;
   $('#page-title').textContent = t(S.tab === 'diary' ? 'tab.diary' : 'tab.badges');
+  gearBtn.hidden = S.tab !== 'diary'; gearBtn.setAttribute('aria-label', t('settings'));
+  renderSettings();
   const st = pageBody.scrollTop;
   pageBody.innerHTML = S.tab === 'diary' ? renderDiary() : renderBadges();
   pageBody.scrollTop = st;
@@ -207,12 +234,6 @@ export function renderPage() {
   pageBody.querySelectorAll('[data-cal-move]').forEach((el) => (el.onclick = () => {
     const d = new Date(cal.y, cal.m + Number(el.dataset.calMove), 1);
     cal.y = d.getFullYear(); cal.m = d.getMonth(); track('diary_month_changed'); renderPage();
-  }));
-  $('#ob-again')?.addEventListener('click', () => showOnboarding('diary'));
-  pageBody.querySelectorAll('[data-lang]').forEach((el) => (el.onclick = () => {
-    if (el.dataset.lang === lang) return;
-    setLang(el.dataset.lang); track('language_changed', { lang });
-    render({ keepScroll: true });
   }));
   pageBody.querySelectorAll('[data-type]').forEach((el) => (el.onclick = () => {
     track('type_progress_tapped', { type: el.dataset.type });
@@ -225,6 +246,7 @@ export function renderPage() {
 export function setTab(tb) {
   if (S.tab !== tb) track('tab_viewed', { tab: tb });
   S.tab = tb;
+  if (tb !== 'diary') settingsOpen = false;
   document.querySelectorAll('.tabbar button').forEach((b) => b.classList.toggle('on', b.dataset.tab === tb));
   page.hidden = tb === 'map';
   $('#app').classList.toggle('on-page', tb !== 'map');   // el aviso de cercanía solo en el mapa

@@ -39,6 +39,7 @@ test('onboarding: saltar y volver a verlo desde el Diario', async ({ page }) => 
   await page.locator('#ob-skip').click();
   await expect(page.locator('#onboard')).toHaveCount(0);
   await page.locator('[data-tab="diary"]').click();
+  await page.locator('#settings-btn').click();
   await page.locator('#ob-again').click();
   await expect(page.locator('#onboard')).toBeVisible();
 });
@@ -315,6 +316,7 @@ test('buscador y filtro por tipo', async ({ page }) => {
 
 test('idioma: cambiar a inglés y que se recuerde', async ({ page }) => {
   await page.locator('[data-tab="diary"]').click();
+  await page.locator('#settings-btn').click();
   await page.locator('[data-lang="en"]').click();
   await expect(page.locator('.tabbar')).toContainText('Diary');
   await expect(page.locator('.tabbar')).toContainText('Badges');
