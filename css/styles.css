@@ -629,7 +629,7 @@ button, a, input, .place, .row, .pitem { touch-action: manipulation; }
 .ob-level small { display: block; font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
 .ob-level b { font-size: 15px; }
 .ob-level i { position: absolute; left: 53px; right: 14px; bottom: 7px; height: 3px; border-radius: 2px; background: var(--line); overflow: hidden; }
-.ob-level em { display: block; height: 100%; width: 70%; background: var(--red); border-radius: 2px; }
+.ob-level em { display: block; height: 100%; width: 100%; background: var(--red); border-radius: 2px; }
 .ob-me { transform: translate(176px, 168px); }
 
 /* ---- Animaciones (se relanzan al llegar a cada paso: .ob-slide.on) ---- */

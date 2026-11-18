@@ -45,7 +45,7 @@ const STAMP = `<div class="ob-stampwrap"><svg viewBox="0 0 160 160" class="ob-st
   <path id="ob-arc" d="M80 80 m-58 0 a58 58 0 1 1 116 0 a58 58 0 1 1 -116 0" stroke="none"/>
   <text font-size="11" font-weight="800" letter-spacing="3" fill="var(--red)" stroke="none"><textPath href="#ob-arc">MADRID PASSPORT · MADRID PASSPORT ·</textPath></text>
   <path d="M58 92V72l-2-12 9 6h30l9-6-2 12v20z M70 76h.1M90 76h.1M74 86h12" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></g></svg>
-  <div class="ob-level"><span>2</span><div><small>${t('level')} 2</small><b>${t('lvl.forastero')}</b></div><i><em></em></i></div></div>`;
+  <div class="ob-level"><span>8</span><div><small>${t('level')} 8</small><b>${t('lvl.gato')}</b></div><i><em></em></i></div></div>`;
 
 export function showOnboarding(source = 'first') {
   if ($('#onboard')) return;
