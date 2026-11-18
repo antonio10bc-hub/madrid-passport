@@ -257,6 +257,13 @@ test('logros: comparativa con otros usuarios', async ({ page }) => {
   await expect(page.locator('.lvl-rank')).toContainText('80');
 });
 
+test('inicio de sesión: si el botón de Google no carga, sale el botón clásico', async ({ page, context }) => {
+  await context.route(/accounts\.google\.com/, (r) => r.abort());
+  await page.locator('[data-tab="diary"]').click();
+  await expect(page.locator('#login')).toBeVisible();
+  await expect(page.locator('#login')).toContainText('Google');
+});
+
 test('deshacer: marcar y desmarcar desde el aviso', async ({ page }) => {
   await openCentro(page);
   await markVisited(page, 'plaza-mayor');

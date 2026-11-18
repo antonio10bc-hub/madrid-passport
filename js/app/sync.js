@@ -62,7 +62,14 @@ export function renderAccount() {
   if (!el) return;
   el.innerHTML = accountHTML();
   const gis = el.querySelector('#login-gis');
-  if (gis) MPAuth.renderGoogleButton(gis, { lang, onError: () => toast(t('acct.fail'), true) }).catch(() => toast(t('acct.fail'), true));
+  // Botón oficial de Google; si no carga (sin conexión, bloqueadores…), el botón clásico con redirección
+  const classic = () => {
+    gis.outerHTML = `<button class="gbtn" id="login">${GOOGLE_G}<span>${t('acct.google')}</span></button>`;
+    el.querySelector('#login')?.addEventListener('click', () => { track('login_clicked', { method: 'redirect' }); MPAuth.signIn().catch(() => toast(t('acct.fail'), true)); });
+  };
+  if (gis) MPAuth.renderGoogleButton(gis, { lang, onError: () => toast(t('acct.fail'), true) })
+    .then(() => gis.addEventListener('click', () => track('login_clicked', { method: 'google_button' }), { capture: true }))
+    .catch(classic);
   el.querySelector('#login')?.addEventListener('click', () => { track('login_clicked'); MPAuth.signIn().catch(() => toast(t('acct.fail'), true)); });
   el.querySelector('#logout')?.addEventListener('click', async () => { await MPAuth.signOut(); track('logout'); resetUser(); toast(t('acct.bye')); });
   el.querySelector('#retry')?.addEventListener('click', pushNow);
