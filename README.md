@@ -59,7 +59,7 @@ Esquema de eventos v2 (`event_schema=2`). El proyecto de PostHog se comparte con
   `badge_unlocked`, `badge_notif_tapped`, `level_up`, `search_performed`, `filter_applied` (`filter_kind`, `filter_value`), `tab_viewed`, `type_progress_tapped`,
   `share_opened`, `share_done`, `share_error`, `nearby_location_requested`, `district_sorted`, `next_nearby_opened`, `list_added`, `list_removed`,
   `action_undone`, `cluster_tapped`, `place_link_opened`, `deeplink_opened`, `place_rated`, `place_shared`, `place_reported`, `report_limited`, `onboarding_quickmark`,
-  `barrio_notif_tapped`, `directions_clicked`, `location_requested`, `language_changed`, `login_clicked`, `logout`, `sync_error`, `app_installed`,
+  `barrio_notif_tapped`, `directions_clicked`, `location_requested`, `language_changed`, `login_clicked`, `login_error` (`method`, `message`), `logout`, `want_nearby_shown`, `want_nearby_tapped`, `data_exported`, `data_deleted`, `sync_error`, `app_installed`,
   `onboarding_shown`, `onboarding_step`, `onboarding_done`, `diary_*`, `maya_tapped`, `consent_accepted`, `settings_opened`, `tab_scroll_top`, `js_error`;
   además `$pageview`/`$pageleave` y web vitals (sin autocaptura de clics). Dashboard: «Madrid Passport · Uso» (PostHog, filtrado por `app`).
 

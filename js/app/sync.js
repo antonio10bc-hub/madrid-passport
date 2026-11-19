@@ -89,16 +89,16 @@ export function renderAccount() {
   const wrap = gis?.parentElement;
   const classic = () => {
     wrap.outerHTML = `<button class="gbtn" id="login">${GOOGLE_G}<span>${t('acct.google')}</span></button>`;
-    el.querySelector('#login')?.addEventListener('click', () => { track('login_clicked', { method: 'redirect' }); MPAuth.signIn().catch(() => toast(t('acct.fail'), true)); });
+    el.querySelector('#login')?.addEventListener('click', () => { track('login_clicked', { method: 'redirect' }); MPAuth.signIn().catch((e) => { track('login_error', { method: 'redirect', message: String(e?.message || e).slice(0, 200) }); toast(t('acct.fail'), true); }); });
   };
-  if (gis) MPAuth.renderGoogleButton(gis, { lang, onError: () => toast(t('acct.fail'), true) })
+  if (gis) MPAuth.renderGoogleButton(gis, { lang, onError: (e) => { track('login_error', { method: 'google_button', message: String(e?.message || e).slice(0, 200) }); toast(t('acct.fail'), true); } })
     .then(() => {
       const ready = () => wrap.classList.add('ready'), fr = gis.querySelector('iframe');
       if (fr) { fr.addEventListener('load', () => setTimeout(ready, 60), { once: true }); setTimeout(ready, 2500); }
       else wrap.classList.add('ready', 'now');   // botón HTML sin iframe: ya está pintado, sin fundido
       gis.addEventListener('click', () => track('login_clicked', { method: 'google_button' }), { capture: true });
     })
-    .catch(classic);
+    .catch((e) => { track('login_error', { method: 'gis_load', message: String(e?.message || e).slice(0, 200) }); classic(); });
   el.querySelector('#login')?.addEventListener('click', () => { track('login_clicked'); MPAuth.signIn().catch(() => toast(t('acct.fail'), true)); });
   el.querySelector('#logout')?.addEventListener('click', async () => { await MPAuth.signOut(); track('logout'); resetUser(); toast(t('acct.bye')); });
   el.querySelector('#retry')?.addEventListener('click', pushNow);
