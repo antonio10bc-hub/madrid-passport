@@ -50,12 +50,19 @@ export function rankFor(id, ts, onReady) {
   return null;
 }
 
-// Aviso de error en un lugar: tabla «reports» (solo inserción; nadie puede leerla desde la app)
+// Aviso de error en un lugar: tabla «reports» (solo inserción; nadie puede leerla desde la app).
+// Máximo 5 al día: lo impone Supabase por IP (trigger en schema.sql) y aquí se cuenta también para avisar antes de escribir.
+const REP_KEY = 'mp.reports', REP_MAX = 5, DAY = 864e5;
+const recentReports = () => { try { return (JSON.parse(localStorage.getItem(REP_KEY)) || []).filter((ts) => Date.now() - ts < DAY); } catch { return []; } };
+export const reportLimitReached = () => recentReports().length >= REP_MAX;
+// true = enviado · 'limit' = límite diario alcanzado · false = error
 export async function sendReport(place, reason, note, lang) {
   const c = cfg();
   if (!c.supabaseUrl) return false;
   const r = await fetch(`${c.supabaseUrl}/rest/v1/reports`, { method: 'POST',
     headers: { apikey: c.supabaseAnonKey, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
     body: JSON.stringify({ place, reason, note: note || null, lang }) });
-  return r.ok;
+  if (r.ok) { try { localStorage.setItem(REP_KEY, JSON.stringify([...recentReports(), Date.now()])); } catch {} return true; }
+  if ((await r.text().catch(() => '')).includes('too_many_reports')) return 'limit';
+  return false;
 }

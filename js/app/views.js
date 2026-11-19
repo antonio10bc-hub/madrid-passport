@@ -10,7 +10,7 @@ import { loadMetro, nearestMetro, lineBadge } from './metro.js';
 import { renderPage, setTab, checkBadges, levelState } from './pages.js';
 import { track, setPerson } from './analytics.js';
 import { notify } from './notify.js';
-import { loadStats, statsFor, isGem, rankFor, sendReport } from './community.js';
+import { loadStats, statsFor, isGem, rankFor, sendReport, reportLimitReached } from './community.js';
 
 const TI = (ty) => MP_ICON(ty);
 const TYPE_COUNT = PLACES.reduce((m, p) => ((m[p.type] = (m[p.type] || 0) + 1), m), {});
@@ -239,6 +239,7 @@ async function sharePlace(p) {
 const REASONS = ['coords', 'photo', 'info', 'closed', 'other'];
 function openReport(p) {
   document.querySelector('.rep-ov')?.remove();
+  if (reportLimitReached()) { track('report_limited', { place: p.id, where: 'app' }); return toast(t('rep.limit'), true); }
   const ov = document.createElement('div');
   ov.className = 'rep-ov';
   ov.innerHTML = `<form class="rep-card" role="dialog" aria-modal="true" aria-label="${esc(t('rep.title'))}">
@@ -258,6 +259,7 @@ function openReport(p) {
     let ok = false;
     try { ok = await sendReport(p.id, reason, note, lang); } catch {}
     close();
+    if (ok === 'limit') { track('report_limited', { place: p.id, where: 'server' }); return toast(t('rep.limit'), true); }
     toast(t('rep.thanks'));
     if (!ok) console.warn('aviso solo en analítica');
   };

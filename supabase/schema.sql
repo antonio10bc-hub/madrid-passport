@@ -92,3 +92,22 @@ create policy "reports_insert_any" on public.reports for insert to anon, authent
 alter table public.reports drop constraint if exists reports_limits;
 alter table public.reports add constraint reports_limits check (
   char_length(place) <= 64 and (lang is null or char_length(lang) <= 8)) not valid;
+
+-- Límite de avisos: 5 al día por persona (por IP). La IP no se guarda: solo su huella SHA-256, para poder contar.
+alter table public.reports add column if not exists ip_hash text;
+create index if not exists reports_ip_hash_idx on public.reports (ip_hash, created_at);
+create or replace function public.reports_rate_limit()
+returns trigger language plpgsql security definer set search_path = public as $$
+declare
+  h json := coalesce(nullif(current_setting('request.headers', true), '')::json, '{}'::json);
+  ip text := trim(split_part(coalesce(h->>'cf-connecting-ip', h->>'x-forwarded-for', h->>'x-real-ip', ''), ',', 1));
+begin
+  new.ip_hash := encode(sha256(convert_to('mp-reports:' || ip, 'UTF8')), 'hex');
+  if (select count(*) from public.reports where ip_hash = new.ip_hash and created_at > now() - interval '1 day') >= 5 then
+    raise exception 'too_many_reports' using errcode = 'P0001', hint = 'Máximo 5 avisos al día';
+  end if;
+  return new;
+end $$;
+drop trigger if exists reports_rate_limit on public.reports;
+create trigger reports_rate_limit before insert on public.reports for each row execute function public.reports_rate_limit();
+

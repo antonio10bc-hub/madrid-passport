@@ -48,6 +48,8 @@
     <h2>Analítica de uso</h2>
     <p>Usamos PostHog (servidores en la UE) para entender cómo se usa la app y mejorarla: pantallas vistas, acciones como marcar un lugar o compartir, errores y rendimiento. Las direcciones IP se anonimizan, los campos de texto se ocultan y no se envían nombres ni correos. Además usamos Vercel Web Analytics, que cuenta visitas de forma agregada y sin cookies. PostHog solo se activa si aceptas en el aviso de Maya la primera vez que abres la app; puedes cambiarlo cuando quieras en Diario → Ajustes → «Estadísticas anónimas». Si no aceptas, no se usa PostHog ni se guarda ninguna cookie suya. También puedes desactivar ambas abriendo la app con <code>?notrack</code> en la dirección.</p>
 
+    <h2>Avisos de error</h2>
+    <p>Si reportas un error en un lugar, guardamos el lugar, el motivo, tu nota y el idioma. Para evitar abusos (máximo 5 avisos al día) guardamos además una huella cifrada de tu dirección IP, nunca la dirección en sí.</p>
     <h2>Contenido de terceros</h2>
     <p>El mapa usa OpenFreeMap / OpenStreetMap y las fotos y descripciones vienen de Wikipedia / Wikimedia; tu navegador los descarga directamente de esos servicios.</p>
 
@@ -74,6 +76,8 @@
     <p>If you allow it, the app uses your location to show you on the map, suggest nearby places and confirm visits by GPS. Your position is not continuously sent to any server. When you confirm a place by GPS, the coordinates of that confirmation are saved with your progress.</p>
     <h2>Usage analytics</h2>
     <p>We use PostHog (EU servers) to understand how the app is used and improve it: screens viewed, actions such as marking a place or sharing, errors and performance. IP addresses are anonymised, text fields are masked and no names or emails are sent. We also use Vercel Web Analytics, which counts visits in aggregate and without cookies. PostHog is only switched on if you accept in Maya’s notice the first time you open the app; you can change it at any time in Diary → Settings → “Anonymous statistics”. If you don’t accept, PostHog isn’t used and none of its cookies are stored. You can also turn both off by opening the app with <code>?notrack</code> in the address.</p>
+    <h2>Error reports</h2>
+    <p>If you report a problem with a place, we store the place, the reason, your note and the language. To prevent abuse (at most 5 reports a day) we also store an encrypted fingerprint of your IP address, never the address itself.</p>
     <h2>Third-party content</h2>
     <p>The map uses OpenFreeMap / OpenStreetMap, and photos and descriptions come from Wikipedia / Wikimedia; your browser loads them directly from those services.</p>
     <h2>What we don't do</h2>

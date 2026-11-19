@@ -509,3 +509,21 @@ test('el gesto atrás no sale de la app: vuelve al mapa desde Diario y cierra el
   await expect(page.locator('.row')).toHaveCount(21);
   expect(page.url()).toContain('localhost');
 });
+
+test('avisos de error: máximo 5 al día (en la app y respuesta de límite de Supabase)', async ({ page }) => {
+  let posts = 0;
+  await page.route(/rest\/v1\/reports/, (r) => { posts++; return posts <= 1 ? r.fulfill({ status: 201, body: '' })
+    : r.fulfill({ status: 400, contentType: 'application/json', body: '{"code":"P0001","message":"too_many_reports"}' }); });
+  await page.goto('./?p=debod');
+  await page.evaluate(() => localStorage.setItem('mp.reports', JSON.stringify([Date.now() - 2 * 864e5])));   // uno viejo: no cuenta
+  const send = async () => { await page.locator('#pl-report').click(); await page.locator('.rep-send').click(); await expect(page.locator('.rep-ov')).toHaveCount(0); };
+  await send();
+  await expect(page.locator('.toast')).toContainText('Gracias');
+  await send();                                                            // Supabase dice que ya hay 5 desde esta IP
+  await expect(page.locator('.toast')).toContainText('5 avisos');
+  await page.evaluate(() => localStorage.setItem('mp.reports', JSON.stringify(Array(5).fill(Date.now()))));
+  await page.locator('#pl-report').click();                                // con 5 en el día ni se abre el formulario
+  await expect(page.locator('.rep-ov')).toHaveCount(0);
+  await expect(page.locator('.toast')).toContainText('5 avisos');
+  expect(posts).toBe(2);
+});
