@@ -2,7 +2,8 @@
 import { $, dist, fmtDist, toast, esc, css, stampDate } from './util.js';
 import { S, PLACES, DISTRICTS, lvl, bKey, save } from './state.js';
 import { t } from './i18n.js';
-import { map, showMeOnMap, centerOffset, flashBarrio } from './map.js';
+import { map, showMeOnMap, centerOffset, flashBarrio, drawRadar, drawPins, RADAR_M } from './map.js';
+import { pad } from './sheet.js';
 import { notify } from './notify.js';
 import { setTab } from './pages.js';
 import { barrioAt } from './geo.js';
@@ -53,7 +54,7 @@ export function onPosition(pos) {
   S.myPos = pos;
   if (first && S.view.type !== 'place' && DISTRICTS.length) setTimeout(() => render({ keepScroll: true }), 0);
   showMeOnMap(pos);
-  if (follow) map.easeTo({ center: [pos.coords[1], pos.coords[0]], duration: 600 });
+  if (follow) { map.easeTo({ center: [pos.coords[1], pos.coords[0]], duration: 600 }); drawRadar(); drawPins(); }
   checkBarrio(pos);
   checkNearby(pos);
 }
@@ -67,7 +68,12 @@ function stopWatch() { if (watchId != null) navigator.geolocation.clearWatch(wat
 function maybeWatch() {   // si el permiso ya está concedido, seguimos la posición sin preguntar
   navigator.permissions?.query({ name: 'geolocation' }).then((r) => { if (r.state === 'granted') startWatch(); }).catch(() => {});
 }
-export function setFollow(on) { follow = on; $('#locate').classList.toggle('active', on); }
+export function setFollow(on) {
+  const was = follow;
+  follow = on; $('#locate').classList.toggle('active', on);
+  if (was !== on && map) { drawRadar(); drawPins(); }   // radar de 500 m y lugares cercanos, solo con el botón activo
+}
+export const isFollow = () => follow;
 
 // ---------- Barrios: pisar un barrio con el GPS lo sella (oro) automáticamente ----------
 function checkBarrio(pos) {
@@ -163,7 +169,11 @@ export function initGps() {
       const p = await getPos();
       onPosition(p); startWatch(); setFollow(!S.debug);
       track('location_requested', { accuracy: Math.round(p.acc || 0) });
-      map.flyTo({ center: [p.coords[1], p.coords[0]], zoom: Math.max(map.getZoom(), 15.5), offset: centerOffset(), duration: 800 });
+      // Encuadre: que quepa el radar entero (500 m alrededor) en la zona visible del mapa
+      const [lat, lng] = p.coords, dLat = RADAR_M / 111320, dLng = dLat / Math.cos((lat * Math.PI) / 180), P = pad();
+      const cam = map.cameraForBounds([[lng - dLng, lat - dLat], [lng + dLng, lat + dLat]],
+        { padding: { top: P.top + 12, bottom: P.bottom + 12, left: P.left + 12, right: P.right + 12 } });
+      map.flyTo({ center: [lng, lat], zoom: cam?.zoom ?? 14.5, offset: centerOffset(), duration: 800 });
     } catch (e) { track('gps_error', { code: e?.code ?? null, where: 'locate' }); toast(t('gps.fail'), true); }
   };
   $('#debug-off').onclick = () => setDebug(false);

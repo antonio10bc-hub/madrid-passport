@@ -1,10 +1,10 @@
 // Mapa (MapLibre + OpenFreeMap): capas de distritos (mapa de calor) y barrios, etiquetas, pines y encuadre.
-import { $, esc, css, isDark, ll, ICON_CHECK, ICON_GPS } from './util.js';
-import { S, DISTRICTS, BYID, districtOf, lvl, blvl, progress, currentDistrict } from './state.js';
+import { $, esc, css, isDark, ll, dist, ICON_CHECK, ICON_GPS } from './util.js';
+import { S, PLACES, DISTRICTS, BYID, districtOf, lvl, blvl, progress, currentDistrict } from './state.js';
 import { distGeo, barGeo } from './geo.js';
 import { pad, sheet, setSheet } from './sheet.js';
 import { openDistrict, openPlace, goHome, homeResults } from './views.js';
-import { setFake, setFollow, radiusFor } from './gps.js';
+import { setFake, setFollow, isFollow, radiusFor } from './gps.js';
 import { track } from './analytics.js';
 
 const STYLE = { light: 'https://tiles.openfreemap.org/styles/positron', dark: 'https://tiles.openfreemap.org/styles/dark' };
@@ -128,6 +128,7 @@ export async function initMap() {
   map.on('mouseenter', 'd-fill', () => (map.getCanvas().style.cursor = 'pointer'));
   map.on('mouseleave', 'd-fill', () => (map.getCanvas().style.cursor = ''));
   map.on('dragstart', () => setFollow(false));
+  map.on('zoom', sizeRadar);
 
   DISTRICTS.forEach((d) => {
     const el = document.createElement('button');
@@ -254,13 +255,15 @@ export function drawPins() {
   const enter = key && pinsKey !== key;
   pinsKey = key;
   const want = new Set((cur ? cur.places.filter((p) => passStatus(p) || S.view.id === p.id) : homeList ? homeResults() : []).map((p) => p.id));
+  const near = new Set(nearPlaces().filter((p) => !want.has(p.id)).map((p) => p.id));   // radar: los de alrededor
+  near.forEach((id) => want.add(id));
   for (const [id, m] of pinMarkers) if (!want.has(id)) { m.marker.remove(); pinMarkers.delete(id); }
   for (const id of want) {
     let m = pinMarkers.get(id);
     const fresh = !m;
     if (fresh) { m = makePin(BYID[id]); pinMarkers.set(id, m); }
     const l = lvl(id);
-    const cls = `pin v${l}${S.selId === id ? ' sel' : ''}${fresh && enter ? ' enter' : ''}`;
+    const cls = `pin v${l}${S.selId === id ? ' sel' : ''}${near.has(id) ? ' near' : ''}${fresh && near.has(id) ? ' near-in' : fresh && enter ? ' enter' : ''}`;
     if (m.el.className !== cls && !(m.el.classList.contains('flash') && cls === m.el.className.replace(' flash', ''))) m.el.className = cls;
     if (m.lvl !== l) { m.lvl = l; m.el.innerHTML = l === 1 ? ICON_CHECK : l === 2 ? ICON_GPS : ''; }
   }
@@ -341,3 +344,33 @@ export function showMeOnMap(pos) {
   else { const el = document.createElement('div'); el.className = 'me'; meMarker = new maplibregl.Marker({ element: el }).setLngLat(c).addTo(map); }
 }
 export const gpsAreaId = () => lastArea;   // tests e2e
+
+// ---------- Radar: con el botón de ubicación activo, círculo de 500 m alrededor y los lugares que caen dentro ----------
+// Sin nada seleccionado no hay pines en la portada: así se ve de un vistazo si hay algo cerca mientras se camina.
+export const RADAR_M = 500;
+let radar = null;
+const seenNear = new Set();
+export const nearPlaces = () => (isFollow() && S.myPos ? PLACES.filter((p) => dist(S.myPos.coords, p.coords) <= RADAR_M) : []);
+export function drawRadar() {
+  if (!map) return;
+  if (!isFollow() || !S.myPos) { radar?.remove(); radar = null; return; }
+  const c = [S.myPos.coords[1], S.myPos.coords[0]];
+  if (!radar) {
+    const el = document.createElement('div');
+    el.className = 'radar';
+    radar = new maplibregl.Marker({ element: el }).setLngLat(c).addTo(map);
+    const cv = map.getCanvas();
+    cv.parentNode.insertBefore(el, cv.nextSibling);    // justo encima del mapa y debajo de pines y etiquetas
+  } else radar.setLngLat(c);
+  sizeRadar();
+  const ps = nearPlaces(), fresh = ps.filter((p) => !seenNear.has(p.id));
+  fresh.forEach((p) => seenNear.add(p.id));
+  if (fresh.length) track('radar_nearby', { count: ps.length, new: fresh.length, pending: ps.filter((p) => !lvl(p.id)).length });
+}
+function sizeRadar() {
+  if (!radar || !S.myPos) return;
+  const [lat, lng] = S.myPos.coords;
+  const a = map.project([lng, lat]), b = map.project([lng + RADAR_M / (111320 * Math.cos((lat * Math.PI) / 180)), lat]);
+  const d = Math.round(2 * Math.abs(b.x - a.x)) + 'px', st = radar.getElement().style;
+  if (st.width !== d) { st.width = d; st.height = d; }
+}
