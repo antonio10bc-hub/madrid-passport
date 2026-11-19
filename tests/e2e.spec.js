@@ -527,3 +527,20 @@ test('avisos de error: máximo 5 al día (en la app y respuesta de límite de Su
   await expect(page.locator('.toast')).toContainText('5 avisos');
   expect(posts).toBe(2);
 });
+
+test.describe('instalar app en móvil', () => {
+  test.use({ userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1' });
+  test('ajustes: botón de instalar con instrucciones en iOS', async ({ page }) => {
+    await page.locator('[data-tab="diary"]').click();
+    await page.locator('#settings-btn').click();
+    await page.locator('#set-install').click();
+    await expect(page.locator('#toast')).toContainText('Añadir a pantalla de inicio');
+  });
+});
+
+test('ajustes: sin botón de instalar en escritorio', async ({ page }) => {
+  await page.locator('[data-tab="diary"]').click();
+  await page.locator('#settings-btn').click();
+  await expect(page.locator('#ob-again')).toBeVisible();
+  await expect(page.locator('#set-install')).toHaveCount(0);
+});

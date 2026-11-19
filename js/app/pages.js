@@ -228,10 +228,29 @@ function renderBadges() {
       ${stampImg(b, i, n, goal, date)}<strong>${esc(badgeName(b))}</strong></div>`).join('')}</div>`;
 }
 
-// ---------- Ajustes (engranaje del Diario): idioma, introducción y privacidad ----------
+// ---------- Ajustes (engranaje del Diario): idioma, instalar app, introducción y privacidad ----------
 const settingsEl = $('#settings'), gearBtn = $('#settings-btn');
 // Interruptor de la analítica (mismo permiso que el banner de Maya); oculto si la analítica no está activa aquí (localhost, ?notrack)
 const consentRow = () => (consent() == null && !consentNeeded() ? '' : `<div class="lang-row">${MP_ICON('route')}<span>${t('set.stats')}</span><div class="lang-seg">${[['1', 'set.on'], ['0', 'set.off']].map(([k, l]) => `<button class="chip ${(consent() === '1') === (k === '1') ? 'on' : ''}" data-stats="${k}">${t(l)}</button>`).join('')}</div></div>`);
+// Instalar como app: solo en móvil y si no se abrió ya instalada. Android/Chrome → aviso nativo; iOS y resto → instrucciones
+const UA = navigator.userAgent, IOS = /iP(hone|ad|od)/.test(UA) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+const MOBILE = IOS || /Android|Mobi/i.test(UA);
+const installed = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+let installEvt = null;
+addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); installEvt = e; if (settingsOpen) renderSettings(); });
+addEventListener('appinstalled', () => { installEvt = null; if (settingsOpen) renderSettings(); });
+const installRow = () => (MOBILE && !installed() ? `<button class="ob-again" id="set-install">${MP_ICON('download', 'ico')}<span>${t('set.install')}</span></button>` : '');
+async function installApp() {
+  if (installEvt) {
+    const e = installEvt; installEvt = null; e.prompt();
+    const { outcome } = await e.userChoice.catch(() => ({ outcome: 'error' }));
+    track('install_prompt', { outcome });
+    if (settingsOpen) renderSettings();
+    return;
+  }
+  track('install_help', { ios: IOS });
+  toast(t(IOS ? 'set.install.ios' : 'set.install.other'), false, { label: t('consent.ok'), fn: () => {} });
+}
 let settingsOpen = false;
 function setSettings(open) {
   if (open && !settingsOpen) track('settings_opened');
@@ -244,6 +263,7 @@ function renderSettings() {
     <div class="settings-h"><strong>${t('settings')}</strong><button class="settings-x" id="settings-x" aria-label="${t('close')}"><svg class="icon-x" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     <div class="lang-row">${MP_ICON('globe')}<span>${t('language')}</span><div class="lang-seg">${LANGS.map(([k, n]) => `<button class="chip ${lang === k ? 'on' : ''}" data-lang="${k}">${n}</button>`).join('')}</div></div>
     ${consentRow()}
+    ${installRow()}
     <button class="ob-again" id="ob-again">${MP_ICON('compass', 'ico')}<span>${t('ob.again')}</span></button>
     <a class="ob-again" href="/${lang === 'en' ? 'en/places' : 'lugares'}/">${MP_ICON('map', 'ico')}<span>${t('seo.all')}</span></a>
     <a class="ob-again" href="privacy.html">${MP_ICON('ticket', 'ico')}<span>${t('privacy')}</span></a></div>`;
@@ -253,6 +273,7 @@ function renderSettings() {
     if ((consent() === '1') === yes) return;
     setConsent(yes); renderSettings();
   }));
+  const ins = settingsEl.querySelector('#set-install'); if (ins) ins.onclick = installApp;
   settingsEl.querySelector('#ob-again').onclick = () => { setSettings(false); showOnboarding('diary'); };
   settingsEl.querySelectorAll('[data-lang]').forEach((el) => (el.onclick = () => {
     if (el.dataset.lang === lang) return;
