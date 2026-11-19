@@ -257,6 +257,14 @@ test('tocar un pin en el distrito abre directamente su ficha', async ({ page }) 
   await expect(page.locator('.pd-head h2')).toHaveText('Plaza Mayor');
 });
 
+test('pin: un toque que se sale un poco del círculo (zona de toque ampliada) abre el lugar, no el distrito', async ({ page }) => {
+  await openCentro(page);
+  await page.evaluate(() => window.__mpMap.jumpTo({ zoom: 17, center: [-3.70738, 40.41475] }));   // pin en la mitad de arriba, sin el panel encima
+  const b = await page.locator('.pin[data-id="plaza-mayor"]').boundingBox();
+  await page.mouse.click(b.x + b.width / 2, b.y - 7);                       // 7 px por encima del borde visible
+  await expect(page.locator('.pd-head h2')).toHaveText('Plaza Mayor');
+});
+
 test('ficha: siguiente pendiente cerca', async ({ page }) => {
   await openCentro(page);
   await page.locator('#pl-plaza-mayor').click();
@@ -643,4 +651,38 @@ test.describe('sin conexión', () => {
     await page.reload();
     await expect(page.locator('.row')).toHaveCount(21);
   });
+});
+
+test('radar: con el botón de ubicación activo, círculo de 500 m y pines de los lugares cercanos; al desactivarlo desaparecen', async ({ page }) => {
+  await expect(page.locator('.radar')).toHaveCount(0);
+  await expect(page.locator('.pin')).toHaveCount(0);
+  await page.locator('#locate').click();
+  await expect(page.locator('#locate')).toHaveClass(/active/);
+  await expect(page.locator('.radar')).toHaveCount(1);
+  await expect(page.locator('.pin.radar-pin[data-id="puerta-sol"]')).toHaveCount(1);
+  // Tras acercarse (zoom ≥ 15,5) el círculo de 500 m ocupa buena parte de la pantalla
+  await expect.poll(() => page.locator('.radar').evaluate((el) => el.getBoundingClientRect().width)).toBeGreaterThan(200);
+  await page.locator('#locate').click();
+  await expect(page.locator('.radar')).toHaveCount(0);
+  await expect(page.locator('.pin.radar-pin')).toHaveCount(0);
+});
+
+test('ubicación: la primera vez que se pulsa (sin seguimiento previo) acerca y centra aunque llegue enseguida la posición del seguimiento', async ({ page }) => {
+  // Como en iOS: permissions.query no dice «granted», así que no hay seguimiento hasta pulsar el botón
+  await page.addInitScript(() => { navigator.permissions.query = () => Promise.reject(new Error('x')); });
+  await page.reload();
+  await expect(page.locator('.row')).toHaveCount(21);
+  await page.locator('#locate').click();
+  await expect.poll(() => page.evaluate(() => window.__mpMap.getZoom()), { timeout: 4000 }).toBeGreaterThan(13);
+  await page.waitForTimeout(1200);
+  expect(await page.evaluate(() => window.__mpMap.getZoom())).toBeGreaterThan(13);
+});
+
+test('diario: repintar la página (p. ej. al llegar la posición GPS) no recrea el hueco de la cuenta (el botón de Google no parpadea)', async ({ page }) => {
+  await page.locator('[data-tab="diary"]').click();
+  await expect(page.locator('#acct-slot')).toHaveCount(1);
+  await page.evaluate(() => { document.getElementById('acct-slot').__keep = 1; });
+  await page.evaluate(() => import('/js/app/views.js').then((m) => m.render({ keepScroll: true })));
+  expect(await page.evaluate(() => document.getElementById('acct-slot').__keep)).toBe(1);
+  await expect(page.locator('.pass-k')).toHaveCount(1);
 });
