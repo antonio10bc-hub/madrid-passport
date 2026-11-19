@@ -51,7 +51,7 @@ function accountHTML() {
   if (!window.MPAuth?.enabled) return S.debug ? '<div class="acct off">Inicio de sesión sin configurar (js/config.js)</div>' : '';
   const u = MPAuth.user;
   if (!u) return `<div class="acct"><div class="acct-txt"><b>${t('acct.save')}</b><small>${t('acct.why')}</small></div>
-    ${MPAuth.gis ? '<div class="gbtn-gis" id="login-gis"></div>' : `<button class="gbtn" id="login">${GOOGLE_G}<span>${t('acct.google')}</span></button>`}</div>`;
+    ${MPAuth.gis ? `<div class="gbtn-gis"><span class="gbtn gph" aria-hidden="true">${GOOGLE_G}<span>${t('acct.google')}</span></span><div id="login-gis"></div></div>` : `<button class="gbtn" id="login">${GOOGLE_G}<span>${t('acct.google')}</span></button>`}</div>`;
   const m = u.user_metadata || {}, name = m.full_name || m.name || u.email;
   const st = t('sync.' + syncState);
   return `<div class="acct in">${m.avatar_url ? `<img class="avatar" src="${esc(m.avatar_url)}" alt="" referrerpolicy="no-referrer">` : `<span class="avatar">${esc((name || '?')[0].toUpperCase())}</span>`}
@@ -64,12 +64,18 @@ export function renderAccount() {
   el.innerHTML = accountHTML();
   const gis = el.querySelector('#login-gis');
   // Botón oficial de Google; si no carga (sin conexión, bloqueadores…), el botón clásico con redirección
+  // Mientras carga el iframe de Google se ve una píldora igual (sin salto ni destello); al cargar, fundido cruzado
+  const wrap = gis?.parentElement;
   const classic = () => {
-    gis.outerHTML = `<button class="gbtn" id="login">${GOOGLE_G}<span>${t('acct.google')}</span></button>`;
+    wrap.outerHTML = `<button class="gbtn" id="login">${GOOGLE_G}<span>${t('acct.google')}</span></button>`;
     el.querySelector('#login')?.addEventListener('click', () => { track('login_clicked', { method: 'redirect' }); MPAuth.signIn().catch(() => toast(t('acct.fail'), true)); });
   };
   if (gis) MPAuth.renderGoogleButton(gis, { lang, onError: () => toast(t('acct.fail'), true) })
-    .then(() => gis.addEventListener('click', () => track('login_clicked', { method: 'google_button' }), { capture: true }))
+    .then(() => {
+      const ready = () => wrap.classList.add('ready'), fr = gis.querySelector('iframe');
+      if (fr) { fr.addEventListener('load', () => setTimeout(ready, 60), { once: true }); setTimeout(ready, 2500); } else ready();
+      gis.addEventListener('click', () => track('login_clicked', { method: 'google_button' }), { capture: true });
+    })
     .catch(classic);
   el.querySelector('#login')?.addEventListener('click', () => { track('login_clicked'); MPAuth.signIn().catch(() => toast(t('acct.fail'), true)); });
   el.querySelector('#logout')?.addEventListener('click', async () => { await MPAuth.signOut(); track('logout'); resetUser(); toast(t('acct.bye')); });

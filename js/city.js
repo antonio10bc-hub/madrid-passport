@@ -13,14 +13,14 @@ window.MP_CITY = {
     es: {
       'title.home': 'Explora Madrid', 'ob.1.t': 'Explora Madrid', 'ob.1.d': '{d} distritos, {b} barrios y más de {n} lugares esperando tu sello.',
       'd.sub': 'Distrito de Madrid · {done}/{total} visitados · {gps} GPS', 'level.max': 'Nivel máximo: eres un gato de Madrid',
-      'share.city': 'Todo Madrid', 'share.title': 'Mi Madrid', 'stamp.gps': 'CONFIRMADO POR GPS · MADRID PASSPORT ·',
+      'share.city': 'Todo Madrid', 'share.title': 'Mi Madrid', 'share.join': 'Únete y explora Madrid conmigo', 'stamp.gps': 'CONFIRMADO POR GPS · MADRID PASSPORT ·',
       'lvl.turista': 'Turista', 'lvl.forastero': 'Forastero', 'lvl.visitante': 'Visitante', 'lvl.vecino': 'Vecino',
       'lvl.madrileno': 'Madrileño', 'lvl.castizo': 'Castizo', 'lvl.chulapo': 'Chulapo', 'lvl.gato': 'Gato',
     },
     en: {
       'title.home': 'Explore Madrid', 'ob.1.t': 'Explore Madrid', 'ob.1.d': '{d} districts, {b} neighbourhoods and {n}+ places waiting for your stamp.',
       'd.sub': 'Madrid district · {done}/{total} visited · {gps} GPS', 'level.max': "Top level: you're a true Madrid gato",
-      'share.city': 'All of Madrid', 'share.title': 'My Madrid', 'stamp.gps': 'CONFIRMED BY GPS · MADRID PASSPORT ·',
+      'share.city': 'All of Madrid', 'share.title': 'My Madrid', 'share.join': 'Join me exploring Madrid', 'stamp.gps': 'CONFIRMED BY GPS · MADRID PASSPORT ·',
       'lvl.turista': 'Tourist', 'lvl.forastero': 'Outsider', 'lvl.visitante': 'Visitor', 'lvl.vecino': 'Neighbour',
       'lvl.madrileno': 'Madrileño', 'lvl.castizo': 'Castizo', 'lvl.chulapo': 'Chulapo', 'lvl.gato': 'Gato',
     },

@@ -129,11 +129,11 @@ function renderDiary() {
   const pr = progress(PLACES), bp = bprogress(BARRIOS), items = diaryItems();
   const dComplete = DISTRICTS.filter(districtDone).length, undated = items.filter((x) => !x.t);
   return `<section class="pass-card"><span class="pass-kick">${esc(MP_CITY.app.toUpperCase())}</span><div id="acct-slot"></div>
-      <p class="pass-k">${t('pass.story', {
-        v: `<span class="pk"><span class="nw">${MP_ICON('pin')}<b>${pr.done}</b></span> ${t('pass.places')}</span>`,
-        g: `<span class="pk gold"><span class="nw">${MP_ICON('target')}<b>${pr.gps + bp.gps}</b></span> ${t('pass.gps')}</span>`,
-        b: `<span class="pk rose"><span class="nw">${MP_ICON('barrio')}<b>${bp.done}</b></span> ${t('pass.barrios')}</span>`,
-        d: `<span class="pk"><b>${dComplete}</b> ${t('pass.districts', { n: DISTRICTS.length })}</span>` })}</p>
+      <div class="pass-k">
+        <div class="pk">${MP_ICON('pin')}<b>${pr.done}</b><small>${t('pass.places')}</small></div>
+        <div class="pk gold">${MP_ICON('target')}<b>${pr.gps + bp.gps}</b><small>${t('pass.gps')}</small></div>
+        <div class="pk rose">${MP_ICON('barrio')}<b>${bp.done}</b><small>${t('pass.barrios')}</small></div>
+        <div class="pk wine">${MP_ICON('map')}<b>${dComplete}<span>/${DISTRICTS.length}</span></b><small>${t('districts')}</small></div></div>
       <button class="may-btn pass-may" data-may="diary" aria-label="May">${may('happy')}</button></section>
     ${items.length ? `<div id="cal-wrap">${calendarHTML(items)}</div>` : `<div class="empty-state">${may('sleep', 'may empty-may')}${t('diary.empty')}</div>`}
     ${undated.length ? `<div class="cal-sel"><strong>${t('nodate')}</strong><small>${countLabel(undated)}</small></div><div class="cal-list">${undated.map(rowHTML).join('')}</div>` : ''}`;

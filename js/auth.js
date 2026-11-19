@@ -60,7 +60,7 @@ window.MPAuth = (() => {
       },
     });
     el.innerHTML = '';
-    google.accounts.id.renderButton(el, { theme: matchMedia('(prefers-color-scheme: dark)').matches ? 'filled_black' : 'outline',
+    google.accounts.id.renderButton(el, { theme: 'outline',   // píldora blanca: va sobre la tarjeta roja del pasaporte en claro y en oscuro
       size: 'large', shape: 'pill', text: 'continue_with', logo_alignment: 'left', locale: lang, width: Math.min(el.clientWidth || 320, 400) });
   }
   const signOut = async () => (await client()).auth.signOut();
