@@ -79,7 +79,7 @@ function nearbyHTML() {
   // Tarjetas con foto en carrusel horizontal: lo primero que se ve al abrir la app con ubicación
   return `<section class="near"><div class="b-head"><h3 class="zone">${MP_ICON('pin', 'ico ico-s')}${title}</h3></div>
     <div class="near-cards">${list.map(({ p, d }) => `<button class="ncard" data-place="${p.id}" data-via="near">
-      <span class="ncard-img">${p.img ? `<img src="${esc(p.img.replace('/960px-', '/330px-'))}" alt="" loading="lazy" decoding="async" onerror="this.remove()">` : ''}${TI(p.type)}</span>
+      <span class="ncard-img">${p.img ? `<img src="${esc(p.img.replace('/960px-', '/330px-'))}" alt="" loading="lazy" decoding="async" data-fb="rm">` : ''}${TI(p.type)}</span>
       <span class="ncard-txt"><b>${esc(p.name)}</b><small>${t('min_walk', { n: walkMin(d) })} · ${esc(typeName(p.type))}</small></span></button>`).join('')}</div></section>`;
 }
 // Joyas ocultas: lugares que encantan a quien los visita pero que casi nadie ha sellado (pendientes para ti)
@@ -254,7 +254,7 @@ function openReport(p) {
     e.preventDefault();
     const reason = f.r.value, note = f.note.value.trim().slice(0, 1000);
     f.querySelector('.rep-send').disabled = true;
-    track('place_reported', { place: p.id, type: p.type, reason, note });
+    track('place_reported', { place: p.id, type: p.type, reason, has_note: !!note });   // el texto libre no va a la analítica (puede llevar datos personales)
     let ok = false;
     try { ok = await sendReport(p.id, reason, note, lang); } catch {}
     close();
@@ -308,7 +308,7 @@ function renderPlace() {
   const oldHero = body.querySelector(`.hero[data-for="${p.id}"]`);
   body.innerHTML = `
     <button class="back" id="back">${esc(d?.name || t('back'))}</button>
-    <div class="hero ${p.img ? '' : 'noimg'}" data-for="${p.id}" data-img="${esc(p.img || '')}">${p.img ? `<img src="${esc(p.img)}"${srcset(p.img)} sizes="(max-width: 520px) 92vw, 360px" alt="" decoding="async" loading="lazy" onerror="this.parentNode.classList.add('noimg');this.remove()">` : ''}<span class="hero-ico">${TI(p.type)}</span></div>
+    <div class="hero ${p.img ? '' : 'noimg'}" data-for="${p.id}" data-img="${esc(p.img || '')}">${p.img ? `<img src="${esc(p.img)}"${srcset(p.img)} sizes="(max-width: 520px) 92vw, 360px" alt="" decoding="async" loading="lazy" data-fb="noimg">` : ''}<span class="hero-ico">${TI(p.type)}</span></div>
     <div class="pd-head">
       <div><h2>${esc(p.name)}</h2><p>${esc(typeName(p.type))}${p.zone ? ' · ' + esc(p.zone) : b ? ' · ' + esc(b.name) : ''}${dd ? ' · ' + t('at', { d: dd }) : ''}</p></div>
       ${checks(p)}
@@ -352,6 +352,13 @@ function renderPlace() {
   enrich(p).then((ok) => { if (ok && S.view.type === 'place' && S.view.id === p.id) render({ keepScroll: true }); });
 }
 
+// Fotos que no cargan (sin atributos onerror en línea: la CSP de vercel.json no permite JS en línea)
+document.addEventListener('error', (e) => {
+  const im = e.target;
+  if (im.tagName !== 'IMG' || !im.dataset.fb) return;
+  if (im.dataset.fb === 'noimg') im.parentNode?.classList.add('noimg');
+  im.remove();
+}, true);
 export function render({ keepScroll = false } = {}) {
   const st = body.scrollTop;
   // Filas de filtros con scroll horizontal: conservar su posición al volver a pintar (si no, saltan al principio)

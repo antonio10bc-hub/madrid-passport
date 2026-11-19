@@ -2,13 +2,55 @@
   "redirects": [
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "madrid-passport.vercel.app" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "madrid-passport.vercel.app"
+        }
+      ],
       "destination": "https://www.madridpassport.com/:path*",
       "permanent": true
     }
   ],
   "rewrites": [
-    { "source": "/ingest/static/:path(.*)", "destination": "https://eu-assets.i.posthog.com/static/:path" },
-    { "source": "/ingest/:path(.*)", "destination": "https://eu.i.posthog.com/:path" }
+    {
+      "source": "/ingest/static/:path(.*)",
+      "destination": "https://eu-assets.i.posthog.com/static/:path"
+    },
+    {
+      "source": "/ingest/:path(.*)",
+      "destination": "https://eu.i.posthog.com/:path"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'sha256-i/IhQ7D2RbmCEjTNoHxhWVTSy+MmepQdzncqWD87u6Y=' https://accounts.google.com/gsi/client; style-src 'self' 'unsafe-inline' https://accounts.google.com/gsi/style; img-src 'self' data: blob: https:; font-src 'self'; connect-src 'self' https://nskkysjqdceukxidvnos.supabase.co https://*.wikipedia.org https://tiles.openfreemap.org https://accounts.google.com/gsi/; frame-src https://accounts.google.com/gsi/; worker-src 'self' blob:; child-src blob:; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "geolocation=(self), camera=(), microphone=(), payment=(), usb=(), interest-cohort=()"
+        },
+        {
+          "key": "Cross-Origin-Opener-Policy",
+          "value": "same-origin-allow-popups"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        }
+      ]
+    }
   ]
 }

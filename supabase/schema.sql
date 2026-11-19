@@ -9,43 +9,70 @@ create table if not exists public.progress (
 alter table public.progress enable row level security;
 
 -- Cada usuario solo ve y modifica su propia fila
+drop policy if exists "progress_select_own" on public.progress;
 create policy "progress_select_own" on public.progress for select using (auth.uid() = user_id);
+drop policy if exists "progress_insert_own" on public.progress;
 create policy "progress_insert_own" on public.progress for insert with check (auth.uid() = user_id);
+drop policy if exists "progress_update_own" on public.progress;
 create policy "progress_update_own" on public.progress for update using (auth.uid() = user_id) with check (auth.uid() = user_id);
+drop policy if exists "progress_delete_own" on public.progress;
 create policy "progress_delete_own" on public.progress for delete using (auth.uid() = user_id);
 
+-- Lectura segura de números dentro del JSON: un valor mal formado (texto, objeto…) cuenta como 0 en vez de
+-- romper la función para todos («invalid input syntax for type integer»).
+create or replace function public.mp_num(j jsonb)
+returns numeric language sql immutable as $$
+  select case when jsonb_typeof(j) = 'number' then (j #>> '{}')::numeric else 0 end;
+$$;
+
+-- Límites de la fila de progreso: objeto JSON y tamaño razonable (evita filas gigantes o con tipos raros)
+alter table public.progress drop constraint if exists progress_shape;
+alter table public.progress add constraint progress_shape check (
+  jsonb_typeof(visits) = 'object' and jsonb_typeof(badges) = 'object'
+  and pg_column_size(visits) < 262144 and pg_column_size(badges) < 32768) not valid;
+
 -- Comparativa anónima: cuántos usuarios hay y cuántos han visitado menos lugares que n.
--- Solo devuelve dos números (nunca datos de nadie). Ejecutar en Supabase → SQL Editor.
+-- Solo devuelve dos números, y solo con 5 o más usuarios (con menos se podría deducir el progreso de alguien).
 -- Las claves 'b:' (barrios), 'f:' (favoritos), 'w:' (quiero ir) y 'r:' (valoración) no son lugares.
 create or replace function public.visited_percentile(n int)
 returns json language sql stable security definer set search_path = public as $$
   with c as (
     select (select count(*) from jsonb_each(p.visits) e
-            where e.key !~ '^[bfwr]:' and coalesce((e.value->>'lvl')::int, 0) > 0) as v
-    from public.progress p
+            where e.key !~ '^[bfwr]:' and public.mp_num(e.value->'lvl') > 0) as v
+    from public.progress p where jsonb_typeof(p.visits) = 'object'
   )
-  select json_build_object('users', count(*), 'below', count(*) filter (where v < n)) from c;
+  select case when count(*) < 5 then json_build_object('users', count(*), 'below', 0)
+              else json_build_object('users', count(*), 'below', count(*) filter (where v < n)) end from c;
 $$;
 grant execute on function public.visited_percentile(int) to anon, authenticated;
 
 -- ---------- Comunidad (agregados anónimos; nunca devuelven datos de una persona) ----------
--- Por lugar: [viajeros que lo han sellado, a cuántos les encantó (valoración 'r:<id>' = 3)]
+-- Por lugar: [viajeros que lo han sellado, a cuántos les encantó (valoración 'r:<id>' = 3)].
+-- Solo lugares con 3 o más viajeros: con menos, la cifra describe a una persona concreta.
 create or replace function public.place_stats()
 returns json language sql stable security definer set search_path = public as $$
-  with v as (select e.key as k, e.value as val from public.progress p, jsonb_each(p.visits) e where e.key !~ '^[bfw]:')
+  with v as (select e.key as k, e.value as val from public.progress p, jsonb_each(p.visits) e
+             where jsonb_typeof(p.visits) = 'object' and e.key !~ '^[bfw]:' and jsonb_typeof(e.value) = 'object')
   select coalesce(json_object_agg(id, json_build_array(n, love)), '{}'::json) from (
     select regexp_replace(k, '^r:', '') as id,
-           count(*) filter (where k !~ '^r:' and coalesce((val->>'lvl')::int, 0) > 0) as n,
-           count(*) filter (where k ~ '^r:' and coalesce((val->>'v')::int, 0) = 3) as love
-    from v group by 1) s;
+           count(*) filter (where k !~ '^r:' and public.mp_num(val->'lvl') > 0) as n,
+           count(*) filter (where k ~ '^r:' and public.mp_num(val->'v') = 3) as love
+    from v group by 1) s
+  where n >= 3 and char_length(id) <= 64;
 $$;
 grant execute on function public.place_stats() to anon, authenticated;
 
--- Puesto en el que alguien selló un lugar: cuántos lo sellaron antes de ts (ms) + 1
+-- Puesto en el que alguien selló un lugar: cuántos lo sellaron antes de ts (ms) + 1.
+-- Se compara por días (no por milisegundos) y solo con 3 o más viajeros, para que no se pueda averiguar
+-- a qué hora exacta estuvo alguien en un sitio probando timestamps.
 create or replace function public.place_rank(pid text, ts bigint)
 returns int language sql stable security definer set search_path = public as $$
-  select count(*)::int + 1 from public.progress p
-  where coalesce((p.visits->pid->>'lvl')::int, 0) > 0 and (p.visits->pid->>'t')::bigint < ts;
+  with s as (
+    select floor(public.mp_num(p.visits->pid->'t') / 86400000) as d from public.progress p
+    where jsonb_typeof(p.visits) = 'object' and public.mp_num(p.visits->pid->'lvl') > 0
+  )
+  select case when (select count(*) from s) < 3 then null
+              else (select count(*)::int + 1 from s where d < floor(ts / 86400000.0)) end;
 $$;
 grant execute on function public.place_rank(text, bigint) to anon, authenticated;
 
@@ -61,3 +88,7 @@ create table if not exists public.reports (
 alter table public.reports enable row level security;
 drop policy if exists "reports_insert_any" on public.reports;
 create policy "reports_insert_any" on public.reports for insert to anon, authenticated with check (true);
+-- Límites de los avisos (la tabla es de inserción pública: que nadie pueda llenarla con textos enormes)
+alter table public.reports drop constraint if exists reports_limits;
+alter table public.reports add constraint reports_limits check (
+  char_length(place) <= 64 and (lang is null or char_length(lang) <= 8)) not valid;

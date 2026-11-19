@@ -1,0 +1,9 @@
+# No publicar en la web: documentación interna, diseño, scripts, tests y SQL
+CLAUDE.md
+README.md
+mockups/
+tools/
+tests/
+supabase/
+reports/
+**/__pycache__/
