@@ -36,13 +36,13 @@ y la app como módulos ES nativos en `js/app/`:
 `main.js` (arranque) · `state.js` (estado y progreso) · `geo.js` (distritos/barrios) · `map.js` (MapLibre, mapa de calor, pines) ·
 `sheet.js` (panel y gestos) · `views.js` (Madrid/distrito/ficha, checks) · `pages.js` (Diario/Logros) · `gps.js` (ubicación,
 sugerencias, barrios por GPS, debug) · `level.js` (puntos y niveles) · `i18n.js` (textos ES/EN) · `wiki.js` · `sync.js` (Supabase) ·
-`analytics.js` (PostHog) · `community.js` (estadísticas de comunidad y avisos de error). Al añadir un módulo, añadirlo también a `SHELL` en `sw.js`.
+`analytics.js` (PostHog) · `consent.js` (banner de consentimiento con Maya) · `maya.js` (mascota) · `community.js` (estadísticas de comunidad y avisos de error). Al añadir un módulo, añadirlo también a `SHELL` en `sw.js`.
 
 ## Analítica (PostHog, UE + Vercel Web Analytics)
 Vercel Web Analytics (`/_vercel/insights/script.js`, cargado desde `analytics.js`) da el panel sencillo de visitantes diarios; se activa en Vercel → proyecto → Analytics.
 `madrid-passport.vercel.app` redirige a `https://www.madridpassport.com` (`vercel.json`).
 
-`js/app/analytics.js` envía eventos a PostHog a través del proxy `/ingest` (`vercel.json`). Desactivada en localhost, en tests
+`js/app/analytics.js` envía eventos a PostHog a través del proxy `/ingest` (`vercel.json`), solo si el usuario acepta el banner de Maya (`consent.js`, `localStorage['mp.consent']`; también en Ajustes). Antes de decidir, los eventos esperan en memoria y se envían al aceptar. Desactivada en localhost, en tests
 y con `?notrack` (o `localStorage['mp.noTrack']='1'`). Sin emails ni nombres: al iniciar sesión solo se usa el id de Supabase.
 Esquema de eventos v2 (`event_schema=2`). El proyecto de PostHog se comparte con otras apps: filtrar siempre por `app=madrid-passport`.
 - **Superpropiedades** (en todos los eventos): `app`, `city`, `app_version`, `event_schema`, `lang`, `standalone`, `dark`, `catalog_size`,
@@ -56,7 +56,7 @@ Esquema de eventos v2 (`event_schema=2`). El proyecto de PostHog se comparte con
   `share_opened`, `share_done`, `share_error`, `nearby_location_requested`, `district_sorted`, `next_nearby_opened`, `list_added`, `list_removed`,
   `action_undone`, `cluster_tapped`, `place_link_opened`, `deeplink_opened`, `place_rated`, `place_shared`, `place_reported`, `onboarding_quickmark`,
   `barrio_notif_tapped`, `directions_clicked`, `location_requested`, `language_changed`, `login_clicked`, `logout`, `sync_error`, `app_installed`,
-  `onboarding_shown`, `onboarding_step`, `onboarding_done`, `diary_*`, `may_tapped`, `settings_opened`, `tab_scroll_top`, `js_error`;
+  `onboarding_shown`, `onboarding_step`, `onboarding_done`, `diary_*`, `maya_tapped`, `consent_accepted`, `settings_opened`, `tab_scroll_top`, `js_error`;
   además `$pageview`/`$pageleave` y web vitals (sin autocaptura de clics). Dashboard: «Madrid Passport · Uso» (PostHog, filtrado por `app`).
 
 ## SEO

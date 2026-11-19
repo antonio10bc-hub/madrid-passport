@@ -1,7 +1,7 @@
 // Imagen para compartir: todo Madrid (mapa de calor por distrito) o un distrito (barrios pisados), post (1080×1350) o historia (1080×1920).
 // L = textos traducidos { title, visited, gps, pending, districts, barrios, level, pts }. level = { n, name, pts } del usuario.
 window.MPShare = (() => {
-  // Identidad «May»: crema con cuadrícula, Fredoka (títulos y cifras) + DM Sans, coral y granate
+  // Identidad «Maya»: crema con cuadrícula, Fredoka (títulos y cifras) + DM Sans, coral y granate
   const RED = '#D6202C', CORAL = '#F25C4E', WINE = '#8C1D26', GOLD = '#E9A21B', INK = '#141414', MUTED = '#8A7A70', CREAM = '#FFF5EC';
   const FONT = '"DM Sans", -apple-system, system-ui, sans-serif', DISPLAY = '"Fredoka", "DM Sans", system-ui, sans-serif';
   const svgImg = (svg) => new Promise((res) => { const im = new Image(); im.onload = () => res(im); im.onerror = () => res(null); im.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg.replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" ')); });
@@ -83,12 +83,12 @@ window.MPShare = (() => {
     x.textBaseline = 'alphabetic';
     x.fillStyle = WINE; x.font = `600 32px ${DISPLAY}`; x.fillText(MP_CITY.app, 80, ty);
     x.fillStyle = INK; x.font = `700 ${district && district.name.length > 12 ? 62 : 76}px ${DISPLAY}`; x.fillText(district ? district.name : L.title, 80, ty + 82);
-    // May en la esquina, celebrando, con el % en una chapa coral
-    // % en chapa coral arriba a la derecha y May debajo, con aire entre ambos
+    // Maya en la esquina, celebrando, con el % en una chapa coral
+    // % en chapa coral arriba a la derecha y Maya debajo, con aire entre ambos
     const pt = pct + '%'; x.font = `700 52px ${DISPLAY}`; const pw0 = x.measureText(pt).width + 44;
     x.beginPath(); x.roundRect ? x.roundRect(W - 80 - pw0, ty + 22, pw0, 76, 38) : x.rect(W - 80 - pw0, ty + 22, pw0, 76);
     x.fillStyle = CORAL; x.fill(); x.textAlign = 'center'; x.fillStyle = '#fff'; x.fillText(pt, W - 80 - pw0 / 2, ty + 79); x.textAlign = 'left';
-    const mayIm = window.MPMay ? await svgImg(window.MPMay(pct >= 50 ? 'party' : 'happy')) : null;
+    const mayIm = window.MPMaya ? await svgImg(window.MPMaya(pct >= 50 ? 'party' : 'happy')) : null;
     if (mayIm) { x.save(); x.translate(W - 80 - pw0 / 2, ty + 250); x.rotate(0.12); x.drawImage(mayIm, -90, -90, 180, 180); x.restore(); }
     // Nivel del usuario: píldora roja «NIVEL 3 · VISITANTE» + puntos
     if (level) {

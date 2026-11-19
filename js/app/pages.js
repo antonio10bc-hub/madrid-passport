@@ -5,10 +5,10 @@ import { t, typePlural, lang, setLang, LANGS, locale } from './i18n.js';
 import { points, levelOf, LEVELS } from './level.js';
 import { placeItem, bindPlaceItems, render, goHome, TYPES } from './views.js';
 import { renderAccount } from './sync.js';
-import { track } from './analytics.js';
+import { track, consent, consentNeeded, setConsent } from './analytics.js';
 import { notify } from './notify.js';
 import { showOnboarding } from './onboarding.js';
-import { may } from './may.js';
+import { maya } from './maya.js';
 
 const page = $('#page'), pageBody = $('#page-body');
 
@@ -134,18 +134,18 @@ function renderDiary() {
         <div class="pk gold">${MP_ICON('target')}<b>${pr.gps + bp.gps}</b><small>${t('pass.gps')}</small></div>
         <div class="pk rose">${MP_ICON('barrio')}<b>${bp.done}</b><small>${t('pass.barrios')}</small></div>
         <div class="pk wine">${MP_ICON('map')}<b>${dComplete}<span>/${DISTRICTS.length}</span></b><small>${t('districts')}</small></div></div>
-      <button class="may-btn pass-may" data-may="diary" aria-label="May">${may('happy')}</button></section>
-    ${items.length ? `<div id="cal-wrap">${calendarHTML(items)}</div>` : `<div class="empty-state">${may('sleep', 'may empty-may')}${t('diary.empty')}</div>`}
+      <button class="maya-btn pass-maya" data-maya="diary" aria-label="Maya">${maya('happy')}</button></section>
+    ${items.length ? `<div id="cal-wrap">${calendarHTML(items)}</div>` : `<div class="empty-state">${maya('sleep', 'maya empty-maya')}${t('diary.empty')}</div>`}
     ${undated.length ? `<div class="cal-sel"><strong>${t('nodate')}</strong><small>${countLabel(undated)}</small></div><div class="cal-list">${undated.map(rowHTML).join('')}</div>` : ''}`;
 }
 
-// ---------- May: al tocarla rebota y pone cara de sorpresa ----------
+// ---------- Maya: al tocarla rebota y pone cara de sorpresa ----------
 function bindMay(root) {
-  root.querySelectorAll('.may-btn').forEach((b) => (b.onclick = () => {
-    track('may_tapped', { where: b.dataset.may });
+  root.querySelectorAll('.maya-btn').forEach((b) => (b.onclick = () => {
+    track('maya_tapped', { where: b.dataset.maya });
     b.classList.remove('boing'); void b.offsetWidth; b.classList.add('boing');
-    b.innerHTML = may('wow');
-    clearTimeout(b._t); b._t = setTimeout(() => { b.innerHTML = may(b.dataset.mood || 'happy'); b.classList.remove('boing'); }, 900);
+    b.innerHTML = maya('wow');
+    clearTimeout(b._t); b._t = setTimeout(() => { b.innerHTML = maya(b.dataset.mood || 'happy'); b.classList.remove('boing'); }, 900);
   }));
 }
 
@@ -157,7 +157,7 @@ function levelHTML() {
   const { pts, lv } = levelState(), { visit, gps } = pts.parts;
   return `<section class="lvl-card" id="lvl-card">
     <div class="lvl-ring"><svg viewBox="0 0 112 112" aria-hidden="true">${ring(112, 50, 10, lv.pct, 'rg-red')}${ring(112, 35, 8, visit ? gps / visit : 0, 'rg-gold')}</svg>
-      <button class="may-btn lvl-face" data-may="badges" data-mood="${lv.i > 0 ? 'party' : 'happy'}" aria-label="May">${may(lv.i > 0 ? 'party' : 'happy')}</button>
+      <button class="maya-btn lvl-face" data-maya="badges" data-mood="${lv.i > 0 ? 'party' : 'happy'}" aria-label="Maya">${maya(lv.i > 0 ? 'party' : 'happy')}</button>
       <span class="lvl-n" aria-label="${t('level')} ${lv.i + 1}/${LEVELS.length}">${lv.i + 1}</span></div>
     <div class="lvl-info"><h2>${t('lvl.' + lv.cur.id)}</h2><b class="lvl-pts">${pts.total}<span> ${t('pts')}</span></b>
       <p class="lvl-next"><i class="dot red"></i>${lv.next ? t('level.next', { n: lv.toNext, name: t('lvl.' + lv.next.id) }) : t('level.max')}</p>
@@ -230,6 +230,8 @@ function renderBadges() {
 
 // ---------- Ajustes (engranaje del Diario): idioma, introducción y privacidad ----------
 const settingsEl = $('#settings'), gearBtn = $('#settings-btn');
+// Interruptor de la analítica (mismo permiso que el banner de Maya); oculto si la analítica no está activa aquí (localhost, ?notrack)
+const consentRow = () => (consent() == null && !consentNeeded() ? '' : `<div class="lang-row">${MP_ICON('route')}<span>${t('set.stats')}</span><div class="lang-seg">${[['1', 'set.on'], ['0', 'set.off']].map(([k, l]) => `<button class="chip ${(consent() === '1') === (k === '1') ? 'on' : ''}" data-stats="${k}">${t(l)}</button>`).join('')}</div></div>`);
 let settingsOpen = false;
 function setSettings(open) {
   if (open && !settingsOpen) track('settings_opened');
@@ -241,10 +243,16 @@ function renderSettings() {
   settingsEl.innerHTML = `<div class="settings-card" role="dialog" aria-modal="true" aria-label="${t('settings')}">
     <div class="settings-h"><strong>${t('settings')}</strong><button class="settings-x" id="settings-x" aria-label="${t('close')}"><svg class="icon-x" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     <div class="lang-row">${MP_ICON('globe')}<span>${t('language')}</span><div class="lang-seg">${LANGS.map(([k, n]) => `<button class="chip ${lang === k ? 'on' : ''}" data-lang="${k}">${n}</button>`).join('')}</div></div>
+    ${consentRow()}
     <button class="ob-again" id="ob-again">${MP_ICON('compass', 'ico')}<span>${t('ob.again')}</span></button>
     <a class="ob-again" href="/${lang === 'en' ? 'en/places' : 'lugares'}/">${MP_ICON('map', 'ico')}<span>${t('seo.all')}</span></a>
     <a class="ob-again" href="privacy.html">${MP_ICON('ticket', 'ico')}<span>${t('privacy')}</span></a></div>`;
   settingsEl.querySelector('#settings-x').onclick = () => setSettings(false);
+  settingsEl.querySelectorAll('[data-stats]').forEach((el) => (el.onclick = () => {
+    const yes = el.dataset.stats === '1';
+    if ((consent() === '1') === yes) return;
+    setConsent(yes); renderSettings();
+  }));
   settingsEl.querySelector('#ob-again').onclick = () => { setSettings(false); showOnboarding('diary'); };
   settingsEl.querySelectorAll('[data-lang]').forEach((el) => (el.onclick = () => {
     if (el.dataset.lang === lang) return;

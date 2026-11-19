@@ -11,6 +11,7 @@ import { initPages, unlockedNow, levelState, setTab } from './pages.js';
 import { initSync } from './sync.js';
 import { initAnalytics, track, setPerson } from './analytics.js';
 import { maybeOnboarding } from './onboarding.js';
+import { maybeConsent } from './consent.js';
 
 // ---------- Compartir ----------
 // Compartir: siempre en formato historia (9:16). Con un distrito abierto se elige distrito o todo Madrid; si no, directo.
@@ -87,6 +88,7 @@ async function boot() {
     const p = PLACES.filter((x) => lvl(x.id) > 0);
     track('app_opened', { visited: p.length, gps: p.filter((x) => lvl(x.id) === 2).length, barrios: BARRIOS.filter((b) => blvl(b) > 0).length, badges: Object.keys(S.badges).length });
     setPerson({ places_visited: p.length, lang });
+    intro.then(() => setTimeout(maybeConsent, 600));   // Maya pide permiso para la analítica tras la intro
     await intro;                     // el mapa se crea al cerrar la intro (su carga bloquea el hilo y daba tirones en las animaciones)
     await initMap();
     render();
