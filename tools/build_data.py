@@ -19,14 +19,15 @@ if os.path.exists('tools/validacion-lugares.json'):
             e = wiki.setdefault(v['id'], {})
             if v.get('wiki'): e['lat'], e['lng'] = v['wiki']
             e['img'] = v.get('img') or e.get('img'); e['desc'] = v.get('desc') or e.get('desc'); e['url'] = v.get('url') or e.get('url')
+manual = {k: v for k, v in json.load(open('tools/manual.json')).items() if not k.startswith('_')} if os.path.exists('tools/manual.json') else {}
 out, seen = [], set()
 for r in rows:
-    w = wiki.get(r['id'], {})
+    w = {**wiki.get(r['id'], {}), **manual.get(r['id'], {})}         # textos propios (tools/manual.json) por encima de Wikipedia
     c = (w.get('lat') and [round(w['lat'], 5), round(w['lng'], 5)]) if os.path.exists('tools/validacion-lugares.json') else None
     c = c or coords.get(r['id']) or (w.get('lat') and [round(w['lat'], 5), round(w['lng'], 5)]) or old.get(r['id'], {}).get('coords')
     if not c: print('SIN COORDS:', r['id']); continue
     out.append({'id': r['id'], 'zone': r['zone'], 'name': r['name'], 'type': r['type'], 'coords': c, 'wiki': r['wiki'], 'district': override.get(r['id']),
-                'img': w.get('img'), 'desc': w.get('desc'), 'url': w.get('url'), 'wiki_en': w.get('title_en'), 'parent': r.get('parent') or None})
+                'img': w.get('img'), 'desc': w.get('desc'), 'url': w.get('url'), 'wiki_en': w.get('title_en'), 'desc_en': manual.get(r['id'], {}).get('desc_en'), 'parent': r.get('parent') or None})
     seen.add(r['id'])
 for k, v in old.items():                                             # lugares antiguos sin entrada en el TSV
     if k not in seen: out.append({'id': k, **v, 'wiki': None})

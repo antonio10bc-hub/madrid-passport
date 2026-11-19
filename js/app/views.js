@@ -1,6 +1,6 @@
 // Vistas del panel (Madrid, distrito, ficha), navegación y checks.
 import { $, esc, dist, fmtDist, walkMin, fmtDate, fmtTime, toast, ICON_CHECK, ICON_GPS, ICON_X } from './util.js';
-import { S, PLACES, BYID, CHILDREN, DISTRICTS, districtOf, barrioOf, lvl, blvl, bKey, progress, bprogress, currentDistrict, save, inList, listPlaces } from './state.js';
+import { S, PLACES, BYID, CHILDREN, DISTRICTS, districtOf, barrioOf, lvl, blvl, bKey, progress, bprogress, currentDistrict, save, setV, delV, inList, listPlaces } from './state.js';
 import { t, typeName, typePlural, lang } from './i18n.js';
 import { body, sheet, setSheet, pad } from './sheet.js';
 import { map, ready, fit, fitCity, centerOffset, paintDistricts, drawPins, passStatus } from './map.js';
@@ -201,8 +201,8 @@ function renderDistrict() {
     if (l === 2) return toast(t('barrio.lock.gps'));
     if (l > stored) return toast(t('barrio.lock.place'));
     const undo = snapshot(k);
-    if (stored === 1) { delete S.visits[k]; track('barrio_unmarked', { barrio: b.id, district: d.id }); toast(t('barrio.unmarked.toast', { name: b.name }), false, undo); }
-    else { S.visits[k] = { lvl: 1, t: Date.now() }; toast(t('barrio.marked.toast', { name: b.name }), false, undo); track('barrio_discovered', { barrio: b.id, district: d.id, method: 'manual' }); }
+    if (stored === 1) { delV(k); track('barrio_unmarked', { barrio: b.id, district: d.id }); toast(t('barrio.unmarked.toast', { name: b.name }), false, undo); }
+    else { setV(k, { lvl: 1, t: Date.now() }); toast(t('barrio.marked.toast', { name: b.name }), false, undo); track('barrio_discovered', { barrio: b.id, district: d.id, method: 'manual' }); }
     commit();
   }));
 }
@@ -338,13 +338,13 @@ function renderPlace() {
   $('#pl-report').onclick = () => openReport(p);
   body.querySelectorAll('[data-rate]').forEach((el) => (el.onclick = () => {
     const k = 'r:' + p.id, v = +el.dataset.rate, off = S.visits[k]?.v === v;
-    if (off) delete S.visits[k]; else S.visits[k] = { v, t: Date.now() };
+    if (off) delV(k); else setV(k, { v, t: Date.now() });
     track('place_rated', { place: p.id, type: p.type, rating: off ? 0 : v });
     save(); render({ keepScroll: true });
   }));
   body.querySelectorAll('[data-l]').forEach((el) => (el.onclick = () => {
     const k = el.dataset.l, key = `${k}:${p.id}`, on = !S.visits[key];
-    if (on) S.visits[key] = { t: Date.now() }; else delete S.visits[key];
+    if (on) setV(key, { t: Date.now() }); else delV(key);
     track(on ? 'list_added' : 'list_removed', { list: k === 'f' ? 'fav' : 'want', place: p.id, type: p.type });
     toast(t(`list.${k}.${on ? 'add' : 'del'}`));
     el.classList.toggle('on', on); el.setAttribute('aria-pressed', on);
@@ -420,7 +420,7 @@ export const initLevel = () => { lastLevel = levelState().lv.i; };
 function snapshot(key) {
   const prev = S.visits[key] ? { ...S.visits[key] } : null, badges = { ...S.badges };
   return { label: t('undo'), fn: () => {
-    if (prev) S.visits[key] = prev; else delete S.visits[key];
+    if (prev) setV(key, prev); else delV(key);
     S.badges = badges;
     track('action_undone', { key });
     commit();
@@ -433,8 +433,8 @@ async function onCheck(el) {
   if (a === 1) {
     if (l === 2) return toast(t('chk.locked'));
     const undo = snapshot(id);
-    if (l === 1) { delete S.visits[id]; track('place_unchecked', props); toast(t('chk.unmarked'), false, undo); }
-    else { S.visits[id] = { lvl: 1, t: Date.now() }; toast(t('chk.marked'), false, undo); track('place_checked', props); }
+    if (l === 1) { delV(id); track('place_unchecked', props); toast(t('chk.unmarked'), false, undo); }
+    else { setV(id, { lvl: 1, t: Date.now() }); toast(t('chk.marked'), false, undo); track('place_checked', props); }
   } else {
     if (l === 2) return toast(t('chk.already'));
     el.classList.add('loading');
@@ -444,7 +444,7 @@ async function onCheck(el) {
       const d = dist(pos.coords, place.coords);
       if (d <= radiusFor(place, pos.acc)) { confirmGps(id, pos, 'button'); gpsStamp(place); }
       else { toast(t('gps.far', { d: fmtDist(d) }), true); track('gps_too_far', { ...props, distance: Math.round(d), accuracy: Math.round(pos.acc || 0) }); }
-    } catch (e) { track('gps_error', { code: e?.code ?? null, where: 'check' }); toast(S.debug ? e.message : t('gps.fail'), true); }
+    } catch (e) { track('gps_error', { code: e?.code ?? null, where: 'check' }); toast(t('gps.fail'), true); }
     el.classList.remove('loading');
   }
   commit();

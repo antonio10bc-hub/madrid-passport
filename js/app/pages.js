@@ -5,7 +5,7 @@ import { t, typePlural, lang, setLang, LANGS, locale } from './i18n.js';
 import { points, levelOf, LEVELS } from './level.js';
 import { placeItem, bindPlaceItems, render, goHome, TYPES } from './views.js';
 import { renderAccount } from './sync.js';
-import { track, consent, consentNeeded, setConsent } from './analytics.js';
+import { track, consent, consentNeeded, setConsent, resetUser } from './analytics.js';
 import { notify } from './notify.js';
 import { showOnboarding } from './onboarding.js';
 import { maya } from './maya.js';
@@ -251,6 +251,30 @@ async function installApp() {
   track('install_help', { ios: IOS });
   toast(t(IOS ? 'set.install.ios' : 'set.install.other'), false, { label: t('consent.ok'), fn: () => {} });
 }
+// Mis datos (RGPD): descargar todo lo guardado y borrarlo (en este dispositivo y, con sesión, en la nube)
+function exportData() {
+  const local = {};
+  try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k.startsWith('mp.')) local[k] = localStorage.getItem(k); } } catch {}
+  const data = { app: MP_CITY.app, exported_at: new Date().toISOString(), account: window.MPAuth?.user ? { id: MPAuth.user.id, email: MPAuth.user.email } : null,
+    visits: S.visits, badges: S.badges, settings: local };
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 1)], { type: 'application/json' }));
+  a.download = `${MP_CITY.id}-passport-${new Date().toISOString().slice(0, 10)}.json`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  track('data_exported');
+  toast(t('set.export.done'));
+}
+async function deleteData() {
+  const cloud = !!window.MPAuth?.user;
+  if (!confirm(t(cloud ? 'set.delete.q.cloud' : 'set.delete.q'))) return;
+  track('data_deleted', { cloud });
+  try { if (cloud) await MPAuth.deleteAccount(); }
+  catch (e) { console.error(e); return toast(t('set.delete.fail'), true); }
+  resetUser();
+  try { Object.keys(localStorage).filter((k) => k.startsWith('mp.')).forEach((k) => localStorage.removeItem(k)); } catch {}
+  location.replace(location.pathname);
+}
 let settingsOpen = false;
 function setSettings(open) {
   if (open && !settingsOpen) track('settings_opened');
@@ -266,7 +290,9 @@ function renderSettings() {
     ${installRow()}
     <button class="ob-again" id="ob-again">${MP_ICON('compass', 'ico')}<span>${t('ob.again')}</span></button>
     <a class="ob-again" href="/${lang === 'en' ? 'en/places' : 'lugares'}/">${MP_ICON('map', 'ico')}<span>${t('seo.all')}</span></a>
-    <a class="ob-again" href="privacy.html">${MP_ICON('ticket', 'ico')}<span>${t('privacy')}</span></a></div>`;
+    <a class="ob-again" href="privacy.html">${MP_ICON('ticket', 'ico')}<span>${t('privacy')}</span></a>
+    <button class="ob-again" id="set-export">${MP_ICON('download', 'ico')}<span>${t('set.export')}</span></button>
+    <button class="ob-again danger" id="set-delete">${MP_ICON('trash', 'ico')}<span>${t('set.delete')}</span></button></div>`;
   settingsEl.querySelector('#settings-x').onclick = () => setSettings(false);
   settingsEl.querySelectorAll('[data-stats]').forEach((el) => (el.onclick = () => {
     const yes = el.dataset.stats === '1';
@@ -274,6 +300,8 @@ function renderSettings() {
     setConsent(yes); renderSettings();
   }));
   const ins = settingsEl.querySelector('#set-install'); if (ins) ins.onclick = installApp;
+  settingsEl.querySelector('#set-export').onclick = exportData;
+  settingsEl.querySelector('#set-delete').onclick = deleteData;
   settingsEl.querySelector('#ob-again').onclick = () => { setSettings(false); showOnboarding('diary'); };
   settingsEl.querySelectorAll('[data-lang]').forEach((el) => (el.onclick = () => {
     if (el.dataset.lang === lang) return;

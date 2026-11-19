@@ -315,7 +315,7 @@ jardines-ribera	Jardines del Arquitecto Ribera	Parque	Malasaña		museo-historia
 museo-abc	Museo ABC	Museo	Malasaña	Museo ABC	
 museo-arte-contemporaneo	Museo de Arte Contemporáneo	Museo	Malasaña	Museo de Arte Contemporáneo de Madrid	conde-duque
 montserrat	Iglesia de Montserrat	Iglesia	Malasaña	Iglesia de Nuestra Señora de Montserrat (Madrid)	
-comendadoras	Convento de las Comendadoras de Santiago	Iglesia	Malasaña		plaza-comendadoras
+comendadoras	Convento de las Comendadoras de Santiago	Iglesia	Malasaña	Convento de las Comendadoras de Santiago (Madrid)	plaza-comendadoras
 plaza-comendadoras	Plaza de las Comendadoras	Plaza	Malasaña	Plaza de las Comendadoras	
 san-placido	Convento de San Plácido	Iglesia	Malasaña	Convento de San Plácido	
 san-marcos	Iglesia de San Marcos	Iglesia		Iglesia de San Marcos (Madrid)	
@@ -332,7 +332,7 @@ plaza-villa-paris	Plaza de la Villa de París	Plaza	Justicia	Plaza de la Villa d
 teatro-infanta-isabel	Teatro Infanta Isabel	Teatro	Justicia	Teatro Infanta Isabel	
 teatro-marquina	Teatro Marquina	Teatro	Justicia	Teatro Marquina	
 parque-retiro	Parque del Retiro	Parque	Parque del Retiro	Parque del Buen Retiro	
-rosaleda-retiro	Rosaleda del Retiro	Parque	Parque del Retiro		parque-retiro
+rosaleda-retiro	Rosaleda del Retiro	Parque	Parque del Retiro	La Rosaleda del Retiro	parque-retiro
 bosque-recuerdo	Bosque del Recuerdo	Monumento	Parque del Retiro	Bosque del Recuerdo	parque-retiro
 alfonso-xii	Monumento a Alfonso XII	Monumento	Parque del Retiro	Monumento a Alfonso XII	parque-retiro
 puerta-felipe-iv	Puerta de Felipe IV	Monumento	Parque del Retiro	Puerta de Felipe IV	parque-retiro
@@ -435,3 +435,13 @@ panteon	Panteón de Hombres Ilustres	Monumento		Panteón de Hombres Ilustres (Ma
 caidos-espana	Monumento a los Caídos por España	Monumento	Jerónimos	Monumento a los Caídos por España (Madrid)	plaza-lealtad
 fuente-alcachofa	Fuente de la Alcachofa	Monumento	Parque del Retiro	Fuente de la Alcachofa	parque-retiro
 casa-ciriaco	Casa Ciriaco	Gastronomía	Sol	Casa Ciriaco	calle-mayor
+museo-aire	Museo del Aire	Museo		Museo de Aeronáutica y Astronáutica	
+vallehermoso	Mercado de Vallehermoso	Mercado		Mercado de Vallehermoso	
+calero	Parque de El Calero	Parque		Parque El Calero	
+dehesa-boyal	Parque de la Dehesa Boyal	Parque		Parque de la Dehesa Boyal	
+rodriguez-sahagun	Parque Rodríguez Sahagún	Parque			
+ventilla	Parque de la Ventilla	Parque			
+cuna-verde-latina	Cuña Verde de Latina	Parque			
+cruces	Parque de las Cruces	Parque			
+caramuel	Parque Caramuel · Puerta del Ángel	Parque			
+moratalaz-centro	Paseo de Moratalaz	Calle			

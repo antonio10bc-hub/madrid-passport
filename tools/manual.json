@@ -1,0 +1,93 @@
+{
+ "_info": "Descripciones propias (mandan sobre Wikipedia) para lugares sin artículo o con un extracto erróneo. desc = español, desc_en = inglés, img = foto (Commons). Lo leen build_data.py y build_seo.py.",
+ "rosaleda-retiro": {
+  "desc": "Jardín de rosas del Retiro diseñado por Cecilio Rodríguez e inaugurado en 1915, inspirado en la rosaleda de Bagatelle de París. Entre mayo y junio florecen miles de rosales entre pérgolas, arcos y fuentes.",
+  "desc_en": "The Retiro's rose garden, designed by Cecilio Rodríguez and opened in 1915, inspired by the Bagatelle rose garden in Paris. In May and June thousands of roses bloom among pergolas, arches and fountains."
+ },
+ "juan-pablo-ii": {
+  "desc": "Uno de los grandes parques del noreste de Madrid, en el distrito de Hortaleza: amplias praderas, paseos arbolados, zonas infantiles y áreas deportivas muy usadas por los vecinos para pasear y correr.",
+  "desc_en": "One of the large parks in north-east Madrid, in the Hortaleza district: wide lawns, tree-lined paths, playgrounds and sports areas popular with locals for walking and running."
+ },
+ "pinar-rey": {
+  "desc": "Pinar que da nombre al barrio de Pinar del Rey, en Hortaleza: pinos, senderos de tierra y zonas de juego y deporte; un pequeño bosque urbano en pleno barrio.",
+  "desc_en": "The pine wood that gives the Pinar del Rey neighbourhood (Hortaleza) its name: pine trees, dirt trails, play and sports areas — a small urban forest in the middle of the neighbourhood."
+ },
+ "valdebernardo": {
+  "desc": "Parque forestal de Vicálvaro, junto al barrio de Valdebernardo: lomas repobladas de pinos, caminos para pasear, correr o ir en bici y vistas abiertas sobre el este de Madrid.",
+  "desc_en": "A woodland park in Vicálvaro, next to the Valdebernardo neighbourhood: hills planted with pines, paths for walking, running or cycling and open views over eastern Madrid."
+ },
+ "casa-alberto": {
+  "desc": "Taberna centenaria de la calle de las Huertas, abierta desde 1827: vermú de grifo, callos y rabo de toro en una barra de las de antes. Una placa recuerda que en este edificio vivió Cervantes.",
+  "desc_en": "A century-old tavern on Calle de las Huertas, open since 1827: vermouth on tap, callos and oxtail at an old-style bar. A plaque recalls that Cervantes lived in this building."
+ },
+ "el-riojano": {
+  "desc": "Confitería de la calle Mayor fundada en 1855 por Dámaso de la Maza, repostero de la reina María Cristina. Conserva su mostrador y vitrinas originales y es famosa por sus pastas del Consejo.",
+  "desc_en": "A pastry shop on Calle Mayor founded in 1855 by Dámaso de la Maza, pastry chef to Queen María Cristina. It keeps its original counter and cabinets and is famous for its pastas del Consejo."
+ },
+ "cafe-central": {
+  "desc": "Café de la plaza del Ángel convertido en club de jazz en 1982: sala de aire modernista, conciertos en directo cada noche y una de las referencias del jazz en Europa.",
+  "desc_en": "A café on Plaza del Ángel turned jazz club in 1982: an Art Nouveau-style room, live concerts every night and one of Europe's best-known jazz venues."
+ },
+ "espacio-telefonica": {
+  "desc": "Centro de exposiciones de la Fundación Telefónica en el edificio Telefónica de la Gran Vía (1929), el primer rascacielos de Madrid. Muestras gratuitas de arte, ciencia y tecnología.",
+  "desc_en": "Fundación Telefónica's exhibition centre in the Telefónica building on Gran Vía (1929), Madrid's first skyscraper. Free exhibitions on art, science and technology.",
+  "img": "https://commons.wikimedia.org/wiki/Special:FilePath/Telef%C3%B3nica_-_Gran_V%C3%ADa_28_-_Madrid.jpg?width=800"
+ },
+ "jardines-ribera": {
+  "desc": "Jardín público de Malasaña junto al antiguo Hospicio de San Fernando, hoy Museo de Historia de Madrid, cuya portada barroca diseñó Pedro de Ribera. Un remanso con bancos y juegos en plena calle Fuencarral.",
+  "desc_en": "A public garden in Malasaña next to the former Hospicio de San Fernando, now the Museum of the History of Madrid, whose Baroque doorway was designed by Pedro de Ribera. A quiet spot with benches and a playground right on Calle Fuencarral.",
+  "img": "https://commons.wikimedia.org/wiki/Special:FilePath/Museo_de_Historia_de_Madrid_%28Espa%C3%B1a%29_03.jpg?width=800"
+ },
+ "plaza-felipe-ii": {
+  "desc": "Plaza ajardinada del barrio de Salamanca, sobre la estación de metro de Goya y a un paso del WiZink Center: punto de encuentro con mucho ambiente comercial alrededor.",
+  "desc_en": "A landscaped square in the Salamanca district, above Goya metro station and a short walk from the WiZink Center: a meeting point surrounded by shops."
+ },
+ "iglesia-concepcion": {
+  "desc": "Parroquia neogótica de principios del siglo XX en la calle de Goya, con alta torre y vidrieras; una de las iglesias más conocidas del barrio de Salamanca y muy solicitada para bodas.",
+  "desc_en": "A Neo-Gothic parish church from the early 20th century on Calle de Goya, with a tall tower and stained glass; one of the best-known churches in the Salamanca district and a favourite for weddings."
+ },
+ "virgen-puerto": {
+  "desc": "Ermita barroca de Pedro de Ribera (1718) junto al Manzanares y el puente de Segovia, encargada por el marqués de Vadillo. Hoy queda en pleno Madrid Río.",
+  "desc_en": "A Baroque hermitage by Pedro de Ribera (1718) by the Manzanares river and the Segovia bridge, commissioned by the Marquis of Vadillo. Today it stands in the middle of Madrid Río."
+ },
+ "cineteca": {
+  "desc": "Sala de cine del Matadero dedicada sobre todo al cine documental y de no ficción, con ciclos, estrenos y festivales en las antiguas naves del matadero.",
+  "desc_en": "A cinema at Matadero devoted mainly to documentary and non-fiction film, with seasons, premieres and festivals in the former slaughterhouse halls."
+ },
+ "naves-espanol": {
+  "desc": "Espacio escénico del Teatro Español en dos antiguas naves del Matadero: teatro contemporáneo, danza y montajes de gran formato en un edificio industrial de ladrillo.",
+  "desc_en": "The Teatro Español's stage space in two former Matadero halls: contemporary theatre, dance and large-scale productions in a brick industrial building."
+ },
+ "mercado-chamartin": {
+  "desc": "Mercado municipal de la calle Bolivia con fama de ser uno de los mejores de Madrid por la calidad de sus puestos de pescado, carne, fruta y productos gourmet.",
+  "desc_en": "A municipal market on Calle Bolivia, reputed to be one of Madrid's best for the quality of its fish, meat, fruit and gourmet stalls.",
+  "img": "https://commons.wikimedia.org/wiki/Special:FilePath/Mercado_de_Chamart%C3%ADn%2C_Madrid.jpg?width=800"
+ },
+ "rodriguez-sahagun": {
+  "desc": "Parque de Tetuán que lleva el nombre del que fue alcalde de Madrid Agustín Rodríguez Sahagún: lomas de césped, paseos, zonas deportivas y vistas sobre el norte de la ciudad.",
+  "desc_en": "A park in Tetuán named after former Madrid mayor Agustín Rodríguez Sahagún: grassy hills, paths, sports areas and views over the north of the city."
+ },
+ "ventilla": {
+  "desc": "Parque del barrio de la Ventilla, en Tetuán: praderas, arbolado y zonas de juego a poca distancia de las torres de la Castellana.",
+  "desc_en": "A park in the Ventilla neighbourhood of Tetuán: lawns, trees and play areas a short distance from the Castellana towers."
+ },
+ "cuna-verde-latina": {
+  "desc": "Larga franja verde que atraviesa el distrito de Latina entre Aluche y Las Águilas: praderas, arbolado y kilómetros de caminos para pasear, correr o ir en bici.",
+  "desc_en": "A long green belt running through the Latina district between Aluche and Las Águilas: lawns, trees and miles of paths for walking, running or cycling."
+ },
+ "cruces": {
+  "desc": "Gran parque del suroeste de Madrid, entre Carabanchel y Latina: colinas, praderas, zonas deportivas y paseos con vistas sobre los barrios del sur.",
+  "desc_en": "A large park in south-west Madrid, between Carabanchel and Latina: hills, lawns, sports areas and paths with views over the southern neighbourhoods."
+ },
+ "caramuel": {
+  "desc": "Parque de barrio en Puerta del Ángel, en el distrito de Latina: un respiro verde con juegos y bancos entre calles residenciales.",
+  "desc_en": "A neighbourhood park in Puerta del Ángel, in the Latina district: a green breather with a playground and benches among residential streets."
+ },
+ "moratalaz-centro": {
+  "desc": "Eje principal del distrito de Moratalaz, un barrio planificado en los años 60 y 70: avenida con comercios, zonas verdes y la vida diaria del distrito.",
+  "desc_en": "The main axis of the Moratalaz district, a neighbourhood planned in the 1960s and 70s: an avenue with shops, green spaces and the district's everyday life."
+ },
+ "calle-segovia": {
+  "img": "https://commons.wikimedia.org/wiki/Special:FilePath/Calle_de_Segovia.jpg?width=800"
+ }
+}

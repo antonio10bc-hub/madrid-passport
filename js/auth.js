@@ -73,5 +73,11 @@ window.MPAuth = (() => {
     const { error } = await sb.from('progress').upsert({ user_id: user.id, visits, badges, updated_at: new Date().toISOString() });
     if (error) throw error;
   }
-  return { enabled, init, signIn, signOut, pull, push, renderGoogleButton, get gis() { return !!cfg.googleClientId; }, get user() { return user; } };
+  // Borra la cuenta y su progreso en la nube (función delete_my_account de supabase/schema.sql); si no existe, al menos el progreso
+  async function deleteAccount() {
+    const { error } = await sb.rpc('delete_my_account');
+    if (error) { const r = await sb.from('progress').delete().eq('user_id', user.id); if (r.error) throw r.error; }
+    await sb.auth.signOut().catch(() => {});
+  }
+  return { enabled, init, signIn, signOut, pull, push, deleteAccount, renderGoogleButton, get gis() { return !!cfg.googleClientId; }, get user() { return user; } };
 })();

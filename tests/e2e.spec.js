@@ -544,3 +544,103 @@ test('ajustes: sin botón de instalar en escritorio', async ({ page }) => {
   await expect(page.locator('#ob-again')).toBeVisible();
   await expect(page.locator('#set-install')).toHaveCount(0);
 });
+
+test('sincronización: un borrado en otro dispositivo no resucita y lo añadido después sí vuelve', async ({ page }) => {
+  const r = await page.evaluate(async () => {
+    const { mergeVisits } = await import('/js/app/sync.js');
+    const A = { a: { lvl: 1, t: 1 }, 'f:a': { t: 1 }, b: { lvl: 1, t: 5 }, '~mod': { a: 1, 'f:a': 1, b: 5 } };
+    const B = { b: { lvl: 2, t: 9, gpsAt: 9 }, '~mod': { a: 10, 'f:a': 10, b: 9 } };       // B quitó «a» y su favorito después
+    const C = { a: { lvl: 1, t: 20 }, '~mod': { a: 20 } };                                   // C lo volvió a marcar más tarde
+    const old = { x: { lvl: 1, t: 3 } };                                                     // datos sin '~mod' (versiones anteriores)
+    return { ab: mergeVisits(A, B), ba: mergeVisits(B, A), bc: mergeVisits(B, C), old: mergeVisits(old, {}) };
+  });
+  for (const m of [r.ab, r.ba]) {
+    expect(m.a).toBeUndefined();
+    expect(m['f:a']).toBeUndefined();
+    expect(m.b).toEqual({ lvl: 2, t: 5, gpsAt: 9 });                                       // nivel más alto, fecha más antigua
+    expect(m['~mod'].a).toBe(10);
+  }
+  expect(r.bc.a).toEqual({ lvl: 1, t: 20 });
+  expect(r.old.x).toEqual({ lvl: 1, t: 3 });
+});
+
+test('desmarcar guarda la fecha del cambio en ~mod (para sincronizar el borrado)', async ({ page }) => {
+  await openCentro(page);
+  await markVisited(page, 'plaza-mayor');
+  await markVisited(page, 'plaza-mayor');
+  const v = await page.evaluate(() => JSON.parse(localStorage.getItem('mp.visits.v1')));
+  expect(v['plaza-mayor']).toBeUndefined();
+  expect(v['~mod']['plaza-mayor']).toBeGreaterThan(0);
+});
+
+test('enlace directo sin haber visto la intro: abre la ficha sin onboarding y da una pista', async ({ page }) => {
+  await page.goto('./?ob=1&p=plaza-mayor');
+  await expect(page.locator('.pd-head h2')).toHaveText('Plaza Mayor');
+  await expect(page.locator('#onboard')).toHaveCount(0);
+  await expect(page.locator('#toast')).toContainText('confírmalo con GPS');
+  await page.goto('./?ob=1');                                                                // la siguiente visita normal sí la muestra
+  await expect(page.locator('#onboard')).toBeVisible();
+});
+
+test('«Quiero ir» cerca: aviso al pasar a menos de 5 min', async ({ page }) => {
+  await page.evaluate(() => localStorage.setItem('mp.visits.v1', JSON.stringify({ 'w:plaza-mayor': { t: 1 } })));
+  await page.reload();
+  await expect(page.locator('.notif')).toContainText('Plaza Mayor');
+  await page.locator('.notif').click();
+  await expect(page.locator('.pd-head h2')).toHaveText('Plaza Mayor');
+});
+
+test('tipo «Zona» con su logro', async ({ page }) => {
+  await page.locator('[data-tab="badges"]').click();
+  await expect(page.locator('#page-body')).toContainText('Zonas');
+  expect(await page.evaluate(() => MP_BADGES.some((b) => b.id === 'zonas'))).toBe(true);
+});
+
+test('ajustes: descargar mis datos y borrarlos de este dispositivo', async ({ page }) => {
+  await openCentro(page);
+  await markVisited(page, 'plaza-mayor');
+  await page.locator('[data-tab="diary"]').click();
+  await page.locator('#settings-btn').click();
+  const [dl] = await Promise.all([page.waitForEvent('download'), page.locator('#set-export').click()]);
+  const data = JSON.parse(require('fs').readFileSync(await dl.path(), 'utf8'));
+  expect(data.visits['plaza-mayor'].lvl).toBe(1);
+  page.once('dialog', (d) => d.accept());
+  await page.locator('#set-delete').click();
+  await expect(page.locator('.row')).toHaveCount(21);
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem('mp.visits.v1') || '{}')['plaza-mayor'])).toBeUndefined();   // (el barrio de Sol se vuelve a pisar por GPS)
+});
+
+test('sin modo debug: no hay panel de GPS falso', async ({ page }) => {
+  await page.goto('./?debug=1');
+  await expect(page.locator('#debug')).toHaveCount(0);
+  expect(await page.evaluate(() => localStorage.getItem('mp.debug'))).toBeNull();
+});
+
+test('CSP: los scripts en línea de las páginas tienen su hash en vercel.json', async () => {
+  const fs = require('fs'), crypto = require('crypto'), path = require('path');
+  const root = path.join(__dirname, '..');
+  const csp = JSON.parse(fs.readFileSync(path.join(root, 'vercel.json'), 'utf8')).headers[0].headers.find((h) => h.key === 'Content-Security-Policy').value;
+  const pages = ['index.html', 'privacy.html', 'lugares/index.html', 'lugar/plaza-mayor/index.html', 'distrito/centro/index.html', 'en/places/index.html'];
+  for (const f of pages) {
+    const html = fs.readFileSync(path.join(root, f), 'utf8');
+    for (const [, attrs, body] of html.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/g)) {
+      if (/\bsrc=|application\/ld\+json/.test(attrs)) continue;
+      const h = `'sha256-${crypto.createHash('sha256').update(body).digest('base64')}'`;
+      expect(csp, `${f}: falta ${h}`).toContain(h);
+    }
+  }
+});
+
+test.describe('sin conexión', () => {
+  test.use({ serviceWorkers: 'allow' });
+  test('con el service worker, la app abre sin red', async ({ page, context }) => {
+    await context.unrouteAll();                                                              // con rutas interceptadas el SW no se registra
+    await page.goto('./');
+    await page.evaluate(() => navigator.serviceWorker.ready);
+    await page.reload();                                                                     // ya controlada por el SW
+    await expect.poll(() => page.evaluate(() => !!navigator.serviceWorker.controller)).toBe(true);
+    await context.setOffline(true);
+    await page.reload();
+    await expect(page.locator('.row')).toHaveCount(21);
+  });
+});

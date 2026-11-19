@@ -24,9 +24,9 @@
   <meta property="og:title" content="Madrid Passport · Tu pasaporte para explorar Madrid">
   <meta property="og:description" content="Marca los lugares de Madrid que visitas, confírmalos con GPS y pinta tu mapa de la ciudad.">
   <meta property="og:url" content="https://www.madridpassport.com/">
-  <meta property="og:image" content="https://www.madridpassport.com/icons/icon-512.png">
+  <meta property="og:image" content="https://www.madridpassport.com/icons/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
   <meta property="og:locale" content="es_ES">
-  <meta name="twitter:card" content="summary">
+  <meta name="twitter:card" content="summary_large_image">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Madrid Passport","url":"https://www.madridpassport.com/","applicationCategory":"TravelApplication","operatingSystem":"Web, iOS, Android","inLanguage":["es","en"],"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"description":"Mapa-guía de Madrid por distritos y barrios para marcar los lugares visitados, confirmarlos con GPS y ganar sellos."}</script>
   <link rel="privacy-policy" href="privacy.html">
   <!-- Conexión anticipada al servidor del mapa y precarga de todos los módulos (evita la cascada de imports) -->
@@ -79,10 +79,6 @@
       <div id="sheet-body"></div>
     </section>
 
-    <div class="debug" id="debug" hidden>
-      <span class="dot"></span><div><b>GPS falso</b><small id="debug-pos">toca el mapa</small></div>
-      <button id="debug-move">Mover</button><button id="debug-validate" title="Validar coordenadas con Wikipedia">Validar</button><button id="debug-reset" title="Borrar progreso">↺</button><button id="debug-off" aria-label="Salir del modo debug"><svg class="icon-x" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-    </div>
     <section class="page" id="page" hidden>
       <header class="page-head"><h1 id="page-title"></h1><button class="gear-btn" id="settings-btn" hidden></button></header>
       <div id="page-body"></div>

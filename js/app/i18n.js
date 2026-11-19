@@ -1,7 +1,7 @@
 // Idiomas: español (por defecto) e inglés. t('clave', { var }) → texto. Los nombres propios no se traducen.
 export const LANGS = [['es', 'Español'], ['en', 'English']];
 const TYPES = {
-  Plaza: ['Plaza', 'Plazas', 'Square', 'Squares'], Calle: ['Calle', 'Calles', 'Street', 'Streets'], Barrio: ['Barrio', 'Barrios', 'Neighbourhood', 'Neighbourhoods'],
+  Plaza: ['Plaza', 'Plazas', 'Square', 'Squares'], Calle: ['Calle', 'Calles', 'Street', 'Streets'], Barrio: ['Zona', 'Zonas', 'Area', 'Areas'],
   Parque: ['Parque', 'Parques', 'Park', 'Parks'], Gastronomía: ['Gastronomía', 'Gastronomía', 'Food & drink', 'Food & drink'], Mercado: ['Mercado', 'Mercados', 'Market', 'Markets'],
   Museo: ['Museo', 'Museos', 'Museum', 'Museums'], Monumento: ['Monumento', 'Monumentos', 'Monument', 'Monuments'], Iglesia: ['Iglesia', 'Iglesias', 'Church', 'Churches'],
   Cultura: ['Cultura', 'Cultura', 'Culture', 'Culture'], Estadio: ['Estadio', 'Estadios', 'Stadium', 'Stadiums'], Mirador: ['Mirador', 'Miradores', 'Viewpoint', 'Viewpoints'],
@@ -52,8 +52,10 @@ const DICT = {
     bytype: 'Por tipo', 'gps.n': '{n} lugares con GPS', stamps: 'Mis sellos', 'badge.kicker': 'Logro desbloqueado', rank: 'Has visitado más lugares que el {pct} % de los viajeros', 'level.kicker': 'Nivel {n}', 'level.pts': '{n} puntos', 'badge.new': 'Logro desbloqueado: {name}',
     'share.post': 'Publicación', 'share.story': 'Historia', 'share.dl': 'Imagen descargada', 'share.fail': 'No se pudo generar la imagen', 'share.visited': 'visitados', 'share.gps': 'confirmados GPS', 'share.pending': 'pendientes', 'share.districts': 'distritos completos', 'share.barrios': 'barrios',
     'heat.legend': '% visitado', 'map.error': 'Error cargando el mapa',
-    'debug.on': 'GPS falso activado', 'debug.off': 'GPS falso desactivado', 'debug.move': 'Mover', 'debug.cancel': 'Cancelar', 'debug.tap': 'toca el mapa para colocarte',
-    'debug.nopos': 'sin posición', 'debug.set': 'Posición falsa fijada', 'debug.need': 'Pulsa «Mover» y toca el mapa para fijar tu posición falsa', 'debug.reset': 'Progreso borrado',
+    'ob.link': 'Toca ✓ cuando lo visites y confírmalo con GPS para ganar el sello dorado', 'want.kicker': 'De tu lista «Quiero ir» · está cerca',
+    'set.export': 'Descargar mis datos', 'set.export.done': 'Datos descargados', 'set.delete': 'Borrar mis datos',
+    'set.delete.q': '¿Borrar todo tu progreso de este dispositivo? No se puede deshacer.',
+    'set.delete.q.cloud': '¿Borrar tu cuenta y todo tu progreso (en la nube y en este dispositivo)? No se puede deshacer.', 'set.delete.fail': 'No se pudo borrar la cuenta. Inténtalo de nuevo.',
   },
   en: {
     'pl.share': 'Share', 'pl.share.done': 'I stamped {name} on {app}', 'pl.share.todo': 'Check out {name} on {app}', 'pl.copied': 'Link copied', 'pl.copied.fail': "Couldn't share",
@@ -99,8 +101,10 @@ const DICT = {
     bytype: 'By type', 'gps.n': '{n} places with GPS', stamps: 'My stamps', 'badge.kicker': 'Badge unlocked', rank: "You've visited more places than {pct}% of travellers", 'level.kicker': 'Level {n}', 'level.pts': '{n} points', 'badge.new': 'Badge unlocked: {name}',
     'share.post': 'Post', 'share.story': 'Story', 'share.dl': 'Image downloaded', 'share.fail': "Couldn't create the image", 'share.visited': 'visited', 'share.gps': 'GPS confirmed', 'share.pending': 'to do', 'share.districts': 'districts done', 'share.barrios': 'neighbourhoods',
     'heat.legend': '% visited', 'map.error': "Couldn't load the map",
-    'debug.on': 'Fake GPS on', 'debug.off': 'Fake GPS off', 'debug.move': 'Move', 'debug.cancel': 'Cancel', 'debug.tap': 'tap the map to place yourself',
-    'debug.nopos': 'no position', 'debug.set': 'Fake position set', 'debug.need': 'Tap «Move» and then the map to set a fake position', 'debug.reset': 'Progress cleared',
+    'ob.link': 'Tap ✓ when you visit it and confirm it with GPS to earn the golden stamp', 'want.kicker': 'From your «Want to go» list · nearby',
+    'set.export': 'Download my data', 'set.export.done': 'Data downloaded', 'set.delete': 'Delete my data',
+    'set.delete.q': 'Delete all your progress on this device? This cannot be undone.',
+    'set.delete.q.cloud': 'Delete your account and all your progress (in the cloud and on this device)? This cannot be undone.', 'set.delete.fail': "Couldn't delete the account. Please try again.",
   },
 };
 

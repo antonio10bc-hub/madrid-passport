@@ -3,6 +3,7 @@
   const P = {
     plaza: '<path d="M4 20h16M6 20v-3h12v3M12 17V9"/><path d="M8 9c0-2 2-3 4-5 2 2 4 3 4 5z"/>',
     calle: '<path d="M12 3v18M12 6h7l2 2-2 2h-7M12 13H5l-2 2 2 2h7"/>',
+    zona: '<path d="M4 20V10l8-6 8 6v10M2 20h20M10 20v-5h4v5"/><circle cx="12" cy="10.5" r="1.6"/>',
     barrio: '<path d="M3 20V10l5-4 5 4v10M13 20v-7l4-3 4 3v7M2 20h20M7 20v-4h2v4"/>',
     parque: '<path d="M12 3l-6 8h3.5L5 17h14l-4.5-6H18z"/><path d="M12 17v4"/>',
     gastronomia: '<path d="M4 9h13v5a5 5 0 01-5 5H9a5 5 0 01-5-5V9z"/><path d="M17 11h1.5a2.5 2.5 0 010 5H17M8 3v3M12 3v3"/>',
@@ -14,6 +15,7 @@
     estadio: '<ellipse cx="12" cy="10" rx="9" ry="5"/><ellipse cx="12" cy="10" rx="4.5" ry="2"/><path d="M3 10v4c0 2.8 4 5 9 5s9-2.2 9-5v-4"/>',
     mirador: '<circle cx="7" cy="16" r="3.5"/><circle cx="17" cy="16" r="3.5"/><path d="M10.5 16h3M4.5 13.5L7 5h3l.5 8M19.5 13.5L17 5h-3l-.5 8"/>',
     teatro: '<path d="M3 4h18M5 4v16M19 4v16M3 20h18"/><path d="M5 4c0 6 2.5 9 5 9M19 4c0 6-2.5 9-5 9"/>',
+    trash: '<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6"/>',
     download: '<path d="M12 3v12M7 10l5 5 5-5M5 21h14"/>',
     gear: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
     globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/>',
@@ -34,7 +36,7 @@
     crown: '<path d="M3 8l4.5 4L12 5l4.5 7L21 8l-2 11H5z"/><path d="M5 19h14"/>',
     clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
   };
-  const TYPE = { Plaza: 'plaza', Calle: 'calle', Barrio: 'barrio', Parque: 'parque', Gastronomía: 'gastronomia', Mercado: 'mercado',
+  const TYPE = { Plaza: 'plaza', Calle: 'calle', Barrio: 'zona', Parque: 'parque', Gastronomía: 'gastronomia', Mercado: 'mercado',
     Museo: 'museo', Monumento: 'monumento', Iglesia: 'iglesia', Cultura: 'cultura', Estadio: 'estadio', Mirador: 'mirador', Teatro: 'teatro' };
   window.MP_ICON = (name, cls = 'ico') => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true">${P[TYPE[name] || name] || P.pin}</svg>`;
 })();

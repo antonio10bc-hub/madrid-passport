@@ -35,6 +35,7 @@
     { id: 'gastro', icon: 'gastronomia', name: 'De tapas', desc: 'Visita todos los sitios de gastronomía', en: ['Tapas crawl', 'Visit every food & drink spot'], test: all('Gastronomía') },
     { id: 'monumentos', icon: 'monumento', name: 'Piedra a piedra', desc: 'Visita todos los monumentos', en: ['Stone by stone', 'Visit every monument'], test: all('Monumento') },
     { id: 'cultura', icon: 'cultura', name: 'Agenda cultural', desc: 'Visita todos los sitios de cultura', en: ['Culture vulture', 'Visit every culture spot'], test: all('Cultura') },
+    { id: 'zonas', icon: 'zona', name: 'Vecindario', desc: 'Visita todas las zonas (colonias, cascos históricos…)', en: ['Local life', 'Visit every area (colonias, old town centres…)'], test: all('Barrio') },
     { id: 'calles', icon: 'calle', name: 'Callejeando', desc: 'Recorre todas las calles', en: ['Street wanderer', 'Walk every street'], test: all('Calle') },
     { id: 'rincon-1', icon: 'flag', name: 'Rincón a rincón', desc: 'Visita un lugar y todo lo que hay dentro (p. ej. el Retiro)', en: ['Every corner', 'Visit a place and everything inside it (e.g. the Retiro)'], test: (s) => [nestsDone(s), 1] },
     { id: 'rincon-all', icon: 'star', name: 'Hasta el último rincón', desc: 'Completa todos los lugares con sitios dentro', en: ['Down to the last corner', 'Complete every place that has spots inside'], test: (s) => [nestsDone(s), nests(s).length] },

@@ -7,14 +7,11 @@ export const S = {
   visits: read(KEY), badges: read(KEY_BADGES),
   view: { type: 'home' },            // home | district | place
   query: '', typeFilter: null, statusFilter: 'all', selId: null, myPos: null,
-  tab: 'map', debug: false, fakePos: null, placing: false,
+  tab: 'map',
   sort: 'zone',                       // orden de la lista del distrito: zone | near | todo
 };
 try { const so = localStorage.getItem('mp.sort'); if (['zone', 'near', 'todo'].includes(so)) S.sort = so; } catch {}
-try {
-  S.debug = new URLSearchParams(location.search).has('debug') || localStorage.getItem('mp.debug') === '1';
-  S.fakePos = JSON.parse(localStorage.getItem('mp.fake'));
-} catch {}
+try { localStorage.removeItem('mp.debug'); localStorage.removeItem('mp.fake'); } catch {}   // restos del antiguo modo debug
 
 export const PLACES = window.PLACES;
 export const BYID = Object.fromEntries(PLACES.map((p) => [p.id, p]));
@@ -38,6 +35,12 @@ export const listPlaces = (k) => PLACES.filter((p) => inList(k, p.id));
 export const districtDone = (d) => d.places.length > 0 && d.places.every((p) => lvl(p.id) > 0);
 
 export const currentDistrict = () => (S.view.type === 'district' ? DISTRICTS.find((d) => d.id === S.view.id) : S.view.type === 'place' ? districtOf[S.view.id] : null);
+
+// Cambios con fecha (clave '~mod': { clave: ms }) para que al sincronizar un borrado no «resucite» desde otro dispositivo
+export const MOD = '~mod';
+const stampMod = (k) => { (S.visits[MOD] ||= {})[k] = Date.now(); };
+export function setV(k, v) { S.visits[k] = v; stampMod(k); }
+export function delV(k) { delete S.visits[k]; stampMod(k); }
 
 export function persist() {
   try { localStorage.setItem(KEY, JSON.stringify(S.visits)); localStorage.setItem(KEY_BADGES, JSON.stringify(S.badges)); } catch {}

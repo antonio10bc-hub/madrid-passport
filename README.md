@@ -25,6 +25,10 @@ Guía-mapa de Madrid por sus 21 distritos, mobile-first (390×844, iPhone 14). W
 - Onboarding de 5 pasos; el último marca de un toque imprescindibles ya visitados (primera recompensa en segundos).
 - Español / inglés (automático por el idioma del móvil; selector en Diario). Descripciones en inglés desde la Wikipedia en inglés.
 - Compartir imagen (historia 9:16): todo Madrid, o el distrito abierto si lo hay, con el nivel del usuario.
+- «Quiero ir» cerca: aviso al pasar a menos de 5 min a pie de un lugar de la lista.
+- Ajustes → «Descargar mis datos» (JSON) y «Borrar mis datos» (con sesión borra también la cuenta: función `delete_my_account` de `supabase/schema.sql`).
+- Sincronización con borrados: cada cambio guarda su fecha en `visits['~mod']`; al fusionar, lo quitado en un dispositivo no vuelve desde otro.
+- Enlaces directos (`?p=`/`?d=`) sin haber visto la intro: se abre lo pedido con una pista, sin onboarding.
 - Modo oscuro automático. PWA instalable con uso sin conexión (mapa y fotos ya vistos quedan en caché).
 
 ## Código
@@ -35,7 +39,7 @@ Sin build: `index.html` carga scripts clásicos (`js/data.js`, `config.js`, `aut
 y la app como módulos ES nativos en `js/app/`:
 `main.js` (arranque) · `state.js` (estado y progreso) · `geo.js` (distritos/barrios) · `map.js` (MapLibre, mapa de calor, pines) ·
 `sheet.js` (panel y gestos) · `views.js` (Madrid/distrito/ficha, checks) · `pages.js` (Diario/Logros) · `gps.js` (ubicación,
-sugerencias, barrios por GPS, debug) · `level.js` (puntos y niveles) · `i18n.js` (textos ES/EN) · `wiki.js` · `sync.js` (Supabase) ·
+sugerencias, barrios por GPS) · `level.js` (puntos y niveles) · `i18n.js` (textos ES/EN) · `wiki.js` · `sync.js` (Supabase) ·
 `analytics.js` (PostHog) · `consent.js` (banner de consentimiento con Maya) · `maya.js` (mascota) · `community.js` (estadísticas de comunidad y avisos de error). Al añadir un módulo, añadirlo también a `SHELL` en `sw.js`.
 
 ## Analítica (PostHog, UE + Vercel Web Analytics)
@@ -87,18 +91,15 @@ cd tests && npm install && npm test
 Al iniciar sesión se fusiona el progreso local con el de la nube (nivel más alto y fechas más antiguas por lugar;
 unión de logros) y después cada cambio se sube automáticamente. Sin configurar, la app funciona igual solo en local.
 
-## Debug
-`?debug=1` o pulsación larga en el botón de ubicación → GPS falso («Mover» y tocar el mapa), «Validar» descarga un informe
-comparando coordenadas con Wikipedia, «↺» borra el progreso.
-
 ## Datos
 - `python3 tools/metro_fetch.py`: estaciones de Metro con sus líneas (Wikipedia) → `data/metro.json` (metro más cercano en la ficha).
-- `tools/places.tsv`: lista de lugares (id, nombre, tipo, zona, título de Wikipedia, `parent` = id del lugar que lo contiene). Tipos: Plaza, Calle, Barrio, Parque,
+- `tools/places.tsv`: lista de lugares (id, nombre, tipo, zona, título de Wikipedia, `parent` = id del lugar que lo contiene). Tipos: Plaza, Calle, Barrio (se muestra como «Zona»: colonias, cascos históricos…), Parque,
   Gastronomía, Mercado, Museo, Monumento, Iglesia, Cultura, Estadio, Mirador, Teatro.
 - `python3 tools/wiki_fetch.py` (incremental; `--all` para todo): coordenadas, foto, extracto y título en inglés → `tools/wiki.json`.
+- `tools/manual.json`: descripciones (es/en) y fotos propias, mandan sobre Wikipedia (lugares sin artículo o con extracto erróneo).
 - `tools/coords.json`: coordenadas manuales; `tools/district_override.json`: lugares en el límite entre distritos.
 - `tools/wiki.json` / `tools/validacion-lugares.json` (informe de «Validar»): coordenadas, fotos y descripciones de Wikipedia.
-- `python3 tools/build_data.py` genera `js/data.js`; después `python3 tools/build_seo.py`. Al ampliar el catálogo, ver la lista de dependencias en `CLAUDE.md`. Iconos: `python3 tools/make_icons.py`.
+- `python3 tools/build_data.py` genera `js/data.js`; después `python3 tools/build_seo.py`. Al ampliar el catálogo, ver la lista de dependencias en `CLAUDE.md`. Iconos: `python3 tools/make_icons.py`. Imagen para compartir enlaces (1200×630): `node tools/render_og.js` → `icons/og.png`.
 - Límites: `data/distritos.geojson`, `data/barrios.geojson` (Ayto. Madrid vía click_that_hood).
 
 ## Ejecutar

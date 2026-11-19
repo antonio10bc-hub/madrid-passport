@@ -1135,16 +1135,6 @@
   "desc_en": "Pueblo Nuevo is an administrative neighborhood (barrio) of Madrid belonging to the district of Ciudad Lineal.\nIt has an area of 2.319230 km2 (0.895460 sq mi). As of 1 March 2020, it has a population of 63,930.",
   "url_en": "https://en.wikipedia.org/wiki/Pueblo_Nuevo_(Madrid)"
  },
- "calero": {
-  "title": "El Calero (Madrid)",
-  "missing": true,
-  "lat": null,
-  "lng": null,
-  "img": null,
-  "desc": null,
-  "url": "https://es.wikipedia.org/wiki/El_Calero_(Madrid)",
-  "title_en": null
- },
  "quintana": {
   "title": "Quintana (Madrid)",
   "missing": false,
@@ -1187,16 +1177,6 @@
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Madrid_-_Villaverde%2C_Catedral_de_las_Nuevas_Tecnolog%C3%ADas_04.jpg/960px-Madrid_-_Villaverde%2C_Catedral_de_las_Nuevas_Tecnolog%C3%ADas_04.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La nave Boetticher y Navarro era una antigua fábrica de material pesado para la industria hidroeléctrica, ascensores y calefacción. Actualmente, La Nave es el centro de innovación público más grande del Ayuntamiento de Madrid.",
   "url": "https://es.wikipedia.org/wiki/Nave_Boetticher",
-  "title_en": null
- },
- "dehesa-boyal": {
-  "title": "Dehesa Boyal de Villaverde",
-  "missing": true,
-  "lat": null,
-  "lng": null,
-  "img": null,
-  "desc": null,
-  "url": "https://es.wikipedia.org/wiki/Dehesa_Boyal_de_Villaverde",
   "title_en": null
  },
  "villaverde-alto": {
@@ -4853,6 +4833,58 @@
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/Plaza_El%C3%ADptica.jpg/960px-Plaza_El%C3%ADptica.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La plaza Elíptica es una glorieta ubicada en la ciudad española de Madrid, entre los distritos de Usera y Carabanchel.",
   "url": "https://es.wikipedia.org/wiki/Plaza_El%C3%ADptica_(Madrid)",
+  "title_en": null
+ },
+ "vallehermoso": {
+  "title": "Mercado de Vallehermoso",
+  "qid": "Q27302202",
+  "lat": 40.434125,
+  "lng": -3.7083361111111,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/62/Mercado_de_Vallehermoso_-_Madrid_%28cropped%29.jpg/960px-Mercado_de_Vallehermoso_-_Madrid_%28cropped%29.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El Mercado Municipal de Vallehermoso está ubicado en la esquina de las calles Vallehermoso y Fernando el Católico, en el distrito de Chamberí​de Madrid (España).\nFue construido en 1930 e inaugurado en 1933,​completando así los cuatro mercados del barrio: Chamberí (1943), el de Guzmán el Bueno, el de Olavide (desaparecido en los años 1970) y el Mercado de Vallehermoso. El ayuntamiento adquirió para ello un solar de 1890 m² a un coste de 71 pesetas el m².​ Las obras tuvieron un coste de 633 000 pesetas.​ En 1985 se acometieron obras de reparación por importe de 6 millones de pesetas.​ Cuenta con planta baja rectangular y semisótanos.​En 2017 se ha aprovechado el pasadizo lateral para ampliar el número de puestos.​\nSe trata de un mercado tradicional al uso con distintos puestos como carnicerías, pescaderías, fruterías, mantequerías tradicionales, pollerías y panaderías.",
+  "url": "https://es.wikipedia.org/wiki/Mercado_de_Vallehermoso",
+  "title_en": null
+ },
+ "comendadoras": {
+  "title": "Convento de las Comendadoras de Santiago (Madrid)",
+  "qid": "Q5166197",
+  "lat": 40.427602777778,
+  "lng": -3.7087944444444,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/30/Convento_de_las_Comendadoras_de_Santiago_%28Madrid%29_08.jpg/960px-Convento_de_las_Comendadoras_de_Santiago_%28Madrid%29_08.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El convento de las Comendadoras de Santiago el Mayor se encuentra situado en la plaza de las Comendadoras de Madrid (España). Está considerado el primer convento construido en la capital​ y el único que se conserva íntegramente.",
+  "url": "https://es.wikipedia.org/wiki/Convento_de_las_Comendadoras_de_Santiago_(Madrid)",
+  "title_en": "Convent of las Comendadoras de Santiago (Madrid)",
+  "desc_en": "The Convent of las Comendadoras de Santiago (Spanish: Convento de las Comendadoras de Santiago) is a convent located in Madrid, Spain. It was declared Bien de Interés Cultural in 1970.\nThe convent was transformed into a male prison for Republican prisoners during the Civil War, only returning to its original function as a convent in 1941.",
+  "url_en": "https://en.wikipedia.org/wiki/Convent_of_las_Comendadoras_de_Santiago_(Madrid)"
+ },
+ "rosaleda-retiro": {
+  "title": "La Rosaleda del Retiro",
+  "qid": "Q96377009",
+  "lat": 40.410792,
+  "lng": -3.680325,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cd/Rosaleda_del_Retiro_%28Madrid%29_06.jpg/960px-Rosaleda_del_Retiro_%28Madrid%29_06.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El necrolimbo es una zona ajardinada ubicada en el Parque del Retiro de Madrid que fue diseñada por Cecilio Rodríguez en 1915.",
+  "url": "https://es.wikipedia.org/wiki/La_Rosaleda_del_Retiro",
+  "title_en": null
+ },
+ "calero": {
+  "title": "Parque El Calero",
+  "qid": "Q24021375",
+  "lat": 40.433333333333,
+  "lng": -3.6488888888889,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/Parque_El_Calero%2C_Concepci%C3%B3n%2C_Ciudad_Lineal%2C_Madrid%2C_Espa%C3%B1a%2C_2016_08.JPG/960px-Parque_El_Calero%2C_Concepci%C3%B3n%2C_Ciudad_Lineal%2C_Madrid%2C_Espa%C3%B1a%2C_2016_08.JPG?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El parque El Calero es un parque urbano español situado en el distrito de Ciudad Lineal de Madrid. Posee una extensión de 67 975 m²,​​ en un terreno mayoritariamente llano. \nPor su ubicación, el parque atiende principalmente a los barrios adyacentes de la Concepción (20.587 hab.),​ Quintana  (24.354 hab.)​ y Pueblo Nuevo (62.285 hab.)​\nEl parque está dividido en tres partes comprendidas entre las calles de José del Hierro, Virgen del Nuria, Virgen del Lluc y Virgen del Sagrario.",
+  "url": "https://es.wikipedia.org/wiki/Parque_El_Calero",
+  "title_en": null
+ },
+ "dehesa-boyal": {
+  "title": "Parque de la Dehesa Boyal",
+  "qid": "Q6062731",
+  "lat": 40.3459,
+  "lng": -3.6869,
+  "img": "https://upload.wikimedia.org/wikipedia/commons/9/9f/Parque_de_la_Dehesa_Boyal.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "desc": "El parque de la Dehesa Boyal es un parque del distrito de Villaverde de Madrid. Se encuentra en el barrio de San Cristóbal, entre las dos vías de ferrocarril que delimitan el barrio, la carretera de Andalucía y la calle Burjasot. Es popularmente conocido como Parque de los Pinos.",
+  "url": "https://es.wikipedia.org/wiki/Parque_de_la_Dehesa_Boyal",
   "title_en": null
  }
 }

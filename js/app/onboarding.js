@@ -1,7 +1,7 @@
 // Onboarding (primera vez): 5 pantallas (la última: marcar sitios donde ya has estado → primera recompensa en segundos) con swipe (scroll-snap nativo) o «Continuar», puntitos de progreso y,
 // al final, permiso de ubicación. Se puede volver a ver desde el Diario.
 import { $, esc } from './util.js';
-import { S, PLACES, BYID, DISTRICTS, BARRIOS, lvl } from './state.js';
+import { S, PLACES, BYID, DISTRICTS, BARRIOS, lvl, setV } from './state.js';
 import { commit } from './views.js';
 import { PTS } from './level.js';
 import { t } from './i18n.js';
@@ -102,7 +102,7 @@ export function showOnboarding(source = 'first') {
     const ids = [...picked].filter((id) => !lvl(id));
     if (ids.length) {
       const now = Date.now();
-      ids.forEach((id) => (S.visits[id] = { lvl: 1, t: now }));
+      ids.forEach((id) => setV(id, { lvl: 1, t: now }));
       track('onboarding_quickmark', { n: ids.length, places: ids.join(','), action });
       setTimeout(commit, 350);                                  // logros y nivel con su aviso, tras cerrar
     }
@@ -123,7 +123,9 @@ export function showOnboarding(source = 'first') {
 }
 
 // Primera vez: solo si nunca se ha visto y no hay progreso (usuarios que ya usaban la app no lo ven)
+// Quien llega por un enlace directo (?p= / ?d=, p. ej. desde Google) va directo a lo que buscaba: la intro, en otra visita
+export const viaLink = () => { try { const q = new URLSearchParams(location.search); return q.has('p') || q.has('d'); } catch { return false; } };
 export function maybeOnboarding() {
-  if (onboarded() || S.debug || PLACES.some((p) => lvl(p.id) > 0)) return Promise.resolve();   // solo cuentan lugares (no barrios pisados al arrancar)
+  if (onboarded() || viaLink() || PLACES.some((p) => lvl(p.id) > 0)) return Promise.resolve();   // solo cuentan lugares (no barrios pisados al arrancar)
   return showOnboarding('first');
 }

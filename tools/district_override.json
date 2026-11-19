@@ -1,1 +1,19 @@
-{"prado": "retiro", "botanico": "retiro", "biblioteca": "salamanca", "linares": "salamanca", "museo-naval": "retiro", "hotel-ritz": "retiro", "neptuno": "retiro", "plaza-lealtad": "retiro", "caidos-espana": "retiro", "paseo-prado": "retiro", "fuente-apolo": "retiro", "antropologia": "retiro", "paseo-recoletos": "salamanca", "monumento-colon": "salamanca", "museo-cera": "salamanca"}
+{
+ "prado": "retiro",
+ "botanico": "retiro",
+ "biblioteca": "salamanca",
+ "linares": "salamanca",
+ "museo-naval": "retiro",
+ "hotel-ritz": "retiro",
+ "neptuno": "retiro",
+ "plaza-lealtad": "retiro",
+ "caidos-espana": "retiro",
+ "paseo-prado": "retiro",
+ "fuente-apolo": "retiro",
+ "antropologia": "retiro",
+ "paseo-recoletos": "salamanca",
+ "monumento-colon": "salamanca",
+ "museo-cera": "salamanca",
+ "naves-espanol": "arganzuela",
+ "museo-aire": "latina"
+}

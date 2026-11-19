@@ -4,7 +4,7 @@ import { S, DISTRICTS, BYID, districtOf, lvl, blvl, progress, currentDistrict } 
 import { distGeo, barGeo } from './geo.js';
 import { pad, sheet, setSheet } from './sheet.js';
 import { openDistrict, openPlace, goHome, homeResults } from './views.js';
-import { setFake, setFollow, radiusFor } from './gps.js';
+import { setFollow, radiusFor } from './gps.js';
 import { track } from './analytics.js';
 
 const STYLE = { light: 'https://tiles.openfreemap.org/styles/positron', dark: 'https://tiles.openfreemap.org/styles/dark' };
@@ -115,7 +115,6 @@ export async function initMap() {
   addLayers();
   ready = true;
   map.on('click', (e) => {
-    if (S.placing) return setFake([e.lngLat.lat, e.lngLat.lng]);
     const f = map.queryRenderedFeatures(e.point, { layers: ['d-fill'] })[0];
     if (!f) return;
     const cur = currentDistrict();
@@ -133,7 +132,7 @@ export async function initMap() {
     const el = document.createElement('button');
     el.className = 'd-label';
     el.innerHTML = `<span>${esc(d.short)}</span>`;
-    el.onclick = (e) => { e.stopPropagation(); if (!S.placing) openDistrict(d.id, { via: 'label' }); };
+    el.onclick = (e) => { e.stopPropagation(); openDistrict(d.id, { via: 'label' }); };
     d.labelMarker = new maplibregl.Marker({ element: el }).setLngLat(d.label).addTo(map);
   });
   LABEL_ORDER = [...DISTRICTS].sort((x, y) => y.places.length - x.places.length);
@@ -235,7 +234,6 @@ function makePin(p) {
   // Que los toques en el pin no lleguen a los gestos del mapa (arrastre/doble toque)
   ['mousedown', 'touchstart', 'pointerdown', 'dblclick'].forEach((ev) => wrap.addEventListener(ev, (e) => e.stopPropagation(), { passive: true }));
   wrap.onclick = (e) => {
-    if (S.placing) return;
     e.stopPropagation();
     const d = districtOf[p.id];
     // Tocar un pin abre su ficha; tocar el pin del lugar abierto vuelve al distrito

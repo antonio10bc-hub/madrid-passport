@@ -8,7 +8,7 @@ from datetime import date
 CITY = json.load(open('tools/city.json'))
 SITE, APP, CNAME = CITY['site'], CITY['app'], CITY['name']
 RED = '#D6202C'
-TYPES = {'Plaza': ('Plaza', 'Plazas', 'Square', 'Squares'), 'Calle': ('Calle', 'Calles', 'Street', 'Streets'), 'Barrio': ('Barrio', 'Barrios', 'Neighbourhood', 'Neighbourhoods'),
+TYPES = {'Plaza': ('Plaza', 'Plazas', 'Square', 'Squares'), 'Calle': ('Calle', 'Calles', 'Street', 'Streets'), 'Barrio': ('Zona', 'Zonas', 'Area', 'Areas'),
          'Parque': ('Parque', 'Parques', 'Park', 'Parks'), 'Gastronomía': ('Gastronomía', 'Gastronomía', 'Food & drink', 'Food & drink'), 'Mercado': ('Mercado', 'Mercados', 'Market', 'Markets'),
          'Museo': ('Museo', 'Museos', 'Museum', 'Museums'), 'Monumento': ('Monumento', 'Monumentos', 'Monument', 'Monuments'), 'Iglesia': ('Iglesia', 'Iglesias', 'Church', 'Churches'),
          'Cultura': ('Cultura', 'Cultura', 'Culture', 'Culture'), 'Estadio': ('Estadio', 'Estadios', 'Stadium', 'Stadiums'), 'Mirador': ('Mirador', 'Miradores', 'Viewpoint', 'Viewpoints'),
@@ -69,7 +69,7 @@ def name(p, lg):
 def desc_of(p, lg):
     if lg == 'en':
         w = wiki.get(p['id'], {})
-        return w.get('desc_en'), w.get('url_en')
+        return p.get('desc_en') or w.get('desc_en'), w.get('url_en')
     return p.get('desc'), p.get('url')
 
 CSS = f"""*{{box-sizing:border-box}}:root{{--red:{RED};--ink:#141416;--muted:#6B6B75;--line:#EDEDF0;--bg:#fff;--bg2:#F6F6F8;color-scheme:light dark}}
@@ -109,7 +109,7 @@ def page(lg, path, alt, title, desc, body, ld, img=None):
 <link rel="alternate" hreflang="es" href="{es_url}"><link rel="alternate" hreflang="en" href="{en_url}"><link rel="alternate" hreflang="x-default" href="{es_url}">
 <meta property="og:type" content="website"><meta property="og:site_name" content="{e(APP)}">
 <meta property="og:title" content="{e(title)}"><meta property="og:description" content="{e(desc)}">
-<meta property="og:url" content="{url}"><meta property="og:image" content="{e(img or SITE + '/icons/icon-512.png')}"><meta property="og:locale" content="{T['locale']}">
+<meta property="og:url" content="{url}"><meta property="og:image" content="{e(img or SITE + '/icons/og.png')}"><meta property="og:locale" content="{T['locale']}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#0F0F12" media="(prefers-color-scheme: dark)">
 <link rel="icon" type="image/svg+xml" href="/icons/icon.svg"><link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">

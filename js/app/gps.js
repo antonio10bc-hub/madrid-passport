@@ -1,13 +1,12 @@
-// Geolocalización: posición real o falsa (debug), seguimiento, sugerencia por cercanía y barrios pisados.
-import { $, dist, fmtDist, toast, esc, css, stampDate } from './util.js';
-import { S, PLACES, DISTRICTS, lvl, bKey, save } from './state.js';
+// Geolocalización: posición, seguimiento, sugerencia por cercanía y barrios pisados.
+import { $, dist, fmtDist, walkMin, toast, esc, css, stampDate } from './util.js';
+import { S, PLACES, DISTRICTS, lvl, bKey, setV, inList } from './state.js';
 import { t } from './i18n.js';
 import { map, showMeOnMap, centerOffset, flashBarrio } from './map.js';
 import { notify } from './notify.js';
 import { setTab } from './pages.js';
 import { barrioAt } from './geo.js';
 import { render, openPlace, openDistrict, commit } from './views.js';
-import { wikiSummary } from './wiki.js';
 import { track } from './analytics.js';
 
 // Radio para validar por GPS (m). Parques y estadios son grandes: margen mayor. Se suma la precisión (máx. 50 m).
@@ -15,31 +14,7 @@ import { track } from './analytics.js';
 const GPS_RADIUS = 150, GPS_RADIUS_BIG = 350, BIG_TYPES = ['Parque', 'Estadio'];
 export const radiusFor = (p, acc) => (BIG_TYPES.includes(p.type) ? GPS_RADIUS_BIG : GPS_RADIUS) + Math.min(acc || 0, 50);
 
-// ---------- Modo debug: GPS falso (?debug=1 o pulsación larga en el botón de ubicación) ----------
-function setDebug(on) {
-  S.debug = on;
-  try { localStorage.setItem('mp.debug', on ? '1' : '0'); } catch {}
-  $('#debug').hidden = !on;
-  if (on) { stopWatch(); toast(t('debug.on')); if (S.fakePos) onPosition({ coords: S.fakePos, acc: 5 }); setPlacing(!S.fakePos); }
-  else { setPlacing(false); toast(t('debug.off')); maybeWatch(); }
-}
-export function setPlacing(on) {
-  S.placing = on;
-  $('#debug').classList.toggle('placing', on);
-  $('#app').classList.toggle('placing', on);
-  $('#debug-move').textContent = on ? t('debug.cancel') : t('debug.move');
-  $('#debug-pos').textContent = on ? t('debug.tap') : S.fakePos ? `${S.fakePos[0].toFixed(4)}, ${S.fakePos[1].toFixed(4)}` : t('debug.nopos');
-}
-export function setFake(c) {
-  S.fakePos = c;
-  try { localStorage.setItem('mp.fake', JSON.stringify(c)); } catch {}
-  setPlacing(false);
-  toast(t('debug.set'));
-  onPosition({ coords: c, acc: 5 });
-  if (S.view.type !== 'home') render({ keepScroll: true });
-}
 export const getPos = () => new Promise((res, rej) => {
-  if (S.debug) return S.fakePos ? res({ coords: S.fakePos, acc: 5 }) : rej(new Error(t('debug.need')));
   if (!navigator.geolocation) return rej(new Error(t('gps.na')));
   navigator.geolocation.getCurrentPosition(
     (p) => res({ coords: [p.coords.latitude, p.coords.longitude], acc: p.coords.accuracy }),
@@ -56,9 +31,10 @@ export function onPosition(pos) {
   if (follow) map.easeTo({ center: [pos.coords[1], pos.coords[0]], duration: 600 });
   checkBarrio(pos);
   checkNearby(pos);
+  checkWant(pos);
 }
 function startWatch() {
-  if (watchId != null || S.debug || !navigator.geolocation) return;
+  if (watchId != null || !navigator.geolocation) return;
   watchId = navigator.geolocation.watchPosition(
     (p) => onPosition({ coords: [p.coords.latitude, p.coords.longitude], acc: p.coords.accuracy }),
     () => {}, { enableHighAccuracy: true, maximumAge: 5000 });
@@ -71,16 +47,32 @@ export function setFollow(on) { follow = on; $('#locate').classList.toggle('acti
 
 // ---------- Barrios: pisar un barrio con el GPS lo sella (oro) automáticamente ----------
 function checkBarrio(pos) {
-  if ((pos.acc || 0) > 150) return;
+  if ((pos.acc || 0) > 50) return;               // con más imprecisión, cerca del límite se sellaría el barrio de al lado
   const b = barrioAt(pos.coords);
   if (!b || lvl(bKey(b)) === 2) return;
   const now = Date.now(), prev = S.visits[bKey(b)];
-  S.visits[bKey(b)] = { lvl: 2, t: prev?.t || now, gpsAt: now };
+  setV(bKey(b), { lvl: 2, t: prev?.t || now, gpsAt: now });
   track('barrio_discovered', { barrio: b.id, district: b.district?.id, method: 'gps' });
   flashBarrio(b);
   notify({ icon: 'barrio', kicker: t('barrio.kicker'), title: b.name, text: b.district?.name || '', gold: true,
     onTap: () => { track('barrio_notif_tapped', { barrio: b.id }); setTab('map'); if (b.district) openDistrict(b.district.id, { via: 'notif' }); } });
   commit();
+}
+
+// ---------- «Quiero ir» cerca: aviso una vez por lugar y sesión al quedar a menos de 5 min a pie ----------
+const WANT_M = 400, wantSeen = new Set();
+function checkWant(pos) {
+  if ((pos.acc || 0) > 100) return;
+  for (const p of PLACES) {
+    if (wantSeen.has(p.id) || !inList('w', p.id) || lvl(p.id)) continue;
+    const d = dist(pos.coords, p.coords);
+    if (d > WANT_M) continue;
+    wantSeen.add(p.id);
+    track('want_nearby_shown', { place: p.id, distance: Math.round(d) });
+    notify({ icon: 'bookmark', kicker: t('want.kicker'), title: p.name, text: t('min_walk', { n: walkMin(d) }),
+      onTap: () => { track('want_nearby_tapped', { place: p.id }); setTab('map'); openPlace(p.id, 'want_nearby'); } });
+    return;
+  }
 }
 
 // ---------- Sugerencia automática al estar cerca ----------
@@ -126,51 +118,20 @@ export function gpsStamp(place) {
 }
 
 export function confirmGps(id, pos, via) {
-  S.visits[id] = { ...(S.visits[id] || { t: Date.now() }), lvl: 2, gpsAt: Date.now(), gps: pos.coords };
-  track('gps_confirmed', { place: id, via, accuracy: Math.round(pos.acc || 0), debug: S.debug });
-}
-
-// Debug: compara nuestras coordenadas con Wikipedia y descarga un informe JSON
-async function validateAll() {
-  const list = PLACES.filter((p) => p.wiki), out = [];
-  for (let i = 0; i < list.length; i++) {
-    const p = list[i];
-    $('#debug-pos').textContent = `validando ${i + 1}/${list.length}…`;
-    let w = null;
-    try { w = await wikiSummary(p.wiki); } catch {}
-    const c = w?.coordinates;
-    out.push({ id: p.id, title: w?.title || null, kind: w?.type || 'error', ours: p.coords, wiki: c ? [c.lat, c.lon] : null,
-      diff: c ? Math.round(dist(p.coords, [c.lat, c.lon])) : null, img: w?.thumbnail?.source || null, desc: w?.extract || null,
-      url: w?.content_urls?.mobile?.page || null });
-    await new Promise((r) => setTimeout(r, 120));
-  }
-  const blob = new Blob([JSON.stringify(out, null, 1)], { type: 'application/json' });
-  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'validacion-lugares.json'; a.click();
-  const far = out.filter((o) => o.diff > 150).length, nok = out.filter((o) => !o.wiki).length;
-  setPlacing(false);
-  toast(`Informe descargado · ${far} lejos (>150 m) · ${nok} sin coords`);
+  setV(id, { ...(S.visits[id] || { t: Date.now() }), lvl: 2, gpsAt: Date.now(), gps: pos.coords });
+  track('gps_confirmed', { place: id, via, accuracy: Math.round(pos.acc || 0) });
 }
 
 export function initGps() {
-  let pressT, longPressed = false;
-  const loc = $('#locate');
-  loc.addEventListener('pointerdown', () => { longPressed = false; pressT = setTimeout(() => { longPressed = true; setDebug(!S.debug); }, 700); });
-  ['pointerup', 'pointerleave'].forEach((ev) => loc.addEventListener(ev, () => clearTimeout(pressT)));
-  loc.onclick = async () => {
-    if (longPressed) return;
+  $('#locate').onclick = async () => {
     if (follow) return setFollow(false);
     try {
       const p = await getPos();
-      onPosition(p); startWatch(); setFollow(!S.debug);
+      onPosition(p); startWatch(); setFollow(true);
       track('location_requested', { accuracy: Math.round(p.acc || 0) });
       map.flyTo({ center: [p.coords[1], p.coords[0]], zoom: Math.max(map.getZoom(), 15.5), offset: centerOffset(), duration: 800 });
     } catch (e) { track('gps_error', { code: e?.code ?? null, where: 'locate' }); toast(t('gps.fail'), true); }
   };
-  $('#debug-off').onclick = () => setDebug(false);
-  $('#debug-move').onclick = () => setPlacing(!S.placing);
-  $('#debug-validate').onclick = () => validateAll();
-  $('#debug-reset').onclick = () => { S.visits = {}; S.badges = {}; save(); render(); toast(t('debug.reset')); };
-
   $('#suggest-ok').onclick = () => {
     if (!suggested || !S.myPos) return;
     confirmGps(suggested.id, S.myPos, 'suggestion');
@@ -181,8 +142,5 @@ export function initGps() {
   $('#suggest-no').onclick = () => { if (suggested) { dismissed.add(suggested.id); track('suggestion_dismissed', { place: suggested.id }); } checkNearby(); };
   $('#suggest-open').onclick = () => suggested && openPlace(suggested.id, 'suggestion');
 
-  $('#debug').hidden = !S.debug;
-  if (S.debug) setPlacing(!S.fakePos); else maybeWatch();
+  maybeWatch();
 }
-// Tras cargar el mapa: si hay GPS falso, colocarse
-export function afterMap() { if (S.debug && S.fakePos) onPosition({ coords: S.fakePos, acc: 5 }); }

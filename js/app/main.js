@@ -5,12 +5,12 @@ import { t, lang, applyStatic } from './i18n.js';
 import { loadGeo } from './geo.js';
 import { initSheet } from './sheet.js';
 import { map, initMap, prefetchStyle } from './map.js';
-import { initGps, afterMap } from './gps.js';
+import { initGps } from './gps.js';
 import { render, initLevel, openPlace, openDistrict } from './views.js';
 import { initPages, unlockedNow, levelState, setTab } from './pages.js';
 import { initSync } from './sync.js';
 import { initAnalytics, track, setPerson } from './analytics.js';
-import { maybeOnboarding } from './onboarding.js';
+import { maybeOnboarding, onboarded } from './onboarding.js';
 import { maybeConsent } from './consent.js';
 
 // ---------- Compartir ----------
@@ -52,6 +52,7 @@ function deepLink() {
     if (p && BYID[p]) openPlace(p, 'link');
     else if (d && DISTRICTS.some((x) => x.id === d)) openDistrict(d, { via: 'link' });
     else return;
+    if (!onboarded()) setTimeout(() => toast(t('ob.link')), 900);   // sin intro: una pista de cómo funciona
     track('deeplink_opened', { place: p || null, district: d || null, ref: document.referrer ? new URL(document.referrer).hostname : null });
     q.delete('p'); q.delete('d');
     history.replaceState(null, '', location.pathname + (q.toString() ? '?' + q : '') + location.hash);
@@ -71,6 +72,9 @@ function trapBack() {
 }
 
 async function boot() {
+  // Service worker al terminar de cargar la página (sin esperar al mapa: si el mapa falla, la app sigue funcionando sin red)
+  if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost'))
+    { const reg = () => navigator.serviceWorker.register('sw.js').catch(() => {}); document.readyState === 'complete' ? reg() : addEventListener('load', reg, { once: true }); }
   applyStatic();
   initAnalytics({ lang });
   initSheet(() => map?.resize());
@@ -92,11 +96,8 @@ async function boot() {
     await intro;                     // el mapa se crea al cerrar la intro (su carga bloquea el hilo y daba tirones en las animaciones)
     await initMap();
     render();
-    afterMap();
     deepLink();
     trapBack();
   } catch (e) { console.error(e); toast(t('map.error'), true); }
-  if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost'))
-    navigator.serviceWorker.register('sw.js').catch(() => {});
 }
 boot();

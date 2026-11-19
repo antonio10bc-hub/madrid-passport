@@ -76,6 +76,17 @@ returns int language sql stable security definer set search_path = public as $$
 $$;
 grant execute on function public.place_rank(text, bigint) to anon, authenticated;
 
+-- Borrar mi cuenta (Ajustes → «Borrar mis datos»): elimina el usuario de Auth y, en cascada, su progreso.
+create or replace function public.delete_my_account()
+returns void language plpgsql security definer set search_path = public as $$
+begin
+  if auth.uid() is null then raise exception 'not authenticated'; end if;
+  delete from public.progress where user_id = auth.uid();
+  delete from auth.users where id = auth.uid();
+end $$;
+revoke all on function public.delete_my_account() from public, anon;
+grant execute on function public.delete_my_account() to authenticated;
+
 -- Avisos de error en lugares (desde la ficha). Solo se puede insertar; se leen en Supabase → Table Editor.
 create table if not exists public.reports (
   id         bigserial primary key,

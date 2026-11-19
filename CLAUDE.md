@@ -9,7 +9,7 @@
 - Ciudad: todo lo propio de Madrid va en `js/city.js` / `tools/city.json` (no escribir «Madrid» ni coordenadas en el código genérico).
 - Ampliar o cambiar el catálogo de lugares: actualizar SIEMPRE todas las dependencias:
   1. `tools/places.tsv` (id, nombre, tipo existente, zona, título de Wikipedia es, `parent` si está dentro de otro lugar: Retiro, Plaza Mayor, AZCA…).
-  2. `python3 tools/wiki_fetch.py` → revisar los «buscado …» (título equivocado), sin coords/foto/desc; corregir en `tools/coords.json`/`district_override.json`.
+  2. `python3 tools/wiki_fetch.py` → revisar los «buscado …» (título equivocado), sin coords/foto/desc; corregir en `tools/coords.json`/`district_override.json`; sin artículo → descripción (es/en) y foto en `tools/manual.json`.
   3. `python3 tools/build_data.py` y `python3 tools/build_seo.py` (páginas `/lugar/`, `/distrito/`, `/lugares/`, `sitemap.xml`).
   4. Logros (`js/badges.js`): umbrales y logros por tipo/conexiones siguen teniendo sentido; tipos nuevos necesitan icono (`js/icons.js`), textos (`i18n.js` TYPES + `access.*`) y logro.
   5. Textos con cifras (onboarding, README), lugares icónicos del onboarding (`onboarding.js` ICONIC), versión de `sw.js`, tests.
