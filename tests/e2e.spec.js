@@ -577,3 +577,12 @@ test('ubicación: la primera vez que se pulsa (sin seguimiento previo) acerca y 
   await page.waitForTimeout(1200);
   expect(await page.evaluate(() => window.__mpMap.getZoom())).toBeGreaterThan(13);
 });
+
+test('diario: repintar la página (p. ej. al llegar la posición GPS) no recrea el hueco de la cuenta (el botón de Google no parpadea)', async ({ page }) => {
+  await page.locator('[data-tab="diary"]').click();
+  await expect(page.locator('#acct-slot')).toHaveCount(1);
+  await page.evaluate(() => { document.getElementById('acct-slot').__keep = 1; });
+  await page.evaluate(() => import('/js/app/views.js').then((m) => m.render({ keepScroll: true })));
+  expect(await page.evaluate(() => document.getElementById('acct-slot').__keep)).toBe(1);
+  await expect(page.locator('.pass-k')).toHaveCount(1);
+});

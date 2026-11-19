@@ -61,7 +61,10 @@ function accountHTML() {
 export function renderAccount() {
   const el = document.getElementById('acct-slot');
   if (!el) return;
-  el.innerHTML = accountHTML();
+  const html = accountHTML();
+  if (el.dataset.k === html) return;     // mismo estado: no se recrea el botón de Google (evita el parpadeo)
+  el.dataset.k = html;
+  el.innerHTML = html;
   const gis = el.querySelector('#login-gis');
   // Botón oficial de Google; si no carga (sin conexión, bloqueadores…), el botón clásico con redirección
   // Mientras carga el botón de Google se ve debajo una píldora idéntica (logo a la izquierda, «Continuar con Google»);

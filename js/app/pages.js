@@ -286,13 +286,32 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && settings
 gearBtn.innerHTML = MP_ICON('gear', 'ico');
 gearBtn.onclick = () => setSettings(true);
 
+// Repinta sin sacar del documento el hueco de la cuenta: el botón de Google es un iframe y recrearlo
+// (cada render: posición GPS, barrio pisado, sincronización…) se ve como un parpadeo. El resto se sustituye (nodos nuevos).
+function patchKeepAcct(cur, next) {
+  const a = [...cur.childNodes], b = [...next.childNodes];
+  const has = (n) => n.nodeType === 1 && (n.id === 'acct-slot' || n.querySelector('#acct-slot'));
+  if (a.length !== b.length || !a.some(has)) return cur.replaceChildren(...b);
+  b.forEach((n, i) => {
+    const o = a[i];
+    if (has(n) && has(o) && o.tagName === n.tagName) {
+      if (o.id === 'acct-slot') return;                               // se queda tal cual (renderAccount decide si cambia)
+      [...o.attributes].forEach((x) => n.hasAttribute(x.name) || o.removeAttribute(x.name));
+      [...n.attributes].forEach((x) => o.getAttribute(x.name) !== x.value && o.setAttribute(x.name, x.value));
+      return patchKeepAcct(o, n);
+    }
+    o.replaceWith(n);                                                 // nodos nuevos: los listeners se vuelven a poner abajo
+  });
+}
 export function renderPage() {
   if (S.tab === 'map') return;
   $('#page-title').textContent = t(S.tab === 'diary' ? 'tab.diary' : 'tab.badges');
   gearBtn.hidden = S.tab !== 'diary'; gearBtn.setAttribute('aria-label', t('settings'));
   renderSettings();
   const st = pageBody.scrollTop;
-  pageBody.innerHTML = S.tab === 'diary' ? renderDiary() : renderBadges();
+  const tpl = document.createElement('template');
+  tpl.innerHTML = S.tab === 'diary' ? renderDiary() : renderBadges();
+  patchKeepAcct(pageBody, tpl.content);
   pageBody.scrollTop = st;
   bindCal();
   pageBody.querySelectorAll('[data-type]').forEach((el) => (el.onclick = () => {
