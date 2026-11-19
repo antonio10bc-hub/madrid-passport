@@ -630,7 +630,8 @@ button, a, input, .place, .row, .pitem { touch-action: manipulation; }
 .near .pitem:last-child { border-bottom: 0; }
 .near .pthumb.t-0 { background: var(--bg); }
 .near { padding-bottom: 14px; }
-.near-cards { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 2px -14px 0; padding: 4px 14px 2px; }
+.near-cards { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 2px -14px 0; padding: 4px 14px 2px;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 14px, #000 calc(100% - 36px), transparent); mask-image: linear-gradient(to right, transparent, #000 14px, #000 calc(100% - 36px), transparent); }
 .near-cards::-webkit-scrollbar { display: none; }
 .ncard { flex: none; width: 148px; scroll-snap-align: start; text-align: left; border-radius: 14px; overflow: hidden; background: var(--bg); box-shadow: 0 0 0 1px var(--line); }
 .ncard:active { transform: scale(.97); }
