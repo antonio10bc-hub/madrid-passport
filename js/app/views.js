@@ -124,7 +124,7 @@ function renderHome() {
   $('#q-clear')?.addEventListener('click', () => { S.query = ''; S.typeFilter = null; render(); });
   body.querySelectorAll('[data-t]').forEach((el) => (el.onclick = () => {
     S.typeFilter = S.typeFilter === el.dataset.t ? null : el.dataset.t;
-    if (S.typeFilter) track('filter_applied', { filter_kind: 'type', type: S.typeFilter });
+    if (S.typeFilter) track('filter_applied', { filter_kind: 'type', filter_value: S.typeFilter });
     // Igual que al venir desde Logros: panel plegado (peek) para ver el mapa filtrado y el chip centrado en su fila
     if (S.typeFilter) setSheet('peek');
     render();
@@ -185,7 +185,7 @@ function renderDistrict() {
     ${list || `<div class="empty-state">${t('empty.filter')}</div>`}
     ${d.barrios.length ? barriosHTML(d) : ''}`;
   $('#back').onclick = goHome;
-  body.querySelectorAll('[data-f]').forEach((el) => (el.onclick = () => { S.statusFilter = el.dataset.f; track('filter_applied', { filter_kind: 'status', filter: S.statusFilter }); render({ keepScroll: true }); }));
+  body.querySelectorAll('[data-f]').forEach((el) => (el.onclick = () => { S.statusFilter = el.dataset.f; track('filter_applied', { filter_kind: 'status', filter_value: S.statusFilter }); render({ keepScroll: true }); }));
   body.querySelectorAll('[data-sort]').forEach((el) => (el.onclick = async () => {
     S.sort = el.dataset.sort;
     try { localStorage.setItem('mp.sort', S.sort); } catch {}
