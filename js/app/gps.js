@@ -48,13 +48,17 @@ export const getPos = () => new Promise((res, rej) => {
 });
 
 // ---------- Seguimiento continuo ----------
-let watchId = null, follow = false;
+let watchId = null, follow = false, flyingUntil = 0;
 export function onPosition(pos) {
   const first = !S.myPos;
   S.myPos = pos;
   if (first && S.view.type !== 'place' && DISTRICTS.length) setTimeout(() => render({ keepScroll: true }), 0);
   showMeOnMap(pos);
-  if (follow) { map.easeTo({ center: [pos.coords[1], pos.coords[0]], duration: 600 }); drawRadar(); drawPins(); }
+  if (follow) {
+    // Durante el acercamiento inicial no se recentra: un easeTo cortaría el flyTo y el mapa se quedaría alejado
+    if (Date.now() > flyingUntil) map.easeTo({ center: [pos.coords[1], pos.coords[0]], offset: centerOffset(), duration: 600 });
+    drawRadar(); drawPins();
+  }
   checkBarrio(pos);
   checkNearby(pos);
 }
@@ -173,6 +177,7 @@ export function initGps() {
       const [lat, lng] = p.coords, dLat = RADAR_M / 111320, dLng = dLat / Math.cos((lat * Math.PI) / 180), P = pad();
       const cam = map.cameraForBounds([[lng - dLng, lat - dLat], [lng + dLng, lat + dLat]],
         { padding: { top: P.top + 12, bottom: P.bottom + 12, left: P.left + 12, right: P.right + 12 } });
+      flyingUntil = Date.now() + 900;
       map.flyTo({ center: [lng, lat], zoom: cam?.zoom ?? 14.5, offset: centerOffset(), duration: 800 });
     } catch (e) { track('gps_error', { code: e?.code ?? null, where: 'locate' }); toast(t('gps.fail'), true); }
   };

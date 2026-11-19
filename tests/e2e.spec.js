@@ -558,3 +558,14 @@ test('radar: con el botón de ubicación activo, círculo de 500 m y pines de lo
   await expect(page.locator('.radar')).toHaveCount(0);
   await expect(page.locator('.pin.radar-pin')).toHaveCount(0);
 });
+
+test('ubicación: la primera vez que se pulsa (sin seguimiento previo) acerca y centra aunque llegue enseguida la posición del seguimiento', async ({ page }) => {
+  // Como en iOS: permissions.query no dice «granted», así que no hay seguimiento hasta pulsar el botón
+  await page.addInitScript(() => { navigator.permissions.query = () => Promise.reject(new Error('x')); });
+  await page.reload();
+  await expect(page.locator('.row')).toHaveCount(21);
+  await page.locator('#locate').click();
+  await expect.poll(() => page.evaluate(() => window.__mpMap.getZoom()), { timeout: 4000 }).toBeGreaterThan(13);
+  await page.waitForTimeout(1200);
+  expect(await page.evaluate(() => window.__mpMap.getZoom())).toBeGreaterThan(13);
+});
