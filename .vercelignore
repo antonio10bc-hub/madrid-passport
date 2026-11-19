@@ -1,9 +1,10 @@
-# No publicar en la web: documentación interna, diseño, scripts, tests y SQL
-CLAUDE.md
-README.md
-mockups/
-tools/
-tests/
-supabase/
-reports/
+# No publicar en la web: documentación interna, diseño, scripts, tests y SQL.
+# Con «/» delante: solo en la raíz (sin ella, «supabase/» también quitaba vendor/supabase/ y rompía el inicio de sesión)
+/CLAUDE.md
+/README.md
+/mockups/
+/tools/
+/tests/
+/supabase/
+/reports/
 **/__pycache__/

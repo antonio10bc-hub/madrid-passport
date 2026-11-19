@@ -686,3 +686,19 @@ test('diario: repintar la página (p. ej. al llegar la posición GPS) no recrea 
   expect(await page.evaluate(() => document.getElementById('acct-slot').__keep)).toBe(1);
   await expect(page.locator('.pass-k')).toHaveCount(1);
 });
+
+test('.vercelignore no deja fuera ningún archivo que use la app (SHELL del service worker)', async () => {
+  const fs = require('fs'), path = require('path'), root = path.join(__dirname, '..');
+  const rules = fs.readFileSync(path.join(root, '.vercelignore'), 'utf8').split('\n').map((l) => l.trim()).filter((l) => l && !l.startsWith('#'));
+  const sw = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
+  const shell = eval('[' + sw.match(/const SHELL = \[([\s\S]*?)\];/)[1] + ']').filter((f) => f !== './');
+  // Regla de directorio: con «/» delante solo en la raíz; sin ella, en cualquier nivel (como .gitignore)
+  const ignored = (f) => rules.some((r) => {
+    const anchored = r.startsWith('/'), dir = r.endsWith('/'), name = r.replace(/^\/|\/$/g, '');
+    if (name.includes('*')) return false;
+    const parts = f.split('/');
+    if (anchored) return dir ? parts[0] === name && parts.length > 1 : f === name;
+    return dir ? parts.slice(0, -1).includes(name) : parts.includes(name);
+  });
+  expect(shell.filter(ignored)).toEqual([]);
+});
