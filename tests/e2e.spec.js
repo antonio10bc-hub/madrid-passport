@@ -551,10 +551,10 @@ test('radar: con el botón de ubicación activo, círculo de 500 m y pines de lo
   await page.locator('#locate').click();
   await expect(page.locator('#locate')).toHaveClass(/active/);
   await expect(page.locator('.radar')).toHaveCount(1);
-  await expect(page.locator('.pin.near[data-id="puerta-sol"]')).toHaveCount(1);
+  await expect(page.locator('.pin.radar-pin[data-id="puerta-sol"]')).toHaveCount(1);
   // Tras acercarse (zoom ≥ 15,5) el círculo de 500 m ocupa buena parte de la pantalla
   await expect.poll(() => page.locator('.radar').evaluate((el) => el.getBoundingClientRect().width)).toBeGreaterThan(200);
   await page.locator('#locate').click();
   await expect(page.locator('.radar')).toHaveCount(0);
-  await expect(page.locator('.pin.near')).toHaveCount(0);
+  await expect(page.locator('.pin.radar-pin')).toHaveCount(0);
 });

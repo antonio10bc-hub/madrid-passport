@@ -263,7 +263,7 @@ export function drawPins() {
     const fresh = !m;
     if (fresh) { m = makePin(BYID[id]); pinMarkers.set(id, m); }
     const l = lvl(id);
-    const cls = `pin v${l}${S.selId === id ? ' sel' : ''}${near.has(id) ? ' near' : ''}${fresh && near.has(id) ? ' near-in' : fresh && enter ? ' enter' : ''}`;
+    const cls = `pin v${l}${S.selId === id ? ' sel' : ''}${near.has(id) ? ' radar-pin' : ''}${fresh && near.has(id) ? ' radar-in' : fresh && enter ? ' enter' : ''}`;
     if (m.el.className !== cls && !(m.el.classList.contains('flash') && cls === m.el.className.replace(' flash', ''))) m.el.className = cls;
     if (m.lvl !== l) { m.lvl = l; m.el.innerHTML = l === 1 ? ICON_CHECK : l === 2 ? ICON_GPS : ''; }
   }

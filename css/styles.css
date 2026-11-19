@@ -108,21 +108,20 @@ h1 { font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -.02e
 .pin.flash { animation: pin-flash .9s ease-out; }
 @keyframes pin-in { from { opacity: 0; transform: scale(.6); } }
 @keyframes pin-flash { 0% { box-shadow: 0 0 0 0 rgba(var(--red-a),.5); } 100% { box-shadow: 0 0 0 14px rgba(var(--red-a),0); } }
-/* Radar (botón de ubicación activo): 500 m alrededor, con barrido y onda muy suaves */
-.radar { border-radius: 50%; pointer-events: none; overflow: hidden;
-  background: radial-gradient(circle, rgba(47,123,246,0) 45%, rgba(47,123,246,.07) 100%); box-shadow: inset 0 0 0 1.5px rgba(47,123,246,.22);
+/* Radar (botón de ubicación activo): 500 m alrededor, con ondas suaves que salen desde tu posición */
+.radar { border-radius: 50%; pointer-events: none;
+  background: radial-gradient(circle, rgba(47,123,246,0) 50%, rgba(47,123,246,.07) 100%); box-shadow: inset 0 0 0 1.5px rgba(47,123,246,.22);
   animation: radar-in .6s var(--ease-out); }
-.radar::before { content: ''; position: absolute; inset: 0; border-radius: 50%;
-  background: conic-gradient(from 0deg, rgba(47,123,246,.14), rgba(47,123,246,0) 70deg, transparent); animation: radar-spin 5s linear infinite; }
-.radar::after { content: ''; position: absolute; inset: 0; border-radius: 50%; box-shadow: inset 0 0 0 1.5px rgba(47,123,246,.3);
-  animation: radar-ping 5s ease-out infinite; }
+.radar::before, .radar::after { content: ''; position: absolute; inset: 0; border-radius: 50%; opacity: 0;
+  background: radial-gradient(circle, rgba(47,123,246,0) 55%, rgba(47,123,246,.12) 100%); box-shadow: inset 0 0 0 1.5px rgba(47,123,246,.28);
+  animation: radar-pulse 4s cubic-bezier(.2, .6, .35, 1) infinite; }
+.radar::after { animation-delay: 2s; }
 @keyframes radar-in { from { opacity: 0; } }
-@keyframes radar-spin { to { transform: rotate(1turn); } }
-@keyframes radar-ping { from { transform: scale(.08); opacity: 1; } 60%, to { transform: scale(1); opacity: 0; } }
-.pin.near.v0 { box-shadow: 0 0 0 4px rgba(var(--red-a),.12); }
-.pin.near-in { animation: near-in .7s var(--ease-out); }
-@keyframes near-in { 0% { opacity: 0; transform: scale(.4); } 60% { opacity: 1; transform: scale(1.25); } }
-@media (prefers-reduced-motion: reduce) { .radar::before, .radar::after, .radar, .pin.near-in { animation: none; } .radar::after { display: none; } }
+@keyframes radar-pulse { 0% { transform: scale(.05); opacity: 0; } 15% { opacity: 1; } 100% { transform: scale(1); opacity: 0; } }
+.pin.radar-pin.v0 { box-shadow: 0 0 0 4px rgba(var(--red-a),.12); }
+.pin.radar-in { animation: radar-pin-in .7s var(--ease-out); }
+@keyframes radar-pin-in { 0% { opacity: 0; transform: scale(.4); } 60% { opacity: 1; transform: scale(1.25); } }
+@media (prefers-reduced-motion: reduce) { .radar, .pin.radar-in { animation: none; } .radar::before, .radar::after { display: none; } }
 .me { width: 16px; height: 16px; border-radius: 50%; background: #2F7BF6; border: 3px solid #fff; box-shadow: 0 0 0 6px rgba(47,123,246,.2); }
 
 /* Botones flotantes */
