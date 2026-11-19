@@ -47,16 +47,6 @@
   "desc_en": "The Chocolatería San Ginés is a café at Pasadizo de San Ginés, 5, in central Madrid, in a passageway close to San Ginés church, west of the Puerta del Sol. It has served principally chocolate con churros (hot chocolate and churros) since 1894.",
   "url_en": "https://en.wikipedia.org/wiki/Chocolater%C3%ADa_San_Gin%C3%A9s"
  },
- "descalzas": {
-  "title": "Monasterio de las Descalzas Reales",
-  "missing": false,
-  "lat": null,
-  "lng": null,
-  "img": null,
-  "desc": "Bajo la denominación de monasterio o convento de las Descalzas Reales existen varios edificios religiosos, relacionados con la orden de las clarisas franciscanas descalzas.",
-  "url": "https://es.wikipedia.org/wiki/Monasterio_de_las_Descalzas_Reales",
-  "title_en": null
- },
  "gran-via": {
   "title": "Gran Vía",
   "missing": false,
@@ -185,16 +175,6 @@
   "desc_en": "The Royal Basilica of Saint Francis the Great (Spanish: Real Basílica de San Francisco el Grande) is a Roman Catholic basilica in central Madrid, Spain, located in the neighborhood of Palacio.",
   "url_en": "https://en.wikipedia.org/wiki/Royal_Basilica_of_Saint_Francis_the_Great"
  },
- "rastro": {
-  "title": "El Rastro",
-  "missing": false,
-  "lat": null,
-  "lng": null,
-  "img": null,
-  "desc": "El Rastro puede hacer referencia a:\n\nEl Rastro de Madrid, un mercado al aire libre en el centro histórico de Madrid.\nEl Rastro, una parroquia y pueblo en el Estado Guárico, Venezuela.\nEl rastro de Cthulhu, juego de rol basado en misterios y horror\nEl rastro, programa de televisión colombiano.",
-  "url": "https://es.wikipedia.org/wiki/El_Rastro",
-  "title_en": null
- },
  "plaza-lavapies": {
   "title": "Plaza de Lavapiés",
   "missing": false,
@@ -218,16 +198,6 @@
   "title_en": "Museo Nacional Centro de Arte Reina Sofía",
   "desc_en": "The Museo Nacional Centro de Arte Reina Sofía (\"Queen Sofía National Museum Art Centre\"; MNCARS) is Spain's national museum of 20th-century art. The museum was officially inaugurated on September 10, 1992, and is named for Queen Sofía. It is located in Madrid, near the Atocha train and metro stations, at the southern end of what is known as the Golden Triangle of Art (located along the Paseo del Prado and also comprising the Museo del Prado and the Museo Thyssen-Bornemisza).",
   "url_en": "https://en.wikipedia.org/wiki/Museo_Nacional_Centro_de_Arte_Reina_Sof%C3%ADa"
- },
- "tabacalera": {
-  "title": "Real Fábrica de Tabacos de Madrid",
-  "missing": true,
-  "lat": null,
-  "lng": null,
-  "img": null,
-  "desc": null,
-  "url": "https://es.wikipedia.org/wiki/Real_F%C3%A1brica_de_Tabacos_de_Madrid",
-  "title_en": null
  },
  "san-fernando": {
   "title": "Mercado de San Fernando",
@@ -401,16 +371,6 @@
   "desc_en": "The Plaza de Cibeles is a square with a neo-classical complex of marble sculptures with fountains that has become a symbol for the city of Madrid. It sits at the intersection of Calle de Alcalá (running from east to west), Paseo de Recoletos (to the North) and Paseo del Prado (to the south). Plaza de Cibeles was originally named Plaza de Madrid, but in 1900, the City Council named it Plaza de Castelar, which was eventually replaced by its current name.",
   "url_en": "https://en.wikipedia.org/wiki/Plaza_de_Cibeles"
  },
- "cristal": {
-  "title": "Palacio de Cristal (Madrid)",
-  "missing": true,
-  "lat": null,
-  "lng": null,
-  "img": null,
-  "desc": null,
-  "url": "https://es.wikipedia.org/wiki/Palacio_de_Cristal_(Madrid)",
-  "title_en": null
- },
  "estanque": {
   "title": "Estanque Grande del Buen Retiro",
   "missing": false,
@@ -516,16 +476,6 @@
   "title_en": "Madrid Atocha railway station",
   "desc_en": "Madrid Atocha (Spanish: Estación de Madrid Atocha) is the oldest major railway station complex in Madrid. The complex includes the main train station named Madrid Puerta de Atocha-Almudena Grandes. It is the largest station serving commuter trains (Cercanías), regional trains from the south and southeast, intercity trains from Navarre, Cádiz and Huelva (Andalusia) and La Rioja, and the AVE high speed trains from Girona, Tarragona and Barcelona (Catalonia), Huesca and Zaragoza (Aragon), Sevilla, Córdoba, Málaga and Granada (Andalusia), Valencia, Castellón and Alicante (Levante Region).",
   "url_en": "https://en.wikipedia.org/wiki/Madrid_Atocha_railway_station"
- },
- "colon": {
-  "title": "Plaza Colón",
-  "missing": false,
-  "lat": null,
-  "lng": null,
-  "img": null,
-  "desc": "Plaza de Colón o Plaza Colón se denominan algunas vías públicas en diversas ciudades, nombradas en honor a Cristóbal Colón:",
-  "url": "https://es.wikipedia.org/wiki/Plaza_Col%C3%B3n",
-  "title_en": null
  },
  "man": {
   "title": "Museo Arqueológico Nacional de España",
@@ -655,16 +605,6 @@
   "desc_en": "The plaza de Olavide is an octagonal plaza located in the heart of the Trafalgar neighborhood, in Madrid, Spain.",
   "url_en": "https://en.wikipedia.org/wiki/Plaza_de_Olavide"
  },
- "sala-canal": {
-  "title": "Sala Canal de Isabel II",
-  "missing": true,
-  "lat": null,
-  "lng": null,
-  "img": null,
-  "desc": null,
-  "url": "https://es.wikipedia.org/wiki/Sala_Canal_de_Isabel_II",
-  "title_en": null
- },
  "geominero": {
   "title": "Museo Geominero (Madrid)",
   "missing": false,
@@ -688,16 +628,6 @@
   "title_en": "Temple of Debod",
   "desc_en": "The Temple of Debod (Spanish: Templo de Debod) is an ancient Nubian temple currently located in Madrid, Spain. The temple was originally erected in the early 2nd century BC 15 km (9.3 mi) south of Aswan, Egypt. The Egyptian government donated the temple to Spain in 1968 as a sign of gratitude for their participation in the International Campaign to Save the Monuments of Nubia.",
   "url_en": "https://en.wikipedia.org/wiki/Temple_of_Debod"
- },
- "rosaleda": {
-  "title": "Parque del Oeste",
-  "missing": false,
-  "lat": null,
-  "lng": null,
-  "img": null,
-  "desc": "Parque del Oeste puede hacer referencia a los siguientes lugares:",
-  "url": "https://es.wikipedia.org/wiki/Parque_del_Oeste",
-  "title_en": null
  },
  "florida": {
   "title": "Ermita de San Antonio de la Florida",
@@ -1125,16 +1055,6 @@
   "desc_en": "Caja Mágica (pronounced [ˈkaxa ˈmaxika]; Spanish for 'Magic Box'), also known as the Manzanares Park Tennis Center, is a multi-purpose stadium located in Madrid, Spain. Since 2009, it has been the home of the Madrid Open tennis tournament.\nThere are three courts under the one structure, and a series of retractable roofs.",
   "url_en": "https://en.wikipedia.org/wiki/Caja_M%C3%A1gica"
  },
- "tio-pio": {
-  "title": "Parque del Cerro del Tío Pío",
-  "missing": true,
-  "lat": null,
-  "lng": null,
-  "img": null,
-  "desc": null,
-  "url": "https://es.wikipedia.org/wiki/Parque_del_Cerro_del_T%C3%ADo_P%C3%ADo",
-  "title_en": null
- },
  "estadio-vallecas": {
   "title": "Estadio de Vallecas",
   "missing": false,
@@ -1158,16 +1078,6 @@
   "title_en": "Assembly of Madrid",
   "desc_en": "The Assembly of Madrid or Madrid Assembly (Spanish: Asamblea de Madrid) is the unicameral autonomous legislature of the Autonomous Community of Madrid since the approval of the Madrid Charter of Autonomy in 1983.\nIt is elected every four years during the Spanish Regional and Municipal elections, as the Community of Madrid Charter of Autonomy does not recognise the right to call early elections (as in the Basque Country, Catalonia, Galicia and Andalusia), save for exceptional situations like the scandal that deadlocked the May 2003 Assembly and forced fresh elections in October 2003. According to the Charter, the Assembly is empowered to write Madrid's regional legislation, to control the regional government's actions, and to elect the President of the Community of Madrid.",
   "url_en": "https://en.wikipedia.org/wiki/Assembly_of_Madrid"
- },
- "palomeras": {
-  "title": "Palomeras",
-  "missing": true,
-  "lat": null,
-  "lng": null,
-  "img": null,
-  "desc": null,
-  "url": "https://es.wikipedia.org/wiki/Palomeras",
-  "title_en": null
  },
  "cuna-odonnell": {
   "title": "Parque de la Cuña Verde de O'Donnell",
@@ -1257,16 +1167,6 @@
   "url": "https://es.wikipedia.org/wiki/Parque_forestal_de_Valdebebas-Felipe_VI",
   "title_en": null
  },
- "juan-pablo-ii": {
-  "title": "Parque Juan Pablo II (Madrid)",
-  "missing": true,
-  "lat": null,
-  "lng": null,
-  "img": null,
-  "desc": null,
-  "url": "https://es.wikipedia.org/wiki/Parque_Juan_Pablo_II_(Madrid)",
-  "title_en": null
- },
  "hortaleza-pueblo": {
   "title": "Hortaleza",
   "missing": false,
@@ -1278,16 +1178,6 @@
   "title_en": "Hortaleza",
   "desc_en": "Hortaleza is one of the 21 districts of the city of Madrid, Spain.",
   "url_en": "https://en.wikipedia.org/wiki/Hortaleza"
- },
- "pinar-rey": {
-  "title": "Parque de Pinar del Rey",
-  "missing": true,
-  "lat": null,
-  "lng": null,
-  "img": null,
-  "desc": null,
-  "url": "https://es.wikipedia.org/wiki/Parque_de_Pinar_del_Rey",
-  "title_en": null
  },
  "boetticher": {
   "title": "Nave Boetticher",
@@ -1377,16 +1267,6 @@
   "desc_en": "Ensanche de Vallecas is an administrative neighborhood of Madrid capital city of Spain. The ward belongs  to the district of Villa de Vallecas.\nThe urbanisation of the area was conceived as a PAU (Programa de Actuación Urbanística) named \"Ensanche de Vallecas\" within the Casco Histórico de Vallecas neighborhood.",
   "url_en": "https://en.wikipedia.org/wiki/Ensanche_de_Vallecas"
  },
- "valdebernardo": {
-  "title": "Parque Forestal de Valdebernardo",
-  "missing": true,
-  "lat": null,
-  "lng": null,
-  "img": null,
-  "desc": null,
-  "url": "https://es.wikipedia.org/wiki/Parque_Forestal_de_Valdebernardo",
-  "title_en": null
- },
  "vicalvaro-pueblo": {
   "title": "Vicálvaro",
   "missing": false,
@@ -1407,28 +1287,6 @@
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/54/Cerro_de_Almod%C3%B3var_%2822_de_octubre_de_2017%2C_Madrid%29_05.jpg/960px-Cerro_de_Almod%C3%B3var_%2822_de_octubre_de_2017%2C_Madrid%29_05.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El cerro Almodóvar​ es un cerro testigo​ ubicado en la parte central de la península ibérica, en el municipio español de Madrid.",
   "url": "https://es.wikipedia.org/wiki/Cerro_Almod%C3%B3var",
-  "title_en": null
- },
- "metropolitano": {
-  "title": "Estadio Metropolitano",
-  "missing": false,
-  "lat": null,
-  "lng": null,
-  "img": null,
-  "desc": "«Estadio Metropolitano» puede hacer referencia al nombre de diferentes infraestructuras:\nEn Colombia:\n\nEstadio Metropolitano Roberto Meléndez: estadio en Barranquilla (Colombia).\nEstadio Metropolitano de Techo: estadio en Bogotá (Colombia).\nEstadio Metropolitano Ciudad de Itagüí: estadio en Itagüí (Colombia)\nEn España:\n\nEstadio Metropolitano: estadio en Madrid (España), conocido por razones de patrocinio como Riyadh Air Metropolitano, sede del Atlético de Madrid.",
-  "url": "https://es.wikipedia.org/wiki/Estadio_Metropolitano",
-  "title_en": "Estadio Metropolitano (disambiguation)",
-  "desc_en": "Estadio Metropolitano is the current home stadium of Atlético Madrid, used since 2017.",
-  "url_en": "https://en.wikipedia.org/wiki/Estadio_Metropolitano_(disambiguation)"
- },
- "quinta-molinos": {
-  "title": "Quinta de los Molinos",
-  "missing": false,
-  "lat": null,
-  "lng": null,
-  "img": null,
-  "desc": "La Quinta de los Molinos es un monumento nacional situado en la ciudad de La Habana, Cuba. Importante por haber sido la residencia de los Capitanes Generales durante el período colonial, residencia del prócer Máximo Gómez y por albergar el Jardín botánico de La Habana y el Museo Máximo Gómez.",
-  "url": "https://es.wikipedia.org/wiki/Quinta_de_los_Molinos",
   "title_en": null
  },
  "torre-arias": {
@@ -1995,16 +1853,6 @@
   "desc_en": "Moscardó is an administrative neighborhood (barrio) of Madrid belonging to the district of Usera.",
   "url_en": "https://en.wikipedia.org/wiki/Moscard%C3%B3"
  },
- "almendrales": {
-  "title": "Estación de Almendrales",
-  "qid": "Q543261",
-  "lat": 40.3833,
-  "lng": -3.6982,
-  "img": null,
-  "desc": null,
-  "url": "https://es.wikipedia.org/wiki/Estaci%C3%B3n_de_Almendrales",
-  "title_en": null
- },
  "zofio": {
   "title": "Zofío",
   "qid": "Q71751",
@@ -2087,16 +1935,6 @@
   "desc_en": "Marroquina is an administrative neighborhood (barrio) of Madrid belonging to the district of Moratalaz. It is 1.789256 km2 in size and has a 6,746 m perimeter.",
   "url_en": "https://en.wikipedia.org/wiki/Marroquina"
  },
- "media-legua": {
-  "title": "Media Legua",
-  "qid": "Q27188880",
-  "lat": null,
-  "lng": null,
-  "img": null,
-  "desc": null,
-  "url": "https://es.wikipedia.org/wiki/Media_Legua",
-  "title_en": null
- },
  "vinateros": {
   "title": "Vinateros",
   "qid": "Q10391533",
@@ -2169,16 +2007,6 @@
   "desc_en": "Colina is a ward (barrio) of Madrid belonging to the district of Ciudad Lineal.",
   "url_en": "https://en.wikipedia.org/wiki/Colina_(Madrid)"
  },
- "costillares": {
-  "title": "Costillares",
-  "qid": "Q2998461",
-  "lat": null,
-  "lng": null,
-  "img": null,
-  "desc": null,
-  "url": null,
-  "title_en": null
- },
  "alfredo-di-stefano": {
   "title": "Estadio Alfredo Di Stéfano",
   "qid": "Q645670",
@@ -2190,16 +2018,6 @@
   "title_en": "Alfredo Di Stéfano Stadium",
   "desc_en": "The Alfredo Di Stéfano Stadium (Spanish: Estadio Alfredo Di Stéfano) is a football stadium in Madrid, Spain. It is named after Real Madrid's former player Alfredo Di Stéfano (1926–2014).\nThe stadium is used by Real Madrid Femenino and Real Madrid Castilla.",
   "url_en": "https://en.wikipedia.org/wiki/Alfredo_Di_St%C3%A9fano_Stadium"
- },
- "canillas": {
-  "title": "Canillas (municipio)",
-  "qid": "Q16542489",
-  "lat": 40.45,
-  "lng": -3.63333333,
-  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0a/Ermita_de_San_Blas%2C_espada%C3%B1a%2C_Canillas%2C_Madrid%2C_Espa%C3%B1a%2C_2015.JPG/960px-Ermita_de_San_Blas%2C_espada%C3%B1a%2C_Canillas%2C_Madrid%2C_Espa%C3%B1a%2C_2015.JPG?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-  "desc": "Canillas fue un municipio de España perteneciente a la provincia de Madrid.",
-  "url": "https://es.wikipedia.org/wiki/Canillas_(municipio)",
-  "title_en": null
  },
  "sanchinarro": {
   "title": "Sanchinarro",
@@ -2294,16 +2112,6 @@
   "title_en": "Mercamadrid",
   "desc_en": "Mercamadrid is the main wholesale market of fresh products in Spain. Located in Madrid, it is a public enterprise jointly participated by the Ayuntamiento de Madrid and Mercasa, part of the SEPI.\nLocated in Villa de Vallecas, next to the M-40, in Southeastern Madrid, it covers an area of 2.22 km2. A dry land fish market, it is one of the biggest fish markets in the world.",
   "url_en": "https://en.wikipedia.org/wiki/Mercamadrid"
- },
- "valdecarros": {
-  "title": "Valdecarros",
-  "qid": "Q5481981",
-  "lat": null,
-  "lng": null,
-  "img": null,
-  "desc": null,
-  "url": null,
-  "title_en": null
  },
  "ambroz": {
   "title": "Ambroz (Madrid)",
@@ -2900,18 +2708,6 @@
   "title_en": "Monument to Miguel de Cervantes",
   "desc_en": "The Monument to Miguel de Cervantes is an instance of public art located in Madrid, Spain. Erected on the centre of the Plaza de España, it is dedicated to Miguel de Cervantes, widely regarded as the greatest writer in the Spanish language. The monument incorporates a stone monolith with several statues (including Cervantes') and a detached bronze sculptural group representing Don Quixote and Sancho Panza.",
   "url_en": "https://en.wikipedia.org/wiki/Monument_to_Miguel_de_Cervantes"
- },
- "plaza-isabel-ii": {
-  "title": "Plaza de Isabel II",
-  "qid": "Q52067315",
-  "lat": null,
-  "lng": null,
-  "img": null,
-  "desc": "Plaza de Isabel II puede hacer referencia a:",
-  "url": "https://es.wikipedia.org/wiki/Plaza_de_Isabel_II",
-  "title_en": "Plaza de Isabel II (disambiguation)",
-  "desc_en": "Plaza de Isabel II is a historic public square in Madrid, Spain.",
-  "url_en": "https://en.wikipedia.org/wiki/Plaza_de_Isabel_II_(disambiguation)"
  },
  "plaza-ramales": {
   "title": "Plaza de Ramales",
@@ -4185,16 +3981,6 @@
   "desc_en": "Paseo de la Castellana, commonly known as La Castellana, is a major thoroughfare in Madrid, Spain. Cutting across the city from south to north, it has been described as the \"true structuring axis\" of the city.",
   "url_en": "https://en.wikipedia.org/wiki/Paseo_de_la_Castellana"
  },
- "san-manuel-benito": {
-  "title": "Iglesia de San Manuel y San Benito",
-  "qid": "Q5475377",
-  "lat": null,
-  "lng": null,
-  "img": null,
-  "desc": "El nombre de Iglesia de San Manuel y San Benito o  Iglesia de San Benito y San Manuel  es el nombre de varios edificios religiosos, catalogados como iglesias en honor a San Manuel, y a San Benito de la Iglesia Católica.\n\n en España:\nIglesia de San Manuel y San Benito, iglesia católica en la ciudad de Bilbao;\nIglesia de San Manuel y San Benito, iglesia católica en la ciudad de Madrid;\nEn advocación a los santos con el nombre de los impulsores\nIglesia de San Manuel y San Benito, iglesia católica en la localidad de Zuzones, Burgos.",
-  "url": "https://es.wikipedia.org/wiki/Iglesia_de_San_Manuel_y_San_Benito",
-  "title_en": null
- },
  "museo-taurino": {
   "title": "Museo Taurino de Madrid",
   "qid": "Q27500479",
@@ -4299,16 +4085,6 @@
   "desc_en": "The Casa de las Flores is a block of flats in the Chamberí district of Madrid, designed by Secundino Zuazo in 1931. The distribution of spaces with its central landscaped corridor has provided a model for architecture students studying the fifties and sixties. It is located on the corner of Calle de la Princesa (Hilarión Eslava, Rodríguez San Pedro, Gaztambide and Meléndez Valdés streets), and has balconies decorated with flower boxes, from which the name of the building is derived.",
   "url_en": "https://en.wikipedia.org/wiki/Casa_de_las_Flores"
  },
- "parque-oeste": {
-  "title": "Parque del Oeste",
-  "qid": "Q5491094",
-  "lat": null,
-  "lng": null,
-  "img": null,
-  "desc": "Parque del Oeste puede hacer referencia a los siguientes lugares:",
-  "url": "https://es.wikipedia.org/wiki/Parque_del_Oeste",
-  "title_en": null
- },
  "paseo-rosales": {
   "title": "Paseo del Pintor Rosales",
   "qid": "Q6065691",
@@ -4317,16 +4093,6 @@
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8f/Paseo_del_Pintor_Rosales.jpg/960px-Paseo_del_Pintor_Rosales.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "El paseo del Pintor Rosales (popularmente Rosales),​ es una vía urbana de Madrid que va desde la calle de Ferraz al paseo de Moret.​  Trazada como un mirador a lo largo de la cornisa que bordea la antigua montaña del Príncipe Pío (entre la plaza de España y el barrio de Arguelles),​ está dedicada a Eduardo Rosales, director nominal de la Academia de España en Roma.​ En su recorrido de 1,2 km, se encuentran varios accesos al jardín del templo de Debod y al Parque del Oeste, así como el emplazamiento de salida del teleférico de Madrid.",
   "url": "https://es.wikipedia.org/wiki/Paseo_del_Pintor_Rosales",
-  "title_en": null
- },
- "calle-princesa": {
-  "title": "Calle de la Princesa",
-  "qid": "Q119140368",
-  "lat": null,
-  "lng": null,
-  "img": null,
-  "desc": "Por «calle de la Princesa» pueden conocerse las siguientes vías:",
-  "url": "https://es.wikipedia.org/wiki/Calle_de_la_Princesa",
   "title_en": null
  },
  "casa-de-campo-parque": {
@@ -4509,18 +4275,6 @@
   "desc_en": "Torre Europa formerly known as Torre de Empsa is a high-rise office building in the AZCA business district of Madrid, Spain. Built between 1975 and 1985 by Necso, the tower stands at 121 metres (397 ft) tall with 30 floors and is the 8th tallest building in Madrid.",
   "url_en": "https://en.wikipedia.org/wiki/Torre_Europa_(Madrid)"
  },
- "torre-bbva": {
-  "title": "Torre BBVA",
-  "qid": "Q10971805",
-  "lat": null,
-  "lng": null,
-  "img": null,
-  "desc": "Torre BBVA puede hacer referencia a:\n\nTorre del Banco de Bilbao, actualmente Castellana 81, en AZCA, Madrid (España).\nTorre Banco de Vizcaya, actualmente Torre Bizkaia, en la Plaza Circular, de Bilbao (España).\nLa Torre BBVA, en la avenida Balboa, Panamá.",
-  "url": "https://es.wikipedia.org/wiki/Torre_BBVA",
-  "title_en": "Torre BBVA",
-  "desc_en": "Torre BBVA may refer to:",
-  "url_en": "https://en.wikipedia.org/wiki/Torre_BBVA"
- },
  "torre-cristal": {
   "title": "Torre de Cristal",
   "qid": "Q953610",
@@ -4604,18 +4358,6 @@
   "title_en": "British Cemetery in Madrid",
   "desc_en": "The British Cemetery in Madrid (Cementerio británico de Madrid or Cementerio de los Ingleses) was opened in 1854 in the Carabanchel district of Madrid, Spain, and the first burials took place that year. Few burials take place in the cemetery today because it is full, but there is provision for the interment of cremated remains.\nThe cemetery is similar to many other such British cemeteries which came into existence after the Reformation when governments and religious authorities excluded those not of their prescribed faith from burial in their consecrated ground.",
   "url_en": "https://en.wikipedia.org/wiki/British_Cemetery_in_Madrid"
- },
- "plaza-eliptica": {
-  "title": "Plaza Elíptica",
-  "qid": "Q96283724",
-  "lat": null,
-  "lng": null,
-  "img": null,
-  "desc": "Hay plazas llamadas Plaza Elíptica en varias ciudades:\n\nPlaza Elíptica (Bilbao);\nPlaza Elíptica (Madrid);\nPlaza Elíptica (Vigo).\nAdemás, este nombre puede referirse a:\n\nEstación de Plaza Elíptica, intercambiador de transportes de Madrid;\nPlaza Elíptica, un álbum de la serie Las aventuras del Capitán Torrezno, de Santiago Valenzuela.",
-  "url": "https://es.wikipedia.org/wiki/Plaza_El%C3%ADptica",
-  "title_en": "Plaza Elíptica (disambiguation)",
-  "desc_en": "Plaza Elíptica means \"elliptical square\" in Spanish.\nIt may refer to:\n\nPlaza Elíptica, square in Bilbao, Spain\nEliptikoa (Bilbao Metro), Bilbao Metro station under the square.",
-  "url_en": "https://en.wikipedia.org/wiki/Plaza_El%C3%ADptica_(disambiguation)"
  },
  "cementerio-almudena": {
   "title": "Cementerio de la Almudena",
@@ -4861,6 +4603,256 @@
   "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/30/Pasteler%C3%ADa_%22El_Pozo%22-2009.jpg/960px-Pasteler%C3%ADa_%22El_Pozo%22-2009.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
   "desc": "La Antigua Pastelería del Pozo (antiguamente, Horno del Pozo) es una pastelería centenaria de Madrid, fundada en el año 1830. En el siglo XX, fue comprada por el repostero Julián Leal Charle.​ Se encuentra muy cerca del centro de Madrid.​ Es famosa por elaborar un producto típicamente madrileño: los bartolillos (masas fritas en forma triangular elaboradas con harina de trigo), y los hojaldres de la capital.​ El nombre de esta pastelería se debe a la calle donde se encuentra ubicada, Calle del Pozo, y ésta, a un pozo con fama de milagrero que aquí se encontraba.",
   "url": "https://es.wikipedia.org/wiki/Antigua_Pasteler%C3%ADa_del_Pozo",
+  "title_en": null
+ },
+ "descalzas": {
+  "title": "Monasterio de las Descalzas Reales (Madrid)",
+  "qid": "Q2268271",
+  "lat": 40.418267,
+  "lng": -3.706192,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a5/Monasterio_de_las_Descalzas_Reales_%28Madrid%29_08.jpg/960px-Monasterio_de_las_Descalzas_Reales_%28Madrid%29_08.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El monasterio de Nuestra Señora de la Visitación, ubicado en la ciudad española de Madrid y más conocido como las Descalzas Reales, es un monasterio de monjas de clausura, clarisas coletinas, fundado en 1559 por Juana de Austria, viuda del príncipe Juan Manuel de Portugal, hermana del rey de España Felipe II y madre del futuro rey portugués don Sebastián. Se encuentra situado en pleno centro de Madrid: en la actual plaza de las Descalzas, zona cercana a la Puerta del Sol, plaza de Celenque y calle de Preciados. Es un edificio clasicista del siglo XVI que alberga en su interior importantes obras de arte.",
+  "url": "https://es.wikipedia.org/wiki/Monasterio_de_las_Descalzas_Reales_(Madrid)",
+  "title_en": "Convent of Las Descalzas Reales",
+  "desc_en": "The Convent of Las Descalzas Reales (Spanish: Monasterio de las Descalzas Reales) is a royal monastery situated in Madrid, Spain, administered by the Patrimonio Nacional.",
+  "url_en": "https://en.wikipedia.org/wiki/Convent_of_Las_Descalzas_Reales"
+ },
+ "rastro": {
+  "title": "El Rastro de Madrid",
+  "qid": "Q2916187",
+  "lat": 40.40888889,
+  "lng": -3.7075,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a4/Rastro_de_Madrid_%28Espa%C3%B1a%29_1.jpg/960px-Rastro_de_Madrid_%28Espa%C3%B1a%29_1.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El Rastro de Madrid, o simplemente El Rastro, es un mercado al aire libre o encante,​ originalmente de objetos de segunda mano, que se monta todas las mañanas de domingos y festivos en el barrio de Embajadores, en el centro histórico de la capital de España.​ Nació hacia 1740 en torno al Matadero de la Villa,​ ocupando las aceras de la cuesta de la calle de la Ribera de Curtidores, como un mercadillo semi-clandestino de venta de objetos usados (baratillos).​\nEl Rastro ha ido reglamentando su existencia y actividad comercial con el paso de los años.​ Su fama internacional (que lo hace estar presente en las guías de viaje sobre Madrid como un atractivo singular), lo emparenta con otros mercadillos existentes en diversas ciudades de Europa: Los Encantes en Barcelona, el Waterlooplein de Ámsterdam, Portobello en Londres y el mercado del Porta Portese en Roma.",
+  "url": "https://es.wikipedia.org/wiki/El_Rastro_de_Madrid",
+  "title_en": "El Rastro",
+  "desc_en": "El Rastro de Madrid or simply el Rastro is the most popular open air flea market in Madrid (Spain). It is held every Sunday and public holiday during the year and is located along Plaza de Cascorro and Ribera de Curtidores, between Calle Embajadores and the Ronda de Toledo (just south of La Latina metro station).\nA great variety of products (new and used) can be found at el Rastro.",
+  "url_en": "https://en.wikipedia.org/wiki/El_Rastro"
+ },
+ "tabacalera": {
+  "title": "Tabacalera (Madrid)",
+  "qid": "Q31213958",
+  "lat": 40.40673955104347,
+  "lng": -3.7032330880748763,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1b/Madrid_-_Tabacalera_Promoci%C3%B3n_del_Arte_%2836635189401%29.jpg/960px-Madrid_-_Tabacalera_Promoci%C3%B3n_del_Arte_%2836635189401%29.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "Tabacalera, también conocida como Tabacalera Promoción del Arte, es un centro cultural y de arte localizado en la antigua Fábrica de Tabacos (Madrid). En la actualidad, el edificio de la antigua fábrica está ocupado por dos entidades diferentes: una parte ocupada por Tabacalera Promoción del Arte, gestionado por la Subdirección General de Promoción de las Bellas Artes del Ministerio de Educación, Cultura y Deporte desde el año 2003 con exposiciones temporales y actividades relacionadas con la fotografía, el arte contemporáneo y las artes visuales y, la otra parte del edificio está ocupada por La Tabacalera de Lavapiés, cedida por el Ministerio, a varias comunidades de ciudadanos del barrio de Lavapiés, conocido como C. S. A., un Centro Social Autogestionado, donde se llevan a cabo diversos talleres, actuaciones de teatro, mercadillos de artesanía, Poetry Slam Lavapiés y que cuenta con varias galerías de exposición, taller de pintura, biblioteca, la mayor galería de arte urbano de Madrid y programación cultural de diversa índole.",
+  "url": "https://es.wikipedia.org/wiki/Tabacalera_(Madrid)",
+  "title_en": null
+ },
+ "cristal": {
+  "title": "Palacio de Cristal del Retiro",
+  "qid": "Q2420025",
+  "lat": 40.413556,
+  "lng": -3.682056,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a0/Palacio_de_Cristal%2C_Retiro%2C_Madrid.jpg/960px-Palacio_de_Cristal%2C_Retiro%2C_Madrid.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El Palacio de Cristal es una estructura de metal y cristal situado en el parque del Retiro de la ciudad española de Madrid. Fue construido en 1887 con motivo de la Exposición General de las Islas Filipinas, y es un ejemplo destacado de la arquitectura de cristal y hierro en Madrid. En la actualidad es una de las sedes del Museo Reina Sofía.​\nEste Palacio fue diseñado para ofrecer un ambiente ideal para la exhibición de plantas tropicales durante la Exposición General de las Islas Filipinas de 1887.",
+  "url": "https://es.wikipedia.org/wiki/Palacio_de_Cristal_del_Retiro",
+  "title_en": "Palacio de Cristal del Retiro",
+  "desc_en": "The Palacio de Cristal (\"Glass Palace\") is a 19th-century conservatory located in the Buen Retiro Park in Madrid, Spain. It is currently used for art exhibitions.\nThe Palacio de Cristal, in the shape of a Greek cross, is made almost entirely of glass set in an iron framework on a brick base, which is decorated with ceramics.",
+  "url_en": "https://en.wikipedia.org/wiki/Palacio_de_Cristal_del_Retiro"
+ },
+ "colon": {
+  "title": "Plaza de Colón (Madrid)",
+  "qid": "Q970525",
+  "lat": 40.424925,
+  "lng": -3.6894388888889,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/78/Plaza_de_Col%C3%B3n_%28Madrid%29_12.jpg/960px-Plaza_de_Col%C3%B3n_%28Madrid%29_12.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "La plaza de Colón es un espacio público de la ciudad española de Madrid, en la que confluyen calles como Goya, Génova y los paseos de la Castellana y Recoletos.",
+  "url": "https://es.wikipedia.org/wiki/Plaza_de_Col%C3%B3n_(Madrid)",
+  "title_en": "Plaza de Colón",
+  "desc_en": "Plaza de Colón (Spanish pronunciation: [ˈplaθa ðe koˈlon]; lit. 'Columbus Square') is located in the encounter of Chamberí, Centro and Salamanca districts of Madrid, Spain. This plaza and its fountain commemorate the explorer Christopher Columbus, whose name in Spanish was Cristóbal Colón, whose voyages to the Americas would lead to the creation of the Spanish Empire.",
+  "url_en": "https://en.wikipedia.org/wiki/Plaza_de_Col%C3%B3n"
+ },
+ "rosaleda": {
+  "title": "Rosaleda del parque del Oeste",
+  "qid": "Q16626568",
+  "lat": 40.42653,
+  "lng": -3.72147,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8b/Vista_de_la_rosaleda_del_parque_del_Oeste.jpg/960px-Vista_de_la_rosaleda_del_parque_del_Oeste.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "La rosaleda del parque del Oeste también denominada más formalmente como Jardín de Ramón Ortíz, Rosaleda de Madrid es una rosaleda de 32 000 m² de extensión,​ que se encuentra en el Parque del Oeste de la ciudad de Madrid, España.",
+  "url": "https://es.wikipedia.org/wiki/Rosaleda_del_parque_del_Oeste",
+  "title_en": null
+ },
+ "tio-pio": {
+  "title": "Cerro del Tío Pío",
+  "qid": "Q5763439",
+  "lat": 40.39722222,
+  "lng": -3.65583333,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/93/Madrid_%28Spain%29_%2833807668821%29.jpg/960px-Madrid_%28Spain%29_%2833807668821%29.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El Cerro del Tío Pío es un parque de Madrid, ubicado en el barrio de Numancia, en el distrito de Puente de Vallecas. Se encuentra entre las colonias de Fontarrón, Santa Ana y de los Taxistas. Es conocido también con el sobrenombre de parque de las Siete Tetas, Las Tetas de Vallecas o, simplemente, Las Tetas, debido a la forma que tienen sus colinas.",
+  "url": "https://es.wikipedia.org/wiki/Cerro_del_T%C3%ADo_P%C3%ADo",
+  "title_en": null
+ },
+ "palomeras": {
+  "title": "Palomeras Bajas",
+  "qid": "Q10343902",
+  "lat": 40.3872222222,
+  "lng": -3.65722222222,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/96/Madrid_-_Distrito_de_Puente_de_Vallecas_05.JPG/960px-Madrid_-_Distrito_de_Puente_de_Vallecas_05.JPG?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "Palomeras Bajas es un barrio en el distrito de Puente de Vallecas, en la ciudad española de Madrid. En 2017 contaba con una población de 39 329 habitantes.​\nLo delimitan: al norte la Avenida de la Albufera, al este la Avenida de Buenos Aires, al sur el ferrocarril, y al oeste las calles Manuel Laguna, Sierra Nevada, Martínez de la Riva y Sierra Carbonera.\nEn el barrio se encuentran la sede de la Asamblea de Madrid y el estadio de Vallecas.",
+  "url": "https://es.wikipedia.org/wiki/Palomeras_Bajas",
+  "title_en": "Palomeras Bajas",
+  "desc_en": "Palomeras Bajas is an administrative neighborhood (barrio) of Madrid belonging to the district of Puente de Vallecas. It has an area of 1.724430 km2 (0.665806 sq mi). As of 1 February 2020, it has a population of 41,034.",
+  "url_en": "https://en.wikipedia.org/wiki/Palomeras_Bajas"
+ },
+ "metropolitano": {
+  "title": "Estadio Metropolitano (Madrid)",
+  "qid": "Q1369687",
+  "lat": 40.436111,
+  "lng": -3.599444,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e0/Atleti_vs_Villarreal_-_September_2025.jpg/960px-Atleti_vs_Villarreal_-_September_2025.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El Estadio Metropolitano, conocido actualmente como Estadio Riyadh Air Metropolitano por motivos de patrocinio, es un recinto deportivo propiedad del Club Atlético de Madrid, situado en el barrio de Rosas, distrito de San Blas-Canillejas, en Madrid, España.\nEl estadio tiene un aforo de 70 813 espectadores.​ Su graderío está dividido en tres niveles y forma tres anillos continuos a excepción de la grada alta del lateral oeste.​ Se inauguró como estadio propiedad del Club Atlético de Madrid el 16 de septiembre de 2017 con la disputa del partido Atlético-Málaga (1-0), correspondiente a la jornada 4 del Campeonato Nacional de Liga, tras la reforma y ampliación acometida entre 2011 y 2017.​\nOriginariamente, este recinto deportivo se inauguró el 6 de septiembre de 1994 como estadio de atletismo, impulsado por la Comunidad de Madrid. Se conoció popularmente como La Peineta debido a la apariencia de su tribuna principal.​ En 2002, su titularidad se transfirió al Ayuntamiento de Madrid.​ Formó parte de las candidaturas olímpicas de 2012, 2016 y 2020 de la ciudad de Madrid.​ Finalmente, el consistorio suscribió un convenio patrimonial con el Club Atlético de Madrid en 2008 por el cual se traspasaba la propiedad del recinto al club rojiblanco, tras el proyecto de reforma.​​\nHasta la temporada 2021-22, el estadio llevaba el nombre comercial de Wanda Metropolitano, por el patrocinador inicial de dicho recinto, la empresa Wanda Group.",
+  "url": "https://es.wikipedia.org/wiki/Estadio_Metropolitano_(Madrid)",
+  "title_en": "Metropolitano Stadium",
+  "desc_en": "The Metropolitano Stadium (Spanish: Estadio Metropolitano), officially referred to as Riyadh Air Metropolitano Stadium due to sponsorship, is a football stadium in Madrid, located in the Rosas neighbourhood in the San Blas-Canillejas district. It has been the home stadium of Atlético Madrid since 2017.\nThe original stadium was built as part of Madrid's unsuccessful bid to host the 1997 World Athletics Championships, and was opened on 6 September 1994 by the Community of Madrid.",
+  "url_en": "https://en.wikipedia.org/wiki/Metropolitano_Stadium"
+ },
+ "quinta-molinos": {
+  "title": "Parque de la Quinta de los Molinos",
+  "qid": "Q6062479",
+  "lat": 40.44388056,
+  "lng": -3.62751111,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Almendros_en_flor_VIII.jpg/960px-Almendros_en_flor_VIII.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "La Quinta de los Molinos es un parque público situado en el barrio de Salvador en el distrito de San Blas-Canillejas de la ciudad española de Madrid. Es considerado un «jardín histórico».​ Está delimitado por la calle Alcalá, la calle Miami, la calle de Juan Ignacio Luca de Tena y la avenida del Veinticinco de Septiembre.",
+  "url": "https://es.wikipedia.org/wiki/Parque_de_la_Quinta_de_los_Molinos",
+  "title_en": null
+ },
+ "almendrales": {
+  "title": "Almendrales",
+  "qid": "Q9604761",
+  "lat": 40.38361111,
+  "lng": -3.69888889,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/54/%28Almendrales%29_Edificios_en_la_ribera_del_Manzanares_02_%28cropped%29.JPG/960px-%28Almendrales%29_Edificios_en_la_ribera_del_Manzanares_02_%28cropped%29.JPG?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "Almendrales es un barrio urbano (barrio) del distrito de Usera, situado en el sur de la ciudad de Madrid (España).",
+  "url": "https://es.wikipedia.org/wiki/Almendrales",
+  "title_en": "Almendrales",
+  "desc_en": "Almendrales is a ward (barrio) of Madrid belonging to the district of Usera.",
+  "url_en": "https://en.wikipedia.org/wiki/Almendrales"
+ },
+ "media-legua": {
+  "title": "Media Legua (Madrid)",
+  "qid": "Q9031035",
+  "lat": 40.4141666667,
+  "lng": -3.65472222222,
+  "img": "https://upload.wikimedia.org/wikipedia/commons/a/ae/Madrid-Moratalaz_%28cropped%29.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "desc": "Media Legua es un barrio administrativo de Madrid, enclavado en el distrito de Moratalaz. Limita al este con el barrio de Marroquina y al sur con Fontarrón.",
+  "url": "https://es.wikipedia.org/wiki/Media_Legua_(Madrid)",
+  "title_en": "Media Legua",
+  "desc_en": "Media Legua is an administrative neighborhood (barrio) of Madrid belonging to the district of Moratalaz.\nIt has an area of 0.999539 km2 (0.385924 sq mi). As of 1 March 2020, it has a population of 17,977.",
+  "url_en": "https://en.wikipedia.org/wiki/Media_Legua"
+ },
+ "costillares": {
+  "title": "Costillares (Madrid)",
+  "qid": "Q331385",
+  "lat": 40.47444444,
+  "lng": -3.66972222,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f1/Edficios_de_Pinar_de_Chamart%C3%ADn_%28Costillares%29_o_de_la_calle_Caleruega%2C_desde_el_nudo_de_la_M-11_con_la_M-30.jpg/960px-Edficios_de_Pinar_de_Chamart%C3%ADn_%28Costillares%29_o_de_la_calle_Caleruega%2C_desde_el_nudo_de_la_M-11_con_la_M-30.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "Costillares (más conocido por la denominación no oficial de Pinar de Chamartín) es un barrio situado en el norte de la ciudad de Madrid perteneciente al distrito de Ciudad Lineal. Sus calles principales son la parte final de la calle de Arturo Soria, Jazmín, Caleruega y principio de Golfo de Salónica.",
+  "url": "https://es.wikipedia.org/wiki/Costillares_(Madrid)",
+  "title_en": "Costillares (Madrid)",
+  "desc_en": "Costillares [kostiˈʝaɾes], also known as Pinar de Chamartín [piˈnaɾ ðe tʃamaɾˈtin], is a neighborhood part of the Ciudad Lineal district, in north Madrid, Spain.",
+  "url_en": "https://en.wikipedia.org/wiki/Costillares_(Madrid)"
+ },
+ "canillas": {
+  "title": "Canillas (barrio)",
+  "qid": "Q9694341",
+  "lat": 40.45972222,
+  "lng": -3.64555556,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/Canillas%2C_Madrid%2C_Spain_-_panoramio_-_Ricardo_Ricote_Rodr%C3%AD%E2%80%A6_%285%29.jpg/960px-Canillas%2C_Madrid%2C_Spain_-_panoramio_-_Ricardo_Ricote_Rodr%C3%AD%E2%80%A6_%285%29.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "Canillas es un barrio de Madrid, situado en el distrito de Hortaleza, en el este de la ciudad. Ocupa mucho menos territorio que el municipio del mismo nombre que fue anexionado a la capital en 1949.​  Actualmente cuenta con una población de 44.861 habitantes, limitando por el norte y por el sur con los barrios de Pinar del Rey y Piovera.",
+  "url": "https://es.wikipedia.org/wiki/Canillas_(barrio)",
+  "title_en": "Canillas (Madrid)",
+  "desc_en": "Canillas is a ward (barrio) of Madrid, Spain, and belongs to the district of Hortaleza. It is also home to Parroquia de Santa Paula (Parish of Saint Paula).",
+  "url_en": "https://en.wikipedia.org/wiki/Canillas_(Madrid)"
+ },
+ "valdecarros": {
+  "title": "Valdecarros (Madrid)",
+  "qid": "Q5640578",
+  "lat": 40.36163,
+  "lng": -3.616477,
+  "img": "https://upload.wikimedia.org/wikipedia/commons/9/98/Location_map_Madrid.png?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "desc": "Valdecarros es un desarrollo urbanístico que se está ejecutando al sureste de Madrid. Sus obras de urbanización comenzaron en septiembre de 2021.​ Está situado al suroeste del Ensanche de Vallecas, en el distrito de Villa de Vallecas, ocupando parte del territorio del antiguo poblado de Las Barranquillas.​ Se trata del mayor desarrollo urbanístico de España y uno de los más grandes de Europa y pertenece a la denominada Estrategia del Sureste de Madrid.\nSu territorio está delimitado al este por el Ensanche de Vallecas, al oeste por las vías del tren de alta velocidad, al norte por Mercamadrid y el polígono industrial La Atalayuela y al sur por la autopista de circunvalación M-50.",
+  "url": "https://es.wikipedia.org/wiki/Valdecarros_(Madrid)",
+  "title_en": null
+ },
+ "plaza-isabel-ii": {
+  "title": "Plaza de Isabel II (Madrid)",
+  "qid": "Q6079993",
+  "lat": 40.418055555555554,
+  "lng": -3.7094444444444443,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b5/Madrid_-_Plaza_de_Isabel_II_-_20110418_172727.jpg/960px-Madrid_-_Plaza_de_Isabel_II_-_20110418_172727.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "La plaza de Isabel II (erróneamente conocida como plaza de Ópera) es un espacio abierto entre los barrios de Sol y Palacio, del distrito centro de Madrid.​ Confluyen en ella la calle del Arenal procedente de la Puerta del Sol, y las vías menores dedicadas a Arrieta, Campomanes, Caños del Peral, Escalinata y Vergara.",
+  "url": "https://es.wikipedia.org/wiki/Plaza_de_Isabel_II_(Madrid)",
+  "title_en": "Plaza de Isabel II",
+  "desc_en": "The Plaza de Isabel II (also known as Plaza de Ópera) is a historic public square between the Sol and Palacio wards in the central district of Madrid. The plaza is at the convergence of Arenal Street (from the Puerta del Sol) and the minor roads Arrieta, Calle de Campomanes, Caños del Peral, Escalinata and Vergara. It was formed by filling the ravine created by the Arenal stream and the source of the Fountain of the Canals of the Pear Tree.",
+  "url_en": "https://en.wikipedia.org/wiki/Plaza_de_Isabel_II"
+ },
+ "san-manuel-benito": {
+  "title": "Iglesia de San Manuel y San Benito (Madrid)",
+  "qid": "Q5117114",
+  "lat": 40.420794,
+  "lng": -3.6861,
+  "img": "https://upload.wikimedia.org/wikipedia/commons/9/94/Iglesia_de_San_Manuel_y_San_Benito_desde_El_Retiro%2C_Madrid_%28Espa%C3%B1a%29.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "desc": "La iglesia de San Manuel y San Benito es un edificio de la ciudad española de Madrid, situado en la calle de Alcalá, frente al parque del Retiro. Construida entre 1902 y 1910, es una obra del arquitecto Fernando Arbós y Tremanti y se destinó como residencia e iglesia para los Padres Agustinos. Los mecenas de esta iniciativa fueron el empresario catalán Manuel Caviggioli Manau y su esposa Benita Maurici Gaurán, que donaron el terreno para este fin y de los que la iglesia toma su advocación.",
+  "url": "https://es.wikipedia.org/wiki/Iglesia_de_San_Manuel_y_San_Benito_(Madrid)",
+  "title_en": "Church of Saint Manuel and Saint Benedict",
+  "desc_en": "Saint Manuel and Saint Benedict (Spanish: San Manuel y San Benito) is a Catholic church located in Madrid, Spain.\nThe building, which was designed by Fernando Arbós y Tremanti, was built at the beginning of the twentieth century in Neo-Byzantine style.  It was declared Bien de Interés Cultural in 1982.",
+  "url_en": "https://en.wikipedia.org/wiki/Church_of_Saint_Manuel_and_Saint_Benedict"
+ },
+ "sala-canal": {
+  "title": "Depósito elevado de Chamberí",
+  "qid": "Q5803317",
+  "lat": 40.439391666667,
+  "lng": -3.7013333333333,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4d/Dep%C3%B3sito_de_agua_de_Santa_Engracia.JPG/960px-Dep%C3%B3sito_de_agua_de_Santa_Engracia.JPG?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El depósito elevado de Chamberí (depósito de Santa Engracia) es una instalación que tuvo la funcionalidad de depósito de agua perteneciente a la red de distribución Canal de Isabel II.​ Se encuentra ubicada en el madrileño barrio de Chamberí, en un recinto del Canal adyacente a la calle de Santa Engracia (n.º 125). Inaugurado en 1912 como depósito elevado de aguas (denominado popularmente como el \"vaso\"), en la actualidad es una sala de exposiciones fotográficas. Se trató del primer depósito elevado puesto que el depósito de Bravo Murillo, el primero construido por el Canal de Isabel II era subterráneo y no disponía de uno elevado.",
+  "url": "https://es.wikipedia.org/wiki/Dep%C3%B3sito_elevado_de_Chamber%C3%AD",
+  "title_en": null
+ },
+ "parque-oeste": {
+  "title": "Parque del Oeste (Madrid)",
+  "qid": "Q2369398",
+  "lat": 40.42833,
+  "lng": -3.72417,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8d/Madrid_-_parque_del_Oeste.jpg/960px-Madrid_-_parque_del_Oeste.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "El parque del Oeste es un parque de la ciudad española de Madrid,​ situado entre la carretera de La Coruña, la Ciudad Universitaria y el distrito de Moncloa. En él se encuentra una rosaleda donde se celebra anualmente un concurso internacional de rosas.",
+  "url": "https://es.wikipedia.org/wiki/Parque_del_Oeste_(Madrid)",
+  "title_en": "Parque del Oeste",
+  "desc_en": "The Parque del Oeste (in English: Western Park) is a park of the city of Madrid (Spain) situated between the Autovía A-6, the Ciudad Universitaria de Madrid and the district of Moncloa.  Before the 20th century, the land that the park currently occupies was the main landfill of the city.  The park is the initiative of Alberto Aguilera, the mayor of the city at the beginning of the 20th century, who in 1906 requested the layout of a place for walking and relaxation by landscape artist Celedonio Rodrígáñez.",
+  "url_en": "https://en.wikipedia.org/wiki/Parque_del_Oeste"
+ },
+ "calle-princesa": {
+  "title": "Calle de la Princesa (Madrid)",
+  "qid": "Q5740935",
+  "lat": 40.429366666667,
+  "lng": -3.7153666666667,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6a/Madrid_Skyline_II.jpg/960px-Madrid_Skyline_II.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "La calle de la Princesa o calle Princesa​ es una vía pública de Madrid (España) que comienza en la plaza de España y termina en la plaza de la Moncloa.​",
+  "url": "https://es.wikipedia.org/wiki/Calle_de_la_Princesa_(Madrid)",
+  "title_en": "Calle de la Princesa",
+  "desc_en": "The calle de la Princesa is a street in Madrid, Spain.",
+  "url_en": "https://en.wikipedia.org/wiki/Calle_de_la_Princesa"
+ },
+ "torre-bbva": {
+  "title": "Castellana 81",
+  "qid": "Q2916305",
+  "lat": 40.447777777778,
+  "lng": -3.6919444444444,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/96/Madrid_Paseo_de_la_Castellana-BBVA.jpg/960px-Madrid_Paseo_de_la_Castellana-BBVA.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "Castellana 81​ (anteriormente Torre BBVA o Torre del Banco de Bilbao) es un edificio situado en la ciudad de Madrid proyectado y diseñado por el arquitecto español Francisco Javier Sáenz de Oiza. El proyecto es el ganador de un concurso restringido a una serie de profesionales prestigiosos, por parte del Banco de Bilbao, en 1971, para la construcción de la sede social en el centro financiero de AZCA en Madrid. Se construyó entre 1978 y 1981.",
+  "url": "https://es.wikipedia.org/wiki/Castellana_81",
+  "title_en": "Castellana 81",
+  "desc_en": "The Castellana 81 (previously known as Torre BBVA, or, in English, BBVA Tower) is a 107m skyscraper in Madrid, Spain, within the AZCA financial district, and is currently the company's Madrid HQ.  It was designed by the Spanish architect Francisco Javier Sáenz de Oiza, who won the private tender in 1971, convoked by the Banco de Bilbao, nowadays BBVA. It was built between 1979 and 1981.\nIt is one of the most important architectural landmarks of Madrid, with its striking ocher color, more intense as the time passes due to the oxidation of its facade steel. It has a rectangular floor (1,200 m2 per floor) with round corners, and the facade is made of continuous glass and steel, allowing exterior views from every point.",
+  "url_en": "https://en.wikipedia.org/wiki/Castellana_81"
+ },
+ "plaza-eliptica": {
+  "title": "Plaza Elíptica (Madrid)",
+  "qid": "Q16619985",
+  "lat": 40.384506,
+  "lng": -3.718329,
+  "img": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/Plaza_El%C3%ADptica.jpg/960px-Plaza_El%C3%ADptica.jpg?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "desc": "La plaza Elíptica es una glorieta ubicada en la ciudad española de Madrid, entre los distritos de Usera y Carabanchel.",
+  "url": "https://es.wikipedia.org/wiki/Plaza_El%C3%ADptica_(Madrid)",
   "title_en": null
  }
 }
