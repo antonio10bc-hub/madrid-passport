@@ -257,6 +257,14 @@ test('tocar un pin en el distrito abre directamente su ficha', async ({ page }) 
   await expect(page.locator('.pd-head h2')).toHaveText('Plaza Mayor');
 });
 
+test('pin: un toque que se sale un poco del círculo (zona de toque ampliada) abre el lugar, no el distrito', async ({ page }) => {
+  await openCentro(page);
+  await page.evaluate(() => window.__mpMap.jumpTo({ zoom: 17, center: [-3.70738, 40.41475] }));   // pin en la mitad de arriba, sin el panel encima
+  const b = await page.locator('.pin[data-id="plaza-mayor"]').boundingBox();
+  await page.mouse.click(b.x + b.width / 2, b.y - 7);                       // 7 px por encima del borde visible
+  await expect(page.locator('.pd-head h2')).toHaveText('Plaza Mayor');
+});
+
 test('ficha: siguiente pendiente cerca', async ({ page }) => {
   await openCentro(page);
   await page.locator('#pl-plaza-mayor').click();
