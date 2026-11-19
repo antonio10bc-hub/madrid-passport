@@ -309,6 +309,9 @@ h1 { font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -.02e
 }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
 .toast.err { background: var(--red); color: #fff; }
+/* En Diario/Logros el aviso sale abajo, sobre el menú (arriba tapaba la tarjeta del pasaporte, del mismo granate) */
+#app.on-page .toast { top: auto; bottom: calc(var(--tabbar) + 22px); transform: translate(-50%, 12px); white-space: normal; text-align: center; width: max-content; }
+#app.on-page .toast.show { transform: translate(-50%, 0); }
 
 /* ---------- Debug GPS falso ---------- */
 
