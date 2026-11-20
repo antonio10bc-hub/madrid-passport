@@ -356,6 +356,7 @@ export function drawRadar() {
   if (!radar) {
     const el = document.createElement('div');
     el.className = 'radar';
+    el.innerHTML = `<span class="radar-lbl">${RADAR_M} m</span>`;
     radar = new maplibregl.Marker({ element: el }).setLngLat(c).addTo(map);
     const cv = map.getCanvas();
     cv.parentNode.insertBefore(el, cv.nextSibling);    // justo encima del mapa y debajo de pines y etiquetas
