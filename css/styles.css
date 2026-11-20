@@ -596,15 +596,14 @@ button, a, input, .place, .row, .pitem { touch-action: manipulation; }
 .lst .ico { width: 18px; height: 18px; color: var(--muted); }
 .lst.f.on { background: rgba(var(--red-a),.1); color: var(--red); }
 .lst.f.on .ico { color: var(--red); fill: var(--red); }
-.lst.w.on { background: rgba(47,123,246,.12); color: #2F7BF6; }
-.lst.w.on .ico { color: #2F7BF6; fill: #2F7BF6; }
+.lst.w.on { background: rgba(var(--red-a),.1); color: var(--red); }
+.lst.w.on .ico { color: var(--red); fill: var(--red); }
 .lst:active { transform: scale(.97); }
 .chip.list .ico { color: var(--red); }
-.chip.list[data-t="__want"] .ico { color: #2F7BF6; }
 .chip.list.on .ico { color: #fff; }
 .ico.mk { width: 13px; height: 13px; margin-left: 5px; vertical-align: -1px; stroke-width: 2.2; }
 .ico.mk.fav { color: var(--red); fill: var(--red); }
-.ico.mk.want { color: #2F7BF6; fill: #2F7BF6; }
+.ico.mk.want { color: var(--red); fill: var(--red); }
 
 /* ---------- Pines agrupados ---------- */
 .cluster { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; cursor: pointer;
