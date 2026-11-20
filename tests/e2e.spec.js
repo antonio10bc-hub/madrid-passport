@@ -609,6 +609,12 @@ test('ajustes: descargar mis datos y borrarlos de este dispositivo', async ({ pa
   await markVisited(page, 'plaza-mayor');
   await page.locator('[data-tab="diary"]').click();
   await page.locator('#settings-btn').click();
+  await expect(page.locator('#set-export')).toHaveCount(0);                                 // en «Ajustes avanzados»
+  await page.locator('#set-adv').click();
+  await expect(page.locator('.settings-card')).toContainText('Política de privacidad');
+  await page.locator('#set-back').click();
+  await expect(page.locator('#ob-again')).toBeVisible();
+  await page.locator('#set-adv').click();
   const [dl] = await Promise.all([page.waitForEvent('download'), page.locator('#set-export').click()]);
   const data = JSON.parse(require('fs').readFileSync(await dl.path(), 'utf8'));
   expect(data.visits['plaza-mayor'].lvl).toBe(1);
