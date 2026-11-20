@@ -133,7 +133,7 @@ function renderHome() {
     // Favoritos / quiero ir: encuadrar los lugares de la lista; tipos: Madrid entera
     const res = S.typeFilter?.startsWith('__') ? homeResults() : [];
     if (res.length) requestAnimationFrame(() => fit(res.reduce((b, p) => [Math.min(b[0], p.coords[1]), Math.min(b[1], p.coords[0]), Math.max(b[2], p.coords[1]), Math.max(b[3], p.coords[0])], [180, 90, -180, -90]),
-      { padding: pad('peek'), maxZoom: 15, duration: 700 }));
+      { padding: ((P, AIR = 48) => ({ top: P.top + AIR, bottom: P.bottom + AIR, left: P.left + AIR, right: P.right + AIR }))(pad('peek')), maxZoom: 15, duration: 700 }));   // aire extra, como al abrir un grupo
     else if (S.typeFilter) requestAnimationFrame(() => fitCity(true));
   }));
   bindHomeList();
