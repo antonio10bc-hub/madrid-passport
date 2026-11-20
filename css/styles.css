@@ -791,14 +791,14 @@ button, a, input, .place, .row, .pitem { touch-action: manipulation; }
 
 /* Onboarding paso 5: marcar imprescindibles ya visitados */
 .ob-quick { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; max-width: 340px; align-self: center; position: relative; z-index: 1; }
-.ob-q { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; min-height: 84px; padding: 10px 6px; border-radius: 16px;
+.ob-q { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; min-height: 96px; padding: 12px 6px; border-radius: 16px;
   background: var(--bg-2); box-shadow: inset 0 0 0 1px var(--line); font-size: 12.5px; font-weight: 600; line-height: 1.2; color: var(--ink);
   transition: transform .15s var(--ease-out), background .2s, color .2s; }
 .ob-q .ico { width: 22px; height: 22px; color: var(--red); }
 .ob-q:active { transform: scale(.95); }
 .ob-q.on { background: var(--red); color: #fff; box-shadow: none; }
 .ob-q.on .ico { color: #fff; }
-.ob-qn { position: absolute; bottom: -4px; left: 0; right: 0; font-size: 13px; font-weight: 700; color: var(--red); }
+.ob-qn { grid-column: 1 / -1; margin-top: 6px; font-size: 13px; font-weight: 700; color: var(--red); }
 .ob-slide:nth-child(5) .ob-ill { align-content: center; }
 
 /* Ficha: compartir, valoración, comunidad y avisos de error */

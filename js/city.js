@@ -7,7 +7,7 @@ window.MP_CITY = {
     attribution: 'Ayto. Madrid', hideBaseLabel: 'Madrid' },          // etiqueta del mapa base que se quita (se solapaba con los distritos)
   files: { districts: 'data/distritos.geojson', barrios: 'data/barrios.geojson', metro: 'data/metro.json' },
   // Lugares icónicos para marcar en el último paso del onboarding
-  iconic: ['puerta-sol', 'plaza-mayor', 'parque-retiro', 'palacio-real', 'gran-via', 'prado', 'debod', 'cibeles', 'bernabeu'],
+  iconic: ['prado', 'cason', 'salon-reinos'],   // onboarding: los 3 juntos completan el Prado (dentro: Casón y Salón de Reinos) → logro «Rincón a rincón»
   // Textos con el nombre de la ciudad o su tono local (niveles castizos). Mandan sobre los de js/app/i18n.js.
   text: {
     es: {

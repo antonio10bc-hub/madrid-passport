@@ -53,8 +53,8 @@ const STAMP = `<div class="ob-stampwrap"><svg viewBox="0 0 160 160" class="ob-st
 
 // Paso 5: imprescindibles para marcar de un toque los que ya conoces (se guardan al cerrar)
 const ICONIC = MP_CITY.iconic;
-const quick = () => `<div class="ob-quick" id="ob-quick">${ICONIC.filter((id) => BYID[id]).map((id) => `<button class="ob-q" data-q="${id}" aria-pressed="false">${MP_ICON(BYID[id].type, 'ico')}<span>${esc(BYID[id].name)}</span></button>`).join('')}</div>
-  <div class="ob-qn" id="ob-qn" aria-live="polite">&nbsp;</div>`;
+const quick = () => `<div class="ob-quick" id="ob-quick">${ICONIC.filter((id) => BYID[id]).map((id) => `<button class="ob-q" data-q="${id}" aria-pressed="false">${MP_ICON(BYID[id].type, 'ico')}<span>${esc(BYID[id].name)}</span></button>`).join('')}
+  <div class="ob-qn" id="ob-qn" aria-live="polite">&nbsp;</div></div>`;
 
 // Promesa que se cumple al cerrar la intro (main.js espera a ella para crear el mapa: si no, su carga da tirones en las animaciones)
 let closed = null;
