@@ -4,7 +4,7 @@ import { S, PLACES, DISTRICTS, BYID, districtOf, lvl, blvl, progress, currentDis
 import { distGeo, barGeo } from './geo.js';
 import { pad, sheet, setSheet } from './sheet.js';
 import { openDistrict, openPlace, goHome, homeResults } from './views.js';
-import { setFollow, isFollow, radiusFor } from './gps.js';
+import { pauseFollow, isFollow, radiusFor } from './gps.js';
 import { track } from './analytics.js';
 
 const STYLE = { light: 'https://tiles.openfreemap.org/styles/positron', dark: 'https://tiles.openfreemap.org/styles/dark' };
@@ -126,7 +126,7 @@ export async function initMap() {
   });
   map.on('mouseenter', 'd-fill', () => (map.getCanvas().style.cursor = 'pointer'));
   map.on('mouseleave', 'd-fill', () => (map.getCanvas().style.cursor = ''));
-  map.on('dragstart', () => setFollow(false));
+  map.on('dragstart', pauseFollow);
   map.on('zoom', sizeRadar);
 
   DISTRICTS.forEach((d) => {

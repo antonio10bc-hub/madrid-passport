@@ -23,15 +23,16 @@ export const getPos = () => new Promise((res, rej) => {
 });
 
 // ---------- Seguimiento continuo ----------
-let watchId = null, follow = false, flyingUntil = 0;
+// active: botón de ubicación encendido (radar y pines cercanos); follow: además recentra en cada posición (se pausa al mover el mapa a mano)
+let watchId = null, active = false, follow = false, flyingUntil = 0;
 export function onPosition(pos) {
   const first = !S.myPos;
   S.myPos = pos;
   if (first && S.view.type !== 'place' && DISTRICTS.length) setTimeout(() => render({ keepScroll: true }), 0);
   showMeOnMap(pos);
-  if (follow) {
+  if (active) {
     // Durante el acercamiento inicial no se recentra: un easeTo cortaría el flyTo y el mapa se quedaría alejado
-    if (Date.now() > flyingUntil) map.easeTo({ center: [pos.coords[1], pos.coords[0]], offset: centerOffset(), duration: 600 });
+    if (follow && Date.now() > flyingUntil) map.easeTo({ center: [pos.coords[1], pos.coords[0]], offset: centerOffset(), duration: 600 });
     drawRadar(); drawPins();
   }
   checkBarrio(pos);
@@ -49,11 +50,12 @@ function maybeWatch() {   // si el permiso ya está concedido, seguimos la posic
   navigator.permissions?.query({ name: 'geolocation' }).then((r) => { if (r.state === 'granted') startWatch(); }).catch(() => {});
 }
 export function setFollow(on) {
-  const was = follow;
-  follow = on; $('#locate').classList.toggle('active', on);
+  const was = active;
+  active = follow = on; $('#locate').classList.toggle('active', on);
   if (was !== on && map) { drawRadar(); drawPins(); }   // radar de 500 m y lugares cercanos, solo con el botón activo
 }
-export const isFollow = () => follow;
+export const pauseFollow = () => { follow = false; };   // mover/alejar el mapa a mano: deja de recentrar, el radar sigue
+export const isFollow = () => active;
 
 // ---------- Barrios: pisar un barrio con el GPS lo sella (oro) automáticamente ----------
 function checkBarrio(pos) {
@@ -134,7 +136,7 @@ export function confirmGps(id, pos, via) {
 
 export function initGps() {
   $('#locate').onclick = async () => {
-    if (follow) return setFollow(false);
+    if (active && follow) return setFollow(false);   // pausado (has movido el mapa): el botón vuelve a centrarte
     try {
       const p = await getPos();
       onPosition(p); startWatch(); setFollow(true);

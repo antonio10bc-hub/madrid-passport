@@ -669,6 +669,15 @@ test('radar: con el botón de ubicación activo, círculo de 500 m y pines de lo
   await expect(page.locator('.pin.radar-pin[data-id="puerta-sol"]')).toHaveCount(1);
   // Tras acercarse (zoom ≥ 15,5) el círculo de 500 m ocupa buena parte de la pantalla
   await expect.poll(() => page.locator('.radar').evaluate((el) => el.getBoundingClientRect().width)).toBeGreaterThan(200);
+  // Mover y alejar el mapa a mano no quita el radar (solo deja de recentrar); el botón te vuelve a centrar
+  await page.waitForTimeout(1000);
+  await page.mouse.move(200, 300); await page.mouse.down(); await page.mouse.move(120, 360, { steps: 8 }); await page.mouse.up();
+  await page.mouse.wheel(0, 600); await page.waitForTimeout(800);
+  await expect(page.locator('#locate')).toHaveClass(/active/);
+  await expect(page.locator('.radar')).toHaveCount(1);
+  await page.locator('#locate').click(); await page.waitForTimeout(1200);
+  await expect(page.locator('#locate')).toHaveClass(/active/);
+  await expect(page.locator('.radar')).toHaveCount(1);
   await page.locator('#locate').click();
   await expect(page.locator('.radar')).toHaveCount(0);
   await expect(page.locator('.pin.radar-pin')).toHaveCount(0);
