@@ -347,7 +347,7 @@ h1 { font-size: 28px; line-height: 34px; font-weight: 700; letter-spacing: -.02e
 .settings-x .icon-x { width: 16px; height: 16px; stroke: var(--ink); stroke-width: 2.2; fill: none; stroke-linecap: round; }
 .settings .lang-row { margin-top: 14px; }
 .settings .ob-again { margin-top: 6px; }
-.settings .ob-again.danger { color: var(--red); }
+.settings .ob-again.danger { color: color-mix(in srgb, var(--red) 45%, var(--muted)); }   /* rojo apagado: que no destaque */
 @keyframes fade-in { from { opacity: 0; } }
 @keyframes sheet-up { from { transform: translateY(24px); opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .settings, .settings-card { animation: none; } }
