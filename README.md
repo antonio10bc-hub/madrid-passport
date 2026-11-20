@@ -26,7 +26,7 @@ Guía-mapa de Madrid por sus 21 distritos, mobile-first (390×844, iPhone 14). W
 - Español / inglés (automático por el idioma del móvil; selector en Diario). Descripciones en inglés desde la Wikipedia en inglés.
 - Compartir imagen (historia 9:16): todo Madrid, o el distrito abierto si lo hay, con el nivel del usuario.
 - «Quiero ir» cerca: aviso al pasar a menos de 5 min a pie de un lugar de la lista.
-- Ajustes → «Descargar mis datos» (JSON) y «Borrar mis datos» (con sesión borra también la cuenta: función `delete_my_account` de `supabase/schema.sql`).
+- Ajustes → «Descargar mis datos» (JSON) y «Borrar mi cuenta» (borra el progreso del móvil; con sesión también la cuenta y la nube: función `delete_my_account` de `supabase/schema.sql`).
 - Sincronización con borrados: cada cambio guarda su fecha en `visits['~mod']`; al fusionar, lo quitado en un dispositivo no vuelve desde otro.
 - Enlaces directos (`?p=`/`?d=`) sin haber visto la intro: se abre lo pedido con una pista, sin onboarding.
 - Modo oscuro automático. PWA instalable con uso sin conexión (mapa y fotos ya vistos quedan en caché).
