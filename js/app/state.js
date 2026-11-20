@@ -10,6 +10,11 @@ export const S = {
   tab: 'map',
   sort: 'zone',                       // orden de la lista del distrito: zone | near | todo
 };
+// Lugares fusionados (id duplicado → id que se queda): se pasan visitas, favoritos y «quiero ir»
+const MERGED = { vallehermoso: 'mercado-vallehermoso' };
+for (const [from, to] of Object.entries(MERGED)) for (const k of ['', 'f:', 'w:']) {
+  if (S.visits[k + from]) { S.visits[k + to] ||= S.visits[k + from]; delete S.visits[k + from]; try { localStorage.setItem(KEY, JSON.stringify(S.visits)); } catch {} }
+}
 try { const so = localStorage.getItem('mp.sort'); if (['zone', 'near', 'todo'].includes(so)) S.sort = so; } catch {}
 try { localStorage.removeItem('mp.debug'); localStorage.removeItem('mp.fake'); } catch {}   // restos del antiguo modo debug
 

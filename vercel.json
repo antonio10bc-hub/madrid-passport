@@ -10,6 +10,16 @@
       ],
       "destination": "https://www.madridpassport.com/:path*",
       "permanent": true
+    },
+    {
+      "source": "/lugar/vallehermoso/",
+      "destination": "/lugar/mercado-vallehermoso/",
+      "permanent": true
+    },
+    {
+      "source": "/en/place/vallehermoso/",
+      "destination": "/en/place/mercado-vallehermoso/",
+      "permanent": true
     }
   ],
   "rewrites": [
