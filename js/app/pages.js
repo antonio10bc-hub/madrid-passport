@@ -299,7 +299,6 @@ function openFeedback() {
   const f = ov.querySelector('form'), close = () => ov.remove();
   ov.onclick = (e) => { if (e.target === ov) close(); };
   ov.querySelector('.rep-cancel').onclick = close;
-  f.note.focus();
   f.onsubmit = async (e) => {
     e.preventDefault();
     const kind = f.k.value, note = f.note.value.trim().slice(0, 1000);

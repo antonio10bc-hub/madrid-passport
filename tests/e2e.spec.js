@@ -721,3 +721,12 @@ test('ajustes: enviar comentarios (tipo y texto a la tabla reports)', async ({ p
   await expect(page.locator('#toast')).toContainText('Gracias');
   expect(body).toMatchObject({ place: '_feedback:idea', reason: 'other', note: 'Rutas por distrito', lang: 'es' });
 });
+
+test('campos de texto con letra de 16 px o más (si no, Safari en iPhone hace zoom al escribir)', async ({ page }) => {
+  await page.locator('[data-tab="diary"]').click();
+  await page.locator('#settings-btn').click();
+  await page.locator('#set-fb').click();
+  const sizes = await page.evaluate(() => [...document.querySelectorAll('input:not([type=radio]):not([type=checkbox]), textarea')].map((el) => parseFloat(getComputedStyle(el).fontSize)));
+  expect(sizes.length).toBeGreaterThan(1);
+  for (const s of sizes) expect(s).toBeGreaterThanOrEqual(16);
+});
