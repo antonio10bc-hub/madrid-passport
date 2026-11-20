@@ -9,6 +9,7 @@ import { track, consent, consentNeeded, setConsent, resetUser } from './analytic
 import { notify } from './notify.js';
 import { showOnboarding } from './onboarding.js';
 import { maya } from './maya.js';
+import { sendReport, reportLimitReached } from './community.js';
 
 const page = $('#page'), pageBody = $('#page-body');
 
@@ -281,6 +282,38 @@ function setSettings(open) {
   if (opening) { track('settings_opened'); advOpen = false; }
   settingsOpen = open; renderSettings(opening);
 }
+// Comentarios de quien prueba la app: se guardan en la tabla «reports» de Supabase (place = '_feedback:<tipo>')
+const FB_KINDS = ['bug', 'idea', 'like'];
+function openFeedback() {
+  document.querySelector('.rep-ov')?.remove();
+  if (reportLimitReached()) { track('feedback_limited'); return toast(t('rep.limit'), true); }
+  track('feedback_opened');
+  const ov = document.createElement('div');
+  ov.className = 'rep-ov';
+  ov.innerHTML = `<form class="rep-card" role="dialog" aria-modal="true" aria-label="${esc(t('fb.title'))}">
+    <strong>${t('fb.title')}</strong><small>${t('fb.sub')}</small>
+    <div class="rep-opts">${FB_KINDS.map((k, i) => `<label><input type="radio" name="k" value="${k}" ${i ? '' : 'checked'}><span>${t('fb.' + k)}</span></label>`).join('')}</div>
+    <textarea name="note" maxlength="1000" rows="4" required placeholder="${esc(t('fb.ph'))}"></textarea>
+    <div class="rep-btns"><button type="button" class="rep-cancel">${t('rep.cancel')}</button><button type="submit" class="rep-send">${t('rep.send')}</button></div></form>`;
+  $('#app').appendChild(ov);
+  const f = ov.querySelector('form'), close = () => ov.remove();
+  ov.onclick = (e) => { if (e.target === ov) close(); };
+  ov.querySelector('.rep-cancel').onclick = close;
+  f.note.focus();
+  f.onsubmit = async (e) => {
+    e.preventDefault();
+    const kind = f.k.value, note = f.note.value.trim().slice(0, 1000);
+    if (!note) return f.note.focus();
+    f.querySelector('.rep-send').disabled = true;
+    track('feedback_sent', { kind, length: note.length });          // el texto no va a la analítica
+    let ok = false;
+    try { ok = await sendReport('_feedback:' + kind, 'other', note, lang); } catch {}
+    close();
+    if (ok === 'limit') return toast(t('rep.limit'), true);
+    toast(ok ? t('fb.thanks') : t('fb.fail'), !ok);
+  };
+}
+
 // Ajustes: idioma, instalar, introducción y «Ajustes avanzados» (estadísticas, lugares, privacidad, mis datos, borrar cuenta)
 let advOpen = false;
 const BACK_ICO = '<svg class="icon-x" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>';
@@ -299,6 +332,7 @@ function renderSettings(anim = true) {
     : `<div class="lang-row">${MP_ICON('globe')}<span>${t('language')}</span><div class="lang-seg">${LANGS.map(([k, n]) => `<button class="chip ${lang === k ? 'on' : ''}" data-lang="${k}">${n}</button>`).join('')}</div></div>
     ${installRow()}
     <button class="ob-again" id="ob-again">${MP_ICON('compass', 'ico')}<span>${t('ob.again')}</span></button>
+    <button class="ob-again" id="set-fb">${MP_ICON('chat', 'ico')}<span>${t('fb.btn')}</span></button>
     <button class="ob-again" id="set-adv">${MP_ICON('gear', 'ico')}<span>${t('set.adv')}</span><i class="chev" aria-hidden="true"></i></button>`;
   settingsEl.innerHTML = `<div class="settings-card${anim ? '' : ' still'}" role="dialog" aria-modal="true" aria-label="${advOpen ? t('set.adv') : t('settings')}">${head}${body}</div>`;
   const on = (sel, fn) => { const el = settingsEl.querySelector(sel); if (el) el.onclick = fn; };
@@ -311,6 +345,7 @@ function renderSettings(anim = true) {
     setConsent(yes); renderSettings(false);
   }));
   on('#set-install', installApp);
+  on('#set-fb', () => { setSettings(false); openFeedback(); });
   on('#set-export', exportData);
   on('#set-delete', deleteData);
   on('#ob-again', () => { setSettings(false); showOnboarding('diary'); });

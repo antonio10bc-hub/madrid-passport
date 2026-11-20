@@ -708,3 +708,16 @@ test('.vercelignore no deja fuera ningún archivo que use la app (SHELL del serv
   });
   expect(shell.filter(ignored)).toEqual([]);
 });
+
+test('ajustes: enviar comentarios (tipo y texto a la tabla reports)', async ({ page }) => {
+  let body = null;
+  await page.route(/rest\/v1\/reports/, (r) => { body = JSON.parse(r.request().postData()); return r.fulfill({ status: 201, body: '' }); });
+  await page.locator('[data-tab="diary"]').click();
+  await page.locator('#settings-btn').click();
+  await page.locator('#set-fb').click();
+  await page.locator('.rep-opts span', { hasText: 'Una idea' }).click();
+  await page.locator('.rep-card textarea').fill('Rutas por distrito');
+  await page.locator('.rep-send').click();
+  await expect(page.locator('#toast')).toContainText('Gracias');
+  expect(body).toMatchObject({ place: '_feedback:idea', reason: 'other', note: 'Rutas por distrito', lang: 'es' });
+});
