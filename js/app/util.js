@@ -72,3 +72,19 @@ export const dayLabel = (ts) => {
   const diff = Math.round((today - new Date(d.getFullYear(), d.getMonth(), d.getDate())) / 864e5);
   return diff === 0 ? t('today') : diff === 1 ? t('yesterday') : d.toLocaleDateString(locale(), { weekday: 'long', day: 'numeric', month: 'long' });
 };
+
+// Barra de estado del móvil (theme-color): se oscurece igual que el velo de las ventanas (Ajustes, comentarios, avisos),
+// porque queda fuera de la página y el velo no la cubre.
+export function dimStatusBar() {
+  const metas = [...document.querySelectorAll('meta[name="theme-color"]')];
+  metas.forEach((m) => (m.dataset.base = m.content));
+  const shade = (hex, k) => '#' + hex.slice(1).match(/../g).map((h) => Math.round(parseInt(h, 16) * k).toString(16).padStart(2, '0')).join('');
+  let dim = null;
+  const check = () => {
+    const on = !!document.querySelector('.rep-ov') || document.getElementById('settings')?.hidden === false;
+    if (on === dim) return;
+    dim = on;
+    metas.forEach((m) => (m.content = on ? shade(m.dataset.base, 0.62) : m.dataset.base));
+  };
+  new MutationObserver(check).observe(document.getElementById('app'), { childList: true, subtree: true, attributes: true, attributeFilter: ['hidden'] });
+}

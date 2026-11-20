@@ -730,3 +730,13 @@ test('campos de texto con letra de 16 px o más (si no, Safari en iPhone hace zo
   expect(sizes.length).toBeGreaterThan(1);
   for (const s of sizes) expect(s).toBeGreaterThanOrEqual(16);
 });
+
+test('con Ajustes abierto, la barra de estado (theme-color) se oscurece y vuelve al cerrar', async ({ page }) => {
+  const tc = () => page.evaluate(() => document.querySelector('meta[name="theme-color"]').content.toLowerCase());
+  expect(await tc()).toBe('#fff5ec');
+  await page.locator('[data-tab="diary"]').click();
+  await page.locator('#settings-btn').click();
+  await expect.poll(tc).toBe('#9e9892');
+  await page.locator('#settings-x').click();
+  await expect.poll(tc).toBe('#fff5ec');
+});

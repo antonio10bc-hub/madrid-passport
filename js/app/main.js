@@ -1,5 +1,5 @@
 // Arranque de Madrid Passport (módulos ES nativos, sin build).
-import { $, esc, toast } from './util.js';
+import { $, esc, toast, dimStatusBar } from './util.js';
 import { S, PLACES, BYID, DISTRICTS, BARRIOS, lvl, blvl, currentDistrict } from './state.js';
 import { t, lang, applyStatic } from './i18n.js';
 import { loadGeo } from './geo.js';
@@ -76,6 +76,7 @@ async function boot() {
   if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost'))
     { const reg = () => navigator.serviceWorker.register('sw.js').catch(() => {}); document.readyState === 'complete' ? reg() : addEventListener('load', reg, { once: true }); }
   applyStatic();
+  dimStatusBar();
   initAnalytics({ lang });
   initSheet(() => map?.resize());
   initGps();
