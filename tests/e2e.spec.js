@@ -609,6 +609,12 @@ test('ajustes: descargar mis datos y borrarlos de este dispositivo', async ({ pa
   await markVisited(page, 'plaza-mayor');
   await page.locator('[data-tab="diary"]').click();
   await page.locator('#settings-btn').click();
+  await expect(page.locator('#set-export')).toHaveCount(0);                                 // en «Ajustes avanzados»
+  await page.locator('#set-adv').click();
+  await expect(page.locator('.settings-card')).toContainText('Política de privacidad');
+  await page.locator('#set-back').click();
+  await expect(page.locator('#ob-again')).toBeVisible();
+  await page.locator('#set-adv').click();
   const [dl] = await Promise.all([page.waitForEvent('download'), page.locator('#set-export').click()]);
   const data = JSON.parse(require('fs').readFileSync(await dl.path(), 'utf8'));
   expect(data.visits['plaza-mayor'].lvl).toBe(1);
@@ -701,4 +707,36 @@ test('.vercelignore no deja fuera ningún archivo que use la app (SHELL del serv
     return dir ? parts.slice(0, -1).includes(name) : parts.includes(name);
   });
   expect(shell.filter(ignored)).toEqual([]);
+});
+
+test('ajustes: enviar comentarios (tipo y texto a la tabla reports)', async ({ page }) => {
+  let body = null;
+  await page.route(/rest\/v1\/reports/, (r) => { body = JSON.parse(r.request().postData()); return r.fulfill({ status: 201, body: '' }); });
+  await page.locator('[data-tab="diary"]').click();
+  await page.locator('#settings-btn').click();
+  await page.locator('#set-fb').click();
+  await page.locator('.rep-opts span', { hasText: 'Una idea' }).click();
+  await page.locator('.rep-card textarea').fill('Rutas por distrito');
+  await page.locator('.rep-send').click();
+  await expect(page.locator('#toast')).toContainText('Gracias');
+  expect(body).toMatchObject({ place: '_feedback:idea', reason: 'other', note: 'Rutas por distrito', lang: 'es' });
+});
+
+test('campos de texto con letra de 16 px o más (si no, Safari en iPhone hace zoom al escribir)', async ({ page }) => {
+  await page.locator('[data-tab="diary"]').click();
+  await page.locator('#settings-btn').click();
+  await page.locator('#set-fb').click();
+  const sizes = await page.evaluate(() => [...document.querySelectorAll('input:not([type=radio]):not([type=checkbox]), textarea')].map((el) => parseFloat(getComputedStyle(el).fontSize)));
+  expect(sizes.length).toBeGreaterThan(1);
+  for (const s of sizes) expect(s).toBeGreaterThanOrEqual(16);
+});
+
+test('con Ajustes abierto, la barra de estado (theme-color) se oscurece y vuelve al cerrar', async ({ page }) => {
+  const tc = () => page.evaluate(() => document.querySelector('meta[name="theme-color"]').content.toLowerCase());
+  expect(await tc()).toBe('#fff5ec');
+  await page.locator('[data-tab="diary"]').click();
+  await page.locator('#settings-btn').click();
+  await expect.poll(tc).toBe('#9e9892');
+  await page.locator('#settings-x').click();
+  await expect.poll(tc).toBe('#fff5ec');
 });

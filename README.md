@@ -26,7 +26,7 @@ Guía-mapa de Madrid por sus 21 distritos, mobile-first (390×844, iPhone 14). W
 - Español / inglés (automático por el idioma del móvil; selector en Diario). Descripciones en inglés desde la Wikipedia en inglés.
 - Compartir imagen (historia 9:16): todo Madrid, o el distrito abierto si lo hay, con el nivel del usuario.
 - «Quiero ir» cerca: aviso al pasar a menos de 5 min a pie de un lugar de la lista.
-- Ajustes → «Descargar mis datos» (JSON) y «Borrar mi cuenta» (borra el progreso del móvil; con sesión también la cuenta y la nube: función `delete_my_account` de `supabase/schema.sql`).
+- Ajustes → «Enviar comentarios» (fallo, idea o «me encanta»; se guardan en la tabla `reports` con `place = _feedback:<tipo>`). Ajustes avanzados → «Descargar mis datos» (JSON) y «Borrar mi cuenta» (borra el progreso del móvil; con sesión también la cuenta y la nube: función `delete_my_account` de `supabase/schema.sql`).
 - Sincronización con borrados: cada cambio guarda su fecha en `visits['~mod']`; al fusionar, lo quitado en un dispositivo no vuelve desde otro.
 - Enlaces directos (`?p=`/`?d=`) sin haber visto la intro: se abre lo pedido con una pista, sin onboarding.
 - Modo oscuro automático. PWA instalable con uso sin conexión (mapa y fotos ya vistos quedan en caché).
@@ -60,7 +60,7 @@ Esquema de eventos v2 (`event_schema=2`). El proyecto de PostHog se comparte con
   `share_opened`, `share_done`, `share_error`, `nearby_location_requested`, `district_sorted`, `next_nearby_opened`, `list_added`, `list_removed`,
   `action_undone`, `cluster_tapped`, `place_link_opened`, `deeplink_opened`, `place_rated`, `place_shared`, `place_reported`, `report_limited`, `onboarding_quickmark`,
   `barrio_notif_tapped`, `directions_clicked`, `location_requested`, `language_changed`, `login_clicked`, `login_error` (`method`, `message`), `logout`, `want_nearby_shown`, `want_nearby_tapped`, `data_exported`, `data_deleted`, `sync_error`, `app_installed`,
-  `onboarding_shown`, `onboarding_step`, `onboarding_done`, `diary_*`, `maya_tapped`, `consent_accepted`, `settings_opened`, `tab_scroll_top`, `js_error`;
+  `onboarding_shown`, `onboarding_step`, `onboarding_done`, `diary_*`, `maya_tapped`, `consent_accepted`, `settings_opened`, `settings_advanced_opened`, `feedback_opened`, `feedback_sent` (`kind`), `feedback_limited`, `tab_scroll_top`, `js_error`;
   además `$pageview`/`$pageleave` y web vitals (sin autocaptura de clics). Dashboard: «Madrid Passport · Uso» (PostHog, filtrado por `app`).
 
 ## SEO

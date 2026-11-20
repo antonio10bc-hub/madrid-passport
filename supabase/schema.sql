@@ -21,7 +21,7 @@ create policy "progress_delete_own" on public.progress for delete using (auth.ui
 -- Lectura segura de números dentro del JSON: un valor mal formado (texto, objeto…) cuenta como 0 en vez de
 -- romper la función para todos («invalid input syntax for type integer»).
 create or replace function public.mp_num(j jsonb)
-returns numeric language sql immutable as $$
+returns numeric language sql immutable set search_path = '' as $$
   select case when jsonb_typeof(j) = 'number' then (j #>> '{}')::numeric else 0 end;
 $$;
 

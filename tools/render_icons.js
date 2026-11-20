@@ -1,7 +1,7 @@
 // Rasteriza icons/*.svg a los PNG que usa la PWA.
 const { chromium } = require('playwright');
 const fs = require('fs');
-const out = [['icon.svg', 'icon-192.png', 192], ['icon.svg', 'icon-512.png', 512], ['icon-full.svg', 'icon-maskable-512.png', 512], ['icon-apple.svg', 'apple-touch-icon.png', 180], ['icon.svg', 'favicon-32.png', 32]];
+const out = [['icon.svg', 'icon-192.png', 192], ['icon.svg', 'icon-512.png', 512], ['icon-full.svg', 'icon-maskable-512.png', 512], ['icon-apple.svg', 'apple-touch-icon.png', 180], ['icon.svg', 'favicon-32.png', 32], ['icon-full.svg', 'google-consent-120.png', 120]];   // google-consent: logo de la pantalla de consentimiento de Google (cuadrado)
 (async () => {
   const b = await chromium.launch();
   for (const [src, dst, size] of out) {
