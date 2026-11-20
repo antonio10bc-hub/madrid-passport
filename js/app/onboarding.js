@@ -39,7 +39,7 @@ const GPS = `<svg viewBox="0 0 260 230" class="ob-gps" aria-hidden="true">
   <circle cx="130" cy="122" r="92" fill="var(--gold)" fill-opacity=".1"/>
   <circle class="ob-ring" cx="130" cy="122" r="92" fill="none" stroke="var(--gold)" stroke-width="2" stroke-dasharray="7 7"/>
   <circle class="ob-pulse" cx="130" cy="122" r="92" fill="none" stroke="var(--gold)" stroke-width="2"/>
-  <g class="ob-me"><circle cx="0" cy="0" r="22" fill="#D6202C" fill-opacity=".18"/><circle cx="0" cy="0" r="11" fill="#D6202C" stroke="#fff" stroke-width="4"/></g>
+  <g class="ob-me"><circle cx="0" cy="0" r="22" fill="#2F7BF6" fill-opacity=".18"/><circle cx="0" cy="0" r="11" fill="#2F7BF6" stroke="#fff" stroke-width="4"/></g>
   <g class="ob-gold"><g transform="translate(93 40) scale(.62)"><path d="M60 132s-46-40-46-76a46 46 0 0192 0c0 36-46 76-46 76z" fill="var(--gold)"/>
     <path class="ob-draw d1" pathLength="1" d="M31 60l12 12 22-24" fill="none" stroke="#fff" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/>
     <path class="ob-draw d2" pathLength="1" d="M55 68l4 4 30-32" fill="none" stroke="#fff" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/></g></g></svg>`;
