@@ -139,6 +139,14 @@ function renderHome() {
   bindHomeList();
 }
 
+// Ficha: «He estado» y GPS grandes y centrados, lo más importante del lugar
+function bigChecks(p) {
+  const l = lvl(p.id);
+  return `<div class="pd-checks">
+    <div class="pd-chk"><button class="chk ${l >= 1 ? 'on' : ''}" data-a="1" data-id="${p.id}" aria-label="${esc(t('chk.been'))}">${ICON_CHECK}</button><span aria-hidden="true">${esc(t('chk.been'))}</span></div>
+    <div class="pd-chk"><button class="chk gps ${l === 2 ? 'on' : ''}" data-a="2" data-id="${p.id}" ${l === 0 ? 'disabled' : ''} aria-label="${esc(t('chk.gps'))}">${ICON_GPS}</button><span aria-hidden="true">${esc(t('chk.gps'))}</span></div>
+  </div>`;
+}
 function checks(p) {
   const l = lvl(p.id);
   return `<div class="checks">
@@ -313,8 +321,8 @@ function renderPlace() {
     <div class="hero ${p.img ? '' : 'noimg'}" data-for="${p.id}" data-img="${esc(p.img || '')}">${p.img ? `<img src="${esc(p.img)}"${srcset(p.img)} sizes="(max-width: 520px) 92vw, 360px" alt="" decoding="async" loading="lazy" data-fb="noimg">` : ''}<span class="hero-ico">${TI(p.type)}</span></div>
     <div class="pd-head">
       <div><h2>${esc(p.name)}</h2><p>${esc(typeName(p.type))}${p.zone ? ' · ' + esc(p.zone) : b ? ' · ' + esc(b.name) : ''}${dd ? ' · ' + t('at', { d: dd }) : ''}</p></div>
-      ${checks(p)}
     </div>
+    ${bigChecks(p)}
     <div class="lists">${[['f', 'heart'], ['w', 'bookmark']].map(([k, ico]) => `<button class="lst ${k}${inList(k, p.id) ? ' on' : ''}" data-l="${k}" aria-pressed="${inList(k, p.id)}">${MP_ICON(ico, 'ico')}<span>${t('list.' + k + '1')}</span></button>`).join('')}
       <button class="lst sh" id="pl-share" aria-label="${esc(t('pl.share'))}">${SHARE_ICO}<span>${t('pl.share')}</span></button></div>
     ${rateHTML(p)}${commHTML(p)}

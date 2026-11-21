@@ -222,7 +222,7 @@ test('ficha: la foto no se recrea al pulsar favorito o el check', async ({ page 
   await page.locator('#pl-plaza-mayor').click();
   await page.evaluate(() => (document.querySelector('.hero').dataset.mark = '1'));
   await page.locator('.lst[data-l="f"]').click();
-  await page.locator('.pd-head .chk[data-a="1"]').click();
+  await page.locator('.pd-checks .chk[data-a="1"]').click();
   await expect(page.locator('.hero')).toHaveAttribute('data-mark', '1');
 });
 
@@ -449,7 +449,7 @@ test('SEO: quien ya usa la app no ve los botones de abrir/empezar/sellar', async
 test('ficha: valoración personal tras visitar (se guarda como r:<id>)', async ({ page }) => {
   await page.goto('./?p=plaza-mayor');
   await expect(page.locator('.rate')).toHaveCount(0);          // sin visitar no se valora
-  await page.locator('.pd-head .chk[data-a="1"]').click();
+  await page.locator('.pd-checks .chk[data-a="1"]').click();
   await page.locator('.rate [data-rate="2"]').click();
   await expect(page.locator('.rate button.on')).toHaveCount(2);           // 2 estrellas encendidas
   await page.locator('.rate [data-rate="3"]').click();
